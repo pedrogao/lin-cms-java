@@ -113,6 +113,11 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             return false;
         }
         Map<String, Claim> claims = jwt.verifyAccess(tokenStr);
+        if (claims == null) {
+            AuthFailed failed = new AuthFailed("令牌损坏，请重新申请正确的令牌");
+            ResultGenerator.genAndWriteResult(response, failed);
+            return false;
+        }
         Integer identity = claims.get("identity").asInt();
         String type = claims.get("type").asString();
         String scope = claims.get("scope").asString();
