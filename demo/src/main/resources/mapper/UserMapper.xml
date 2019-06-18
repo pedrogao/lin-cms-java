@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lin.cms.demo.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.lin.cms.demo.model.User">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="nickname" jdbcType="VARCHAR" property="nickname"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="admin" jdbcType="TINYINT" property="admin"/>
+        <result column="active" jdbcType="TINYINT" property="active"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="group_id" jdbcType="INTEGER" property="groupId"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+    </resultMap>
+
+    <!--排除delete_time不为空的用户，不为空的用户皆被软删除-->
+    <!-- admin=1 为普通用户 admin=2 为管理员 -->
+    <select id="findUsersAndGroupName" resultType="com.lin.cms.demo.model.UserAndGroupName">
+        SELECT lin_user.*,lin_group.`name` as group_name FROM lin_user
+        LEFT JOIN lin_group ON lin_user.`group_id` = lin_group.`id`
+        WHERE lin_user.`delete_time` IS NULL AND lin_user.`admin`=1
+        <if test="groupId != null">
+            AND lin_user.`group_id`=#{groupId}
+        </if>
+        LIMIT #{count} OFFSET #{page}
+    </select>
+
+    <select id="getCommonUsersCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) as count FROM lin_user WHERE lin_user.`admin`=1 AND lin_user.`delete_time` IS NULL
+        <if test="groupId != null">
+            AND lin_user.`group_id`=#{groupId}
+        </if>
+    </select>
+
+    <select id="findOneUserByIdAndDeleteTime" resultType="com.lin.cms.demo.model.User">
+        SELECT * FROM lin_user WHERE lin_user.`id`=#{id} AND lin_user.`delete_time` IS NULL
+    </select>
+
+    <select id="findOneUserByEmailAndDeleteTime" resultType="com.lin.cms.demo.model.User">
+        SELECT * FROM lin_user WHERE lin_user.`email`=#{email} AND lin_user.`delete_time` IS NULL
+    </select>
+
+    <select id="findOneUserByGroupId" resultType="com.lin.cms.demo.model.User">
+        SELECT * FROM lin_user WHERE lin_user.`group_id`=#{groupId} AND lin_user.`delete_time` IS NULL LIMIT 1
+    </select>
+
+    <update id="softDeleteById">
+        UPDATE lin_user set lin_user.`delete_time`=NOW() WHERE lin_user.`id`=#{id} AND lin_user.`delete_time` IS NULL
+    </update>
+
+</mapper>

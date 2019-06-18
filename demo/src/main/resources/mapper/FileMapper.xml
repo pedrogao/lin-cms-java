@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lin.cms.demo.mapper.FileMapper">
+    <resultMap id="BaseResultMap" type="com.lin.cms.demo.model.File">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="type" jdbcType="TINYINT" property="type"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="extension" jdbcType="VARCHAR" property="extension"/>
+        <result column="size" jdbcType="INTEGER" property="size"/>
+        <result column="md5" jdbcType="VARCHAR" property="md5"/>
+    </resultMap>
+</mapper>
