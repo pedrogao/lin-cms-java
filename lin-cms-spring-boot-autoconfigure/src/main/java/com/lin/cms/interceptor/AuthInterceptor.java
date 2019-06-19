@@ -128,7 +128,6 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         }
         BaseUser user = userMapper.selectByPrimaryKey(identity);
         if (user == null) {
-            // TODO: 尝试抛异常
             NotFound notFound = new NotFound("用户不存在");
             ResultGenerator.genResult(notFound);
             return false;
