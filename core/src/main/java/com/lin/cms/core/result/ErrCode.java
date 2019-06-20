@@ -18,7 +18,13 @@ public enum ErrCode {
 
     INTERNAL_SERVER_ERROR(999, "服务器内部错误"),
 
-    FORBIDDEN(10070, "禁止操作");
+    FORBIDDEN(10070, "禁止操作"),
+
+    FILE_TOO_LARGE(10110, "文件体积过大"),
+
+    FILE_TOO_MANY(10120, "文件数量过多"),
+
+    File_Extension(10130, "文件扩展名不符合规范");
 
     private int code;
     private String description;

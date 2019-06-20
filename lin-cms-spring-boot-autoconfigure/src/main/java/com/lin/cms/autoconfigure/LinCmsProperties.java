@@ -5,13 +5,13 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("lin.cms")
 public class LinCmsProperties {
 
-    private String tokenSecret;
+    private String tokenSecret = "";
 
-    private Long tokenAccessExpire;
+    private Long tokenAccessExpire = 3600L;
 
-    private Long tokenRefreshExpire;
+    private Long tokenRefreshExpire = 2592000L;
 
-    private boolean loggerEnabled;
+    private boolean loggerEnabled = true;
 
     public boolean isLoggerEnabled() {
         return loggerEnabled;
