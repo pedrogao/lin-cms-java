@@ -33,5 +33,6 @@ build/
 ### VS Code ###
 .vscode/
 assets/
+logs/
 
 
