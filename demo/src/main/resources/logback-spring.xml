@@ -18,6 +18,7 @@
 
     <conversionRule conversionWord="wex"
                     converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter"/>
+
     <conversionRule conversionWord="wEx"
                     converterClass="org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"/>
 
@@ -39,12 +40,13 @@
     </appender>
 
     <!--2. 输出到文档-->
+    <timestamp key="namedByMonth" datePattern="yyyy-MM"/>
     <timestamp key="namedByDay" datePattern="yyyy-MM-dd"/>
 
     <!-- File 日志，时间滚动输出  -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 正在记录的日志文档的路径及文档名 -->
-        <file>${log.path}/${namedByDay}.log</file>
+        <file>${log.path}/${namedByMonth}/${namedByDay}.log</file>
         <!--日志文档输出格式-->
         <encoder>
             <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n</pattern>
@@ -53,10 +55,14 @@
         <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 日志归档 -->
-            <fileNamePattern>${log.path}/%d{yyyy-MM-dd}-%d{HH:mm:ss.SSS}.%i.log</fileNamePattern>
+            <!--TODO: 消除 %i-->
+            <fileNamePattern>${log.path}/${namedByMonth}/${namedByDay}-%d{HH:mm:ss}.%i.log</fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
-                <maxFileSize>10MB</maxFileSize>
+                <maxFileSize>5KB</maxFileSize>
             </timeBasedFileNamingAndTriggeringPolicy>
+            <!--<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">-->
+            <!--<maxFileSize>5KB</maxFileSize>-->
+            <!--</triggeringPolicy>-->
             <!--日志文档保留天数-->
             <!--<maxHistory>15</maxHistory>-->
         </rollingPolicy>
@@ -97,12 +103,11 @@
     <!-- 4.1 开发环境:打印控制台-->
     <springProfile name="dev">
         <logger name="com.lin.cms" level="debug"/>
+        <root level="info">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE"/>
+        </root>
     </springProfile>
-
-    <root level="info">
-        <appender-ref ref="CONSOLE"/>
-        <appender-ref ref="FILE"/>
-    </root>
 
     <!-- 4.2 生产环境:输出到文档
     <springProfile name="pro">
