@@ -5,7 +5,7 @@ import com.lin.cms.demo.db.AbstractService;
 import com.lin.cms.demo.mapper.FileMapper;
 import com.lin.cms.demo.model.File;
 import com.lin.cms.demo.service.FileService;
-import com.lin.cms.demo.view.UploadFileView;
+import com.lin.cms.demo.view.UploadFileResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -54,7 +54,7 @@ public class FileServiceImpl extends AbstractService<File> implements FileServic
     private String absDir;
 
     @Override
-    public List<UploadFileView> upload(MultiValueMap<String, MultipartFile> fileMap) throws NotFound, Parameter, FileTooMany, FileExtension, FileTooLarge {
+    public List<UploadFileResult> upload(MultiValueMap<String, MultipartFile> fileMap) throws NotFound, Parameter, FileTooMany, FileExtension, FileTooLarge {
 
         if (fileMap.isEmpty()) {
             throw new NotFound("未找到文件");
@@ -69,7 +69,7 @@ public class FileServiceImpl extends AbstractService<File> implements FileServic
 
         MultipartFile file;
         BufferedOutputStream stream;
-        List<UploadFileView> res = new ArrayList<>();
+        List<UploadFileResult> res = new ArrayList<>();
         String[] keys = fileMap.keySet().toArray(new String[0]);
 
         for (int i = 0; i < keys.length; ++i) {
@@ -99,7 +99,7 @@ public class FileServiceImpl extends AbstractService<File> implements FileServic
                     // 检查文件是否存在
                     File exist = this.checkFileIsExist(md5);
                     if (exist != null) {
-                        UploadFileView item = this.genFileView(exist, keys[i]);
+                        UploadFileResult item = this.genFileView(exist, keys[i]);
                         res.add(item);
                     } else {
                         // 随机生成名字
@@ -123,7 +123,7 @@ public class FileServiceImpl extends AbstractService<File> implements FileServic
                         // record.setType();
                         record.setExtension(ext);
                         fileMapper.insertSelective(record);
-                        UploadFileView item = this.genFileView(record, keys[i]);
+                        UploadFileResult item = this.genFileView(record, keys[i]);
                         res.add(item);
                     }
                 }
@@ -132,8 +132,8 @@ public class FileServiceImpl extends AbstractService<File> implements FileServic
         return res;
     }
 
-    private UploadFileView genFileView(File record, String key) {
-        UploadFileView item = new UploadFileView();
+    private UploadFileResult genFileView(File record, String key) {
+        UploadFileResult item = new UploadFileResult();
         item.setId(record.getId());
         item.setKey(key);
         // TODO 转成绝对

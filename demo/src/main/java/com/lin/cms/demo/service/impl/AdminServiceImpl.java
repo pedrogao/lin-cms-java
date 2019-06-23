@@ -113,7 +113,6 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     @Override
     public void createGroup(NewGroupValidator validator) throws Forbidden {
-        // TODO: 测试事务是否生效
         Group exist = groupMapper.findOneByName(validator.getName());
         if (exist != null) {
             throw new Forbidden("分组已存在，不可创建同名分组");
@@ -122,15 +121,16 @@ public class AdminServiceImpl implements AdminService {
         group.setName(validator.getName());
         group.setInfo(validator.getInfo());
         groupMapper.insertSelective(group);
-
         Integer groupId = group.getId();
         validator.getAuths().forEach(item -> {
             Auth auth = new Auth();
             RouteMeta meta = postProcessor.findMetaByAuth(item);
-            auth.setGroupId(groupId);
-            auth.setAuth(meta.auth());
-            auth.setModule(meta.module());
-            authMapper.insertSelective(auth);
+            if (meta != null) {
+                auth.setGroupId(groupId);
+                auth.setAuth(meta.auth());
+                auth.setModule(meta.module());
+                authMapper.insertSelective(auth);
+            }
         });
     }
 

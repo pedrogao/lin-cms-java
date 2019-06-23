@@ -75,7 +75,7 @@ public class CollectMetaPostBeanProcessor implements BeanPostProcessor {
 
     public RouteMeta findMetaByAuth(String auth) {
         Collection<RouteMeta> values = metaMap.values();
-        RouteMeta[] objects = (RouteMeta[]) values.toArray();
+        RouteMeta[] objects = values.toArray(new RouteMeta[0]);
         for (int i = 0; i < objects.length; i++) {
             if (objects[i].auth().equals(auth)) {
                 return objects[i];
