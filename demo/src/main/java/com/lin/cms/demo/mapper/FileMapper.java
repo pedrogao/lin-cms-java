@@ -1,6 +1,6 @@
 package com.lin.cms.demo.mapper;
 
-import com.lin.cms.demo.db.CrudMapper;
+import com.lin.cms.db.CrudMapper;
 import com.lin.cms.demo.model.FilePO;
 import org.apache.ibatis.annotations.Param;
 

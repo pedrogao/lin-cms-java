@@ -1,7 +1,7 @@
 package com.lin.cms.demo.service.impl;
 
 import com.lin.cms.core.exception.*;
-import com.lin.cms.demo.db.AbstractService;
+import com.lin.cms.demo.service.base.AbstractService;
 import com.lin.cms.demo.extensions.file.LocalUploader;
 import com.lin.cms.demo.mapper.FileMapper;
 import com.lin.cms.demo.model.FilePO;

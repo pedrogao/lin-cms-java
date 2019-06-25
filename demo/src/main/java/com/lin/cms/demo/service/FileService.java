@@ -1,7 +1,7 @@
 package com.lin.cms.demo.service;
 
 import com.lin.cms.core.exception.*;
-import com.lin.cms.demo.db.Service;
+import com.lin.cms.demo.service.base.Service;
 import com.lin.cms.demo.model.FilePO;
 import com.lin.cms.demo.view.UploadFileVO;
 import org.springframework.util.MultiValueMap;

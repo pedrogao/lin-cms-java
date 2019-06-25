@@ -1,4 +1,4 @@
-package com.lin.cms.demo.plugins.poem;
+package com.lin.cms.plugins.poem;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

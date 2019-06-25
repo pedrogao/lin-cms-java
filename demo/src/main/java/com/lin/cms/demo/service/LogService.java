@@ -1,6 +1,6 @@
 package com.lin.cms.demo.service;
 
-import com.lin.cms.demo.db.Service;
+import com.lin.cms.demo.service.base.Service;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.model.LogPO;
 

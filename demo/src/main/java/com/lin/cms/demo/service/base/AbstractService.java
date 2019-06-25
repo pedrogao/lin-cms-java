@@ -1,6 +1,7 @@
-package com.lin.cms.demo.db;
+package com.lin.cms.demo.service.base;
 
 
+import com.lin.cms.db.CrudMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;

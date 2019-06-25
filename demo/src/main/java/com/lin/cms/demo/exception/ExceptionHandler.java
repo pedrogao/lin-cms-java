@@ -80,8 +80,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             Parameter parameter = new Parameter();
             parameter.setMsg(e.getMessage());
             result = ResultGenerator.genResult(parameter);
-        }
-        if (e instanceof MaxUploadSizeExceededException) {
+        } else if (e instanceof MaxUploadSizeExceededException) {
             // 记录错误信息
             // 文件太大
             FileTooLarge fileTooLarge = new FileTooLarge();

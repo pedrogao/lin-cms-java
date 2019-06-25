@@ -1,6 +1,6 @@
 package com.lin.cms.demo.service.impl;
 
-import com.lin.cms.demo.db.AbstractService;
+import com.lin.cms.demo.service.base.AbstractService;
 import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.demo.mapper.UserMapper;

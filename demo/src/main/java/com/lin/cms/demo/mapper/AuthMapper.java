@@ -1,6 +1,6 @@
 package com.lin.cms.demo.mapper;
 
-import com.lin.cms.demo.db.CrudMapper;
+import com.lin.cms.db.CrudMapper;
 import com.lin.cms.demo.model.AuthPO;
 import com.lin.cms.demo.model.SimpleAuthPO;
 import com.lin.cms.interfaces.BaseAuthMapper;

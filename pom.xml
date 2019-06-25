@@ -7,6 +7,9 @@
     <groupId>com.lin</groupId>
     <artifactId>cms</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>poem</module>
+    </modules>
     <packaging>pom</packaging>
 
     <name>lin-cms</name>

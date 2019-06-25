@@ -1,4 +1,4 @@
-package com.lin.cms.demo.db;
+package com.lin.cms.demo.service.base;
 
 import com.lin.cms.core.exception.HttpException;
 import org.apache.ibatis.exceptions.TooManyResultsException;

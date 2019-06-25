@@ -1,8 +1,9 @@
-package com.lin.cms.demo.plugins.poem.app;
+package com.lin.cms.plugins.poem.app;
 
 import java.util.Date;
 import javax.persistence.*;
 
+@Table(name = "poem")
 public class PoemPO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

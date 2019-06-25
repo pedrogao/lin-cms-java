@@ -1,4 +1,4 @@
-package com.lin.cms.demo.db;
+package com.lin.cms.db;
 
 import tk.mybatis.mapper.common.BaseMapper;
 import tk.mybatis.mapper.common.ConditionMapper;

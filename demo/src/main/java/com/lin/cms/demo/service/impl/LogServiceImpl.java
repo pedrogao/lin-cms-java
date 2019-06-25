@@ -1,7 +1,7 @@
 package com.lin.cms.demo.service.impl;
 
 import com.github.pagehelper.PageHelper;
-import com.lin.cms.demo.db.AbstractService;
+import com.lin.cms.demo.service.base.AbstractService;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.mapper.LogMapper;
 import com.lin.cms.demo.model.LogPO;
