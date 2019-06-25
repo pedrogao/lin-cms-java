@@ -1,17 +1,17 @@
 package com.lin.cms.demo.view;
 
-import com.lin.cms.demo.model.SimpleAuth;
+import com.lin.cms.demo.model.SimpleAuthPO;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class GroupWithAuths {
+public class GroupWithAuthsVO {
     private Integer id;
 
     private String name;
 
     private String info;
 
-    private List<SimpleAuth> auths;
+    private List<SimpleAuthPO> auths;
 }

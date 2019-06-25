@@ -3,7 +3,7 @@ package com.lin.cms.demo.plugins.poem.app;
 import java.util.Date;
 import javax.persistence.*;
 
-public class Poem {
+public class PoemPO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

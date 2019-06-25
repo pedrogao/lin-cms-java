@@ -1,4 +1,4 @@
-package com.lin.cms.demo.controller;
+package com.lin.cms.demo.api.cms;
 
 import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.LoginRequired;
@@ -9,7 +9,7 @@ import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.core.result.ResultGenerator;
-import com.lin.cms.demo.model.User;
+import com.lin.cms.demo.model.UserPO;
 import com.lin.cms.demo.service.UserService;
 import com.lin.cms.token.JWT;
 import com.lin.cms.demo.validators.user.*;
@@ -28,7 +28,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/cms/user")
-public class UserController {
+public class UserApi {
 
     @Autowired
     private UserService userService;
@@ -51,7 +51,7 @@ public class UserController {
      */
     @PostMapping("/login")
     public Map login(@RequestBody @Valid LoginValidator validator) throws HttpException {
-        User user = userService.findBy("nickname", validator.getNickname());
+        UserPO user = userService.findBy("nickname", validator.getNickname());
         if (user == null) {
             throw new NotFound("未找到相关用户");
         }
@@ -85,7 +85,7 @@ public class UserController {
     @GetMapping("/refresh")
     @RefreshRequired
     public Map refreshToken() {
-        User user = LocalUser.getLocalUser(User.class);
+        UserPO user = LocalUser.getLocalUser(UserPO.class);
         Map res = jwt.generateTokens(user.getId());
         return res;
     }
@@ -97,7 +97,7 @@ public class UserController {
     @LoginRequired
     public Map getAuths() {
         // BaseUserModel user = LocalUser.getLocalUser();
-        User user = LocalUser.getLocalUser(User.class);
+        UserPO user = LocalUser.getLocalUser(UserPO.class);
         // TODO: getAuths，LocalUser, AuthInterceptor
         return new HashMap();
     }
@@ -108,8 +108,8 @@ public class UserController {
     @LoginRequired
     @RouteMeta(auth = "查询自己信息", module = "用户", mount = true)
     @GetMapping("/information")
-    public User getInformation() {
-        User user = LocalUser.getLocalUser(User.class);
+    public UserPO getInformation() {
+        UserPO user = LocalUser.getLocalUser(UserPO.class);
         return user;
     }
 

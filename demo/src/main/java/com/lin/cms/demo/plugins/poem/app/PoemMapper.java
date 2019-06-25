@@ -1,6 +1,6 @@
 package com.lin.cms.demo.plugins.poem.app;
 
-import com.lin.cms.demo.db.Mapper;
+import com.lin.cms.demo.db.CrudMapper;
 
-public interface PoemMapper extends Mapper<Poem> {
+public interface PoemMapper extends CrudMapper<PoemPO> {
 }

@@ -5,7 +5,7 @@ import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.lin.cms.demo.service.impl.FileServiceImpl;
+import com.lin.cms.demo.exception.ExceptionHandler;
 import com.lin.cms.interceptor.AuthInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
 import lombok.extern.slf4j.Slf4j;

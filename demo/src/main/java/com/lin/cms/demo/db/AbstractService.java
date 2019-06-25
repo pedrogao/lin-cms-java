@@ -4,7 +4,6 @@ package com.lin.cms.demo.db;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import tk.mybatis.mapper.entity.Condition;
 
 import java.lang.reflect.Field;
@@ -19,7 +18,7 @@ import java.util.List;
 public abstract class AbstractService<T> implements Service<T> {
 
     @Autowired
-    protected Mapper<T> mapper;
+    protected CrudMapper<T> crudMapper;
 
     private Class<T> modelClass;    // 当前泛型真实类型的Class
 
@@ -29,7 +28,7 @@ public abstract class AbstractService<T> implements Service<T> {
     }
 
     public void save(T model) {
-        mapper.insertSelective(model);
+        crudMapper.insertSelective(model);
     }
 
     public void saveWithTimeCreate(T model) {
@@ -42,30 +41,30 @@ public abstract class AbstractService<T> implements Service<T> {
             createTime.set(model, now);
             updateTime.setAccessible(true);
             updateTime.set(model, now);
-            mapper.insertSelective(model);
+            crudMapper.insertSelective(model);
         } catch (NoSuchFieldException | IllegalAccessException e) {
-            mapper.insertSelective(model);
+            crudMapper.insertSelective(model);
         }
     }
 
     public void save(List<T> models) {
-        mapper.insertList(models);
+        crudMapper.insertList(models);
     }
 
     public void deleteById(Integer id) {
-        mapper.deleteByPrimaryKey(id);
+        crudMapper.deleteByPrimaryKey(id);
     }
 
     public void deleteByIds(String ids) {
-        mapper.deleteByIds(ids);
+        crudMapper.deleteByIds(ids);
     }
 
     public void update(T model) {
-        mapper.updateByPrimaryKeySelective(model);
+        crudMapper.updateByPrimaryKeySelective(model);
     }
 
     public T findById(Integer id) {
-        return mapper.selectByPrimaryKey(id);
+        return crudMapper.selectByPrimaryKey(id);
     }
 
     @Override
@@ -75,7 +74,7 @@ public abstract class AbstractService<T> implements Service<T> {
             Field field = modelClass.getDeclaredField(fieldName);
             field.setAccessible(true);
             field.set(model, value);
-            return mapper.selectOne(model);
+            return crudMapper.selectOne(model);
         } catch (Exception e) {
             if (e instanceof TooManyResultsException) {
                 log.error("查到了太多结果：  " + e.getMessage());
@@ -85,14 +84,14 @@ public abstract class AbstractService<T> implements Service<T> {
     }
 
     public List<T> findByIds(String ids) {
-        return mapper.selectByIds(ids);
+        return crudMapper.selectByIds(ids);
     }
 
     public List<T> findByCondition(Condition condition) {
-        return mapper.selectByCondition(condition);
+        return crudMapper.selectByCondition(condition);
     }
 
     public List<T> findAll() {
-        return mapper.selectAll();
+        return crudMapper.selectAll();
     }
 }

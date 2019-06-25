@@ -1,10 +1,10 @@
 package com.lin.cms.demo.mapper;
 
-import com.lin.cms.demo.db.Mapper;
-import com.lin.cms.demo.model.File;
+import com.lin.cms.demo.db.CrudMapper;
+import com.lin.cms.demo.model.FilePO;
 import org.apache.ibatis.annotations.Param;
 
-public interface FileMapper extends Mapper<File> {
+public interface FileMapper extends CrudMapper<FilePO> {
 
-    File findOneByMd5(@Param("md5") String md5);
+    FilePO findOneByMd5(@Param("md5") String md5);
 }

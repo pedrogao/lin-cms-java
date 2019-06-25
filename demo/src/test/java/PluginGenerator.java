@@ -26,7 +26,7 @@ public class PluginGenerator {
 
     private static final String BASE_PACKAGE = "com.lin.cms.demo";
 
-    private static final String MAPPER_INTERFACE_REFERENCE = BASE_PACKAGE + ".db.Mapper";
+    private static final String MAPPER_INTERFACE_REFERENCE = BASE_PACKAGE + ".db.CrudMapper";
 
     private static final String MODEL_PACKAGE = "com.lin.cms.demo.plugins.poem.app";
 
@@ -69,7 +69,7 @@ public class PluginGenerator {
         context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
 
         PluginConfiguration pluginConfiguration = new PluginConfiguration();
-        pluginConfiguration.setConfigurationType("tk.mybatis.mapper.generator.MapperPlugin");
+        pluginConfiguration.setConfigurationType("tk.mybatis.crudMapper.generator.MapperPlugin");
         pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
         context.addPluginConfiguration(pluginConfiguration);
 
@@ -116,8 +116,8 @@ public class PluginGenerator {
         }
         if (StringUtils.isEmpty(modelName)) modelName = tableNameConvertUpperCamel(tableName);
         System.out.println(modelName + ".java 生成成功");
-        System.out.println(modelName + "Mapper.java 生成成功");
-        System.out.println(modelName + "Mapper.xml 生成成功");
+        System.out.println(modelName + "CrudMapper.java 生成成功");
+        System.out.println(modelName + "CrudMapper.xml 生成成功");
     }
 
 

@@ -1,4 +1,4 @@
-package com.lin.cms.demo.controller;
+package com.lin.cms.demo.api.cms;
 
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.core.annotation.AdminRequired;
@@ -11,10 +11,10 @@ import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.core.result.ResultGenerator;
 import com.lin.cms.demo.mapper.GroupMapper;
-import com.lin.cms.demo.model.Group;
+import com.lin.cms.demo.model.GroupPO;
 import com.lin.cms.demo.service.impl.AdminServiceImpl;
 import com.lin.cms.demo.validators.admin.*;
-import com.lin.cms.demo.view.GroupWithAuths;
+import com.lin.cms.demo.view.GroupWithAuthsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,7 +31,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/cms/admin")
-public class AdminController {
+public class AdminApi {
 
     @Autowired
     private AdminServiceImpl adminService;
@@ -107,16 +107,16 @@ public class AdminController {
     @AdminRequired
     @Logger(template = "pedro正在调试呢！")
     @RouteMeta(auth = "查询所有权限组", module = "管理员")
-    public List<Group> getAllGroup() {
-        List<Group> groups = groupMapper.selectAll();
+    public List<GroupPO> getAllGroup() {
+        List<GroupPO> groups = groupMapper.selectAll();
         return groups;
     }
 
     @GetMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(auth = "查询一个权限组及其权限", module = "管理员")
-    public GroupWithAuths getGroup(@PathVariable @PositiveOrZero Integer id) {
-        GroupWithAuths groupWithAuths = adminService.getGroup(id);
+    public GroupWithAuthsVO getGroup(@PathVariable @PositiveOrZero Integer id) {
+        GroupWithAuthsVO groupWithAuths = adminService.getGroup(id);
         return groupWithAuths;
     }
 

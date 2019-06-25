@@ -1,4 +1,4 @@
-package com.lin.cms.demo.controller;
+package com.lin.cms.demo.api.cms;
 
 import com.lin.cms.core.annotation.GroupRequired;
 import com.lin.cms.core.annotation.RouteMeta;
@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cms/log")
-public class LogController {
+public class LogApi {
 
     @Autowired
     private LogService logService;

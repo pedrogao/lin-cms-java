@@ -1,4 +1,4 @@
-package com.lin.cms.demo.configure;
+package com.lin.cms.demo.exception;
 
 import com.lin.cms.core.exception.FileTooLarge;
 import com.lin.cms.core.exception.HttpException;

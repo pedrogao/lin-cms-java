@@ -1,18 +1,18 @@
 package com.lin.cms.demo.mapper;
 
-import com.lin.cms.demo.db.Mapper;
-import com.lin.cms.demo.model.GroupAndAuth;
-import com.lin.cms.demo.model.Group;
+import com.lin.cms.demo.db.CrudMapper;
+import com.lin.cms.demo.model.GroupAndAuthPO;
+import com.lin.cms.demo.model.GroupPO;
 import com.lin.cms.interfaces.BaseGroupMapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface GroupMapper extends BaseGroupMapper, Mapper<Group> {
+public interface GroupMapper extends BaseGroupMapper, CrudMapper<GroupPO> {
 
-    List<GroupAndAuth> findGroupsWithAuths();
+    List<GroupAndAuthPO> findGroupsWithAuths();
 
     Integer getCount();
 
-    Group findOneByName(@Param("name") String name);
+    GroupPO findOneByName(@Param("name") String name);
 }

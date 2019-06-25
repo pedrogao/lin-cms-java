@@ -1,8 +1,8 @@
-package com.lin.cms.demo.controller;
+package com.lin.cms.demo.api.cms;
 
 import com.lin.cms.core.exception.*;
 import com.lin.cms.demo.service.FileService;
-import com.lin.cms.demo.view.UploadFileResult;
+import com.lin.cms.demo.view.UploadFileVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
@@ -15,16 +15,16 @@ import java.util.List;
 @RestController
 @RequestMapping("/cms/file")
 @ControllerAdvice
-public class FileController {
+public class FileApi {
 
     @Autowired
     private FileService fileService;
 
     @PostMapping("/")
-    public List<UploadFileResult> upload(HttpServletRequest request) throws NotFound, Parameter, FileExtension, FileTooLarge, FileTooMany {
+    public List<UploadFileVO> upload(HttpServletRequest request) throws NotFound, Parameter, FileExtension, FileTooLarge, FileTooMany {
         MultipartHttpServletRequest multipartHttpServletRequest = ((MultipartHttpServletRequest) request);
         MultiValueMap<String, MultipartFile> fileMap = multipartHttpServletRequest.getMultiFileMap();
-        List<UploadFileResult> res = fileService.upload(fileMap);
+        List<UploadFileVO> res = fileService.upload(fileMap);
         return res;
     }
 

@@ -12,7 +12,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Table(name = "lin_user")
-public class User extends BaseUserModel {
+public class UserPO extends BaseUserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class UserAndGroupName {
+public class UserAndGroupNamePO {
     private Integer id;
 
     private String nickname;
