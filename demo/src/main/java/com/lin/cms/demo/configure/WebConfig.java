@@ -7,7 +7,7 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.lin.cms.demo.exception.ExceptionHandler;
 import com.lin.cms.interceptor.AuthInterceptor;
-import com.lin.cms.interceptor.LogInterceptor;
+import com.lin.cms.demo.interceptor.LogInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -91,7 +91,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //接口签名认证拦截器，dev(生产环境)下不启用，方便测试
-        if (!"dev".equals(env)) { //开发环境忽略签名认证
+        if (!"dev1".equals(env)) { //开发环境忽略签名认证
             registry.addInterceptor(authInterceptor);
         }
         registry.addInterceptor(logInterceptor);

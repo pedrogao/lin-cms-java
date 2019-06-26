@@ -6,7 +6,9 @@ import com.lin.cms.beans.Manager;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.mapper.UserMapper;
+import com.lin.cms.demo.interceptor.LogInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +30,13 @@ public class CommonConfig {
     @Bean
     public Manager manager() {
         return new Manager(userMapper, groupMapper, authMapper);
+    }
+
+
+    @Bean
+    @ConditionalOnProperty(prefix = "lin.cms", value = "logger-enabled", havingValue = "true")
+    public LogInterceptor logInterceptor() {
+        return new LogInterceptor();
     }
 
     /**

@@ -34,6 +34,7 @@ public class PoemApi {
     public PageResult count(@RequestParam("author") String author) {
         // 纳兰性德
         List<PoemPO> poems = poemMapper.findPoemsByAuthor(author);
+        // Integer count = poemMapper.getCount();
         return PageResult.genPageResult(2, poems);
     }
 }

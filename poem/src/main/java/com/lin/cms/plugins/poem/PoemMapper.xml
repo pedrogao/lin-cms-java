@@ -17,7 +17,7 @@
     </resultMap>
 
     <select id="getCount" resultType="java.lang.Integer">
-        SELECT count(*) FROM poem
+        SELECT count(*), (SELECT title from poem WHERE id=1) as t FROM poem
     </select>
 
     <select id="findPoemsByAuthor" resultMap="BaseResultMap">

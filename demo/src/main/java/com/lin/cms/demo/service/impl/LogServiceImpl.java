@@ -1,6 +1,8 @@
 package com.lin.cms.demo.service.impl;
 
 import com.github.pagehelper.PageHelper;
+import com.lin.cms.core.annotation.RouteMeta;
+import com.lin.cms.demo.model.UserPO;
 import com.lin.cms.demo.service.base.AbstractService;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.mapper.LogMapper;
@@ -9,6 +11,8 @@ import com.lin.cms.demo.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -42,5 +46,21 @@ public class LogServiceImpl extends AbstractService<LogPO> implements LogService
         PageHelper.startPage(page + 1, count);
         List<String> userNames = logMapper.getUserNames();
         return userNames;
+    }
+
+    @Override
+    public void createOneLog(String message, RouteMeta meta, UserPO user, HttpServletRequest request, HttpServletResponse response) {
+        //authority: auth
+        LogPO record = new LogPO();
+        record.setMessage(message);
+        record.setUserId(user.getId());
+        record.setUserName(user.getNickname());
+        record.setStatusCode(response.getStatus());
+        record.setMethod(request.getMethod());
+        record.setPath(request.getServletPath());
+        if (meta != null) {
+            record.setAuthority(meta.auth());
+        }
+        logMapper.insertSelective(record);
     }
 }

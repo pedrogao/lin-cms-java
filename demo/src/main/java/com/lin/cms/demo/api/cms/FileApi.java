@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cms/file")
-@ControllerAdvice
 public class FileApi {
 
     @Autowired
