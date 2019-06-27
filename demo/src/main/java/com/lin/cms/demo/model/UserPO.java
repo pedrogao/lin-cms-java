@@ -6,13 +6,12 @@ import com.amdelamar.jhash.algorithms.Type;
 import com.amdelamar.jhash.exception.InvalidHashException;
 import com.lin.cms.core.enums.UserActive;
 import com.lin.cms.core.enums.UserAdmin;
-import com.lin.cms.model.BaseUserModel;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Table(name = "lin_user")
-public class UserPO extends BaseUserModel {
+public class UserPO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

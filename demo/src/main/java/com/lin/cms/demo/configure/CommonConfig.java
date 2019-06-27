@@ -3,6 +3,7 @@ package com.lin.cms.demo.configure;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.lin.cms.beans.Manager;
+import com.lin.cms.demo.interceptor.AuthInterceptor;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.mapper.UserMapper;
@@ -18,18 +19,9 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(FileProperties.class)
 public class CommonConfig {
 
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private GroupMapper groupMapper;
-
-    @Autowired
-    private AuthMapper authMapper;
-
     @Bean
     public Manager manager() {
-        return new Manager(userMapper, groupMapper, authMapper);
+        return new Manager();
     }
 
 
@@ -37,6 +29,11 @@ public class CommonConfig {
     @ConditionalOnProperty(prefix = "lin.cms", value = "logger-enabled", havingValue = "true")
     public LogInterceptor logInterceptor() {
         return new LogInterceptor();
+    }
+
+    @Bean
+    public AuthInterceptor authInterceptor() {
+        return new AuthInterceptor();
     }
 
     /**

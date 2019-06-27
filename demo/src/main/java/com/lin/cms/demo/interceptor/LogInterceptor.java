@@ -5,8 +5,7 @@ import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.utils.BeanUtil;
 import com.lin.cms.demo.model.UserPO;
 import com.lin.cms.demo.service.LogService;
-import com.lin.cms.interfaces.BaseUser;
-import com.lin.cms.utils.LocalUser;
+import com.lin.cms.demo.utils.LocalUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
@@ -47,7 +46,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
     }
 
 
-    private String parseTemplate(String template, BaseUser user, HttpServletRequest request, HttpServletResponse response) {
+    private String parseTemplate(String template, UserPO user, HttpServletRequest request, HttpServletResponse response) {
         Pattern pattern = Pattern.compile(REG_XP);
         // 调用 get 方法
         Matcher m = pattern.matcher(template);
@@ -59,7 +58,7 @@ public class LogInterceptor extends HandlerInterceptorAdapter {
         return template;
     }
 
-    private String extractProperty(String item, BaseUser user, HttpServletRequest request, HttpServletResponse response) {
+    private String extractProperty(String item, UserPO user, HttpServletRequest request, HttpServletResponse response) {
         int i = item.lastIndexOf('.');
         String obj = item.substring(0, i);
         String prop = item.substring(i + 1);

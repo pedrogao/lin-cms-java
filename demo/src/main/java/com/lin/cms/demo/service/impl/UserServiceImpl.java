@@ -10,7 +10,7 @@ import com.lin.cms.demo.validators.user.AvatarUpdateValidator;
 import com.lin.cms.demo.validators.user.ChangePasswordValidator;
 import com.lin.cms.demo.validators.user.RegisterValidator;
 import com.lin.cms.demo.validators.user.UpdateInfoValidator;
-import com.lin.cms.utils.LocalUser;
+import com.lin.cms.demo.utils.LocalUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

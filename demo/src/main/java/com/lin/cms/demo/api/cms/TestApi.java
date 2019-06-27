@@ -26,7 +26,7 @@ public class TestApi {
     @RequestMapping("/json")
     @RouteMeta(auth = "测试日志记录", module = "信息", mount = true)
     @LoginRequired
-    @Logger(template = "{response.status}就是皮了一波")
+    @Logger(template = "{user.nickname}又皮了一波")
     public Map getTestMsg() {
         Map res = new HashMap();
         res.put("msg", "物质决定意识，经济基础决定上层建筑");

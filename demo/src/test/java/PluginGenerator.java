@@ -19,26 +19,20 @@ public class PluginGenerator {
     //项目在硬盘上的基础路径
     private static final String PROJECT_PATH = System.getProperty("user.dir") + "/demo";
 
-    private static final String TEMPLATE_FILE_PATH = PROJECT_PATH + "/src/test/resources/generator/template";//模板位置
-
     private static final String JAVA_PATH = "/src/main/java"; //java文件路径
     private static final String RESOURCES_PATH = "/src/main/resources";//资源文件路径
 
-    private static final String BASE_PACKAGE = "com.lin.cms.demo";
+    private static final String BASE_PACKAGE = "com.lin.cms";
 
     private static final String MAPPER_INTERFACE_REFERENCE = BASE_PACKAGE + ".db.CrudMapper";
 
-    private static final String MODEL_PACKAGE = "com.lin.cms.demo.plugins.poem.app";
+    private static final String MODEL_PACKAGE = "com.lin.cms.demo.model";
 
-    private static final String MAPPER_PACKAGE = "com.lin.cms.demo.plugins.poem.app";
-
-    private static final String AUTHOR = "lin";
-    private static final String DATE = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
+    private static final String MAPPER_PACKAGE = "com.lin.cms.demo.mapper";
 
 
     public static void main(String[] args) {
-        // com.lin.cms.demo.plugins.poem.app
-        genCode("poem");
+        genCode("book");
     }
 
     /**
@@ -69,7 +63,7 @@ public class PluginGenerator {
         context.setJdbcConnectionConfiguration(jdbcConnectionConfiguration);
 
         PluginConfiguration pluginConfiguration = new PluginConfiguration();
-        pluginConfiguration.setConfigurationType("tk.mybatis.crudMapper.generator.MapperPlugin");
+        pluginConfiguration.setConfigurationType("tk.mybatis.mapper.generator.MapperPlugin");
         pluginConfiguration.addProperty("mappers", MAPPER_INTERFACE_REFERENCE);
         context.addPluginConfiguration(pluginConfiguration);
 
@@ -104,7 +98,7 @@ public class PluginGenerator {
 
             boolean overwrite = true;
             DefaultShellCallback callback = new DefaultShellCallback(overwrite);
-            warnings = new ArrayList<String>();
+            warnings = new ArrayList<>();
             generator = new MyBatisGenerator(config, callback, warnings);
             generator.generate(null);
         } catch (Exception e) {

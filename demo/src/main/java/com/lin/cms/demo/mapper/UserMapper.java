@@ -1,14 +1,13 @@
 package com.lin.cms.demo.mapper;
 
 import com.lin.cms.db.CrudMapper;
-import com.lin.cms.interfaces.BaseUserMapper;
 import com.lin.cms.demo.model.UserPO;
 import com.lin.cms.demo.model.UserAndGroupNamePO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface UserMapper extends BaseUserMapper, CrudMapper<UserPO> {
+public interface UserMapper extends CrudMapper<UserPO> {
 
     List<UserAndGroupNamePO> findUsersAndGroupName(@Param("groupId") Integer groupId,
                                                    @Param("page") int page,

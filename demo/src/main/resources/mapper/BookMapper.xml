@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lin.cms.demo.mapper.BookMapper">
+    <resultMap id="BaseResultMap" type="com.lin.cms.demo.model.BookPO">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="title" jdbcType="VARCHAR" property="title"/>
+        <result column="author" jdbcType="VARCHAR" property="author"/>
+        <result column="summary" jdbcType="VARCHAR" property="summary"/>
+        <result column="image" jdbcType="VARCHAR" property="image"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
+    </resultMap>
+
+    <select id="getBookByKeyword" resultMap="BaseResultMap">
+        SELECT * FROM book WHERE book.`title` LIKE CONTACT("%",#{q},"%") AND book.`delete_time` IS NULL LIMIT 1
+    </select>
+
+    <select id="findOneByIdAndDeleteTime" resultMap="BaseResultMap">
+        SELECT * FROM book WHERE book.`id`=#{id} AND book.`delete_time` IS NULL LIMIT 1
+    </select>
+</mapper>

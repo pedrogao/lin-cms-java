@@ -1,4 +1,4 @@
-package com.lin.cms.interceptor;
+package com.lin.cms.demo.interceptor;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
@@ -9,13 +9,14 @@ import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.result.ErrCode;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.core.result.ResultGenerator;
-import com.lin.cms.interfaces.BaseAuthMapper;
-import com.lin.cms.interfaces.BaseUser;
-import com.lin.cms.interfaces.BaseUserMapper;
+import com.lin.cms.demo.mapper.AuthMapper;
+import com.lin.cms.demo.mapper.GroupMapper;
+import com.lin.cms.demo.mapper.UserMapper;
+import com.lin.cms.demo.model.AuthPO;
+import com.lin.cms.demo.model.UserPO;
 import com.lin.cms.token.JWT;
 import com.lin.cms.core.utils.AnnotationHelper;
-import com.lin.cms.utils.LocalUser;
-import com.lin.cms.model.BaseAuthModel;
+import com.lin.cms.demo.utils.LocalUser;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,15 +38,14 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private JWT jwt;
 
-    private BaseUserMapper userMapper;
+    @Autowired
+    private UserMapper userMapper;
 
-    private BaseAuthMapper authMapper;
+    @Autowired
+    private GroupMapper groupMapper;
 
-    public AuthInterceptor(BaseUserMapper userMapper, BaseAuthMapper authMapper) {
-        this.userMapper = userMapper;
-        this.authMapper = authMapper;
-    }
-
+    @Autowired
+    private AuthMapper authMapper;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -126,7 +126,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if (!verifyLinScopeAndAccess) {
             return false;
         }
-        BaseUser user = userMapper.selectByPrimaryKey(identity);
+        UserPO user = userMapper.selectByPrimaryKey(identity);
         if (user == null) {
             NotFound notFound = new NotFound("用户不存在");
             ResultGenerator.genResult(notFound);
@@ -141,7 +141,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if (!stepValid) {
             return false;
         }
-        BaseUser user = LocalUser.getLocalUser();
+        UserPO user = LocalUser.getLocalUser();
         if (user.ifIsAdmin()) {
             return true;
         }
@@ -152,7 +152,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
-        BaseAuthModel auth = authMapper.selectOneByGroupIdAndAuthAndModule(groupId, meta.auth(), meta.module());
+        AuthPO auth = authMapper.selectOneByGroupIdAndAuthAndModule(groupId, meta.auth(), meta.module());
         if (auth == null) {
             // 权限不够，请联系超级管理员获得权限
             AuthFailed failed = new AuthFailed("权限不够，请联系超级管理员获得权限");
@@ -167,7 +167,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         if (!stepValid) {
             return stepValid;
         }
-        BaseUser user = LocalUser.getLocalUser();
+        UserPO user = LocalUser.getLocalUser();
         return user.ifIsAdmin();
     }
 
@@ -238,7 +238,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
-        BaseUser user = userMapper.selectByPrimaryKey(identity);
+        UserPO user = userMapper.selectByPrimaryKey(identity);
         if (user == null) {
             NotFound notFound = new NotFound("用户不存在");
             ResultGenerator.genAndWriteResult(response, notFound);

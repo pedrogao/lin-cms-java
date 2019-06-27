@@ -1,11 +1,10 @@
 package com.lin.cms.demo.model;
 
-import com.lin.cms.model.BaseAuthModel;
 
 import javax.persistence.*;
 
 @Table(name = "lin_auth")
-public class AuthPO extends BaseAuthModel {
+public class AuthPO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

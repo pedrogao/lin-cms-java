@@ -2,7 +2,6 @@ package com.lin.cms.autoconfigure;
 
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.beans.Manager;
-import com.lin.cms.interceptor.AuthInterceptor;
 import com.lin.cms.token.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -45,10 +44,5 @@ public class LinCmsAutoConfigure {
             refreshExpire = 60 * 60 * 24 * 30L;
         }
         return new JWT(secret, accessExpire, refreshExpire);
-    }
-
-    @Bean
-    public AuthInterceptor authInterceptor(Manager manager) {
-        return new AuthInterceptor(manager.getUserMapper(), manager.getAuthMapper());
     }
 }

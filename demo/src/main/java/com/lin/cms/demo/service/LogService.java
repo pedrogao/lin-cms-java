@@ -5,7 +5,6 @@ import com.lin.cms.demo.model.UserPO;
 import com.lin.cms.demo.service.base.Service;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.model.LogPO;
-import com.lin.cms.interfaces.BaseUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
