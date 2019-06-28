@@ -1,12 +1,9 @@
 package com.lin.cms.demo.interceptor;
 
 import com.auth0.jwt.interfaces.Claim;
-import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.core.enums.UserLevel;
 import com.lin.cms.core.exception.AuthFailed;
 import com.lin.cms.core.exception.NotFound;
-import com.lin.cms.core.result.ErrCode;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.core.result.ResultGenerator;
 import com.lin.cms.demo.mapper.AuthMapper;
@@ -14,26 +11,22 @@ import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.AuthPO;
 import com.lin.cms.demo.model.UserPO;
-import com.lin.cms.token.JWT;
-import com.lin.cms.core.utils.AnnotationHelper;
 import com.lin.cms.demo.utils.LocalUser;
+import com.lin.cms.interfaces.AuthVerifyResolver;
+import com.lin.cms.token.JWT;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.method.HandlerMethod;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.stereotype.Component;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public class AuthInterceptor extends HandlerInterceptorAdapter {
+@Component
+public class AuthVerifyResolverImpl implements AuthVerifyResolver {
 
-    @Autowired
-    private CollectMetaPostBeanProcessor postProcessor;
 
     @Autowired
     private JWT jwt;
@@ -47,66 +40,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private AuthMapper authMapper;
 
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Result result = ResultGenerator.genResult(ErrCode.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.value());
-        if (handler instanceof HandlerMethod) {
-            HandlerMethod handlerMethod = (HandlerMethod) handler;
-            Method method = handlerMethod.getMethod();
-            RouteMeta meta = method.getAnnotation(RouteMeta.class);
 
-            // 如果视图函数没有 RouteMeta 注解，那么视图函数没有被加入到权限控制中
-            // 因此，即使被 LoginRequired 等注解装饰，也不会被权限校验
-            if (meta == null) {
-                return true;
-            }
-
-            // 没有挂载到权限系统中，通过
-            if (!meta.mount()) {
-                return true;
-            }
-
-            String methodName = method.getName();
-            String className = method.getDeclaringClass().getName();
-            Object meta1 = postProcessor.getMetaMap().get(className + "#" + methodName);
-
-            // 如果已经挂载，且二者相同
-            if (meta == meta1) {
-                Annotation[] annotations = method.getAnnotations();
-                UserLevel level = AnnotationHelper.findRequired(annotations);
-                switch (level) {
-                    case TOURIST:
-                        // 如果，当前视图函数是游客权限，则直接返回true
-                        return true;
-                    case LOGIN:
-                        // 登陆权限
-                        // 必须是登陆权限
-                        boolean valid = verifyLogin(request, response, result);
-                        return valid;
-                    case GROUP:
-                        boolean valid1 = verifyGroup(request, response, result, meta);
-                        return valid1;
-                    case ADMIN:
-                        boolean valid2 = verifyAdmin(request, response, result);
-                        return valid2;
-                    case REFRESH:
-                        boolean valid3 = verifyRefresh(request, response, result);
-                        return valid3;
-                    default:
-                        ResultGenerator.writeResult(response, result);
-                        return false;
-                }
-            } else {
-                ResultGenerator.writeResult(response, result);
-                return false;
-            }
-        } else {
-            ResultGenerator.writeResult(response, result);
-            return false;
-        }
-    }
-
-    private boolean verifyLogin(HttpServletRequest request, HttpServletResponse response, Result result) {
+    public boolean verifyLogin(HttpServletRequest request, HttpServletResponse response, Result result, RouteMeta meta) {
         String tokenStr = this.verifyTokenInHeader(request, response, result);
         // 如果返回的token字符串为空，则表示基础头部认证失败
         if (tokenStr == null) {
@@ -136,8 +71,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         return true;
     }
 
-    private boolean verifyGroup(HttpServletRequest request, HttpServletResponse response, Result result, RouteMeta meta) {
-        boolean stepValid = this.verifyLogin(request, response, result);
+    public boolean verifyGroup(HttpServletRequest request, HttpServletResponse response, Result result, RouteMeta meta) {
+        boolean stepValid = this.verifyLogin(request, response, result, meta);
         if (!stepValid) {
             return false;
         }
@@ -162,8 +97,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         return true;
     }
 
-    private boolean verifyAdmin(HttpServletRequest request, HttpServletResponse response, Result result) {
-        boolean stepValid = this.verifyLogin(request, response, result);
+    public boolean verifyAdmin(HttpServletRequest request, HttpServletResponse response, Result result, RouteMeta meta) {
+        boolean stepValid = this.verifyLogin(request, response, result, meta);
         if (!stepValid) {
             return stepValid;
         }
@@ -216,7 +151,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         return null;
     }
 
-    private boolean verifyRefresh(HttpServletRequest request, HttpServletResponse response, Result result) {
+    public boolean verifyRefresh(HttpServletRequest request, HttpServletResponse response, Result result, RouteMeta meta) {
         String tokenStr = this.verifyTokenInHeader(request, response, result);
         if (tokenStr == null) {
             return false;

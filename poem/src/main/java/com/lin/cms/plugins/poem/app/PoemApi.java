@@ -2,8 +2,6 @@ package com.lin.cms.plugins.poem.app;
 
 import com.github.pagehelper.PageHelper;
 import com.lin.cms.core.result.PageResult;
-import com.lin.cms.core.result.Result;
-import com.lin.cms.core.result.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;

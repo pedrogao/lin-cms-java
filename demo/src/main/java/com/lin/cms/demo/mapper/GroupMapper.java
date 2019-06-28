@@ -1,7 +1,7 @@
 package com.lin.cms.demo.mapper;
 
-import com.lin.cms.db.CrudMapper;
 import com.lin.cms.demo.model.GroupAndAuthPO;
+import com.lin.cms.db.CrudMapper;
 import com.lin.cms.demo.model.GroupPO;
 import org.apache.ibatis.annotations.Param;
 

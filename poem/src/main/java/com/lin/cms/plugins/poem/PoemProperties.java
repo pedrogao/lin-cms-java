@@ -7,7 +7,6 @@ public class PoemProperties {
 
     private Integer limit;
 
-
     public Integer getLimit() {
         return limit;
     }

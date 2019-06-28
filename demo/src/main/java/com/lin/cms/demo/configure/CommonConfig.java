@@ -3,13 +3,6 @@ package com.lin.cms.demo.configure;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.lin.cms.beans.Manager;
-import com.lin.cms.demo.interceptor.AuthInterceptor;
-import com.lin.cms.demo.mapper.AuthMapper;
-import com.lin.cms.demo.mapper.GroupMapper;
-import com.lin.cms.demo.mapper.UserMapper;
-import com.lin.cms.demo.interceptor.LogInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -24,17 +17,6 @@ public class CommonConfig {
         return new Manager();
     }
 
-
-    @Bean
-    @ConditionalOnProperty(prefix = "lin.cms", value = "logger-enabled", havingValue = "true")
-    public LogInterceptor logInterceptor() {
-        return new LogInterceptor();
-    }
-
-    @Bean
-    public AuthInterceptor authInterceptor() {
-        return new AuthInterceptor();
-    }
 
     /**
      * 接口中，自动转换的有：驼峰转换为下划线，空值输出null

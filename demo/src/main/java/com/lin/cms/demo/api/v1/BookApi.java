@@ -1,13 +1,13 @@
 package com.lin.cms.demo.api.v1;
 
+import com.lin.cms.demo.model.BookPO;
+import com.lin.cms.demo.service.BookService;
+import com.lin.cms.demo.validators.book.CreateOrUpdateBookValidator;
 import com.lin.cms.core.annotation.GroupRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.core.result.ResultGenerator;
-import com.lin.cms.demo.model.BookPO;
-import com.lin.cms.demo.service.BookService;
-import com.lin.cms.demo.validators.CreateOrUpdateBookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

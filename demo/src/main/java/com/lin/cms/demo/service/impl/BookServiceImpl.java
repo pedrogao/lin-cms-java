@@ -2,11 +2,13 @@ package com.lin.cms.demo.service.impl;
 
 import com.lin.cms.demo.mapper.BookMapper;
 import com.lin.cms.demo.model.BookPO;
+import com.lin.cms.demo.validators.book.CreateOrUpdateBookValidator;
 import com.lin.cms.demo.service.BookService;
 import com.lin.cms.demo.service.base.AbstractService;
-import com.lin.cms.demo.validators.CreateOrUpdateBookValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class BookServiceImpl extends AbstractService<BookPO> implements BookService {
 
     @Autowired

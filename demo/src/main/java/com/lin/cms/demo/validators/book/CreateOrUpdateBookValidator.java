@@ -1,4 +1,4 @@
-package com.lin.cms.demo.validators;
+package com.lin.cms.demo.validators.book;
 
 import lombok.Data;
 

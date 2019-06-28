@@ -1,6 +1,5 @@
 package com.lin.cms.demo.api.cms;
 
-import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.Logger;
 import com.lin.cms.core.annotation.RouteMeta;
@@ -9,12 +8,13 @@ import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
-import com.lin.cms.core.result.ResultGenerator;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.model.GroupPO;
+import com.lin.cms.demo.view.GroupWithAuthsVO;
+import com.lin.cms.beans.CollectMetaPostBeanProcessor;
+import com.lin.cms.core.result.ResultGenerator;
 import com.lin.cms.demo.service.impl.AdminServiceImpl;
 import com.lin.cms.demo.validators.admin.*;
-import com.lin.cms.demo.view.GroupWithAuthsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

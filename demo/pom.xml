@@ -35,6 +35,7 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
+        <!--插件依赖-->
         <dependency>
             <groupId>com.lin.cms</groupId>
             <artifactId>poem</artifactId>

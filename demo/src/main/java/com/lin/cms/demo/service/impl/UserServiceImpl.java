@@ -1,16 +1,16 @@
 package com.lin.cms.demo.service.impl;
 
-import com.lin.cms.demo.service.base.AbstractService;
 import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.UserPO;
 import com.lin.cms.demo.service.UserService;
-import com.lin.cms.demo.validators.user.AvatarUpdateValidator;
-import com.lin.cms.demo.validators.user.ChangePasswordValidator;
+import com.lin.cms.demo.utils.LocalUser;
 import com.lin.cms.demo.validators.user.RegisterValidator;
 import com.lin.cms.demo.validators.user.UpdateInfoValidator;
-import com.lin.cms.demo.utils.LocalUser;
+import com.lin.cms.demo.service.base.AbstractService;
+import com.lin.cms.demo.validators.user.AvatarUpdateValidator;
+import com.lin.cms.demo.validators.user.ChangePasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

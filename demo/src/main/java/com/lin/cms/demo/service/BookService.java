@@ -1,8 +1,8 @@
 package com.lin.cms.demo.service;
 
 import com.lin.cms.demo.model.BookPO;
+import com.lin.cms.demo.validators.book.CreateOrUpdateBookValidator;
 import com.lin.cms.demo.service.base.Service;
-import com.lin.cms.demo.validators.CreateOrUpdateBookValidator;
 
 public interface BookService extends Service<BookPO> {
     void createBook(CreateOrUpdateBookValidator validator);

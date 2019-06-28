@@ -1,11 +1,15 @@
 package com.lin.cms.autoconfigure;
 
-import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.beans.Manager;
+import com.lin.cms.exception.ExceptionHandler;
+import com.lin.cms.interceptor.AuthInterceptor;
+import com.lin.cms.interceptor.LogInterceptor;
+import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.token.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,4 +49,21 @@ public class LinCmsAutoConfigure {
         }
         return new JWT(secret, accessExpire, refreshExpire);
     }
+
+    @Bean
+    public AuthInterceptor authInterceptor() {
+        return new AuthInterceptor();
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "lin.cms", value = "logger-enabled", havingValue = "true")
+    public LogInterceptor logInterceptor() {
+        return new LogInterceptor();
+    }
+
+    @Bean
+    public ExceptionHandler exceptionHandler() {
+        return new ExceptionHandler();
+    }
+
 }

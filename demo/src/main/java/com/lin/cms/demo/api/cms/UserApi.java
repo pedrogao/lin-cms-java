@@ -8,12 +8,12 @@ import com.lin.cms.core.exception.HttpException;
 import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.core.result.Result;
-import com.lin.cms.core.result.ResultGenerator;
 import com.lin.cms.demo.model.UserPO;
+import com.lin.cms.demo.utils.LocalUser;
+import com.lin.cms.core.result.ResultGenerator;
 import com.lin.cms.demo.service.UserService;
 import com.lin.cms.token.JWT;
 import com.lin.cms.demo.validators.user.*;
-import com.lin.cms.demo.utils.LocalUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
