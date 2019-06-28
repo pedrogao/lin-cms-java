@@ -1,7 +1,7 @@
 package com.lin.cms.demo.service.impl;
 
 import com.lin.cms.core.exception.*;
-import com.lin.cms.demo.extensions.file.LocalUploader;
+import com.lin.cms.demo.extensions.file.Uploader;
 import com.lin.cms.demo.mapper.FileMapper;
 import com.lin.cms.demo.model.FilePO;
 import com.lin.cms.demo.service.FileService;
@@ -24,7 +24,7 @@ public class FileServiceImpl extends AbstractService<FilePO> implements FileServ
     private FileMapper fileMapper;
 
     @Autowired
-    private LocalUploader uploader;
+    private Uploader uploader;
 
     @Override
     public List<UploadFileVO> upload(MultiValueMap<String, MultipartFile> fileMap) throws NotFound, Parameter, FileTooMany, FileExtension, FileTooLarge {

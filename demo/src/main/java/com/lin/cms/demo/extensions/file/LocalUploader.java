@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class LocalUploader {
+public class LocalUploader implements Uploader {
     @Autowired
     private FileMapper fileMapper;
 
