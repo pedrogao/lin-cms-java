@@ -31,6 +31,7 @@ import java.util.Map;
 @Slf4j
 public class ExceptionHandler implements HandlerExceptionResolver {
 
+    public static String DEFAULT_MAX_FILE_SIZE = "20MB";
 
     @Value("${spring.servlet.multipart.max-file-size}")
     private String maxFileSize;

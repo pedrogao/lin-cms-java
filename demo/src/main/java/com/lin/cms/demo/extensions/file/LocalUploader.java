@@ -2,7 +2,7 @@ package com.lin.cms.demo.extensions.file;
 
 import com.lin.cms.core.exception.*;
 import com.lin.cms.demo.mapper.FileMapper;
-import com.lin.cms.demo.model.FilePO;
+import com.lin.cms.demo.model.FileDO;
 import com.lin.cms.demo.view.UploadFileVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -93,7 +93,7 @@ public class LocalUploader implements Uploader {
                     // 生成文件的md5值
                     String md5 = this.getFileMD5(bytes);
                     // 检查文件是否存在
-                    FilePO exist = this.checkFileIsExist(md5);
+                    FileDO exist = this.checkFileIsExist(md5);
                     if (exist != null) {
                         UploadFileVO item = this.genFileView(exist, keys[i]);
                         res.add(item);
@@ -110,7 +110,7 @@ public class LocalUploader implements Uploader {
                         } catch (Exception e) {
                             throw new Parameter("读取文件数据失败");
                         }
-                        FilePO record = new FilePO();
+                        FileDO record = new FileDO();
                         record.setMd5(md5);
                         record.setName(newFilename);
                         record.setPath(storePath);
@@ -128,7 +128,7 @@ public class LocalUploader implements Uploader {
         return res;
     }
 
-    private UploadFileVO genFileView(FilePO record, String key) {
+    private UploadFileVO genFileView(FileDO record, String key) {
         UploadFileVO item = new UploadFileVO();
         item.setId(record.getId());
         item.setKey(key);
@@ -137,8 +137,8 @@ public class LocalUploader implements Uploader {
         return item;
     }
 
-    private FilePO checkFileIsExist(String md5) {
-        FilePO exist = fileMapper.findOneByMd5(md5);
+    private FileDO checkFileIsExist(String md5) {
+        FileDO exist = fileMapper.findOneByMd5(md5);
         if (exist == null) {
             return null;
         }

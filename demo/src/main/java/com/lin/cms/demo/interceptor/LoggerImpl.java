@@ -1,12 +1,12 @@
 package com.lin.cms.demo.interceptor;
 
-import com.lin.cms.demo.model.UserPO;
+import com.lin.cms.base.model.UserDO;
+import com.lin.cms.base.utils.LocalUser;
 import com.lin.cms.interfaces.LoggerResolver;
 import com.lin.cms.core.annotation.Logger;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.utils.BeanUtil;
 import com.lin.cms.demo.service.LogService;
-import com.lin.cms.demo.utils.LocalUser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,12 +30,12 @@ public class LoggerImpl implements LoggerResolver {
     public void handle(RouteMeta meta, Logger logger, HttpServletRequest request, HttpServletResponse response) {
         // parse template and extract properties from request,response and modelAndView
         String template = logger.template();
-        UserPO user = LocalUser.getLocalUser(UserPO.class);
+        UserDO user = LocalUser.getLocalUser(UserDO.class);
         template = this.parseTemplate(template, user, request, response);
         logService.createOneLog(template, meta, user, request, response);
     }
 
-    private String parseTemplate(String template, UserPO user, HttpServletRequest request, HttpServletResponse response) {
+    private String parseTemplate(String template, UserDO user, HttpServletRequest request, HttpServletResponse response) {
         Pattern pattern = Pattern.compile(REG_XP);
         // 调用 get 方法
         Matcher m = pattern.matcher(template);
@@ -47,7 +47,7 @@ public class LoggerImpl implements LoggerResolver {
         return template;
     }
 
-    private String extractProperty(String item, UserPO user, HttpServletRequest request, HttpServletResponse response) {
+    private String extractProperty(String item, UserDO user, HttpServletRequest request, HttpServletResponse response) {
         int i = item.lastIndexOf('.');
         String obj = item.substring(0, i);
         String prop = item.substring(i + 1);

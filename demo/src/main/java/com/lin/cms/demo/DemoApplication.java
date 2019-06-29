@@ -17,7 +17,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 
 @SpringBootApplication(scanBasePackages = {"com.lin.cms"})
-@MapperScan(basePackages = {"com.lin.cms.demo.mapper", "com.lin.cms.plugins.poem.app"})
+@MapperScan(basePackages = {"com.lin.cms.demo.mapper", "com.lin.cms.base.mapper", "com.lin.cms.plugins.poem.app"})
 @PropertySources({
         @PropertySource("classpath:com/lin/cms/plugins/poem/plugin.properties"),
         @PropertySource("classpath:com/lin/cms/demo/extensions/file/config.properties")

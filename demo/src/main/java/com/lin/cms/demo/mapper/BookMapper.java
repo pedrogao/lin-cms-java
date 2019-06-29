@@ -1,12 +1,12 @@
 package com.lin.cms.demo.mapper;
 
 import com.lin.cms.db.CrudMapper;
-import com.lin.cms.demo.model.BookPO;
+import com.lin.cms.demo.model.BookDO;
 import org.apache.ibatis.annotations.Param;
 
-public interface BookMapper extends CrudMapper<BookPO> {
+public interface BookMapper extends CrudMapper<BookDO> {
 
-    BookPO getBookByKeyword(@Param("q") String q);
+    BookDO getBookByKeyword(@Param("q") String q);
 
-    BookPO findOneByIdAndDeleteTime(@Param("id") Integer id);
+    BookDO findOneByIdAndDeleteTime(@Param("id") Integer id);
 }
