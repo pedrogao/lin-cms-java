@@ -11,11 +11,11 @@ public interface LogMapper extends CrudMapper<LogDO> {
 
     List<LogDO> findLogsByUsernameAndRange(@Param("name") String name, @Param("start") Date start, @Param("end") Date end);
 
-    Integer CountLogsByUsernameAndRange(@Param("name") String name, @Param("start") Date start, @Param("end") Date end);
+    Integer countLogsByUsernameAndRange(@Param("name") String name, @Param("start") Date start, @Param("end") Date end);
 
     List<LogDO> searchLogsByUsernameAndKeywordAndRange(@Param("name") String name, @Param("keyword") String keyword, @Param("start") Date start, @Param("end") Date end);
 
-    Integer CountLogsByUsernameAndKeywordAndRange(@Param("name") String name, @Param("keyword") String keyword, @Param("start") Date start, @Param("end") Date end);
+    Integer countLogsByUsernameAndKeywordAndRange(@Param("name") String name, @Param("keyword") String keyword, @Param("start") Date start, @Param("end") Date end);
 
     List<String> getUserNames();
 }

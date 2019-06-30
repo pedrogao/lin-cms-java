@@ -16,7 +16,7 @@
     </resultMap>
 
     <select id="getBookByKeyword" resultMap="BaseResultMap">
-        SELECT * FROM book WHERE book.`title` LIKE CONTACT("%",#{q},"%") AND book.`delete_time` IS NULL LIMIT 1
+        SELECT * FROM book WHERE book.`title` LIKE CONCAT("%",#{q},"%") AND book.`delete_time` IS NULL LIMIT 1
     </select>
 
     <select id="findOneByIdAndDeleteTime" resultMap="BaseResultMap">

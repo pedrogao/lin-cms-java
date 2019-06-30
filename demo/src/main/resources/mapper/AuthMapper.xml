@@ -38,7 +38,7 @@
     <delete id="deleteByGroupIdAndInAuths">
         DELETE FROM lin_auth WHERE lin_auth.`group_id`=#{groupId}
         AND lin_auth.`auth` IN
-        <foreach collection="list" item="auth" index="index"
+        <foreach collection="auths" item="auth" index="index"
                  open="(" close=")" separator=",">
             #{auth}
         </foreach>

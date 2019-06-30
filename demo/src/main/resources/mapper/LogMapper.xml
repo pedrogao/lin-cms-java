@@ -30,7 +30,7 @@
         ORDER BY lin_log.`time` DESC
     </select>
 
-    <select id="CountLogsByUsernameAndRange" resultType="java.lang.Integer">
+    <select id="countLogsByUsernameAndRange" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM lin_log
         <where>
             <if test="name != null">
@@ -58,7 +58,7 @@
         ORDER BY lin_log.`time` DESC
     </select>
 
-    <select id="CountLogsByUsernameAndKeywordAndRange" resultType="java.lang.Integer">
+    <select id="countLogsByUsernameAndKeywordAndRange" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM lin_log
         <where>
             <if test="name != null">

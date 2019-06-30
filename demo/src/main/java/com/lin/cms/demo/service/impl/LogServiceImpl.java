@@ -29,7 +29,7 @@ public class LogServiceImpl extends AbstractService<LogDO> implements LogService
     public PageResult getLogs(Integer page, Integer count, String name, Date start, Date end) {
         PageHelper.startPage(page + 1, count);
         List<LogDO> logs = logMapper.findLogsByUsernameAndRange(name, start, end);
-        Integer total = logMapper.CountLogsByUsernameAndRange(name, start, end);
+        Integer total = logMapper.countLogsByUsernameAndRange(name, start, end);
         return PageResult.genPageResult(total, logs);
     }
 
@@ -37,7 +37,7 @@ public class LogServiceImpl extends AbstractService<LogDO> implements LogService
     public PageResult searchLogs(Integer page, Integer count, String name, String keyword, Date start, Date end) {
         PageHelper.startPage(page + 1, count);
         List<LogDO> logs = logMapper.searchLogsByUsernameAndKeywordAndRange(name, keyword, start, end);
-        Integer total = logMapper.CountLogsByUsernameAndKeywordAndRange(name, keyword, start, end);
+        Integer total = logMapper.countLogsByUsernameAndKeywordAndRange(name, keyword, start, end);
         return PageResult.genPageResult(total, logs);
     }
 

@@ -40,6 +40,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public PageResult getUsers(Integer groupId, Integer count, Integer page) {
         // start: start * count1
+        // 这里的 PageHelper 调用会失败，并不会真正的分页
         List<UserAndGroupNameDO> usersAndGroupName = userMapper.findUsersAndGroupName(groupId, page * count, count);
         Integer totalNums = userMapper.getCommonUsersCount(groupId);
         return PageResult.genPageResult(totalNums, usersAndGroupName);
