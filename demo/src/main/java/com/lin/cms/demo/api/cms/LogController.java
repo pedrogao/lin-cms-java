@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cms/log")
-public class LogApi {
+public class LogController {
 
     @Autowired
     private LogService logService;

@@ -5,9 +5,9 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface PoemMapper extends CrudMapper<PoemPO> {
+public interface PoemMapper extends CrudMapper<PoemDO> {
 
     Integer getCount();
 
-    List<PoemPO> findPoemsByAuthor(@Param("author") String author);
+    List<PoemDO> findPoemsByAuthor(@Param("author") String author);
 }

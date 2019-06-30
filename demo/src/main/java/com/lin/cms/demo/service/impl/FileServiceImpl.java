@@ -3,9 +3,9 @@ package com.lin.cms.demo.service.impl;
 import com.lin.cms.core.exception.*;
 import com.lin.cms.demo.extensions.file.Uploader;
 import com.lin.cms.demo.mapper.FileMapper;
-import com.lin.cms.demo.model.FilePO;
+import com.lin.cms.demo.model.FileDO;
 import com.lin.cms.demo.service.FileService;
-import com.lin.cms.demo.view.UploadFileVO;
+import com.lin.cms.demo.BO.UploadFileBO;
 import com.lin.cms.demo.service.base.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import java.util.List;
  * Created by lin on 2019/06/14.
  */
 @Service
-public class FileServiceImpl extends AbstractService<FilePO> implements FileService {
+public class FileServiceImpl extends AbstractService<FileDO> implements FileService {
     @Autowired
     private FileMapper fileMapper;
 
@@ -27,8 +27,8 @@ public class FileServiceImpl extends AbstractService<FilePO> implements FileServ
     private Uploader uploader;
 
     @Override
-    public List<UploadFileVO> upload(MultiValueMap<String, MultipartFile> fileMap) throws NotFound, Parameter, FileTooMany, FileExtension, FileTooLarge {
-        List<UploadFileVO> res = uploader.upload(fileMap);
+    public List<UploadFileBO> upload(MultiValueMap<String, MultipartFile> fileMap) throws NotFound, Parameter, FileTooMany, FileExtension, FileTooLarge {
+        List<UploadFileBO> res = uploader.upload(fileMap);
         return res;
     }
 

@@ -1,10 +1,10 @@
-package com.lin.cms.demo.model;
+package com.lin.cms.plugins.poem.app;
 
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "book")
-public class BookPO {
+@Table(name = "poem")
+public class PoemDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -13,18 +13,26 @@ public class BookPO {
 
     private String author;
 
-    private String summary;
+    private String dynasty;
 
     private String image;
 
+    @Column(name = "delete_time")
+    private Date deleteTime;
+
+    /**
+     * 创建时间
+     */
     @Column(name = "create_time")
     private Date createTime;
 
+    /**
+     * 更新时间
+     */
     @Column(name = "update_time")
     private Date updateTime;
 
-    @Column(name = "delete_time")
-    private Date deleteTime;
+    private String content;
 
     /**
      * @return id
@@ -69,17 +77,17 @@ public class BookPO {
     }
 
     /**
-     * @return summary
+     * @return dynasty
      */
-    public String getSummary() {
-        return summary;
+    public String getDynasty() {
+        return dynasty;
     }
 
     /**
-     * @param summary
+     * @param dynasty
      */
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setDynasty(String dynasty) {
+        this.dynasty = dynasty;
     }
 
     /**
@@ -97,34 +105,6 @@ public class BookPO {
     }
 
     /**
-     * @return create_time
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    /**
-     * @param createTime
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    /**
-     * @return update_time
-     */
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    /**
-     * @param updateTime
-     */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    /**
      * @return delete_time
      */
     public Date getDeleteTime() {
@@ -136,5 +116,55 @@ public class BookPO {
      */
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    /**
+     * 获取创建时间
+     *
+     * @return create_time - 创建时间
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * 设置创建时间
+     *
+     * @param createTime 创建时间
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    /**
+     * 获取更新时间
+     *
+     * @return update_time - 更新时间
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * 设置更新时间
+     *
+     * @param updateTime 更新时间
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    /**
+     * @return content
+     */
+    public String getContent() {
+        return content;
+    }
+
+    /**
+     * @param content
+     */
+    public void setContent(String content) {
+        this.content = content;
     }
 }

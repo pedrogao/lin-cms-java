@@ -1,6 +1,6 @@
 package com.lin.cms.demo.api.v1;
 
-import com.lin.cms.demo.model.BookPO;
+import com.lin.cms.demo.model.BookDO;
 import com.lin.cms.demo.service.BookService;
 import com.lin.cms.demo.validators.book.CreateOrUpdateBookValidator;
 import com.lin.cms.core.annotation.GroupRequired;
@@ -17,14 +17,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/v1/book")
-public class BookApi {
+public class BookController {
 
     @Autowired
     private BookService bookService;
 
     @GetMapping("/{id}")
-    public BookPO getBook(@PathVariable(value = "id") @PositiveOrZero Integer id) throws NotFound {
-        BookPO book = bookService.findOneByIdAndDeleteTime(id);
+    public BookDO getBook(@PathVariable(value = "id") @PositiveOrZero Integer id) throws NotFound {
+        BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
             throw new NotFound("未找到相关书籍");
         }
@@ -32,8 +32,8 @@ public class BookApi {
     }
 
     @GetMapping("/")
-    public List<BookPO> getBooks() throws NotFound {
-        List<BookPO> books = bookService.findAll();
+    public List<BookDO> getBooks() throws NotFound {
+        List<BookDO> books = bookService.findAll();
         if (books == null || books.size() < 1) {
             throw new NotFound("未找到相关书籍");
         }
@@ -42,8 +42,8 @@ public class BookApi {
 
 
     @GetMapping("/search/one")
-    public BookPO searchBook(@RequestParam("q") String q) throws NotFound {
-        BookPO book = bookService.getBookByKeyword(q);
+    public BookDO searchBook(@RequestParam("q") String q) throws NotFound {
+        BookDO book = bookService.getBookByKeyword(q);
         if (book == null) {
             throw new NotFound("未找到相关书籍");
         }
@@ -60,7 +60,7 @@ public class BookApi {
 
     @PostMapping("/{id}")
     public Result updateBook(@PathVariable("id") Integer id, @RequestBody @Valid CreateOrUpdateBookValidator validator) throws NotFound {
-        BookPO book = bookService.findOneByIdAndDeleteTime(id);
+        BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
             throw new NotFound("未找到相关书籍");
         }
@@ -74,7 +74,7 @@ public class BookApi {
     @GroupRequired
     public Result deleteBook(@PathVariable("id") Integer id) throws NotFound {
         // 软删除，逻辑删除
-        BookPO book = bookService.findOneByIdAndDeleteTime(id);
+        BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
             throw new NotFound("未找到相关书籍");
         }

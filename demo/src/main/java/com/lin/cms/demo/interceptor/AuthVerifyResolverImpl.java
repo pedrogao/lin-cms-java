@@ -9,8 +9,8 @@ import com.lin.cms.core.result.ResultGenerator;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.mapper.UserMapper;
-import com.lin.cms.demo.model.AuthPO;
-import com.lin.cms.demo.model.UserPO;
+import com.lin.cms.demo.model.AuthDO;
+import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.utils.LocalUser;
 import com.lin.cms.interfaces.AuthVerifyResolver;
 import com.lin.cms.token.JWT;
@@ -61,7 +61,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         if (!verifyLinScopeAndAccess) {
             return false;
         }
-        UserPO user = userMapper.selectByPrimaryKey(identity);
+        UserDO user = userMapper.selectByPrimaryKey(identity);
         if (user == null) {
             NotFound notFound = new NotFound("用户不存在");
             ResultGenerator.genResult(notFound);
@@ -76,7 +76,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         if (!stepValid) {
             return false;
         }
-        UserPO user = LocalUser.getLocalUser();
+        UserDO user = LocalUser.getLocalUser();
         if (user.ifIsAdmin()) {
             return true;
         }
@@ -87,7 +87,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
-        AuthPO auth = authMapper.selectOneByGroupIdAndAuthAndModule(groupId, meta.auth(), meta.module());
+        AuthDO auth = authMapper.selectOneByGroupIdAndAuthAndModule(groupId, meta.auth(), meta.module());
         if (auth == null) {
             // 权限不够，请联系超级管理员获得权限
             AuthFailed failed = new AuthFailed("权限不够，请联系超级管理员获得权限");
@@ -102,7 +102,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         if (!stepValid) {
             return stepValid;
         }
-        UserPO user = LocalUser.getLocalUser();
+        UserDO user = LocalUser.getLocalUser();
         return user.ifIsAdmin();
     }
 
@@ -173,7 +173,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
-        UserPO user = userMapper.selectByPrimaryKey(identity);
+        UserDO user = userMapper.selectByPrimaryKey(identity);
         if (user == null) {
             NotFound notFound = new NotFound("用户不存在");
             ResultGenerator.genAndWriteResult(response, notFound);

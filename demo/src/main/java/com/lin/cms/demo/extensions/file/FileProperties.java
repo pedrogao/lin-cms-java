@@ -1,4 +1,4 @@
-package com.lin.cms.demo.configure;
+package com.lin.cms.demo.extensions.file;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

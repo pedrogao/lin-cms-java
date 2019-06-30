@@ -10,7 +10,7 @@ import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.service.AdminService;
-import com.lin.cms.demo.view.GroupWithAuthsVO;
+import com.lin.cms.demo.BO.GroupWithAuthsBO;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.demo.model.*;
 import com.lin.cms.demo.validators.admin.*;
@@ -40,14 +40,14 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public PageResult getUsers(Integer groupId, Integer count, Integer page) {
         // start: start * count1
-        List<UserAndGroupNamePO> usersAndGroupName = userMapper.findUsersAndGroupName(groupId, page * count, count);
+        List<UserAndGroupNameDO> usersAndGroupName = userMapper.findUsersAndGroupName(groupId, page * count, count);
         Integer totalNums = userMapper.getCommonUsersCount(groupId);
         return PageResult.genPageResult(totalNums, usersAndGroupName);
     }
 
     @Override
     public void changeUserPassword(Integer id, ResetPasswordValidator validator) throws NotFound {
-        UserPO user = userMapper.findOneUserByIdAndDeleteTime(id);
+        UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
             throw new NotFound("用户不存在");
         }
@@ -57,7 +57,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteUser(Integer id) throws NotFound {
-        UserPO user = userMapper.findOneUserByIdAndDeleteTime(id);
+        UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
             throw new NotFound("用户不存在");
         }
@@ -67,12 +67,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void updateUserInfo(Integer id, UpdateUserInfoValidator validator) throws NotFound, Parameter {
-        UserPO user = userMapper.findOneUserByIdAndDeleteTime(id);
+        UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
             throw new NotFound("用户不存在");
         }
         if (!user.getEmail().equals(validator.getEmail())) {
-            UserPO exist = userMapper.findOneUserByEmailAndDeleteTime(validator.getEmail());
+            UserDO exist = userMapper.findOneUserByEmailAndDeleteTime(validator.getEmail());
             if (exist != null) {
                 throw new Parameter("邮箱已被注册，请重新输入邮箱");
             }
@@ -86,14 +86,14 @@ public class AdminServiceImpl implements AdminService {
     public PageResult getGroups(Integer page, Integer count) {
         // 与其它语言保持一致，0为第一页
         PageHelper.startPage(page + 1, count);
-        List<GroupPO> groups = groupMapper.selectAll();
+        List<GroupDO> groups = groupMapper.selectAll();
         Integer total = groupMapper.getCount();
-        List<GroupWithAuthsVO> groupAndAuths = new ArrayList<>();
+        List<GroupWithAuthsBO> groupAndAuths = new ArrayList<>();
 
         groups.forEach(group -> {
-            GroupWithAuthsVO tmp = new GroupWithAuthsVO();
+            GroupWithAuthsBO tmp = new GroupWithAuthsBO();
             BeanUtils.copyProperties(group, tmp);
-            List<SimpleAuthPO> auths = authMapper.findByGroupId(group.getId());
+            List<SimpleAuthDO> auths = authMapper.findByGroupId(group.getId());
             tmp.setAuths(auths);
             groupAndAuths.add(tmp);
         });
@@ -101,11 +101,11 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public GroupWithAuthsVO getGroup(Integer id) {
-        GroupPO group = groupMapper.selectByPrimaryKey(id);
-        GroupWithAuthsVO tmp = new GroupWithAuthsVO();
+    public GroupWithAuthsBO getGroup(Integer id) {
+        GroupDO group = groupMapper.selectByPrimaryKey(id);
+        GroupWithAuthsBO tmp = new GroupWithAuthsBO();
         BeanUtils.copyProperties(group, tmp);
-        List<SimpleAuthPO> auths = authMapper.findByGroupId(group.getId());
+        List<SimpleAuthDO> auths = authMapper.findByGroupId(group.getId());
         tmp.setAuths(auths);
         return tmp;
     }
@@ -113,17 +113,17 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     @Override
     public void createGroup(NewGroupValidator validator) throws Forbidden {
-        GroupPO exist = groupMapper.findOneByName(validator.getName());
+        GroupDO exist = groupMapper.findOneByName(validator.getName());
         if (exist != null) {
             throw new Forbidden("分组已存在，不可创建同名分组");
         }
-        GroupPO group = new GroupPO();
+        GroupDO group = new GroupDO();
         group.setName(validator.getName());
         group.setInfo(validator.getInfo());
         groupMapper.insertSelective(group);
         Integer groupId = group.getId();
         validator.getAuths().forEach(item -> {
-            AuthPO auth = new AuthPO();
+            AuthDO auth = new AuthDO();
             RouteMeta meta = postProcessor.findMetaByAuth(item);
             if (meta != null) {
                 auth.setGroupId(groupId);
@@ -136,7 +136,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void updateGroup(Integer id, UpdateGroupValidator validator) throws NotFound {
-        GroupPO group = groupMapper.selectByPrimaryKey(id);
+        GroupDO group = groupMapper.selectByPrimaryKey(id);
         if (group == null) {
             throw new NotFound("分组不存在，更新失败");
         }
@@ -147,11 +147,11 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void deleteGroup(Integer id) throws NotFound, Forbidden {
-        GroupPO group = groupMapper.selectByPrimaryKey(id);
+        GroupDO group = groupMapper.selectByPrimaryKey(id);
         if (group == null) {
             throw new NotFound("分组不存在，删除失败");
         }
-        UserPO userByGroupId = userMapper.findOneUserByGroupId(id);
+        UserDO userByGroupId = userMapper.findOneUserByGroupId(id);
         if (userByGroupId != null) {
             throw new Forbidden("分组下存在用户，不可删除");
         }
@@ -160,15 +160,15 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void dispatchAuth(DispatchAuthValidator validator) throws NotFound, Forbidden {
-        GroupPO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
+        GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
         }
-        AuthPO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), validator.getAuth());
+        AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), validator.getAuth());
         if (one != null) {
             throw new Forbidden("已有权限，不可重复添加");
         }
-        AuthPO auth = new AuthPO();
+        AuthDO auth = new AuthDO();
         RouteMeta meta = postProcessor.findMetaByAuth(validator.getAuth());
         auth.setModule(meta.module());
         auth.setAuth(meta.auth());
@@ -178,14 +178,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void dispatchAuths(DispatchAuthsValidator validator) throws NotFound {
-        GroupPO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
+        GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
         }
         validator.getAuths().forEach(item -> {
-            AuthPO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), item);
+            AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), item);
             if (one != null) {
-                AuthPO auth = new AuthPO();
+                AuthDO auth = new AuthDO();
                 RouteMeta meta = postProcessor.findMetaByAuth(item);
                 auth.setAuth(meta.auth());
                 auth.setModule(meta.module());
@@ -198,7 +198,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public void removeAuths(RemoveAuthsValidator validator) throws NotFound {
-        GroupPO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
+        GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
         }

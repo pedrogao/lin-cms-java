@@ -4,7 +4,7 @@ package com.lin.cms.demo.model;
 import javax.persistence.*;
 
 @Table(name = "lin_auth")
-public class AuthPO {
+public class AuthDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

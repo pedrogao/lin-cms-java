@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/cms/test")
-public class TestApi {
+public class TestController {
 
     @RequestMapping("/")
     public String index() {

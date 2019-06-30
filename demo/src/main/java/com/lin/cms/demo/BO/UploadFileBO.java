@@ -1,9 +1,9 @@
-package com.lin.cms.demo.view;
+package com.lin.cms.demo.BO;
 
 import lombok.Data;
 
 @Data
-public class UploadFileVO {
+public class UploadFileBO {
     private Integer id;
 
     private String url;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lin.cms.demo.mapper.LogMapper">
-    <resultMap id="BaseResultMap" type="com.lin.cms.demo.model.LogPO">
+    <resultMap id="BaseResultMap" type="com.lin.cms.demo.model.LogDO">
         <!--
           WARNING - @mbg.generated
         -->
@@ -17,7 +17,7 @@
     </resultMap>
 
 
-    <select id="findLogsByUsernameAndRange" resultType="com.lin.cms.demo.model.LogPO">
+    <select id="findLogsByUsernameAndRange" resultType="com.lin.cms.demo.model.LogDO">
         SELECT lin_log.* FROM lin_log
         <where>
             <if test="name != null">
@@ -42,7 +42,7 @@
         </where>
     </select>
 
-    <select id="searchLogsByUsernameAndKeywordAndRange" resultType="com.lin.cms.demo.model.LogPO">
+    <select id="searchLogsByUsernameAndKeywordAndRange" resultType="com.lin.cms.demo.model.LogDO">
         SELECT lin_log.* FROM lin_log
         <where>
             <if test="name != null">

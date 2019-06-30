@@ -9,8 +9,8 @@ import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.mapper.GroupMapper;
-import com.lin.cms.demo.model.GroupPO;
-import com.lin.cms.demo.view.GroupWithAuthsVO;
+import com.lin.cms.demo.model.GroupDO;
+import com.lin.cms.demo.BO.GroupWithAuthsBO;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.core.result.ResultGenerator;
 import com.lin.cms.demo.service.impl.AdminServiceImpl;
@@ -31,7 +31,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/cms/admin")
-public class AdminApi {
+public class AdminController {
 
     @Autowired
     private AdminServiceImpl adminService;
@@ -44,7 +44,7 @@ public class AdminApi {
 
     @GetMapping("/authority")
     @AdminRequired
-    @RouteMeta(auth = "查询所有可分配的权限", module = "管理员", mount = false)
+    @RouteMeta(auth = "查询所有可分配的权限", module = "管理员", mount = true)
     public Map getAuthority() {
         return postBeanProcessor.getStructuralMeta();
     }
@@ -107,16 +107,16 @@ public class AdminApi {
     @AdminRequired
     @Logger(template = "pedro正在调试呢！")
     @RouteMeta(auth = "查询所有权限组", module = "管理员")
-    public List<GroupPO> getAllGroup() {
-        List<GroupPO> groups = groupMapper.selectAll();
+    public List<GroupDO> getAllGroup() {
+        List<GroupDO> groups = groupMapper.selectAll();
         return groups;
     }
 
     @GetMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(auth = "查询一个权限组及其权限", module = "管理员")
-    public GroupWithAuthsVO getGroup(@PathVariable @PositiveOrZero Integer id) {
-        GroupWithAuthsVO groupWithAuths = adminService.getGroup(id);
+    public GroupWithAuthsBO getGroup(@PathVariable @PositiveOrZero Integer id) {
+        GroupWithAuthsBO groupWithAuths = adminService.getGroup(id);
         return groupWithAuths;
     }
 

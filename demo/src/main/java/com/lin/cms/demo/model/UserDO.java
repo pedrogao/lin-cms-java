@@ -11,7 +11,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Table(name = "lin_user")
-public class UserPO {
+public class UserDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

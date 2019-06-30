@@ -1,15 +1,15 @@
 package com.lin.cms.demo.service;
 
-import com.lin.cms.demo.model.BookPO;
+import com.lin.cms.demo.model.BookDO;
 import com.lin.cms.demo.validators.book.CreateOrUpdateBookValidator;
 import com.lin.cms.demo.service.base.Service;
 
-public interface BookService extends Service<BookPO> {
+public interface BookService extends Service<BookDO> {
     void createBook(CreateOrUpdateBookValidator validator);
 
-    BookPO getBookByKeyword(String q);
+    BookDO getBookByKeyword(String q);
 
-    void updateBook(BookPO book, CreateOrUpdateBookValidator validator);
+    void updateBook(BookDO book, CreateOrUpdateBookValidator validator);
 
-    BookPO findOneByIdAndDeleteTime(Integer id);
+    BookDO findOneByIdAndDeleteTime(Integer id);
 }

@@ -1,10 +1,10 @@
-package com.lin.cms.plugins.poem.app;
+package com.lin.cms.demo.model;
 
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "poem")
-public class PoemPO {
+@Table(name = "book")
+public class BookDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -13,26 +13,18 @@ public class PoemPO {
 
     private String author;
 
-    private String dynasty;
+    private String summary;
 
     private String image;
 
-    @Column(name = "delete_time")
-    private Date deleteTime;
-
-    /**
-     * 创建时间
-     */
     @Column(name = "create_time")
     private Date createTime;
 
-    /**
-     * 更新时间
-     */
     @Column(name = "update_time")
     private Date updateTime;
 
-    private String content;
+    @Column(name = "delete_time")
+    private Date deleteTime;
 
     /**
      * @return id
@@ -77,17 +69,17 @@ public class PoemPO {
     }
 
     /**
-     * @return dynasty
+     * @return summary
      */
-    public String getDynasty() {
-        return dynasty;
+    public String getSummary() {
+        return summary;
     }
 
     /**
-     * @param dynasty
+     * @param summary
      */
-    public void setDynasty(String dynasty) {
-        this.dynasty = dynasty;
+    public void setSummary(String summary) {
+        this.summary = summary;
     }
 
     /**
@@ -105,6 +97,34 @@ public class PoemPO {
     }
 
     /**
+     * @return create_time
+     */
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    /**
+     * @param createTime
+     */
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    /**
+     * @return update_time
+     */
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    /**
+     * @param updateTime
+     */
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    /**
      * @return delete_time
      */
     public Date getDeleteTime() {
@@ -116,55 +136,5 @@ public class PoemPO {
      */
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
-    }
-
-    /**
-     * 获取创建时间
-     *
-     * @return create_time - 创建时间
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    /**
-     * 设置创建时间
-     *
-     * @param createTime 创建时间
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    /**
-     * 获取更新时间
-     *
-     * @return update_time - 更新时间
-     */
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    /**
-     * 设置更新时间
-     *
-     * @param updateTime 更新时间
-     */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    /**
-     * @return content
-     */
-    public String getContent() {
-        return content;
-    }
-
-    /**
-     * @param content
-     */
-    public void setContent(String content) {
-        this.content = content;
     }
 }

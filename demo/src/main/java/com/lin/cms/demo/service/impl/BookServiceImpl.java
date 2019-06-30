@@ -1,7 +1,7 @@
 package com.lin.cms.demo.service.impl;
 
 import com.lin.cms.demo.mapper.BookMapper;
-import com.lin.cms.demo.model.BookPO;
+import com.lin.cms.demo.model.BookDO;
 import com.lin.cms.demo.validators.book.CreateOrUpdateBookValidator;
 import com.lin.cms.demo.service.BookService;
 import com.lin.cms.demo.service.base.AbstractService;
@@ -9,14 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BookServiceImpl extends AbstractService<BookPO> implements BookService {
+public class BookServiceImpl extends AbstractService<BookDO> implements BookService {
 
     @Autowired
     private BookMapper bookMapper;
 
     @Override
     public void createBook(CreateOrUpdateBookValidator validator) {
-        BookPO book = new BookPO();
+        BookDO book = new BookDO();
         book.setAuthor(validator.getAuthor());
         book.setTitle(validator.getTitle());
         book.setImage(validator.getImage());
@@ -25,13 +25,13 @@ public class BookServiceImpl extends AbstractService<BookPO> implements BookServ
     }
 
     @Override
-    public BookPO getBookByKeyword(String q) {
-        BookPO book = bookMapper.getBookByKeyword(q);
+    public BookDO getBookByKeyword(String q) {
+        BookDO book = bookMapper.getBookByKeyword(q);
         return book;
     }
 
     @Override
-    public void updateBook(BookPO book, CreateOrUpdateBookValidator validator) {
+    public void updateBook(BookDO book, CreateOrUpdateBookValidator validator) {
         book.setAuthor(validator.getAuthor());
         book.setTitle(validator.getTitle());
         book.setImage(validator.getImage());
@@ -40,7 +40,7 @@ public class BookServiceImpl extends AbstractService<BookPO> implements BookServ
     }
 
     @Override
-    public BookPO findOneByIdAndDeleteTime(Integer id) {
+    public BookDO findOneByIdAndDeleteTime(Integer id) {
         return bookMapper.findOneByIdAndDeleteTime(id);
     }
 }

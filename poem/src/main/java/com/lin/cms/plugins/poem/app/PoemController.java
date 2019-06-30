@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/plugin/poem/")
-public class PoemApi {
+public class PoemController {
 
     @Value("${lin.cms.poem.limit}")
     private Integer limit;
@@ -24,14 +24,14 @@ public class PoemApi {
     @GetMapping
     public PageResult index() {
         PageHelper.startPage(1, limit);
-        List<PoemPO> poems = poemMapper.selectAll();
+        List<PoemDO> poems = poemMapper.selectAll();
         return PageResult.genPageResult(limit, poems);
     }
 
     @GetMapping("/search")
     public PageResult count(@RequestParam("author") String author) {
         // 纳兰性德
-        List<PoemPO> poems = poemMapper.findPoemsByAuthor(author);
+        List<PoemDO> poems = poemMapper.findPoemsByAuthor(author);
         // Integer count = poemMapper.getCount();
         return PageResult.genPageResult(2, poems);
     }

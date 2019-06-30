@@ -2,8 +2,8 @@ package com.lin.cms.demo.extensions.file;
 
 import com.lin.cms.core.exception.*;
 import com.lin.cms.demo.mapper.FileMapper;
-import com.lin.cms.demo.model.FilePO;
-import com.lin.cms.demo.view.UploadFileVO;
+import com.lin.cms.demo.model.FileDO;
+import com.lin.cms.demo.BO.UploadFileBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -50,7 +50,7 @@ public class LocalUploader implements Uploader {
 
     private String absDir;
 
-    public List<UploadFileVO> upload(MultiValueMap<String, MultipartFile> fileMap) throws NotFound, Parameter, FileTooMany, FileExtension, FileTooLarge {
+    public List<UploadFileBO> upload(MultiValueMap<String, MultipartFile> fileMap) throws NotFound, Parameter, FileTooMany, FileExtension, FileTooLarge {
 
         if (fileMap.isEmpty()) {
             throw new NotFound("未找到文件");
@@ -65,7 +65,7 @@ public class LocalUploader implements Uploader {
 
         MultipartFile file;
         BufferedOutputStream stream;
-        List<UploadFileVO> res = new ArrayList<>();
+        List<UploadFileBO> res = new ArrayList<>();
         String[] keys = fileMap.keySet().toArray(new String[0]);
 
         for (int i = 0; i < keys.length; ++i) {
@@ -93,9 +93,9 @@ public class LocalUploader implements Uploader {
                     // 生成文件的md5值
                     String md5 = this.getFileMD5(bytes);
                     // 检查文件是否存在
-                    FilePO exist = this.checkFileIsExist(md5);
+                    FileDO exist = this.checkFileIsExist(md5);
                     if (exist != null) {
-                        UploadFileVO item = this.genFileView(exist, keys[i]);
+                        UploadFileBO item = this.genFileView(exist, keys[i]);
                         res.add(item);
                     } else {
                         // 随机生成名字
@@ -110,7 +110,7 @@ public class LocalUploader implements Uploader {
                         } catch (Exception e) {
                             throw new Parameter("读取文件数据失败");
                         }
-                        FilePO record = new FilePO();
+                        FileDO record = new FileDO();
                         record.setMd5(md5);
                         record.setName(newFilename);
                         record.setPath(storePath);
@@ -119,7 +119,7 @@ public class LocalUploader implements Uploader {
                         // record.setType();
                         record.setExtension(ext);
                         fileMapper.insertSelective(record);
-                        UploadFileVO item = this.genFileView(record, keys[i]);
+                        UploadFileBO item = this.genFileView(record, keys[i]);
                         res.add(item);
                     }
                 }
@@ -128,8 +128,8 @@ public class LocalUploader implements Uploader {
         return res;
     }
 
-    private UploadFileVO genFileView(FilePO record, String key) {
-        UploadFileVO item = new UploadFileVO();
+    private UploadFileBO genFileView(FileDO record, String key) {
+        UploadFileBO item = new UploadFileBO();
         item.setId(record.getId());
         item.setKey(key);
         String url = getServerDir() + record.getName();
@@ -137,8 +137,8 @@ public class LocalUploader implements Uploader {
         return item;
     }
 
-    private FilePO checkFileIsExist(String md5) {
-        FilePO exist = fileMapper.findOneByMd5(md5);
+    private FileDO checkFileIsExist(String md5) {
+        FileDO exist = fileMapper.findOneByMd5(md5);
         if (exist == null) {
             return null;
         }

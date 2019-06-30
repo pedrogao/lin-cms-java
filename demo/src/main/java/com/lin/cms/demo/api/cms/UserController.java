@@ -8,7 +8,7 @@ import com.lin.cms.core.exception.HttpException;
 import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.core.result.Result;
-import com.lin.cms.demo.model.UserPO;
+import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.utils.LocalUser;
 import com.lin.cms.core.result.ResultGenerator;
 import com.lin.cms.demo.service.UserService;
@@ -28,7 +28,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/cms/user")
-public class UserApi {
+public class UserController {
 
     @Autowired
     private UserService userService;
@@ -51,7 +51,7 @@ public class UserApi {
      */
     @PostMapping("/login")
     public Map login(@RequestBody @Valid LoginValidator validator) throws HttpException {
-        UserPO user = userService.findBy("nickname", validator.getNickname());
+        UserDO user = userService.findBy("nickname", validator.getNickname());
         if (user == null) {
             throw new NotFound("未找到相关用户");
         }
@@ -85,7 +85,7 @@ public class UserApi {
     @GetMapping("/refresh")
     @RefreshRequired
     public Map refreshToken() {
-        UserPO user = LocalUser.getLocalUser(UserPO.class);
+        UserDO user = LocalUser.getLocalUser(UserDO.class);
         Map res = jwt.generateTokens(user.getId());
         return res;
     }
@@ -97,7 +97,7 @@ public class UserApi {
     @LoginRequired
     public Map getAuths() {
         // BaseUserModel user = LocalUser.getLocalUser();
-        UserPO user = LocalUser.getLocalUser(UserPO.class);
+        UserDO user = LocalUser.getLocalUser(UserDO.class);
         // TODO: getAuths，LocalUser, AuthInterceptor
         return new HashMap();
     }
@@ -108,8 +108,8 @@ public class UserApi {
     @LoginRequired
     @RouteMeta(auth = "查询自己信息", module = "用户", mount = true)
     @GetMapping("/information")
-    public UserPO getInformation() {
-        UserPO user = LocalUser.getLocalUser(UserPO.class);
+    public UserDO getInformation() {
+        UserDO user = LocalUser.getLocalUser(UserDO.class);
         return user;
     }
 

@@ -5,7 +5,7 @@ import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.validators.admin.*;
-import com.lin.cms.demo.view.GroupWithAuthsVO;
+import com.lin.cms.demo.BO.GroupWithAuthsBO;
 
 
 public interface AdminService {
@@ -19,7 +19,7 @@ public interface AdminService {
 
     PageResult getGroups(Integer page, Integer count);
 
-    GroupWithAuthsVO getGroup(Integer id);
+    GroupWithAuthsBO getGroup(Integer id);
 
     void createGroup(NewGroupValidator validator) throws Forbidden;
 

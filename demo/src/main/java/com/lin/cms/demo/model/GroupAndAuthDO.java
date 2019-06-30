@@ -3,7 +3,7 @@ package com.lin.cms.demo.model;
 import lombok.Data;
 
 @Data
-public class GroupAndAuthPO {
+public class GroupAndAuthDO {
     private Integer id;
 
     private String name;
