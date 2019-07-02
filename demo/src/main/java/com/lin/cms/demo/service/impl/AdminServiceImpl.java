@@ -10,10 +10,10 @@ import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.service.AdminService;
-import com.lin.cms.demo.BO.GroupWithAuthsBO;
+import com.lin.cms.demo.bo.GroupWithAuthsBO;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.demo.model.*;
-import com.lin.cms.demo.validators.admin.*;
+import com.lin.cms.demo.dto.admin.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void changeUserPassword(Integer id, ResetPasswordValidator validator) throws NotFound {
+    public void changeUserPassword(Integer id, ResetPasswordDTO validator) throws NotFound {
         UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
             throw new NotFound("用户不存在");
@@ -67,7 +67,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateUserInfo(Integer id, UpdateUserInfoValidator validator) throws NotFound, Parameter {
+    public void updateUserInfo(Integer id, UpdateUserInfoDTO validator) throws NotFound, Parameter {
         UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
             throw new NotFound("用户不存在");
@@ -113,7 +113,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    public void createGroup(NewGroupValidator validator) throws Forbidden {
+    public void createGroup(NewGroupDTO validator) throws Forbidden {
         GroupDO exist = groupMapper.findOneByName(validator.getName());
         if (exist != null) {
             throw new Forbidden("分组已存在，不可创建同名分组");
@@ -136,7 +136,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateGroup(Integer id, UpdateGroupValidator validator) throws NotFound {
+    public void updateGroup(Integer id, UpdateGroupDTO validator) throws NotFound {
         GroupDO group = groupMapper.selectByPrimaryKey(id);
         if (group == null) {
             throw new NotFound("分组不存在，更新失败");
@@ -156,11 +156,14 @@ public class AdminServiceImpl implements AdminService {
         if (userByGroupId != null) {
             throw new Forbidden("分组下存在用户，不可删除");
         }
+        // 删除 auths
         authMapper.deleteByGroupId(id);
+        // 删除分组
+        groupMapper.deleteByPrimaryKey(group.getId());
     }
 
     @Override
-    public void dispatchAuth(DispatchAuthValidator validator) throws NotFound, Forbidden {
+    public void dispatchAuth(DispatchAuthDTO validator) throws NotFound, Forbidden {
         GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
@@ -178,14 +181,14 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void dispatchAuths(DispatchAuthsValidator validator) throws NotFound {
+    public void dispatchAuths(DispatchAuthsDTO validator) throws NotFound {
         GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
         }
         validator.getAuths().forEach(item -> {
             AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), item);
-            if (one != null) {
+            if (one == null) {
                 AuthDO auth = new AuthDO();
                 RouteMeta meta = postProcessor.findMetaByAuth(item);
                 auth.setAuth(meta.auth());
@@ -198,7 +201,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public void removeAuths(RemoveAuthsValidator validator) throws NotFound {
+    public void removeAuths(RemoveAuthsDTO validator) throws NotFound {
         GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");

@@ -6,11 +6,11 @@ import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.service.UserService;
 import com.lin.cms.demo.utils.LocalUser;
-import com.lin.cms.demo.validators.user.RegisterValidator;
-import com.lin.cms.demo.validators.user.UpdateInfoValidator;
+import com.lin.cms.demo.dto.user.RegisterDTO;
+import com.lin.cms.demo.dto.user.UpdateInfoDTO;
 import com.lin.cms.demo.service.base.AbstractService;
-import com.lin.cms.demo.validators.user.AvatarUpdateValidator;
-import com.lin.cms.demo.validators.user.ChangePasswordValidator;
+import com.lin.cms.demo.dto.user.AvatarUpdateDTO;
+import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
 
 
     @Override
-    public void createUser(RegisterValidator validator) throws NotFound {
+    public void createUser(RegisterDTO validator) throws NotFound {
 
         UserDO exist = this.findBy("nickname", validator.getNickname());
         if (exist != null) {
@@ -45,7 +45,7 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
     }
 
     @Override
-    public void updateUser(UpdateInfoValidator validator) throws Parameter {
+    public void updateUser(UpdateInfoDTO validator) throws Parameter {
         String email = validator.getEmail();
         UserDO user = LocalUser.getLocalUser(UserDO.class);
         if (!user.getEmail().equals(email)) {
@@ -59,7 +59,7 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
     }
 
     @Override
-    public void changePassword(ChangePasswordValidator validator) throws Parameter {
+    public void changePassword(ChangePasswordDTO validator) throws Parameter {
         UserDO user = LocalUser.getLocalUser(UserDO.class);
         boolean valid = user.verify(validator.getOldPassword());
         if (!valid) {
@@ -70,7 +70,7 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
     }
 
     @Override
-    public void updateAvatar(AvatarUpdateValidator validator) {
+    public void updateAvatar(AvatarUpdateDTO validator) {
         UserDO user = LocalUser.getLocalUser(UserDO.class);
         user.setAvatar(validator.getAvatar());
         this.update(user);

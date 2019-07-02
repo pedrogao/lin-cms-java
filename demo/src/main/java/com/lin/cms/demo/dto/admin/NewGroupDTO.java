@@ -1,4 +1,4 @@
-package com.lin.cms.demo.validators.admin;
+package com.lin.cms.demo.dto.admin;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Data
-public class NewGroupValidator {
+public class NewGroupDTO {
 
 
     @NotBlank(message = "请输入分组名称")

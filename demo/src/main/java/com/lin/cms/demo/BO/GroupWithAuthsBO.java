@@ -1,4 +1,4 @@
-package com.lin.cms.demo.BO;
+package com.lin.cms.demo.bo;
 
 import com.lin.cms.demo.model.SimpleAuthDO;
 import lombok.Data;

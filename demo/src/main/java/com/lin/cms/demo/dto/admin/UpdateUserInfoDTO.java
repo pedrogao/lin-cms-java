@@ -1,4 +1,4 @@
-package com.lin.cms.demo.validators.admin;
+package com.lin.cms.demo.dto.admin;
 
 import lombok.Data;
 
@@ -7,8 +7,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Data
-public class UpdateUserInfoValidator {
-    @NotNull(message = "分组id不可为空")
+public class UpdateUserInfoDTO {
+
     @Min(value = 1, message = "分组id必须是整数，且大于0")
     private Integer groupId;
 

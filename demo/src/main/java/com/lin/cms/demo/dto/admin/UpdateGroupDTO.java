@@ -1,11 +1,11 @@
-package com.lin.cms.demo.validators.admin;
+package com.lin.cms.demo.dto.admin;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class UpdateGroupValidator {
+public class UpdateGroupDTO {
     @NotBlank(message = "请输入分组名称")
     private String name;
 

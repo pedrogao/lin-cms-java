@@ -2,7 +2,7 @@ package com.lin.cms.demo.service.impl;
 
 import com.lin.cms.demo.mapper.BookMapper;
 import com.lin.cms.demo.model.BookDO;
-import com.lin.cms.demo.validators.book.CreateOrUpdateBookValidator;
+import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class BookServiceImplTest {
 
     @Test
     public void createBook() {
-        CreateOrUpdateBookValidator validator = new CreateOrUpdateBookValidator();
+        CreateOrUpdateBookDTO validator = new CreateOrUpdateBookDTO();
         validator.setAuthor(author);
         validator.setImage(image);
         validator.setSummary(summary);
@@ -82,7 +82,7 @@ public class BookServiceImplTest {
 
         String newTitle = "tttttttt";
 
-        CreateOrUpdateBookValidator validator = new CreateOrUpdateBookValidator();
+        CreateOrUpdateBookDTO validator = new CreateOrUpdateBookDTO();
         validator.setAuthor(author);
         validator.setImage(image);
         validator.setSummary(summary);

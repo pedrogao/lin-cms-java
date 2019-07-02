@@ -1,11 +1,11 @@
-package com.lin.cms.demo.validators.user;
+package com.lin.cms.demo.dto.user;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 @Data
-public class LoginValidator {
+public class LoginDTO {
     @NotBlank(message = "用户名不可为空")
     private String nickname;
 

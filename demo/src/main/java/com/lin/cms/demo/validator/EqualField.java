@@ -1,4 +1,4 @@
-package com.lin.cms.demo.validators.base;
+package com.lin.cms.demo.validator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

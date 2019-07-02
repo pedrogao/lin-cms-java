@@ -10,11 +10,11 @@ import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.model.GroupDO;
-import com.lin.cms.demo.BO.GroupWithAuthsBO;
+import com.lin.cms.demo.bo.GroupWithAuthsBO;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.core.result.ResultGenerator;
 import com.lin.cms.demo.service.impl.AdminServiceImpl;
-import com.lin.cms.demo.validators.admin.*;
+import com.lin.cms.demo.dto.admin.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,7 +67,7 @@ public class AdminController {
     @PutMapping("/password/{id}")
     @AdminRequired
     @RouteMeta(auth = "修改用户密码", module = "管理员")
-    public Result changeUserPassword(@PathVariable @PositiveOrZero Integer id, @RequestBody @Valid ResetPasswordValidator validator) throws NotFound {
+    public Result changeUserPassword(@PathVariable @PositiveOrZero Integer id, @RequestBody @Valid ResetPasswordDTO validator) throws NotFound {
         adminService.changeUserPassword(id, validator);
         return ResultGenerator.genSuccessResult("密码修改成功");
     }
@@ -84,7 +84,7 @@ public class AdminController {
     @PutMapping("/{id}")
     @AdminRequired
     @RouteMeta(auth = "管理员更新用户信息", module = "管理员")
-    public Result updateUser(@PathVariable @PositiveOrZero Integer id, @RequestBody @Valid UpdateUserInfoValidator validator) throws NotFound, Parameter {
+    public Result updateUser(@PathVariable @PositiveOrZero Integer id, @RequestBody @Valid UpdateUserInfoDTO validator) throws NotFound, Parameter {
         adminService.updateUserInfo(id, validator);
         return ResultGenerator.genSuccessResult("删除用户成功");
     }
@@ -124,7 +124,7 @@ public class AdminController {
     @PostMapping("/group")
     @AdminRequired
     @RouteMeta(auth = "新建权限组", module = "管理员")
-    public Result createGroup(@RequestBody @Valid NewGroupValidator validator) throws Forbidden {
+    public Result createGroup(@RequestBody @Valid NewGroupDTO validator) throws Forbidden {
         adminService.createGroup(validator);
         return ResultGenerator.genSuccessResult("ok!");
     }
@@ -134,7 +134,7 @@ public class AdminController {
     @AdminRequired
     @RouteMeta(auth = "更新一个权限组", module = "管理员")
     public Result updateGroup(@PathVariable @PositiveOrZero Integer id,
-                              @RequestBody @Valid UpdateGroupValidator validator) throws NotFound {
+                              @RequestBody @Valid UpdateGroupDTO validator) throws NotFound {
         adminService.updateGroup(id, validator);
         return ResultGenerator.genSuccessResult("更新分组成功!");
     }
@@ -150,7 +150,7 @@ public class AdminController {
     @PostMapping("/dispatch")
     @AdminRequired
     @RouteMeta(auth = "分配单个权限", module = "管理员")
-    public Result dispatchAuth(@RequestBody @Valid DispatchAuthValidator validator) throws NotFound, Forbidden {
+    public Result dispatchAuth(@RequestBody @Valid DispatchAuthDTO validator) throws NotFound, Forbidden {
         adminService.dispatchAuth(validator);
         return ResultGenerator.genSuccessResult("添加权限成功!");
     }
@@ -158,7 +158,7 @@ public class AdminController {
     @PostMapping("/dispatch/patch")
     @AdminRequired
     @RouteMeta(auth = "分配多个权限", module = "管理员")
-    public Result dispatchAuths(@RequestBody @Valid DispatchAuthsValidator validator) throws NotFound, Forbidden {
+    public Result dispatchAuths(@RequestBody @Valid DispatchAuthsDTO validator) throws NotFound, Forbidden {
         adminService.dispatchAuths(validator);
         return ResultGenerator.genSuccessResult("添加权限成功!");
     }
@@ -166,7 +166,7 @@ public class AdminController {
     @PostMapping("/remove")
     @AdminRequired
     @RouteMeta(auth = "删除多个权限", module = "管理员")
-    public Result removeAuths(@RequestBody @Valid RemoveAuthsValidator validator) throws NotFound, Forbidden {
+    public Result removeAuths(@RequestBody @Valid RemoveAuthsDTO validator) throws NotFound, Forbidden {
         adminService.removeAuths(validator);
         return ResultGenerator.genSuccessResult("添加权限成功!");
     }

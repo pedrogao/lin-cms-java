@@ -1,7 +1,7 @@
 package com.lin.cms.demo.api.cms;
 
 import com.lin.cms.core.exception.*;
-import com.lin.cms.demo.BO.UploadFileBO;
+import com.lin.cms.demo.bo.UploadFileBO;
 import com.lin.cms.demo.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;

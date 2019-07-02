@@ -3,11 +3,11 @@ package com.lin.cms.demo.service;
 import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.validators.user.RegisterValidator;
-import com.lin.cms.demo.validators.user.UpdateInfoValidator;
+import com.lin.cms.demo.dto.user.RegisterDTO;
+import com.lin.cms.demo.dto.user.UpdateInfoDTO;
 import com.lin.cms.demo.service.base.Service;
-import com.lin.cms.demo.validators.user.AvatarUpdateValidator;
-import com.lin.cms.demo.validators.user.ChangePasswordValidator;
+import com.lin.cms.demo.dto.user.AvatarUpdateDTO;
+import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 
 
 /**
@@ -15,13 +15,13 @@ import com.lin.cms.demo.validators.user.ChangePasswordValidator;
  */
 public interface UserService extends Service<UserDO> {
 
-    void createUser(RegisterValidator validator) throws NotFound;
+    void createUser(RegisterDTO validator) throws NotFound;
 
-    void updateUser(UpdateInfoValidator validator) throws Parameter;
+    void updateUser(UpdateInfoDTO validator) throws Parameter;
 
-    void changePassword(ChangePasswordValidator validator) throws Parameter;
+    void changePassword(ChangePasswordDTO validator) throws Parameter;
 
-    void updateAvatar(AvatarUpdateValidator validator);
+    void updateAvatar(AvatarUpdateDTO validator);
 
     // void getAuths()
 

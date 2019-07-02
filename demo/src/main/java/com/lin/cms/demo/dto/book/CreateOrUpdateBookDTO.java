@@ -1,11 +1,11 @@
-package com.lin.cms.demo.validators.book;
+package com.lin.cms.demo.dto.book;
 
 import lombok.Data;
 
 import javax.validation.constraints.*;
 
 @Data
-public class CreateOrUpdateBookValidator {
+public class CreateOrUpdateBookDTO {
 
     @NotEmpty(message = "必须传入图书名")
     private String title;

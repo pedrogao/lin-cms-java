@@ -2,7 +2,7 @@ package com.lin.cms.demo.service.impl;
 
 import com.lin.cms.demo.mapper.BookMapper;
 import com.lin.cms.demo.model.BookDO;
-import com.lin.cms.demo.validators.book.CreateOrUpdateBookValidator;
+import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
 import com.lin.cms.demo.service.BookService;
 import com.lin.cms.demo.service.base.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class BookServiceImpl extends AbstractService<BookDO> implements BookServ
     private BookMapper bookMapper;
 
     @Override
-    public void createBook(CreateOrUpdateBookValidator validator) {
+    public void createBook(CreateOrUpdateBookDTO validator) {
         BookDO book = new BookDO();
         book.setAuthor(validator.getAuthor());
         book.setTitle(validator.getTitle());
@@ -31,7 +31,7 @@ public class BookServiceImpl extends AbstractService<BookDO> implements BookServ
     }
 
     @Override
-    public void updateBook(BookDO book, CreateOrUpdateBookValidator validator) {
+    public void updateBook(BookDO book, CreateOrUpdateBookDTO validator) {
         book.setAuthor(validator.getAuthor());
         book.setTitle(validator.getTitle());
         book.setImage(validator.getImage());

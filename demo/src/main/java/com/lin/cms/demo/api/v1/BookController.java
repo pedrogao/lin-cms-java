@@ -2,7 +2,7 @@ package com.lin.cms.demo.api.v1;
 
 import com.lin.cms.demo.model.BookDO;
 import com.lin.cms.demo.service.BookService;
-import com.lin.cms.demo.validators.book.CreateOrUpdateBookValidator;
+import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
 import com.lin.cms.core.annotation.GroupRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.exception.NotFound;
@@ -52,14 +52,14 @@ public class BookController {
 
 
     @PostMapping("/")
-    public Result createBook(@RequestBody @Valid CreateOrUpdateBookValidator validator) {
+    public Result createBook(@RequestBody @Valid CreateOrUpdateBookDTO validator) {
         bookService.createBook(validator);
         return ResultGenerator.genSuccessResult("新建图书成功");
     }
 
 
     @PostMapping("/{id}")
-    public Result updateBook(@PathVariable("id") Integer id, @RequestBody @Valid CreateOrUpdateBookValidator validator) throws NotFound {
+    public Result updateBook(@PathVariable("id") Integer id, @RequestBody @Valid CreateOrUpdateBookDTO validator) throws NotFound {
         BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
             throw new NotFound("未找到相关书籍");

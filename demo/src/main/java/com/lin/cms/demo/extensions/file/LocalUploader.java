@@ -3,7 +3,7 @@ package com.lin.cms.demo.extensions.file;
 import com.lin.cms.core.exception.*;
 import com.lin.cms.demo.mapper.FileMapper;
 import com.lin.cms.demo.model.FileDO;
-import com.lin.cms.demo.BO.UploadFileBO;
+import com.lin.cms.demo.bo.UploadFileBO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

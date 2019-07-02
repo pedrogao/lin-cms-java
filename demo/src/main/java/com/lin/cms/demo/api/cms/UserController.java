@@ -13,7 +13,7 @@ import com.lin.cms.demo.utils.LocalUser;
 import com.lin.cms.core.result.ResultGenerator;
 import com.lin.cms.demo.service.UserService;
 import com.lin.cms.token.JWT;
-import com.lin.cms.demo.validators.user.*;
+import com.lin.cms.demo.dto.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +41,7 @@ public class UserController {
      */
     @PostMapping("/register")
     @AdminRequired
-    public Result<String> register(@RequestBody @Valid RegisterValidator validator) throws NotFound {
+    public Result<String> register(@RequestBody @Valid RegisterDTO validator) throws NotFound {
         userService.createUser(validator);
         return ResultGenerator.genSuccessResult("添加成功！");
     }
@@ -50,7 +50,7 @@ public class UserController {
      * 用户登陆
      */
     @PostMapping("/login")
-    public Map login(@RequestBody @Valid LoginValidator validator) throws HttpException {
+    public Map login(@RequestBody @Valid LoginDTO validator) throws HttpException {
         UserDO user = userService.findBy("nickname", validator.getNickname());
         if (user == null) {
             throw new NotFound("未找到相关用户");
@@ -64,7 +64,7 @@ public class UserController {
      */
     @PutMapping
     @LoginRequired
-    public Result update(@RequestBody @Valid UpdateInfoValidator validator) throws Parameter {
+    public Result update(@RequestBody @Valid UpdateInfoDTO validator) throws Parameter {
         userService.updateUser(validator);
         return ResultGenerator.genSuccessResult("更新成功！");
     }
@@ -74,7 +74,7 @@ public class UserController {
      */
     @PutMapping("/change_password")
     @LoginRequired
-    public Result updatePassword(@RequestBody @Valid ChangePasswordValidator validator) throws Parameter {
+    public Result updatePassword(@RequestBody @Valid ChangePasswordDTO validator) throws Parameter {
         userService.changePassword(validator);
         return ResultGenerator.genSuccessResult("密码修改成功！");
     }
@@ -118,7 +118,7 @@ public class UserController {
      */
     @LoginRequired
     @PutMapping("/avatar")
-    public Result updateAvatar(@RequestBody @Valid AvatarUpdateValidator validator) {
+    public Result updateAvatar(@RequestBody @Valid AvatarUpdateDTO validator) {
         userService.updateAvatar(validator);
         return ResultGenerator.genSuccessResult("头像更新成功！");
     }

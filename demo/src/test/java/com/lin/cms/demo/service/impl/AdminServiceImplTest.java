@@ -1,9 +1,17 @@
 package com.lin.cms.demo.service.impl;
 
 import com.lin.cms.core.exception.Forbidden;
+import com.lin.cms.core.exception.NotFound;
+import com.lin.cms.core.exception.Parameter;
+import com.lin.cms.core.result.PageResult;
+import com.lin.cms.demo.bo.GroupWithAuthsBO;
+import com.lin.cms.demo.dto.admin.*;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
-import com.lin.cms.demo.validators.admin.NewGroupValidator;
+import com.lin.cms.demo.mapper.UserMapper;
+import com.lin.cms.demo.model.GroupDO;
+import com.lin.cms.demo.model.SimpleAuthDO;
+import com.lin.cms.demo.model.UserDO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,6 +42,22 @@ public class AdminServiceImplTest {
     @Autowired
     private GroupMapper groupMapper;
 
+    @Autowired
+    private UserMapper userMapper;
+
+    private String email = "13129982604@qq.com";
+    private String password = "123456";
+    private Integer groupId;
+    private String nickname = "pedro";
+
+    private Integer userId;
+
+    private String module = "信息";
+    private String auth = "查看lin的信息";
+
+    private String name = "千里之外";
+    private String info = "千里之外是个啥";
+
     @Before
     public void setUp() throws Exception {
     }
@@ -42,62 +68,207 @@ public class AdminServiceImplTest {
 
     @Test
     public void getUsers() {
+        PageResult users = adminService.getUsers(100, 10, 0);
+        assertTrue(users.getTotalNums() == 0);
+
+        PageResult users1 = adminService.getUsers(null, 10, 0);
+        assertTrue(users1.getTotalNums() == 0);
     }
 
     @Test
-    public void changeUserPassword() {
+    public void changeUserPassword() throws NotFound {
+        UserDO userDO = new UserDO();
+        userDO.setNickname(nickname);
+        userDO.setPasswordEncrypt(password);
+        userDO.setEmail(email);
+        userMapper.insertSelective(userDO);
+        this.userId = userDO.getId();
+
+        String newPassword = "111111111";
+
+        ResetPasswordDTO dto = new ResetPasswordDTO();
+        dto.setNewPassword(newPassword);
+        dto.setConfirmPassword(newPassword);
+        adminService.changeUserPassword(this.userId, dto);
+
+        UserDO aDo = userMapper.selectByPrimaryKey(this.userId);
+        boolean valid = aDo.verify(newPassword);
+        assertTrue(valid);
     }
 
     @Test
-    public void deleteUser() {
+    public void deleteUser() throws NotFound {
+        UserDO userDO = new UserDO();
+        userDO.setNickname(nickname);
+        userDO.setPasswordEncrypt(password);
+        userDO.setEmail(email);
+        userMapper.insertSelective(userDO);
+        this.userId = userDO.getId();
+
+        adminService.deleteUser(this.userId);
+
+        UserDO user = userMapper.findOneUserByIdAndDeleteTime(this.userId);
+        assertNull(user);
     }
 
     @Test
-    public void updateUserInfo() {
+    public void updateUserInfo() throws NotFound, Parameter {
+        UserDO userDO = new UserDO();
+        userDO.setNickname(nickname);
+        userDO.setPasswordEncrypt(password);
+        userDO.setEmail(email);
+        userMapper.insertSelective(userDO);
+        this.userId = userDO.getId();
+
+        UpdateUserInfoDTO dto = new UpdateUserInfoDTO();
+        dto.setGroupId(1);
+        dto.setEmail("23129982604@qq.com");
+
+        adminService.updateUserInfo(this.userId, dto);
+
+        UserDO user = userMapper.findOneUserByIdAndDeleteTime(userId);
+        assertEquals(user.getGroupId(), new Integer(1));
+        assertEquals(user.getEmail(), "23129982604@qq.com");
     }
 
     @Test
     public void getGroups() {
+        GroupDO groupDO = new GroupDO();
+        groupDO.setName(name);
+        groupDO.setInfo(info);
+        groupMapper.insertSelective(groupDO);
+
+        PageResult groups = adminService.getGroups(0, 10);
+
+        assertTrue(groups.getTotalNums() > 0);
     }
 
     @Test
     public void getGroup() {
+        GroupDO groupDO = new GroupDO();
+        groupDO.setName(name);
+        groupDO.setInfo(info);
+        groupMapper.insertSelective(groupDO);
+
+        GroupWithAuthsBO authsBO = adminService.getGroup(groupDO.getId());
+        assertEquals(authsBO.getName(), name);
+        assertTrue(authsBO.getAuths().size() == 0);
     }
 
     @Test
     public void createGroup() throws Forbidden {
-        NewGroupValidator validator = new NewGroupValidator();
+        NewGroupDTO validator = new NewGroupDTO();
 
-        validator.setName("linger");
-        validator.setInfo("linger is a finger");
+        validator.setName("logger");
+        validator.setInfo("logger is a finger");
         List<String> auths = new ArrayList<>();
         auths.add("查询自己信息");
         auths.add("查询所有日志");
         auths.add("搜索日志");
         auths.add("查询日志记录的用户");
         validator.setAuths(auths);
-
         adminService.createGroup(validator);
 
+
+        GroupDO groupDO = groupMapper.findOneByName("logger");
+        assertEquals(groupDO.getInfo(), "logger is a finger");
+
+        List<SimpleAuthDO> authDOS = authMapper.findByGroupId(groupDO.getId());
+        assertTrue(authDOS.size() > 1);
     }
 
     @Test
-    public void updateGroup() {
+    public void updateGroup() throws NotFound {
+        GroupDO groupDO = new GroupDO();
+        groupDO.setName(name);
+        groupDO.setInfo(info);
+        groupMapper.insertSelective(groupDO);
+
+        String newName = "我就是一个新的分组名";
+        UpdateGroupDTO dto = new UpdateGroupDTO();
+        dto.setName(newName);
+        adminService.updateGroup(groupDO.getId(), dto);
+
+        GroupDO aDo = groupMapper.selectByPrimaryKey(groupDO.getId());
+        assertEquals(aDo.getName(), newName);
     }
 
     @Test
-    public void deleteGroup() {
+    public void deleteGroup() throws NotFound, Forbidden {
+        GroupDO groupDO = new GroupDO();
+        groupDO.setName(name);
+        groupDO.setInfo(info);
+        groupMapper.insertSelective(groupDO);
+
+        adminService.deleteGroup(groupDO.getId());
+
+        GroupDO aDo = groupMapper.selectByPrimaryKey(groupDO.getId());
+        assertNull(aDo);
     }
 
     @Test
-    public void dispatchAuth() {
+    public void dispatchAuth() throws NotFound, Forbidden {
+        GroupDO groupDO = new GroupDO();
+        groupDO.setName(name);
+        groupDO.setInfo(info);
+        groupMapper.insertSelective(groupDO);
+
+        DispatchAuthDTO dto = new DispatchAuthDTO();
+        dto.setGroupId(groupDO.getId());
+        dto.setAuth("查询自己信息");
+
+        adminService.dispatchAuth(dto);
+
+        List<SimpleAuthDO> dos = authMapper.findByGroupId(groupDO.getId());
+        assertTrue(dos.size() > 0);
     }
 
     @Test
-    public void dispatchAuths() {
+    public void dispatchAuths() throws NotFound {
+        GroupDO groupDO = new GroupDO();
+        groupDO.setName(name);
+        groupDO.setInfo(info);
+        groupMapper.insertSelective(groupDO);
+
+        DispatchAuthsDTO dto = new DispatchAuthsDTO();
+        dto.setGroupId(groupDO.getId());
+
+        List<String> auths = new ArrayList<>();
+        auths.add("查询自己信息");
+        auths.add("查询所有日志");
+        auths.add("搜索日志");
+        auths.add("查询日志记录的用户");
+        dto.setAuths(auths);
+
+        adminService.dispatchAuths(dto);
+
+        List<SimpleAuthDO> dos = authMapper.findByGroupId(groupDO.getId());
+        assertTrue(dos.size() > 1);
     }
 
     @Test
-    public void removeAuths() {
+    public void removeAuths() throws NotFound, Forbidden {
+        GroupDO groupDO = new GroupDO();
+        groupDO.setName(name);
+        groupDO.setInfo(info);
+        groupMapper.insertSelective(groupDO);
+
+        DispatchAuthDTO dto = new DispatchAuthDTO();
+        dto.setGroupId(groupDO.getId());
+        dto.setAuth("查询自己信息");
+
+        adminService.dispatchAuth(dto);
+
+        RemoveAuthsDTO validator = new RemoveAuthsDTO();
+        validator.setGroupId(groupDO.getId());
+
+        List<String> auths = new ArrayList<>();
+        auths.add("查询自己信息");
+        validator.setAuths(auths);
+
+        adminService.removeAuths(validator);
+
+        List<SimpleAuthDO> dos = authMapper.findByGroupId(groupDO.getId());
+        assertTrue(dos.size() == 0);
     }
 }
