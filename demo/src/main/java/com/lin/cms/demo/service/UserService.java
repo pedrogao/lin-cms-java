@@ -1,6 +1,6 @@
 package com.lin.cms.demo.service;
 
-import com.lin.cms.core.exception.NotFound;
+import com.lin.cms.core.exception.Forbidden;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.dto.user.RegisterDTO;
@@ -15,7 +15,7 @@ import com.lin.cms.demo.dto.user.ChangePasswordDTO;
  */
 public interface UserService extends Service<UserDO> {
 
-    void createUser(RegisterDTO validator) throws NotFound;
+    void createUser(RegisterDTO validator) throws Forbidden;
 
     void updateUser(UpdateInfoDTO validator) throws Parameter;
 

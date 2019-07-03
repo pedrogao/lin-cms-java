@@ -49,17 +49,19 @@ public class LogServiceImpl extends AbstractService<LogDO> implements LogService
     }
 
     @Override
-    public void createOneLog(String message, RouteMeta meta, UserDO user, HttpServletRequest request, HttpServletResponse response) {
+    public void createOneLog(String message, String authority, Integer userId,
+                             String userNickname, String method, String path,
+                             Integer status) {
         //authority: auth
         LogDO record = new LogDO();
         record.setMessage(message);
-        record.setUserId(user.getId());
-        record.setUserName(user.getNickname());
-        record.setStatusCode(response.getStatus());
-        record.setMethod(request.getMethod());
-        record.setPath(request.getServletPath());
-        if (meta != null) {
-            record.setAuthority(meta.auth());
+        record.setUserId(userId);
+        record.setUserName(userNickname);
+        record.setStatusCode(status);
+        record.setMethod(method);
+        record.setPath(path);
+        if (authority != null) {
+            record.setAuthority(authority);
         }
         logMapper.insertSelective(record);
     }

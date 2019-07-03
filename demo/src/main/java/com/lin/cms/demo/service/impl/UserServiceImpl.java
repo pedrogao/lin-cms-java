@@ -1,6 +1,6 @@
 package com.lin.cms.demo.service.impl;
 
-import com.lin.cms.core.exception.NotFound;
+import com.lin.cms.core.exception.Forbidden;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.UserDO;
@@ -26,13 +26,12 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
 
 
     @Override
-    public void createUser(RegisterDTO validator) throws NotFound {
+    public void createUser(RegisterDTO validator) throws Forbidden {
 
         UserDO exist = this.findBy("nickname", validator.getNickname());
         if (exist != null) {
-            throw new NotFound("用户已经存在");
+            throw new Forbidden("用户已经存在");
         }
-
         UserDO user = new UserDO();
         user.setNickname(validator.getNickname());
         user.setPasswordEncrypt(validator.getPassword());
@@ -47,7 +46,7 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
     @Override
     public void updateUser(UpdateInfoDTO validator) throws Parameter {
         String email = validator.getEmail();
-        UserDO user = LocalUser.getLocalUser(UserDO.class);
+        UserDO user = LocalUser.getLocalUser();
         if (!user.getEmail().equals(email)) {
             UserDO exist = this.findBy("email", validator.getEmail());
             if (exist != null) {
@@ -60,7 +59,7 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
 
     @Override
     public void changePassword(ChangePasswordDTO validator) throws Parameter {
-        UserDO user = LocalUser.getLocalUser(UserDO.class);
+        UserDO user = LocalUser.getLocalUser();
         boolean valid = user.verify(validator.getOldPassword());
         if (!valid) {
             throw new Parameter("请输入正确的旧密码");
@@ -71,7 +70,7 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
 
     @Override
     public void updateAvatar(AvatarUpdateDTO validator) {
-        UserDO user = LocalUser.getLocalUser(UserDO.class);
+        UserDO user = LocalUser.getLocalUser();
         user.setAvatar(validator.getAvatar());
         this.update(user);
     }

@@ -4,6 +4,7 @@ import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.LoginRequired;
 import com.lin.cms.core.annotation.RefreshRequired;
 import com.lin.cms.core.annotation.RouteMeta;
+import com.lin.cms.core.exception.Forbidden;
 import com.lin.cms.core.exception.HttpException;
 import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.exception.Parameter;
@@ -41,7 +42,7 @@ public class UserController {
      */
     @PostMapping("/register")
     @AdminRequired
-    public Result<String> register(@RequestBody @Valid RegisterDTO validator) throws NotFound {
+    public Result<String> register(@RequestBody @Valid RegisterDTO validator) throws Forbidden {
         userService.createUser(validator);
         return ResultGenerator.genSuccessResult("添加成功！");
     }

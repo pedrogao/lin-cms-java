@@ -32,7 +32,13 @@ public class LoggerImpl implements LoggerResolver {
         String template = logger.template();
         UserDO user = LocalUser.getLocalUser(UserDO.class);
         template = this.parseTemplate(template, user, request, response);
-        logService.createOneLog(template, meta, user, request, response);
+        String authority = meta.auth();
+        Integer userId = user.getId();
+        String userName = user.getNickname();
+        String method = request.getMethod();
+        String path = request.getServletPath();
+        Integer status = response.getStatus();
+        logService.createOneLog(template, authority, userId, userName, method, path, status);
     }
 
     private String parseTemplate(String template, UserDO user, HttpServletRequest request, HttpServletResponse response) {
