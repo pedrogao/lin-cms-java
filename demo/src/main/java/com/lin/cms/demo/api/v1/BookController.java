@@ -58,7 +58,7 @@ public class BookController {
     }
 
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public Result updateBook(@PathVariable("id") Integer id, @RequestBody @Valid CreateOrUpdateBookDTO validator) throws NotFound {
         BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
