@@ -12,7 +12,7 @@ import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.bo.GroupWithAuthsBO;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
-import com.lin.cms.core.result.ResultGenerator;
+import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.demo.service.impl.AdminServiceImpl;
 import com.lin.cms.demo.dto.admin.*;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -11,7 +11,7 @@ import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.utils.LocalUser;
-import com.lin.cms.core.result.ResultGenerator;
+import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.demo.service.UserService;
 import com.lin.cms.token.JWT;
 import com.lin.cms.demo.dto.user.*;

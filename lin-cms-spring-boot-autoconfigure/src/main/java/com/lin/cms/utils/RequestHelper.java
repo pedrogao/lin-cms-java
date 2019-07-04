@@ -1,4 +1,4 @@
-package com.lin.cms.core.utils;
+package com.lin.cms.utils;
 
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;

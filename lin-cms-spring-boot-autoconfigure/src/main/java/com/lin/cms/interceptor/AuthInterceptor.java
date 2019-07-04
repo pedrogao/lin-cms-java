@@ -6,7 +6,7 @@ import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.enums.UserLevel;
 import com.lin.cms.core.result.ErrCode;
 import com.lin.cms.core.result.Result;
-import com.lin.cms.core.result.ResultGenerator;
+import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.core.utils.AnnotationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -5,7 +5,7 @@ import com.lin.cms.core.exception.HttpException;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.core.result.ErrCode;
 import com.lin.cms.core.result.Result;
-import com.lin.cms.core.result.ResultGenerator;
+import com.lin.cms.utils.ResultGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Value;

@@ -2,7 +2,7 @@ package com.lin.cms.core.exception;
 
 
 import com.lin.cms.core.result.ErrCode;
-import org.springframework.http.HttpStatus;
+import com.lin.cms.core.enums.HttpStatus;
 
 public class HttpException extends Exception {
 

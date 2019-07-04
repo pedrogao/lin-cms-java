@@ -7,7 +7,7 @@ import com.lin.cms.core.annotation.GroupRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.exception.NotFound;
 import com.lin.cms.core.result.Result;
-import com.lin.cms.core.result.ResultGenerator;
+import com.lin.cms.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

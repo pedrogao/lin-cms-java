@@ -2,7 +2,7 @@ package com.lin.cms.core.exception;
 
 import com.lin.cms.core.result.ErrCode;
 import lombok.Data;
-import org.springframework.http.HttpStatus;
+import com.lin.cms.core.enums.HttpStatus;
 
 @Data
 public class AuthFailed extends HttpException {
