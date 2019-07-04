@@ -5,10 +5,13 @@ import com.lin.cms.core.exception.HttpException;
 import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.core.result.ErrCode;
 import com.lin.cms.core.result.Result;
+import com.lin.cms.interfaces.ExceptionResultResolver;
 import com.lin.cms.utils.ResultGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
@@ -34,6 +37,9 @@ public class ExceptionHandler implements HandlerExceptionResolver {
 
     @Value("${spring.servlet.multipart.max-file-size}")
     private String maxFileSize;
+
+    @Autowired
+    private ExceptionResultResolver exceptionResultResolver;
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
@@ -103,7 +109,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             }
             log.error(message, e);
         }
-        ResultGenerator.writeResult(response, result);
+        exceptionResultResolver.rewrite(response, result, e);
         return new ModelAndView();
     }
 }

@@ -1,14 +1,17 @@
 package com.lin.cms.autoconfigure;
 
+import com.lin.cms.beans.ExceptionResultImpl;
 import com.lin.cms.beans.Manager;
 import com.lin.cms.exception.ExceptionHandler;
 import com.lin.cms.interceptor.AuthInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
+import com.lin.cms.interfaces.ExceptionResultResolver;
 import com.lin.cms.token.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -48,6 +51,12 @@ public class LinCmsAutoConfigure {
             refreshExpire = 60 * 60 * 24 * 30L;
         }
         return new JWT(secret, accessExpire, refreshExpire);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(ExceptionResultResolver.class)
+    public ExceptionResultImpl exceptionResult() {
+        return new ExceptionResultImpl();
     }
 
     @Bean
