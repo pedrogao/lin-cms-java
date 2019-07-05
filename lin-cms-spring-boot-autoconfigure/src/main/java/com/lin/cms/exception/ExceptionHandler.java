@@ -59,21 +59,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
                     .setUrl(request.getServletPath())
                     .setMsg(e.getMessage());
         } else if (e instanceof MethodArgumentNotValidException) {
-            MethodArgumentNotValidException exception = (MethodArgumentNotValidException) e;
-            BindingResult bindingResult = exception.getBindingResult();
-            List<ObjectError> errors = bindingResult.getAllErrors();
-            Map<String, Object> msg = new HashMap<>();
-            errors.forEach(error -> {
-                if (error instanceof FieldError) {
-                    FieldError fieldError = (FieldError) error;
-                    msg.put(fieldError.getField(), fieldError.getDefaultMessage());
-                } else {
-                    msg.put(error.getObjectName(), error.getDefaultMessage());
-                }
-            });
-            Parameter parameter = new Parameter();
-            parameter.setMsg(msg);
-            result = ResultGenerator.genResult(parameter);
+            result = this.handleMethodArgumentNotValidException(e);
         } else if (e instanceof HttpMessageNotReadableException) {
             // org.springframework.http.converter.HttpMessageNotReadableException
             Parameter parameter = new Parameter();
@@ -91,25 +77,46 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             fileTooLarge.setMsg("总体文件大小不能超过" + maxFileSize);
             result = ResultGenerator.genResult(fileTooLarge);
         } else {
-            result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .setErrCode(ErrCode.INTERNAL_SERVER_ERROR.getCode())
-                    .setUrl(request.getServletPath())
-                    .setMsg("服务器内部错误，正在抓紧排查");
-
-            String message;
-            if (handler instanceof HandlerMethod) {
-                HandlerMethod handlerMethod = (HandlerMethod) handler;
-                message = String.format("接口 [%s] 出现异常，方法：%s.%s，异常摘要：%s",
-                        request.getRequestURI(),
-                        handlerMethod.getBean().getClass().getName(),
-                        handlerMethod.getMethod().getName(),
-                        e.getMessage());
-            } else {
-                message = e.getMessage();
-            }
-            log.error(message, e);
+            this.handleUnknownException(result, e, request, handler);
         }
         exceptionResultResolver.rewrite(response, result, e);
         return new ModelAndView();
+    }
+
+    private Result handleMethodArgumentNotValidException(Exception e) {
+        MethodArgumentNotValidException exception = (MethodArgumentNotValidException) e;
+        BindingResult bindingResult = exception.getBindingResult();
+        List<ObjectError> errors = bindingResult.getAllErrors();
+        Map<String, Object> msg = new HashMap<>();
+        errors.forEach(error -> {
+            if (error instanceof FieldError) {
+                FieldError fieldError = (FieldError) error;
+                msg.put(fieldError.getField(), fieldError.getDefaultMessage());
+            } else {
+                msg.put(error.getObjectName(), error.getDefaultMessage());
+            }
+        });
+        Parameter parameter = new Parameter();
+        parameter.setMsg(msg);
+        return ResultGenerator.genResult(parameter);
+    }
+
+    private void handleUnknownException(Result result, Exception e, HttpServletRequest request, Object handler) {
+        result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .setErrCode(ErrCode.INTERNAL_SERVER_ERROR.getCode())
+                .setUrl(request.getServletPath())
+                .setMsg("服务器内部错误，正在抓紧排查");
+        String message;
+        if (handler instanceof HandlerMethod) {
+            HandlerMethod handlerMethod = (HandlerMethod) handler;
+            message = String.format("接口 [%s] 出现异常，方法：%s.%s，异常摘要：%s",
+                    request.getRequestURI(),
+                    handlerMethod.getBean().getClass().getName(),
+                    handlerMethod.getMethod().getName(),
+                    e.getMessage());
+        } else {
+            message = e.getMessage();
+        }
+        log.error(message, e);
     }
 }

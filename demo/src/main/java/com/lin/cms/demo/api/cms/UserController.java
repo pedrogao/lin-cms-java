@@ -44,7 +44,7 @@ public class UserController {
     @AdminRequired
     public Result<String> register(@RequestBody @Valid RegisterDTO validator) throws Forbidden {
         userService.createUser(validator);
-        return ResultGenerator.genSuccessResult("添加成功！");
+        return ResultGenerator.genSuccessResult("添加用户成功！");
     }
 
     /**
@@ -97,7 +97,6 @@ public class UserController {
     @GetMapping("/auths")
     @LoginRequired
     public Map getAuths() {
-        // BaseUserModel user = LocalUser.getLocalUser();
         UserDO user = LocalUser.getLocalUser(UserDO.class);
         // TODO: getAuths，LocalUser, AuthInterceptor
         return new HashMap();
