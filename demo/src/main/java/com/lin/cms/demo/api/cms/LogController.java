@@ -22,7 +22,7 @@ public class LogController {
     @Autowired
     private LogService logService;
 
-    @GetMapping("")
+    @GetMapping("/")
     @RouteMeta(auth = "查询所有日志", module = "日志", mount = true)
     @GroupRequired
     public PageResult getLogs(

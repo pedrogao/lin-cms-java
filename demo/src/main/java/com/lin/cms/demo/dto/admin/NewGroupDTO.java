@@ -1,8 +1,8 @@
 package com.lin.cms.demo.dto.admin;
 
+import com.lin.cms.demo.validator.NotEmptyFields;
 import lombok.Data;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
 
@@ -15,7 +15,6 @@ public class NewGroupDTO {
 
     private String info;
 
-    @NotBlank(message = "请输入auths字段")
-    @Valid
+    @NotEmptyFields(message = "请输入auths字段")
     private List<String> auths;
 }

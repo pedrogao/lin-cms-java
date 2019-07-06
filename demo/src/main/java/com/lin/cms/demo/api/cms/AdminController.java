@@ -86,7 +86,7 @@ public class AdminController {
     @RouteMeta(auth = "管理员更新用户信息", module = "管理员")
     public Result updateUser(@PathVariable @PositiveOrZero Integer id, @RequestBody @Valid UpdateUserInfoDTO validator) throws NotFound, Parameter {
         adminService.updateUserInfo(id, validator);
-        return ResultGenerator.genSuccessResult("删除用户成功");
+        return ResultGenerator.genSuccessResult("更新用户成功");
     }
 
     @GetMapping("/groups")
@@ -126,7 +126,7 @@ public class AdminController {
     @RouteMeta(auth = "新建权限组", module = "管理员")
     public Result createGroup(@RequestBody @Valid NewGroupDTO validator) throws Forbidden {
         adminService.createGroup(validator);
-        return ResultGenerator.genSuccessResult("ok!");
+        return ResultGenerator.genSuccessResult("新建分组成功！");
     }
 
 
@@ -168,7 +168,7 @@ public class AdminController {
     @RouteMeta(auth = "删除多个权限", module = "管理员")
     public Result removeAuths(@RequestBody @Valid RemoveAuthsDTO validator) throws NotFound, Forbidden {
         adminService.removeAuths(validator);
-        return ResultGenerator.genSuccessResult("添加权限成功!");
+        return ResultGenerator.genSuccessResult("删除权限成功!");
     }
 
 }
