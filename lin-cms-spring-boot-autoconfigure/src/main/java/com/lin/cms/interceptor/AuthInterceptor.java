@@ -40,6 +40,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
             // 如果视图函数没有 RouteMeta 注解，那么视图函数没有被加入到权限控制中
             // 因此，即使被 LoginRequired 等注解装饰，也不会被权限校验
+            // TODO: 考虑meta的存在与否
             if (meta == null) {
                 return true;
             }

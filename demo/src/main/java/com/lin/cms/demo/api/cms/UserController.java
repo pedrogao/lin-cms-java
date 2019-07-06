@@ -11,6 +11,7 @@ import com.lin.cms.core.exception.Parameter;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.utils.LocalUser;
+import com.lin.cms.demo.vo.UserWithAuthsVO;
 import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.demo.service.UserService;
 import com.lin.cms.token.JWT;
@@ -19,7 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -86,7 +87,7 @@ public class UserController {
     @GetMapping("/refresh")
     @RefreshRequired
     public Map refreshToken() {
-        UserDO user = LocalUser.getLocalUser(UserDO.class);
+        UserDO user = LocalUser.getLocalUser();
         Map res = jwt.generateTokens(user.getId());
         return res;
     }
@@ -96,10 +97,14 @@ public class UserController {
      */
     @GetMapping("/auths")
     @LoginRequired
-    public Map getAuths() {
-        UserDO user = LocalUser.getLocalUser(UserDO.class);
-        // TODO: getAuths，LocalUser, AuthInterceptor
-        return new HashMap();
+    @RouteMeta(auth = "查询自己拥有的权限", module = "用户", mount = true)
+    public UserWithAuthsVO getAuths() {
+        UserDO user = LocalUser.getLocalUser();
+        if (user.ifIsAdmin()) {
+            return new UserWithAuthsVO(user);
+        }
+        List<Map<String, List<Map<String, String>>>> auths = userService.getAuths(user.getGroupId());
+        return new UserWithAuthsVO(user, auths);
     }
 
     /**
@@ -109,7 +114,7 @@ public class UserController {
     @RouteMeta(auth = "查询自己信息", module = "用户", mount = true)
     @GetMapping("/information")
     public UserDO getInformation() {
-        UserDO user = LocalUser.getLocalUser(UserDO.class);
+        UserDO user = LocalUser.getLocalUser();
         return user;
     }
 

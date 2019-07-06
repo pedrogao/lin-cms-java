@@ -9,6 +9,9 @@ import com.lin.cms.demo.service.base.Service;
 import com.lin.cms.demo.dto.user.AvatarUpdateDTO;
 import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Created by lin on 2019/06/06.
@@ -23,6 +26,5 @@ public interface UserService extends Service<UserDO> {
 
     void updateAvatar(AvatarUpdateDTO validator);
 
-    // void getAuths()
-
+    List<Map<String, List<Map<String, String>>>> getAuths(Integer groupId);
 }
