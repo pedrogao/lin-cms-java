@@ -1,6 +1,5 @@
 package com.lin.cms.demo.bo;
 
-import com.lin.cms.demo.model.SimpleAuthDO;
 import lombok.Data;
 
 import java.util.List;
@@ -13,5 +12,5 @@ public class GroupWithAuthsBO {
 
     private String info;
 
-    private List<SimpleAuthDO> auths;
+    private List auths;
 }

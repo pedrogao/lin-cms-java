@@ -14,6 +14,7 @@ import com.lin.cms.demo.bo.GroupWithAuthsBO;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.demo.model.*;
 import com.lin.cms.demo.dto.admin.*;
+import com.lin.cms.demo.utils.AuthSpliter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class AdminServiceImpl implements AdminService {
@@ -107,7 +109,8 @@ public class AdminServiceImpl implements AdminService {
         GroupWithAuthsBO tmp = new GroupWithAuthsBO();
         BeanUtils.copyProperties(group, tmp);
         List<SimpleAuthDO> auths = authMapper.findByGroupId(group.getId());
-        tmp.setAuths(auths);
+        List<Map<String, List<Map<String, String>>>> structualAuths = AuthSpliter.splitAuths(auths);
+        tmp.setAuths(structualAuths);
         return tmp;
     }
 

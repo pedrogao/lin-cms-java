@@ -44,7 +44,7 @@ public class AdminController {
 
     @GetMapping("/authority")
     @AdminRequired
-    @RouteMeta(auth = "查询所有可分配的权限", module = "管理员", mount = true)
+    @RouteMeta(auth = "查询所有可分配的权限", module = "管理员")
     public Map getAuthority() {
         return postBeanProcessor.getStructuralMeta();
     }
@@ -52,7 +52,7 @@ public class AdminController {
 
     @GetMapping("/users")
     @AdminRequired
-    @RouteMeta(auth = "查询所有用户", module = "管理员", mount = false)
+    @RouteMeta(auth = "查询所有用户", module = "管理员")
     public PageResult getAdminUsers(
             @RequestParam(name = "group_id", required = false)
             @Min(value = 1, message = "分组id必须为正整数") Integer groupId,

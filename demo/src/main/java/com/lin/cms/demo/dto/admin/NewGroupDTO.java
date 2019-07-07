@@ -15,6 +15,6 @@ public class NewGroupDTO {
 
     private String info;
 
-    @NotEmptyFields(message = "请输入auths字段")
+    @NotEmptyFields(message = "请输入auths字段，且每一项不可为空")
     private List<String> auths;
 }

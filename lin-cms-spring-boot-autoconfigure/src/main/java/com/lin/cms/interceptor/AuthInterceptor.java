@@ -28,7 +28,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (authInterceptorResolver == null) {
+        if (request.getMethod().equals("OPTIONS")) {
             // 如果没有实现 AuthVerifyResolver 接口的类，则规定一切为true
             return true;
         }

@@ -33,8 +33,8 @@ import java.util.List;
 @Slf4j
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${spring.profiles.active}")
-    private String env;//当前激活的配置文件
+    @Value("${auth.enabled}")
+    private boolean authEnabled;//当前激活的配置文件
 
     @Autowired
     private AuthInterceptor authInterceptor;
@@ -83,7 +83,10 @@ public class WebConfig implements WebMvcConfigurer {
     //解决跨域问题
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
+        registry.addMapping("/**")
+                .allowedMethods("*")
+                .allowedOrigins("*")
+                .allowedHeaders("*");
     }
 
     // 添加拦截器
@@ -91,7 +94,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //接口签名认证拦截器，dev(生产环境)下不启用，方便测试
-        if (!"dev1".equals(env)) { //开发环境忽略签名认证
+        if (authEnabled) { //开发环境忽略签名认证
             registry.addInterceptor(authInterceptor);
         }
         registry.addInterceptor(logInterceptor);

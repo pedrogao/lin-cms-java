@@ -7,6 +7,7 @@ import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.SimpleAuthDO;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.service.UserService;
+import com.lin.cms.demo.utils.AuthSpliter;
 import com.lin.cms.demo.utils.LocalUser;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
@@ -88,29 +89,6 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
     @Override
     public List<Map<String, List<Map<String, String>>>> getAuths(Integer groupId) {
         List<SimpleAuthDO> auths = authMapper.findByGroupId(groupId);
-        Map<String, List<Map<String, String>>> tmp = new HashMap();
-        auths.forEach(auth -> {
-            if (!tmp.containsKey(auth.getModule())) {
-                Map<String, String> tiny = new HashMap();
-                tiny.put("module", auth.getModule());
-                tiny.put("auth", auth.getAuth());
-                List<Map<String, String>> mini = new ArrayList();
-                mini.add(tiny);
-                tmp.put(auth.getModule(), mini);
-            } else {
-                Map<String, String> tiny = new HashMap();
-                tiny.put("module", auth.getModule());
-                tiny.put("auth", auth.getAuth());
-                tmp.get(auth.getModule()).add(tiny);
-            }
-            auth.getAuth();
-        });
-        List<Map<String, List<Map<String, String>>>> structual = new ArrayList();
-        tmp.forEach((k, v) -> {
-            Map<String, List<Map<String, String>>> ttmp = new HashMap();
-            ttmp.put(k, v);
-            structual.add(ttmp);
-        });
-        return structual;
+        return AuthSpliter.splitAuths(auths);
     }
 }
