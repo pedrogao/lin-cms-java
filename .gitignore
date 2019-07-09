@@ -36,3 +36,6 @@ assets/
 logs/
 
 
+application-prod.properties
+
+
