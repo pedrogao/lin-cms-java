@@ -5,6 +5,7 @@ import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
+import com.lin.cms.demo.interceptor.RequestLogInterceptor;
 import com.lin.cms.exception.ExceptionHandler;
 import com.lin.cms.interceptor.AuthInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
@@ -34,7 +35,10 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     @Value("${auth.enabled}")
-    private boolean authEnabled;//当前激活的配置文件
+    private boolean authEnabled;
+
+    @Value("${request-log.enabled}")
+    private boolean requestLogEnabled;
 
     @Autowired
     private AuthInterceptor authInterceptor;
@@ -44,6 +48,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
     private ExceptionHandler exceptionHandler;
+
+    @Autowired
+    private RequestLogInterceptor requestLogInterceptor;
 
     @Value("${lin.cms.file.store-dir}")
     private String dir;
@@ -93,9 +100,11 @@ public class WebConfig implements WebMvcConfigurer {
     // 权限拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //接口签名认证拦截器，dev(生产环境)下不启用，方便测试
         if (authEnabled) { //开发环境忽略签名认证
             registry.addInterceptor(authInterceptor);
+        }
+        if (requestLogEnabled) {
+            registry.addInterceptor(requestLogInterceptor);
         }
         registry.addInterceptor(logInterceptor);
     }

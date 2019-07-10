@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.lin.cms.beans.Manager;
 import com.lin.cms.demo.exception.ExceptionResultImpl;
 import com.lin.cms.demo.extensions.file.FileProperties;
+import com.lin.cms.demo.interceptor.RequestLogInterceptor;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,11 @@ public class CommonConfig {
     @Bean
     public ExceptionResultImpl exceptionResult() {
         return new ExceptionResultImpl();
+    }
+
+    @Bean
+    public RequestLogInterceptor requestLogInterceptor() {
+        return new RequestLogInterceptor();
     }
 
 
