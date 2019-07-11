@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -59,7 +61,13 @@ public class AdvanceRollingFileAppender<E> extends FileAppender<E> {
      * @param dir
      */
     public void setDir(String dir) {
-        this.dir = dir;
+        if (this.isAbsolute(dir)) {
+            this.dir = dir;
+        } else {
+            String cmd = System.getProperty("user.dir");
+            Path path = FileSystems.getDefault().getPath(cmd, dir);
+            this.dir = path.toAbsolutePath().toString();
+        }
     }
 
     public FileSize getMaxFileSize() {
@@ -376,5 +384,11 @@ public class AdvanceRollingFileAppender<E> extends FileAppender<E> {
         } else {
             super.writeOut(event);
         }
+    }
+
+    @SuppressWarnings("Since15")
+    private boolean isAbsolute(String str) {
+        Path path = FileSystems.getDefault().getPath(str);
+        return path.isAbsolute();
     }
 }
