@@ -1,10 +1,13 @@
 package com.lin.cms.demo.service.impl;
 
+import com.lin.cms.demo.entity.Book;
 import com.lin.cms.demo.mapper.BookMapper;
 import com.lin.cms.demo.model.BookDO;
 import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
+import com.lin.cms.demo.repository.BookRepository;
 import com.lin.cms.demo.service.BookService;
 import com.lin.cms.demo.service.base.AbstractService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +16,9 @@ public class BookServiceImpl extends AbstractService<BookDO> implements BookServ
 
     @Autowired
     private BookMapper bookMapper;
+
+    @Autowired
+    private BookRepository bookRepository;
 
     @Override
     public void createBook(CreateOrUpdateBookDTO validator) {
@@ -26,8 +32,12 @@ public class BookServiceImpl extends AbstractService<BookDO> implements BookServ
 
     @Override
     public BookDO getBookByKeyword(String q) {
-        BookDO book = bookMapper.getBookByKeyword(q);
-        return book;
+        Book book = bookRepository.findBookByTitleLike(q);
+        BookDO bookDO = new BookDO();
+        BeanUtils.copyProperties(book, bookDO);
+        return bookDO;
+        // BookDO book = bookMapper.getBookByKeyword(q);
+        // return book;
     }
 
     @Override
@@ -41,6 +51,10 @@ public class BookServiceImpl extends AbstractService<BookDO> implements BookServ
 
     @Override
     public BookDO findOneByIdAndDeleteTime(Integer id) {
-        return bookMapper.findOneByIdAndDeleteTime(id);
+        Book book = bookRepository.findBookByIdAndDeleteTime(id);
+        BookDO bookDO = new BookDO();
+        BeanUtils.copyProperties(book, bookDO);
+        return bookDO;
+        // return bookMapper.findOneByIdAndDeleteTime(id);
     }
 }

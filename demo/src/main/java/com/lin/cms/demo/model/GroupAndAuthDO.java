@@ -1,8 +1,11 @@
 package com.lin.cms.demo.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+// setter getter
+@Setter
+@Getter
 public class GroupAndAuthDO {
     private Integer id;
 
