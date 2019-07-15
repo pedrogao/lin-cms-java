@@ -1,8 +1,8 @@
 package com.lin.cms.demo.service.impl;
 
-import com.lin.cms.core.exception.Forbidden;
-import com.lin.cms.core.exception.NotFound;
-import com.lin.cms.core.exception.Parameter;
+import com.lin.cms.exception.Forbidden;
+import com.lin.cms.exception.NotFound;
+import com.lin.cms.exception.Parameter;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.bo.GroupWithAuthsBO;
 import com.lin.cms.demo.dto.admin.*;

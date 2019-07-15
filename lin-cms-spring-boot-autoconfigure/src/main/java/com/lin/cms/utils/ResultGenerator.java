@@ -1,9 +1,9 @@
 package com.lin.cms.utils;
 
 import com.alibaba.fastjson.JSON;
-import com.lin.cms.core.exception.HttpException;
-import com.lin.cms.core.exception.Success;
-import com.lin.cms.core.result.ErrCode;
+import com.lin.cms.exception.HttpException;
+import com.lin.cms.exception.Success;
+import com.lin.cms.beans.ErrCode;
 import com.lin.cms.core.result.Result;
 import lombok.extern.slf4j.Slf4j;
 

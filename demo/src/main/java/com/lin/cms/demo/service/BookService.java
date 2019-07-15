@@ -2,9 +2,10 @@ package com.lin.cms.demo.service;
 
 import com.lin.cms.demo.model.BookDO;
 import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
-import com.lin.cms.demo.service.base.Service;
 
-public interface BookService extends Service<BookDO> {
+import java.util.List;
+
+public interface BookService {
     void createBook(CreateOrUpdateBookDTO validator);
 
     BookDO getBookByKeyword(String q);
@@ -12,4 +13,8 @@ public interface BookService extends Service<BookDO> {
     void updateBook(BookDO book, CreateOrUpdateBookDTO validator);
 
     BookDO findOneByIdAndDeleteTime(Integer id);
+
+    List<BookDO> findAll();
+
+    void deleteById(Integer id);
 }

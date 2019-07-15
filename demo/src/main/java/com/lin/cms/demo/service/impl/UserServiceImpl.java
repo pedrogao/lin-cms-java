@@ -1,7 +1,7 @@
 package com.lin.cms.demo.service.impl;
 
-import com.lin.cms.core.exception.Forbidden;
-import com.lin.cms.core.exception.Parameter;
+import com.lin.cms.exception.Forbidden;
+import com.lin.cms.exception.Parameter;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.SimpleAuthDO;
@@ -17,8 +17,6 @@ import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

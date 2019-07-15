@@ -1,8 +1,7 @@
 package com.lin.cms.demo.service.impl;
 
-import com.lin.cms.core.exception.Forbidden;
-import com.lin.cms.core.exception.NotFound;
-import com.lin.cms.core.exception.Parameter;
+import com.lin.cms.exception.Forbidden;
+import com.lin.cms.exception.Parameter;
 import com.lin.cms.demo.dto.user.AvatarUpdateDTO;
 import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import com.lin.cms.demo.dto.user.RegisterDTO;

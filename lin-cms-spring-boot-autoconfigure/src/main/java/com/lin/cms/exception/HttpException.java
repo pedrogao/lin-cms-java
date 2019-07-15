@@ -1,7 +1,7 @@
-package com.lin.cms.core.exception;
+package com.lin.cms.exception;
 
 
-import com.lin.cms.core.result.ErrCode;
+import com.lin.cms.beans.ErrCode;
 import com.lin.cms.core.enums.HttpStatus;
 
 public class HttpException extends Exception {

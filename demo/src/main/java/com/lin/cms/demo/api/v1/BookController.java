@@ -5,7 +5,7 @@ import com.lin.cms.demo.service.BookService;
 import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
 import com.lin.cms.core.annotation.GroupRequired;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.core.exception.NotFound;
+import com.lin.cms.exception.NotFound;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class BookController {
 
     @GetMapping("/search/one")
     public BookDO searchBook(@RequestParam("q") String q) throws NotFound {
-        BookDO book = bookService.getBookByKeyword(q);
+        BookDO book = bookService.getBookByKeyword("%" + q + "%");
         if (book == null) {
             throw new NotFound("未找到相关书籍");
         }

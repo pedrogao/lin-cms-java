@@ -1,4 +1,4 @@
-package com.lin.cms.core.result;
+package com.lin.cms.beans;
 
 
 /**

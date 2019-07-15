@@ -4,7 +4,7 @@ import com.lin.cms.interfaces.AuthVerifyResolver;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.enums.UserLevel;
-import com.lin.cms.core.result.ErrCode;
+import com.lin.cms.beans.ErrCode;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.core.utils.AnnotationHelper;

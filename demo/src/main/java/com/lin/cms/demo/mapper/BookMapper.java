@@ -9,4 +9,6 @@ public interface BookMapper extends CrudMapper<BookDO> {
     BookDO getBookByKeyword(@Param("q") String q);
 
     BookDO findOneByIdAndDeleteTime(@Param("id") Integer id);
+
+    BookDO findOneByTitle(@Param("title") String title);
 }

@@ -1,6 +1,6 @@
 package com.lin.cms.utils;
 
-import com.lin.cms.core.exception.HttpException;
+import com.lin.cms.exception.HttpException;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.ReflectionUtils;
 

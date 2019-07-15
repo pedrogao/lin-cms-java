@@ -1,33 +1,38 @@
 package com.lin.cms.demo.service.impl;
 
+import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
+import com.lin.cms.demo.entity.Book;
 import com.lin.cms.demo.mapper.BookMapper;
 import com.lin.cms.demo.model.BookDO;
-import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
+import com.lin.cms.demo.repository.BookRepository;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 import static org.junit.Assert.*;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional // 数据操作后回滚
 @Rollback
-public class BookServiceImplTest {
+public class BookServiceImplTest2 {
 
     @Autowired
     private BookServiceImpl bookService;
 
     @Autowired
-    private BookMapper bookMapper;
+    private BookRepository bookRepository;
 
     private Integer id;
     private String title = "千里之外";
@@ -51,19 +56,23 @@ public class BookServiceImplTest {
         validator.setSummary(summary);
         validator.setTitle(title);
         bookService.createBook(validator);
+        Optional<Book> opt = bookRepository.findBookByTitleLikeAndDeleteTimeIsNull(title);
 
-        BookDO bookDO = bookMapper.findOneByTitle(title);
-        assertEquals(bookDO.getAuthor(), author);
+        if (opt.isPresent()) {
+            assertEquals(opt.get().getAuthor(), author);
+        } else {
+            assertNotNull(opt.get());
+        }
     }
 
     @Test
     public void getBookByKeyword() {
-        BookDO bookDO = new BookDO();
+        Book bookDO = new Book();
         bookDO.setTitle(title);
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        bookRepository.save(bookDO);
         this.id = bookDO.getId();
 
         BookDO book = bookService.getBookByKeyword("%千里%");
@@ -72,12 +81,12 @@ public class BookServiceImplTest {
 
     @Test
     public void updateBook() {
-        BookDO bookDO = new BookDO();
+        Book bookDO = new Book();
         bookDO.setTitle(title);
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        bookRepository.save(bookDO);
         this.id = bookDO.getId();
 
         String newTitle = "tttttttt";
@@ -88,32 +97,60 @@ public class BookServiceImplTest {
         validator.setSummary(summary);
         validator.setTitle(newTitle);
 
-        BookDO found = bookMapper.findOneByIdAndDeleteTime(id);
+        Optional<Book> opt = bookRepository.findBookByIdAndDeleteTimeIsNull(id);
 
-        bookService.updateBook(found, validator);
+        assertNotNull(opt.get());
 
-        // 不知道什么鬼问题，用 title 查询就不行
-//         BookDO found1 = bookMapper.findOneByTitle(newTitle);
+        BookDO bookdoo = new BookDO();
+        BeanUtils.copyProperties(opt.get(), bookdoo);
 
-        BookDO found2 = bookMapper.findOneByIdAndDeleteTime(id);
+        bookService.updateBook(bookdoo, validator);
 
-        assertNotNull(found2);
+        Optional<Book> opt1 = bookRepository.findBookByTitleAndDeleteTimeIsNull(newTitle);
+        assertNotNull(opt1.get());
     }
 
     @Test
     public void findOneByIdAndDeleteTime() {
-        BookDO bookDO = new BookDO();
+        Book bookDO = new Book();
         bookDO.setTitle(title);
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        bookRepository.save(bookDO);
         this.id = bookDO.getId();
 
-        bookDO.setDeleteTime(new Date());
-        bookMapper.updateByPrimaryKeySelective(bookDO);
+        BookDO one = bookService.findOneByIdAndDeleteTime(this.id);
+        assertEquals(one.getTitle(), title);
+    }
 
-        BookDO one = bookService.findOneByIdAndDeleteTime(id);
+    @Test
+    public void findAll() {
+        Book bookDO = new Book();
+        bookDO.setTitle(title);
+        bookDO.setAuthor(author);
+        bookDO.setImage(image);
+        bookDO.setSummary(summary);
+        bookRepository.save(bookDO);
+        this.id = bookDO.getId();
+
+        List<BookDO> books = bookService.findAll();
+        assertTrue(books.size() > 0);
+    }
+
+    @Test
+    public void deleteById() {
+        Book bookDO = new Book();
+        bookDO.setTitle(title);
+        bookDO.setAuthor(author);
+        bookDO.setImage(image);
+        bookDO.setSummary(summary);
+        bookRepository.save(bookDO);
+        this.id = bookDO.getId();
+
+        bookRepository.softDeleteById(id);
+
+        BookDO one = bookService.findOneByIdAndDeleteTime(this.id);
         assertNull(one);
     }
 }

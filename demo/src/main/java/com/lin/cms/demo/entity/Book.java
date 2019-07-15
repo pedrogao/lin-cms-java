@@ -2,6 +2,8 @@ package com.lin.cms.demo.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,7 +17,7 @@ import java.util.Date;
 public class Book {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String title;
@@ -26,8 +28,10 @@ public class Book {
 
     private String image;
 
+    @CreationTimestamp
     private Date createTime;
 
+    @UpdateTimestamp
     private Date updateTime;
 
     private Date deleteTime;

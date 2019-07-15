@@ -53,6 +53,12 @@ public class BookMapperTest {
         assertEquals(found.getTitle(), title);
     }
 
+    @Test
+    public void findOneByTitle() {
+        BookDO found = bookMapper.findOneByTitle(this.title);
+        assertEquals(found.getImage(), image);
+    }
+
 
     @After
     public void tearDown() throws Exception {

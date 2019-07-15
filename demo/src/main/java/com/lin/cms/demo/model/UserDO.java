@@ -6,11 +6,17 @@ import com.amdelamar.jhash.algorithms.Type;
 import com.amdelamar.jhash.exception.InvalidHashException;
 import com.lin.cms.core.enums.UserActive;
 import com.lin.cms.core.enums.UserAdmin;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Table(name = "lin_user")
+@Entity(name = "lin_user")
+@DynamicInsert
+@DynamicUpdate
 public class UserDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,9 +42,11 @@ public class UserDO {
     private String password;
 
     @Column(name = "create_time")
+    @CreationTimestamp
     private Date createTime;
 
     @Column(name = "update_time")
+    @UpdateTimestamp
     private Date updateTime;
 
     @Column(name = "delete_time")

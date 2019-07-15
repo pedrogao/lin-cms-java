@@ -1,15 +1,15 @@
 package com.lin.cms.demo.repository;
 
 import com.lin.cms.demo.entity.Book;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
 
 
-public interface BookRepository extends CrudRepository<Book, Integer> {
+public interface BookRepository extends SoftCrudRepository<Book, Integer> {
 
-    @Query(value = "SELECT b.* FROM book b WHERE b.id = :id AND b.delete_time IS NULL", nativeQuery = true)
-    Book findBookByIdAndDeleteTime(@Param("id") Integer id);
+    Optional<Book> findBookByIdAndDeleteTimeIsNull(Integer id);
 
-    Book findBookByTitleLike(String q);
+    Optional<Book> findBookByTitleLikeAndDeleteTimeIsNull(String q);
+
+    Optional<Book> findBookByTitleAndDeleteTimeIsNull(String title);
 }

@@ -1,11 +1,17 @@
 package com.lin.cms.demo.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserAndGroupNameDO {
     private Integer id;
 
@@ -14,6 +20,7 @@ public class UserAndGroupNameDO {
     /**
      * 分组名
      */
+
     private String groupName;
 
     /**

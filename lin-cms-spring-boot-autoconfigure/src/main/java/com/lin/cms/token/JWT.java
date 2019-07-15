@@ -19,13 +19,10 @@ public class JWT {
     public static String LIN_SCOPE = "lin";
     public static String OTHER_SCOPE = "other";
 
-    // @Value("${secret}")
     private String secret;
 
-    // @Value("${access-expire}")
     private Long accessExpire;
 
-    // @Value("${refresh-expire}")
     private Long refreshExpire;
 
     public JWT(String secret, Long accessExpire, Long refreshExpire) {

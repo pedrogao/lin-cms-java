@@ -2,8 +2,8 @@ package com.lin.cms.demo.interceptor;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.core.exception.AuthFailed;
-import com.lin.cms.core.exception.NotFound;
+import com.lin.cms.exception.AuthFailed;
+import com.lin.cms.exception.NotFound;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.demo.mapper.AuthMapper;

@@ -1,6 +1,6 @@
 package com.lin.cms.demo.service.base;
 
-import com.lin.cms.core.exception.HttpException;
+import com.lin.cms.exception.HttpException;
 import org.apache.ibatis.exceptions.TooManyResultsException;
 import tk.mybatis.mapper.entity.Condition;
 

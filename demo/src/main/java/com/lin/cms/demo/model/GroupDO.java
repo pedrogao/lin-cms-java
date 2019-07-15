@@ -1,11 +1,9 @@
 package com.lin.cms.demo.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Table(name = "lin_group")
+@Entity(name = "lin_group")
 public class GroupDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

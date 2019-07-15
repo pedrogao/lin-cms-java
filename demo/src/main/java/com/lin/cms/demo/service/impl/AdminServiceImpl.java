@@ -2,9 +2,9 @@ package com.lin.cms.demo.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.core.exception.Forbidden;
-import com.lin.cms.core.exception.NotFound;
-import com.lin.cms.core.exception.Parameter;
+import com.lin.cms.exception.Forbidden;
+import com.lin.cms.exception.NotFound;
+import com.lin.cms.exception.Parameter;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;

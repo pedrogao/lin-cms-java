@@ -15,11 +15,16 @@
         <result column="delete_time" jdbcType="TIMESTAMP" property="deleteTime"/>
     </resultMap>
 
+    <!--CONCAT("%",#{q},"%")-->
     <select id="getBookByKeyword" resultMap="BaseResultMap">
-        SELECT * FROM book WHERE book.`title` LIKE CONCAT("%",#{q},"%") AND book.`delete_time` IS NULL LIMIT 1
+        SELECT * FROM book b WHERE b.title LIKE #{q} AND b.delete_time IS NULL LIMIT 1
     </select>
 
     <select id="findOneByIdAndDeleteTime" resultMap="BaseResultMap">
-        SELECT * FROM book WHERE book.`id`=#{id} AND book.`delete_time` IS NULL LIMIT 1
+        SELECT * FROM book b WHERE b.id=#{id} AND b.delete_time IS NULL LIMIT 1
+    </select>
+
+    <select id="findOneByTitle" resultMap="BaseResultMap">
+        SELECT * FROM book b WHERE b.title=#{title} AND b.delete_time IS NULL LIMIT 1
     </select>
 </mapper>
