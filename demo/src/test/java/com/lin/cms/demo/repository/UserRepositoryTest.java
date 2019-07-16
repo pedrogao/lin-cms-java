@@ -88,8 +88,9 @@ public class UserRepositoryTest {
         Page<Map> page = userRepository.findUsersAndGroupName(groupId, pageable);
 
         assertTrue(page.getTotalElements() > 0);
-
+        log.info(String.valueOf(page.getTotalElements()));
         List<Map> usersAndGroupName = page.getContent();
+        log.info(String.valueOf(usersAndGroupName.size()));
 
         List<UserAndGroupNameDO> converts = NativeConvert.convertMaps(usersAndGroupName, UserAndGroupNameDO.class);
         converts.forEach(one -> {
