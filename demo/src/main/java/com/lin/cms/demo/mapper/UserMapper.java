@@ -21,6 +21,7 @@ public interface UserMapper extends CrudMapper<UserDO> {
 
     UserDO findOneUserByEmailAndDeleteTime(@Param("email") String email);
 
+    // 用户检测分组下是否存在用户
     UserDO findOneUserByGroupId(@Param("groupId") Integer groupId);
 
 }

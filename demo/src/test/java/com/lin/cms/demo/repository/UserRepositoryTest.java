@@ -66,7 +66,7 @@ public class UserRepositoryTest {
 
     @Test
     public void findUsersAndGroupName() {
-        Pageable pageable = PageRequest.of(0, 10);
+        Pageable pageable = PageRequest.of(1, 10);
         Page<Map> page = userRepository.findUsersAndGroupName(pageable);
 
         assertTrue(page.getTotalElements() > 0);
@@ -79,5 +79,51 @@ public class UserRepositoryTest {
             log.info(nickname);
             assertNotNull(one);
         });
+    }
+
+
+    @Test
+    public void findUsersAndGroupName1() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Map> page = userRepository.findUsersAndGroupName(groupId, pageable);
+
+        assertTrue(page.getTotalElements() > 0);
+
+        List<Map> usersAndGroupName = page.getContent();
+
+        List<UserAndGroupNameDO> converts = NativeConvert.convertMaps(usersAndGroupName, UserAndGroupNameDO.class);
+        converts.forEach(one -> {
+            String nickname = one.getNickname();
+            log.info(nickname);
+            assertNotNull(one);
+        });
+    }
+
+    @Test
+    public void findByIdAndDeleteTimeIsNull() {
+        UserDO userDO = userRepository.findByIdAndDeleteTimeIsNull(userId);
+        assertNotNull(userDO);
+        assertEquals(userDO.getNickname(), nickname);
+    }
+
+    @Test
+    public void findByEmailAndDeleteTimeIsNull() {
+        UserDO userDO = userRepository.findByEmailAndDeleteTimeIsNull(email);
+        assertNotNull(userDO);
+        assertEquals(userDO.getNickname(), nickname);
+    }
+
+    @Test
+    public void findByGroupIdAndDeleteTimeIsNull() {
+        UserDO userDO = new UserDO();
+        userDO.setEmail("12988879866@qq.com");
+        userDO.setPasswordEncrypt(password);
+        userDO.setGroupId(groupId);
+        userDO.setNickname("oppppppp");
+        userRepository.save(userDO);
+
+        UserDO user = userRepository.findFirstByGroupIdAndDeleteTimeIsNull(groupId);
+        assertNotNull(user);
+        assertEquals(user.getNickname(), nickname);
     }
 }

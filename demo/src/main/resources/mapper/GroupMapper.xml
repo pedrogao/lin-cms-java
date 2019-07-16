@@ -27,7 +27,7 @@
     </select>
 
     <select id="findOneByName" resultType="com.lin.cms.demo.model.GroupDO">
-        SELECT lin_group.* FROM lin_group WHERE lin_group.`name`=#{name}
+        SELECT lin_group.* FROM lin_group WHERE lin_group.`name`=#{name} LIMIT 1
     </select>
 
 

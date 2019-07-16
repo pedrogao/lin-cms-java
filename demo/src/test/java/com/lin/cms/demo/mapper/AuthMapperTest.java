@@ -23,7 +23,6 @@ import static org.junit.Assert.*;
 @Rollback
 public class AuthMapperTest {
 
-
     @Autowired
     private AuthMapper authMapper;
 

@@ -1,11 +1,14 @@
 package com.lin.cms.demo.model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
+
+import javax.persistence.*;
 
 @Table(name = "lin_file")
+@Entity(name = "lin_file")
+@DynamicInsert
+@DynamicUpdate
 public class FileDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
