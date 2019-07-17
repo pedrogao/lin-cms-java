@@ -4,11 +4,11 @@ import java.util.List;
 
 public class PageResult<T> {
 
-    private Integer totalNums;
+    private long totalNums;
 
     private List<T> collection;
 
-    public PageResult(Integer totalNums, List<T> collection) {
+    public PageResult(long totalNums, List<T> collection) {
         this.totalNums = totalNums;
         this.collection = collection;
     }
@@ -16,15 +16,15 @@ public class PageResult<T> {
     public PageResult() {
     }
 
-    public static PageResult genPageResult(Integer totalNums, List collection) {
+    public static PageResult genPageResult(long totalNums, List collection) {
         return new PageResult(totalNums, collection);
     }
 
-    public Integer getTotalNums() {
+    public long getTotalNums() {
         return totalNums;
     }
 
-    public void setTotalNums(Integer totalNums) {
+    public void setTotalNums(long totalNums) {
         this.totalNums = totalNums;
     }
 

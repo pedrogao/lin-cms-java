@@ -57,7 +57,8 @@ public class BookControllerTest {
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        // bookMapper.insertSelective(bookDO);
+        bookMapper.insert(bookDO);
 
         this.id = bookDO.getId();
         this.mvc.perform(get("/v1/book/" + this.id))
@@ -74,7 +75,8 @@ public class BookControllerTest {
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        // bookMapper.insertSelective(bookDO);
+        bookMapper.insert(bookDO);
         this.id = bookDO.getId();
 
         mvc.perform(get("/v1/book/"))
@@ -93,7 +95,8 @@ public class BookControllerTest {
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        // bookMapper.insertSelective(bookDO);
+        bookMapper.insert(bookDO);
         this.id = bookDO.getId();
 
         mvc.perform(get("/v1/book/search/one?q=千里"))
@@ -126,7 +129,8 @@ public class BookControllerTest {
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        // bookMapper.insertSelective(bookDO);
+        bookMapper.insert(bookDO);
         this.id = bookDO.getId();
 
         CreateOrUpdateBookDTO validator = new CreateOrUpdateBookDTO();
@@ -150,7 +154,8 @@ public class BookControllerTest {
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        bookMapper.insert(bookDO);
+        // bookMapper.insertSelective(bookDO);
         this.id = bookDO.getId();
 
         mvc.perform(delete("/v1/book/" + this.id))

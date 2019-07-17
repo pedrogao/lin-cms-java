@@ -1,5 +1,6 @@
 package com.lin.cms.demo.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.Parameter;
 import com.lin.cms.demo.mapper.AuthMapper;
@@ -11,7 +12,6 @@ import com.lin.cms.demo.utils.AuthSpliter;
 import com.lin.cms.demo.utils.LocalUser;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
-import com.lin.cms.demo.service.base.AbstractService;
 import com.lin.cms.demo.dto.user.AvatarUpdateDTO;
 import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ import java.util.Map;
  * Created by lin on 2019/06/06.
  */
 @Service
-public class UserServiceImpl extends AbstractService<UserDO> implements UserService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
@@ -36,8 +36,8 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
 
     @Override
     public void createUser(RegisterDTO validator) throws Forbidden {
-
-        UserDO exist = this.findBy("nickname", validator.getNickname());
+        UserDO exist = this.findByNickname(validator.getNickname());
+        // UserDO exist = this.findBy("nickname", validator.getNickname());
         if (exist != null) {
             throw new Forbidden("用户已经存在");
         }
@@ -49,7 +49,8 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
         if (validator.getEmail() != null) {
             user.setEmail(validator.getEmail());
         }
-        this.saveWithTimeCreate(user);
+        userMapper.insert(user);
+        // this.saveWithTimeCreate(user);
     }
 
     @Override
@@ -57,13 +58,17 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
         String email = validator.getEmail();
         UserDO user = LocalUser.getLocalUser();
         if (!user.getEmail().equals(email)) {
-            UserDO exist = this.findBy("email", validator.getEmail());
+            QueryWrapper<UserDO> wrapper = new QueryWrapper<>();
+            wrapper.eq("email", validator.getEmail());
+            UserDO exist = userMapper.selectOne(wrapper);
+            // UserDO exist = this.findBy("email", validator.getEmail());
             if (exist != null) {
                 throw new Parameter("邮箱已被注册，请重新输入邮箱");
             }
         }
         user.setEmail(email);
-        this.update(user);
+        // this.update(user);
+        userMapper.updateById(user);
     }
 
     @Override
@@ -74,19 +79,29 @@ public class UserServiceImpl extends AbstractService<UserDO> implements UserServ
             throw new Parameter("请输入正确的旧密码");
         }
         user.setPasswordEncrypt(validator.getNewPassword());
-        this.update(user);
+        // this.update(user);
+        userMapper.updateById(user);
     }
 
     @Override
     public void updateAvatar(AvatarUpdateDTO validator) {
         UserDO user = LocalUser.getLocalUser();
         user.setAvatar(validator.getAvatar());
-        this.update(user);
+        //this.update(user);
+        userMapper.updateById(user);
     }
 
     @Override
     public List<Map<String, List<Map<String, String>>>> getAuths(Integer groupId) {
         List<SimpleAuthDO> auths = authMapper.findByGroupId(groupId);
         return AuthSpliter.splitAuths(auths);
+    }
+
+    @Override
+    public UserDO findByNickname(String nickname) {
+        QueryWrapper<UserDO> wrapper = new QueryWrapper<>();
+        wrapper.eq("nickname", nickname);
+        UserDO exist = userMapper.selectOne(wrapper);
+        return exist;
     }
 }

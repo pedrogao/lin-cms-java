@@ -35,7 +35,8 @@ public class BookMapperTest {
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        // bookMapper.insertSelective(bookDO);
+        bookMapper.insert(bookDO);
         this.id = bookDO.getId();
     }
 

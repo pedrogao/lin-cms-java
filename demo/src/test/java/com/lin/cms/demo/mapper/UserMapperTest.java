@@ -43,7 +43,8 @@ public class UserMapperTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName("分组而已啦！");
         groupDO.setInfo("信息是个傻子吧！");
-        groupMapper.insertSelective(groupDO);
+        // groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
         this.groupId = groupDO.getId();
 
         UserDO userDO = new UserDO();
@@ -51,7 +52,7 @@ public class UserMapperTest {
         userDO.setPasswordEncrypt(password);
         userDO.setGroupId(groupId);
         userDO.setNickname(nickname);
-        userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
         this.userId = userDO.getId();
     }
 

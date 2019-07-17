@@ -61,7 +61,7 @@ public class AuthMapperTest {
     @Test
     public void testDeleteByGroupId() {
         authMapper.deleteByGroupId(groupId);
-        AuthDO authDO = authMapper.selectByPrimaryKey(groupId);
+        AuthDO authDO = authMapper.selectById(groupId);
         assertNull(authDO);
     }
 
@@ -71,7 +71,7 @@ public class AuthMapperTest {
         auths.add(auth);
         authMapper.deleteByGroupIdAndInAuths(groupId, auths);
 
-        AuthDO authDO = authMapper.selectByPrimaryKey(groupId);
+        AuthDO authDO = authMapper.selectById(groupId);
         assertNull(authDO);
     }
 

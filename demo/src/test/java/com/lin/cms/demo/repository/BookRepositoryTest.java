@@ -1,6 +1,7 @@
 package com.lin.cms.demo.repository;
 
 import com.lin.cms.demo.entity.Book;
+import com.lin.cms.demo.model.BookDO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class BookRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        Book bookDO = new Book();
+        BookDO bookDO = new BookDO();
         bookDO.setTitle(title);
         bookDO.setAuthor(author);
         bookDO.setImage(image);
@@ -49,7 +50,7 @@ public class BookRepositoryTest {
 
     @Test
     public void findBookByIdAndDeleteTimeIsNull() {
-        Optional<Book> opt = bookRepository.findBookByIdAndDeleteTimeIsNull(this.id);
+        Optional<BookDO> opt = bookRepository.findBookByIdAndDeleteTimeIsNull(this.id);
         if (opt.isPresent()) {
             assertEquals(opt.get().getTitle(), title);
         } else {
@@ -59,7 +60,7 @@ public class BookRepositoryTest {
 
     @Test
     public void softFindById() {
-        Optional<Book> book = bookRepository.softFindById(this.id);
+        Optional<BookDO> book = bookRepository.softFindById(this.id);
         if (book.isPresent()) {
             assertEquals(book.get().getTitle(), title);
         } else {
@@ -69,7 +70,7 @@ public class BookRepositoryTest {
 
     @Test
     public void findBookByTitleLikeAndDeleteTimeIsNull() {
-        Optional<Book> opt = bookRepository.findBookByTitleLikeAndDeleteTimeIsNull("%千里%");
+        Optional<BookDO> opt = bookRepository.findBookByTitleLikeAndDeleteTimeIsNull("%千里%");
         if (opt.isPresent()) {
             assertEquals(opt.get().getTitle(), title);
         } else {
@@ -79,7 +80,7 @@ public class BookRepositoryTest {
 
     @Test
     public void softFindAll() {
-        Iterable<Book> books = bookRepository.softFindAll();
+        Iterable<BookDO> books = bookRepository.softFindAll();
         books.forEach(book -> {
             assertNotNull(book.getTitle());
         });

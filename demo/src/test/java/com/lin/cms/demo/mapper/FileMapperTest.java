@@ -33,7 +33,7 @@ public class FileMapperTest {
         fileDO.setSize(1111);
         fileDO.setExtension(".png");
         fileDO.setMd5(md5);
-        fileMapper.insertSelective(fileDO);
+        fileMapper.insert(fileDO);
     }
 
     @Test

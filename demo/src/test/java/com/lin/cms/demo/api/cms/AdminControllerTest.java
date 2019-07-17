@@ -99,7 +99,7 @@ public class AdminControllerTest {
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
-        userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
 
         String newPassword = "111111111";
 
@@ -122,7 +122,7 @@ public class AdminControllerTest {
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
-        userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
 
         mvc.perform(delete("/cms/admin/" + userDO.getId())
                 .contentType(MediaType.APPLICATION_JSON))
@@ -139,7 +139,7 @@ public class AdminControllerTest {
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
-        userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
 
         String newEmail = "111111111@qq.com";
 
@@ -161,14 +161,14 @@ public class AdminControllerTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         this.groupId = groupDO.getId();
         AuthDO authDO = new AuthDO();
         authDO.setGroupId(groupId);
         authDO.setModule(module);
         authDO.setAuth(auth);
-        authMapper.insertSelective(authDO);
+        authMapper.insert(authDO);
 
         mvc.perform(get("/cms/admin/groups")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -184,14 +184,14 @@ public class AdminControllerTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         this.groupId = groupDO.getId();
         AuthDO authDO = new AuthDO();
         authDO.setGroupId(groupId);
         authDO.setModule(module);
         authDO.setAuth(auth);
-        authMapper.insertSelective(authDO);
+        authMapper.insert(authDO);
 
         mvc.perform(get("/cms/admin/group/all")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -207,14 +207,14 @@ public class AdminControllerTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         this.groupId = groupDO.getId();
         AuthDO authDO = new AuthDO();
         authDO.setGroupId(groupId);
         authDO.setModule(module);
         authDO.setAuth(auth);
-        authMapper.insertSelective(authDO);
+        authMapper.insert(authDO);
 
         mvc.perform(get("/cms/admin/group/" + this.groupId)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -252,7 +252,7 @@ public class AdminControllerTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         UpdateGroupDTO validator = new UpdateGroupDTO();
         validator.setName("storm");
@@ -273,7 +273,7 @@ public class AdminControllerTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         mvc.perform(delete("/cms/admin/group/" + groupDO.getId())
                 .contentType(MediaType.APPLICATION_JSON))
@@ -289,14 +289,14 @@ public class AdminControllerTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         this.groupId = groupDO.getId();
         AuthDO authDO = new AuthDO();
         authDO.setGroupId(groupId);
         authDO.setModule(module);
         authDO.setAuth(auth);
-        authMapper.insertSelective(authDO);
+        authMapper.insert(authDO);
 
         DispatchAuthDTO dto = new DispatchAuthDTO();
         dto.setGroupId(groupId);
@@ -317,14 +317,14 @@ public class AdminControllerTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         this.groupId = groupDO.getId();
         AuthDO authDO = new AuthDO();
         authDO.setGroupId(groupId);
         authDO.setModule(module);
         authDO.setAuth(auth);
-        authMapper.insertSelective(authDO);
+        authMapper.insert(authDO);
 
         DispatchAuthsDTO dto = new DispatchAuthsDTO();
         dto.setGroupId(groupId);
@@ -347,14 +347,14 @@ public class AdminControllerTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         this.groupId = groupDO.getId();
         AuthDO authDO = new AuthDO();
         authDO.setGroupId(groupId);
         authDO.setModule(module);
         authDO.setAuth(auth);
-        authMapper.insertSelective(authDO);
+        authMapper.insert(authDO);
 
         RemoveAuthsDTO dto = new RemoveAuthsDTO();
         dto.setGroupId(groupId);

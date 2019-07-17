@@ -1,22 +1,26 @@
 package com.lin.cms.demo.entity;
 
-import com.alibaba.fastjson.annotation.JSONField;
-import com.lin.cms.core.enums.UserActive;
-import com.lin.cms.core.enums.UserAdmin;
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
-import javax.persistence.*;
-import java.util.Date;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
-//@Entity(name = "lin_user")
-@Getter
-@Setter
-public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+/**
+ * <p>
+ *
+ * </p>
+ *
+ * @author pedro
+ * @since 2019-07-16
+ */
+@TableName("lin_user")
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private String nickname;
@@ -26,32 +30,124 @@ public class User {
      */
     private String avatar;
 
-    private Byte admin;
+    private Integer admin;
 
-    private Byte active;
+    private Integer active;
 
     private String email;
 
     private Integer groupId;
 
-    @JSONField(serialize = false)
     private String password;
 
-    @CreationTimestamp
-    private Date createTime;
+    private LocalDateTime createTime;
 
-    @UpdateTimestamp
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
-    @JSONField(serialize = false)
-    private Date deleteTime;
+    private LocalDateTime deleteTime;
 
-    public boolean ifIsAdmin() {
-        return this.admin.intValue() == UserAdmin.ADMIN.getValue();
+    public Integer getId() {
+        return id;
     }
 
-    public boolean ifIsActive() {
-        return this.active.intValue() == UserActive.ACTIVE.getValue();
+    public void setId(Integer id) {
+        this.id = id;
     }
 
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public Integer getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Integer admin) {
+        this.admin = admin;
+    }
+
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Integer getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Integer groupId) {
+        this.groupId = groupId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public LocalDateTime getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(LocalDateTime createTime) {
+        this.createTime = createTime;
+    }
+
+    public LocalDateTime getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(LocalDateTime updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public LocalDateTime getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(LocalDateTime deleteTime) {
+        this.deleteTime = deleteTime;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", nickname=" + nickname +
+                ", avatar=" + avatar +
+                ", admin=" + admin +
+                ", active=" + active +
+                ", email=" + email +
+                ", groupId=" + groupId +
+                ", password=" + password +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteTime=" + deleteTime +
+                "}";
+    }
 }

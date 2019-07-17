@@ -81,7 +81,8 @@ public class AdminServiceImplTest {
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
-        userMapper.insertSelective(userDO);
+        // userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
         this.userId = userDO.getId();
 
         String newPassword = "111111111";
@@ -91,7 +92,8 @@ public class AdminServiceImplTest {
         dto.setConfirmPassword(newPassword);
         adminService.changeUserPassword(this.userId, dto);
 
-        UserDO aDo = userMapper.selectByPrimaryKey(this.userId);
+        // UserDO aDo = userMapper.selectByPrimaryKey(this.userId);
+        UserDO aDo = userMapper.selectById(this.userId);
         boolean valid = aDo.verify(newPassword);
         assertTrue(valid);
     }
@@ -102,7 +104,8 @@ public class AdminServiceImplTest {
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
-        userMapper.insertSelective(userDO);
+        // userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
         this.userId = userDO.getId();
 
         adminService.deleteUser(this.userId);
@@ -117,7 +120,8 @@ public class AdminServiceImplTest {
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
-        userMapper.insertSelective(userDO);
+        // userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
         this.userId = userDO.getId();
 
         UpdateUserInfoDTO dto = new UpdateUserInfoDTO();
@@ -136,7 +140,8 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        // groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         PageResult groups = adminService.getGroups(0, 10);
 
@@ -148,7 +153,8 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        // groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         GroupWithAuthsBO authsBO = adminService.getGroup(groupDO.getId());
         assertEquals(authsBO.getName(), name);
@@ -182,14 +188,16 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        // groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         String newName = "我就是一个新的分组名";
         UpdateGroupDTO dto = new UpdateGroupDTO();
         dto.setName(newName);
         adminService.updateGroup(groupDO.getId(), dto);
 
-        GroupDO aDo = groupMapper.selectByPrimaryKey(groupDO.getId());
+        GroupDO aDo = groupMapper.selectById(groupDO.getId());
+        // GroupDO aDo = groupMapper.selectByPrimaryKey(groupDO.getId());
         assertEquals(aDo.getName(), newName);
     }
 
@@ -198,11 +206,13 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        // groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         adminService.deleteGroup(groupDO.getId());
 
-        GroupDO aDo = groupMapper.selectByPrimaryKey(groupDO.getId());
+        GroupDO aDo = groupMapper.selectById(groupDO.getId());
+        // GroupDO aDo = groupMapper.selectByPrimaryKey(groupDO.getId());
         assertNull(aDo);
     }
 
@@ -211,7 +221,8 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
+        // groupMapper.insertSelective(groupDO);
 
         DispatchAuthDTO dto = new DispatchAuthDTO();
         dto.setGroupId(groupDO.getId());
@@ -228,7 +239,8 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        // groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         DispatchAuthsDTO dto = new DispatchAuthsDTO();
         dto.setGroupId(groupDO.getId());
@@ -251,7 +263,8 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        // groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         DispatchAuthDTO dto = new DispatchAuthDTO();
         dto.setGroupId(groupDO.getId());

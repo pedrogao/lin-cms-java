@@ -1,12 +1,16 @@
 package com.lin.cms.demo.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "book")
+@Entity(name = "book")
 public class BookDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private String title;

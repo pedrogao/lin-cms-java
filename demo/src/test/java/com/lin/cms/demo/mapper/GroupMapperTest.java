@@ -41,14 +41,14 @@ public class GroupMapperTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        groupMapper.insertSelective(groupDO);
+        groupMapper.insert(groupDO);
 
         this.groupId = groupDO.getId();
         AuthDO authDO = new AuthDO();
         authDO.setGroupId(groupId);
         authDO.setModule(module);
         authDO.setAuth(auth);
-        authMapper.insertSelective(authDO);
+        authMapper.insert(authDO);
     }
 
     @Test

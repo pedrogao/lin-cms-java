@@ -63,7 +63,7 @@ public class BookServiceImplTest {
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        bookMapper.insert(bookDO);
         this.id = bookDO.getId();
 
         BookDO book = bookService.getBookByKeyword("%千里%");
@@ -77,7 +77,7 @@ public class BookServiceImplTest {
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        bookMapper.insert(bookDO);
         this.id = bookDO.getId();
 
         String newTitle = "tttttttt";
@@ -107,11 +107,12 @@ public class BookServiceImplTest {
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        bookMapper.insertSelective(bookDO);
+        bookMapper.insert(bookDO);
         this.id = bookDO.getId();
 
         bookDO.setDeleteTime(new Date());
-        bookMapper.updateByPrimaryKeySelective(bookDO);
+        // bookMapper.updateByPrimaryKeySelective(bookDO);
+        bookMapper.updateById(bookDO);
 
         BookDO one = bookService.findOneByIdAndDeleteTime(id);
         assertNull(one);

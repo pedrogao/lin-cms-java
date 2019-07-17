@@ -1,12 +1,18 @@
 package com.lin.cms.demo.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import javax.persistence.*;
 import java.util.Date;
 
-@Table(name = "lin_log")
+@Entity(name = "lin_log")
+@TableName("lin_log")
 public class LogDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private String message;

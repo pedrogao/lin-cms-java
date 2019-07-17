@@ -53,7 +53,8 @@ public class UserController {
      */
     @PostMapping("/login")
     public Map login(@RequestBody @Valid LoginDTO validator) throws HttpException {
-        UserDO user = userService.findBy("nickname", validator.getNickname());
+        // UserDO user = userService.findBy("nickname", validator.getNickname());
+        UserDO user = userService.findByNickname(validator.getNickname());
         if (user == null) {
             throw new NotFound("未找到相关用户");
         }

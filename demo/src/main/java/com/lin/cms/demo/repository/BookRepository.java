@@ -1,15 +1,15 @@
 package com.lin.cms.demo.repository;
 
-import com.lin.cms.demo.entity.Book;
+import com.lin.cms.demo.model.BookDO;
 
 import java.util.Optional;
 
 
-public interface BookRepository extends SoftCrudRepository<Book, Integer> {
+public interface BookRepository extends SoftCrudRepository<BookDO, Integer> {
 
-    Optional<Book> findBookByIdAndDeleteTimeIsNull(Integer id);
+    Optional<BookDO> findBookByIdAndDeleteTimeIsNull(Integer id);
 
-    Optional<Book> findBookByTitleLikeAndDeleteTimeIsNull(String q);
+    Optional<BookDO> findBookByTitleLikeAndDeleteTimeIsNull(String q);
 
-    Optional<Book> findBookByTitleAndDeleteTimeIsNull(String title);
+    Optional<BookDO> findBookByTitleAndDeleteTimeIsNull(String title);
 }

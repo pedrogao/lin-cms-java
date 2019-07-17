@@ -61,7 +61,8 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         if (!verifyLinScopeAndAccess) {
             return false;
         }
-        UserDO user = userMapper.selectByPrimaryKey(identity);
+        // UserDO user = userMapper.selectByPrimaryKey(identity);
+        UserDO user = userMapper.selectById(identity);
         if (user == null) {
             NotFound notFound = new NotFound("用户不存在");
             ResultGenerator.genResult(notFound);
@@ -173,7 +174,8 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
-        UserDO user = userMapper.selectByPrimaryKey(identity);
+        // UserDO user = userMapper.selectByPrimaryKey(identity);
+        UserDO user = userMapper.selectById(identity);
         if (user == null) {
             NotFound notFound = new NotFound("用户不存在");
             ResultGenerator.genAndWriteResult(response, notFound);

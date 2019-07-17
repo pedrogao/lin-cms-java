@@ -1,5 +1,6 @@
 package com.lin.cms.demo.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.model.LogDO;
 import org.junit.After;
 import org.junit.Before;
@@ -46,13 +47,14 @@ public class LogMapperTest {
         logDO.setUserId(userId);
         logDO.setUserName(userName);
         logDO.setTime(start);
-        logMapper.insertSelective(logDO);
+        logMapper.insert(logDO);
     }
 
     @Test
     public void testFindLogsByUsernameAndRange() {
         Date now = new Date();
-        List<LogDO> logs = logMapper.findLogsByUsernameAndRange(userName, start, now);
+        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(userName, start, now, null);
+        List<LogDO> logs = iPage.getRecords();
         assertTrue(logs.size() > 0);
     }
 
@@ -61,7 +63,8 @@ public class LogMapperTest {
         long changed = start.getTime();
         Date ch = new Date(changed - 1000);
         Date ch1 = new Date(changed - 2000);
-        List<LogDO> logs = logMapper.findLogsByUsernameAndRange(userName, ch1, ch);
+        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(userName, ch1, ch, null);
+        List<LogDO> logs = iPage.getRecords();
         assertTrue(logs.size() == 0);
     }
 
@@ -75,7 +78,8 @@ public class LogMapperTest {
     @Test
     public void testSearchLogsByUsernameAndKeywordAndRange() {
         Date now = new Date();
-        List<LogDO> logs = logMapper.searchLogsByUsernameAndKeywordAndRange(userName, "瓜皮", start, now);
+        IPage<LogDO> iPage = logMapper.searchLogsByUsernameAndKeywordAndRange(userName, "瓜皮", start, now, null);
+        List<LogDO> logs = iPage.getRecords();
         assertTrue(logs.size() > 0);
     }
 
@@ -88,7 +92,8 @@ public class LogMapperTest {
 
     @Test
     public void testGetUserNames() {
-        List<String> names = logMapper.getUserNames();
+        IPage iPage = logMapper.getUserNames(null);
+        List<String> names = iPage.getRecords();
         assertTrue(names.size() > 0);
     }
 

@@ -27,7 +27,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDO getBookByKeyword(String q) {
-        Optional<Book> opt = bookRepository.findBookByTitleLikeAndDeleteTimeIsNull(q);
+        Optional<BookDO> opt = bookRepository.findBookByTitleLikeAndDeleteTimeIsNull(q);
         return getBookDO(opt);
     }
 
@@ -41,21 +41,19 @@ public class BookServiceImpl implements BookService {
         book.setTitle(validator.getTitle());
         book.setImage(validator.getImage());
         book.setSummary(validator.getSummary());
-        Book bookDO = new Book();
-        BeanUtils.copyProperties(book, bookDO);
-        bookRepository.save(bookDO);
+        bookRepository.save(book);
     }
 
     @Override
     public BookDO findOneByIdAndDeleteTime(Integer id) {
-        Optional<Book> opt = bookRepository.findBookByIdAndDeleteTimeIsNull(id);
+        Optional<BookDO> opt = bookRepository.findBookByIdAndDeleteTimeIsNull(id);
         return getBookDO(opt);
         // return bookMapper.findOneByIdAndDeleteTime(id);
     }
 
     @Override
     public List<BookDO> findAll() {
-        Iterable<Book> books = bookRepository.findAll();
+        Iterable<BookDO> books = bookRepository.findAll();
         List<BookDO> res = new ArrayList<>();
         books.forEach(book -> {
             BookDO bookDO = new BookDO();
@@ -70,12 +68,19 @@ public class BookServiceImpl implements BookService {
         bookRepository.deleteById(id);
     }
 
-    private BookDO getBookDO(Optional<Book> opt) {
+    private BookDO getBookDO1(Optional<Book> opt) {
         if (!opt.isPresent()) {
             return null;
         }
         BookDO bookDO = new BookDO();
         BeanUtils.copyProperties(opt.get(), bookDO);
         return bookDO;
+    }
+
+    private BookDO getBookDO(Optional<BookDO> opt) {
+        if (!opt.isPresent()) {
+            return null;
+        }
+        return opt.get();
     }
 }

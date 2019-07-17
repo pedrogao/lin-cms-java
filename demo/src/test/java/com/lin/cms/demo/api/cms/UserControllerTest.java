@@ -77,7 +77,7 @@ public class UserControllerTest {
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
 
-        userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
 
         LoginDTO dto = new LoginDTO();
         dto.setNickname(nickname);
@@ -98,7 +98,7 @@ public class UserControllerTest {
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
 
-        userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
 
         UpdateInfoDTO dto = new UpdateInfoDTO();
         dto.setEmail("23129982604@qq.com");
@@ -120,7 +120,7 @@ public class UserControllerTest {
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
 
-        userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
 
         ChangePasswordDTO dto = new ChangePasswordDTO();
         dto.setOldPassword(password);
@@ -144,7 +144,7 @@ public class UserControllerTest {
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
 
-        userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
         LocalUser.setLocalUser(userDO);
 
         mvc.perform(MockMvcRequestBuilders.get("/cms/user/refresh")
@@ -167,7 +167,7 @@ public class UserControllerTest {
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
 
-        userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
         LocalUser.setLocalUser(userDO);
 
         mvc.perform(MockMvcRequestBuilders.get("/cms/user/information")
@@ -185,7 +185,7 @@ public class UserControllerTest {
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
 
-        userMapper.insertSelective(userDO);
+        userMapper.insert(userDO);
         LocalUser.setLocalUser(userDO);
 
         AvatarUpdateDTO dto = new AvatarUpdateDTO();

@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * @author pedro
  * @since 2019-07-16
  */
-public class Book implements Serializable {
+public class Poem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,15 +25,23 @@ public class Book implements Serializable {
 
     private String author;
 
-    private String summary;
+    private String dynasty;
+
+    private String content;
 
     private String image;
 
+    private LocalDateTime deleteTime;
+
+    /**
+     * 创建时间
+     */
     private LocalDateTime createTime;
 
+    /**
+     * 更新时间
+     */
     private LocalDateTime updateTime;
-
-    private LocalDateTime deleteTime;
 
     public Integer getId() {
         return id;
@@ -56,12 +64,19 @@ public class Book implements Serializable {
     public void setAuthor(String author) {
         this.author = author;
     }
-    public String getSummary() {
-        return summary;
+    public String getDynasty() {
+        return dynasty;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
+    public void setDynasty(String dynasty) {
+        this.dynasty = dynasty;
+    }
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
     public String getImage() {
         return image;
@@ -69,6 +84,13 @@ public class Book implements Serializable {
 
     public void setImage(String image) {
         this.image = image;
+    }
+    public LocalDateTime getDeleteTime() {
+        return deleteTime;
+    }
+
+    public void setDeleteTime(LocalDateTime deleteTime) {
+        this.deleteTime = deleteTime;
     }
     public LocalDateTime getCreateTime() {
         return createTime;
@@ -84,25 +106,19 @@ public class Book implements Serializable {
     public void setUpdateTime(LocalDateTime updateTime) {
         this.updateTime = updateTime;
     }
-    public LocalDateTime getDeleteTime() {
-        return deleteTime;
-    }
-
-    public void setDeleteTime(LocalDateTime deleteTime) {
-        this.deleteTime = deleteTime;
-    }
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "Poem{" +
             "id=" + id +
             ", title=" + title +
             ", author=" + author +
-            ", summary=" + summary +
+            ", dynasty=" + dynasty +
+            ", content=" + content +
             ", image=" + image +
+            ", deleteTime=" + deleteTime +
             ", createTime=" + createTime +
             ", updateTime=" + updateTime +
-            ", deleteTime=" + deleteTime +
         "}";
     }
 }

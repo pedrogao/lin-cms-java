@@ -56,7 +56,7 @@ public class BookServiceImplTest2 {
         validator.setSummary(summary);
         validator.setTitle(title);
         bookService.createBook(validator);
-        Optional<Book> opt = bookRepository.findBookByTitleLikeAndDeleteTimeIsNull(title);
+        Optional<BookDO> opt = bookRepository.findBookByTitleLikeAndDeleteTimeIsNull(title);
 
         if (opt.isPresent()) {
             assertEquals(opt.get().getAuthor(), author);
@@ -67,7 +67,7 @@ public class BookServiceImplTest2 {
 
     @Test
     public void getBookByKeyword() {
-        Book bookDO = new Book();
+        BookDO bookDO = new BookDO();
         bookDO.setTitle(title);
         bookDO.setAuthor(author);
         bookDO.setImage(image);
@@ -81,7 +81,7 @@ public class BookServiceImplTest2 {
 
     @Test
     public void updateBook() {
-        Book bookDO = new Book();
+        BookDO bookDO = new BookDO();
         bookDO.setTitle(title);
         bookDO.setAuthor(author);
         bookDO.setImage(image);
@@ -97,7 +97,7 @@ public class BookServiceImplTest2 {
         validator.setSummary(summary);
         validator.setTitle(newTitle);
 
-        Optional<Book> opt = bookRepository.findBookByIdAndDeleteTimeIsNull(id);
+        Optional<BookDO> opt = bookRepository.findBookByIdAndDeleteTimeIsNull(id);
 
         assertNotNull(opt.get());
 
@@ -106,13 +106,13 @@ public class BookServiceImplTest2 {
 
         bookService.updateBook(bookdoo, validator);
 
-        Optional<Book> opt1 = bookRepository.findBookByTitleAndDeleteTimeIsNull(newTitle);
+        Optional<BookDO> opt1 = bookRepository.findBookByTitleAndDeleteTimeIsNull(newTitle);
         assertNotNull(opt1.get());
     }
 
     @Test
     public void findOneByIdAndDeleteTime() {
-        Book bookDO = new Book();
+        BookDO bookDO = new BookDO();
         bookDO.setTitle(title);
         bookDO.setAuthor(author);
         bookDO.setImage(image);
@@ -126,7 +126,7 @@ public class BookServiceImplTest2 {
 
     @Test
     public void findAll() {
-        Book bookDO = new Book();
+        BookDO bookDO = new BookDO();
         bookDO.setTitle(title);
         bookDO.setAuthor(author);
         bookDO.setImage(image);
@@ -140,7 +140,7 @@ public class BookServiceImplTest2 {
 
     @Test
     public void deleteById() {
-        Book bookDO = new Book();
+        BookDO bookDO = new BookDO();
         bookDO.setTitle(title);
         bookDO.setAuthor(author);
         bookDO.setImage(image);

@@ -1,5 +1,6 @@
 package com.lin.cms.demo.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.mapper.LogMapper;
 import com.lin.cms.demo.model.LogDO;
@@ -93,8 +94,10 @@ public class LogServiceImplTest {
         Integer status = 200;
         logService.createOneLog(message, authority, userId, userName, method, path, status);
 
-        LogDO condition = new LogDO();
-        condition.setMessage(message);
+        // LogDO condition = new LogDO();
+        // condition.setMessage(message);
+        QueryWrapper<LogDO> condition = new QueryWrapper<>();
+        condition.eq("message",message);
         LogDO logDO = logMapper.selectOne(condition);
 
         assertEquals(logDO.getAuthority(), authority);

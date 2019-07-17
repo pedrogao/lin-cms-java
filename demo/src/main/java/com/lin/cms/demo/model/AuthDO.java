@@ -1,13 +1,18 @@
 package com.lin.cms.demo.model;
 
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+
 import javax.persistence.*;
 
-@Table(name = "lin_auth")
+@TableName("lin_auth")
 @Entity(name = "lin_auth")
 public class AuthDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     @Column(name = "group_id")

@@ -118,7 +118,8 @@ public class LocalUploader implements Uploader {
                         // type = 1 时 为本地，= 2 时 为remote
                         // record.setType();
                         record.setExtension(ext);
-                        fileMapper.insertSelective(record);
+                        // fileMapper.insertSelective(record);
+                        fileMapper.insert(record);
                         UploadFileBO item = this.genFileView(record, keys[i]);
                         res.add(item);
                     }

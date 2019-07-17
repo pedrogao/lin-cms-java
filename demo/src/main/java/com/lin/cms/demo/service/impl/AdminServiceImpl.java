@@ -1,7 +1,8 @@
 package com.lin.cms.demo.service.impl;
 
-import com.github.pagehelper.PageHelper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.core.annotation.RouteMeta;
+import com.lin.cms.demo.configure.Page;
 import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.exception.Parameter;
@@ -55,7 +56,8 @@ public class AdminServiceImpl implements AdminService {
             throw new NotFound("用户不存在");
         }
         user.setPasswordEncrypt(validator.getNewPassword());
-        userMapper.updateByPrimaryKeySelective(user);
+        userMapper.updateById(user);
+        // userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
@@ -82,15 +84,21 @@ public class AdminServiceImpl implements AdminService {
         }
         user.setGroupId(validator.getGroupId());
         user.setEmail(validator.getEmail());
-        userMapper.updateByPrimaryKeySelective(user);
+        userMapper.updateById(user);
+        // userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
     public PageResult getGroups(Integer page, Integer count) {
         // 与其它语言保持一致，0为第一页
-        PageHelper.startPage(page + 1, count);
-        List<GroupDO> groups = groupMapper.selectAll();
-        Integer total = groupMapper.getCount();
+        // PageHelper.startPage(page + 1, count);
+        Page<GroupDO> pager = new Page<>(page, count);
+        IPage<GroupDO> iPage = groupMapper.selectPage(pager, null);
+        List<GroupDO> groups = iPage.getRecords();
+        long total = iPage.getTotal();
+        // List<GroupDO> groups = groupMapper.selectAll();
+        // Integer total = groupMapper.getCount();
+
         List<GroupWithAuthsBO> groupAndAuths = new ArrayList<>();
 
         groups.forEach(group -> {
@@ -105,7 +113,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public GroupWithAuthsBO getGroup(Integer id) {
-        GroupDO group = groupMapper.selectByPrimaryKey(id);
+        // GroupDO group = groupMapper.selectByPrimaryKey(id);
+        GroupDO group = groupMapper.selectById(id);
         GroupWithAuthsBO tmp = new GroupWithAuthsBO();
         BeanUtils.copyProperties(group, tmp);
         List<SimpleAuthDO> auths = authMapper.findByGroupId(group.getId());
@@ -124,7 +133,8 @@ public class AdminServiceImpl implements AdminService {
         GroupDO group = new GroupDO();
         group.setName(validator.getName());
         group.setInfo(validator.getInfo());
-        groupMapper.insertSelective(group);
+        groupMapper.insert(group);
+        // groupMapper.insertSelective(group);
         Integer groupId = group.getId();
         validator.getAuths().forEach(item -> {
             AuthDO auth = new AuthDO();
@@ -133,25 +143,29 @@ public class AdminServiceImpl implements AdminService {
                 auth.setGroupId(groupId);
                 auth.setAuth(meta.auth());
                 auth.setModule(meta.module());
-                authMapper.insertSelective(auth);
+                authMapper.insert(auth);
+                // authMapper.insertSelective(auth);
             }
         });
     }
 
     @Override
     public void updateGroup(Integer id, UpdateGroupDTO validator) throws NotFound {
-        GroupDO group = groupMapper.selectByPrimaryKey(id);
+        GroupDO group = groupMapper.selectById(id);
+        // GroupDO group = groupMapper.selectByPrimaryKey(id);
         if (group == null) {
             throw new NotFound("分组不存在，更新失败");
         }
         group.setName(validator.getName());
         group.setInfo(validator.getInfo());
-        groupMapper.updateByPrimaryKeySelective(group);
+        // groupMapper.updateByPrimaryKeySelective(group);
+        groupMapper.updateById(group);
     }
 
     @Override
     public void deleteGroup(Integer id) throws NotFound, Forbidden {
-        GroupDO group = groupMapper.selectByPrimaryKey(id);
+        // GroupDO group = groupMapper.selectByPrimaryKey(id);
+        GroupDO group = groupMapper.selectById(id);
         if (group == null) {
             throw new NotFound("分组不存在，删除失败");
         }
@@ -162,12 +176,14 @@ public class AdminServiceImpl implements AdminService {
         // 删除 auths
         authMapper.deleteByGroupId(id);
         // 删除分组
-        groupMapper.deleteByPrimaryKey(group.getId());
+        // groupMapper.deleteByPrimaryKey(group.getId());
+        groupMapper.deleteById(group.getId());
     }
 
     @Override
     public void dispatchAuth(DispatchAuthDTO validator) throws NotFound, Forbidden {
-        GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
+        GroupDO group = groupMapper.selectById(validator.getGroupId());
+        // GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
         }
@@ -180,12 +196,14 @@ public class AdminServiceImpl implements AdminService {
         auth.setModule(meta.module());
         auth.setAuth(meta.auth());
         auth.setGroupId(validator.getGroupId());
-        authMapper.insertSelective(auth);
+        // authMapper.insertSelective(auth);
+        authMapper.insert(auth);
     }
 
     @Override
     public void dispatchAuths(DispatchAuthsDTO validator) throws NotFound {
-        GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
+        // GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
+        GroupDO group = groupMapper.selectById(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
         }
@@ -197,7 +215,8 @@ public class AdminServiceImpl implements AdminService {
                 auth.setAuth(meta.auth());
                 auth.setModule(meta.module());
                 auth.setGroupId(validator.getGroupId());
-                authMapper.insertSelective(auth);
+                // authMapper.insertSelective(auth);
+                authMapper.insert(auth);
             }
         });
     }
@@ -205,7 +224,8 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional
     public void removeAuths(RemoveAuthsDTO validator) throws NotFound {
-        GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
+        // GroupDO group = groupMapper.selectByPrimaryKey(validator.getGroupId());
+        GroupDO group = groupMapper.selectById(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
         }

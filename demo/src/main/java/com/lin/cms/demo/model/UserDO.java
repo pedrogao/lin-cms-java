@@ -4,22 +4,25 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.amdelamar.jhash.Hash;
 import com.amdelamar.jhash.algorithms.Type;
 import com.amdelamar.jhash.exception.InvalidHashException;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.lin.cms.core.enums.UserActive;
 import com.lin.cms.core.enums.UserAdmin;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 
-@Table(name = "lin_user")
+@TableName("lin_user")
 @Entity(name = "lin_user")
 @DynamicInsert
 @DynamicUpdate
 public class UserDO {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     private String nickname;

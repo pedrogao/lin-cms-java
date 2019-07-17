@@ -60,7 +60,7 @@ public class LogControllerTest {
         logDO.setUserId(userId);
         logDO.setUserName(userName);
         logDO.setTime(start);
-        logMapper.insertSelective(logDO);
+        logMapper.insert(logDO);
     }
 
     @After
