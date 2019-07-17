@@ -94,8 +94,6 @@ public class LogServiceImplTest {
         Integer status = 200;
         logService.createOneLog(message, authority, userId, userName, method, path, status);
 
-        // LogDO condition = new LogDO();
-        // condition.setMessage(message);
         QueryWrapper<LogDO> condition = new QueryWrapper<>();
         condition.eq("message",message);
         LogDO logDO = logMapper.selectOne(condition);

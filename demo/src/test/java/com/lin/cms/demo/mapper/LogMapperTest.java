@@ -1,6 +1,7 @@
 package com.lin.cms.demo.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lin.cms.demo.configure.Page;
 import com.lin.cms.demo.model.LogDO;
 import org.junit.After;
 import org.junit.Before;
@@ -47,13 +48,17 @@ public class LogMapperTest {
         logDO.setUserId(userId);
         logDO.setUserName(userName);
         logDO.setTime(start);
+        long ll = start.getTime() - 500000;
+        // start.setTime(ll);
+        start = new Date(ll);
         logMapper.insert(logDO);
     }
 
     @Test
     public void testFindLogsByUsernameAndRange() {
         Date now = new Date();
-        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(userName, start, now, null);
+        Page page = new Page(0, 10);
+        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(page, userName, start, now);
         List<LogDO> logs = iPage.getRecords();
         assertTrue(logs.size() > 0);
     }
@@ -63,7 +68,8 @@ public class LogMapperTest {
         long changed = start.getTime();
         Date ch = new Date(changed - 1000);
         Date ch1 = new Date(changed - 2000);
-        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(userName, ch1, ch, null);
+        Page page = new Page(1, 10);
+        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(page, userName, ch1, ch);
         List<LogDO> logs = iPage.getRecords();
         assertTrue(logs.size() == 0);
     }
@@ -72,13 +78,14 @@ public class LogMapperTest {
     public void testCountLogsByUsernameAndRange() {
         Date now = new Date();
         Integer count = logMapper.countLogsByUsernameAndRange(userName, start, now);
-        assertTrue(count == 1);
+        assertTrue(count > 0);
     }
 
     @Test
     public void testSearchLogsByUsernameAndKeywordAndRange() {
         Date now = new Date();
-        IPage<LogDO> iPage = logMapper.searchLogsByUsernameAndKeywordAndRange(userName, "瓜皮", start, now, null);
+        Page page = new Page(0, 10);
+        IPage<LogDO> iPage = logMapper.searchLogsByUsernameAndKeywordAndRange(page, userName, "瓜皮", start, now);
         List<LogDO> logs = iPage.getRecords();
         assertTrue(logs.size() > 0);
     }
@@ -92,7 +99,8 @@ public class LogMapperTest {
 
     @Test
     public void testGetUserNames() {
-        IPage iPage = logMapper.getUserNames(null);
+        Page page = new Page(0, 10);
+        IPage iPage = logMapper.getUserNames(page);
         List<String> names = iPage.getRecords();
         assertTrue(names.size() > 0);
     }

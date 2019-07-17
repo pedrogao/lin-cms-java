@@ -48,7 +48,7 @@ public class AdminServiceImplTest {
     private String email = "13129982604@qq.com";
     private String password = "123456";
     private Integer groupId;
-    private String nickname = "pedro";
+    private String nickname = "pedro--test";
 
     private Integer userId;
 
@@ -68,11 +68,19 @@ public class AdminServiceImplTest {
 
     @Test
     public void getUsers() {
+        UserDO userDO = new UserDO();
+        userDO.setNickname(nickname);
+        userDO.setPasswordEncrypt(password);
+        userDO.setEmail(email);
+        userDO.setGroupId(100);
+        userMapper.insert(userDO);
+        this.userId = userDO.getId();
+
         PageResult users = adminService.getUsers(100, 10, 0);
-        assertTrue(users.getTotalNums() == 0);
+        assertTrue(users.getTotalNums() == 1);
 
         PageResult users1 = adminService.getUsers(null, 10, 0);
-        assertTrue(users1.getTotalNums() == 0);
+        assertTrue(users1.getTotalNums() == 1);
     }
 
     @Test
@@ -81,7 +89,6 @@ public class AdminServiceImplTest {
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
-        // userMapper.insertSelective(userDO);
         userMapper.insert(userDO);
         this.userId = userDO.getId();
 
@@ -92,7 +99,6 @@ public class AdminServiceImplTest {
         dto.setConfirmPassword(newPassword);
         adminService.changeUserPassword(this.userId, dto);
 
-        // UserDO aDo = userMapper.selectByPrimaryKey(this.userId);
         UserDO aDo = userMapper.selectById(this.userId);
         boolean valid = aDo.verify(newPassword);
         assertTrue(valid);
@@ -104,7 +110,6 @@ public class AdminServiceImplTest {
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
-        // userMapper.insertSelective(userDO);
         userMapper.insert(userDO);
         this.userId = userDO.getId();
 
@@ -120,7 +125,6 @@ public class AdminServiceImplTest {
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
-        // userMapper.insertSelective(userDO);
         userMapper.insert(userDO);
         this.userId = userDO.getId();
 
@@ -140,7 +144,6 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        // groupMapper.insertSelective(groupDO);
         groupMapper.insert(groupDO);
 
         PageResult groups = adminService.getGroups(0, 10);
@@ -153,7 +156,6 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        // groupMapper.insertSelective(groupDO);
         groupMapper.insert(groupDO);
 
         GroupWithAuthsBO authsBO = adminService.getGroup(groupDO.getId());
@@ -188,7 +190,6 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        // groupMapper.insertSelective(groupDO);
         groupMapper.insert(groupDO);
 
         String newName = "我就是一个新的分组名";
@@ -197,7 +198,6 @@ public class AdminServiceImplTest {
         adminService.updateGroup(groupDO.getId(), dto);
 
         GroupDO aDo = groupMapper.selectById(groupDO.getId());
-        // GroupDO aDo = groupMapper.selectByPrimaryKey(groupDO.getId());
         assertEquals(aDo.getName(), newName);
     }
 
@@ -206,13 +206,11 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        // groupMapper.insertSelective(groupDO);
         groupMapper.insert(groupDO);
 
         adminService.deleteGroup(groupDO.getId());
 
         GroupDO aDo = groupMapper.selectById(groupDO.getId());
-        // GroupDO aDo = groupMapper.selectByPrimaryKey(groupDO.getId());
         assertNull(aDo);
     }
 
@@ -222,7 +220,6 @@ public class AdminServiceImplTest {
         groupDO.setName(name);
         groupDO.setInfo(info);
         groupMapper.insert(groupDO);
-        // groupMapper.insertSelective(groupDO);
 
         DispatchAuthDTO dto = new DispatchAuthDTO();
         dto.setGroupId(groupDO.getId());
@@ -239,7 +236,6 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        // groupMapper.insertSelective(groupDO);
         groupMapper.insert(groupDO);
 
         DispatchAuthsDTO dto = new DispatchAuthsDTO();
@@ -263,7 +259,6 @@ public class AdminServiceImplTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
-        // groupMapper.insertSelective(groupDO);
         groupMapper.insert(groupDO);
 
         DispatchAuthDTO dto = new DispatchAuthDTO();

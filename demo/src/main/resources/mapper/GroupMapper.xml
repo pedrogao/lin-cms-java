@@ -10,16 +10,16 @@
         <result column="info" jdbcType="VARCHAR" property="info"/>
     </resultMap>
 
-    <!--LIMIT :count OFFSET :start-->
     <select id="findGroupsWithAuths" resultType="com.lin.cms.demo.model.GroupAndAuthDO">
-        SELECT lin_group.`id`,
-        lin_group.`name`,
-        lin_group.`info`,
-        lin_auth.`auth`,
-        lin_auth.`module`
-        FROM lin_group
-        LEFT JOIN lin_auth
-        ON lin_group.`id`=lin_auth.`group_id`
+        SELECT
+        g.id,
+        g.name,
+        g.info,
+        a.auth,
+        a.module
+        FROM lin_group g
+        LEFT JOIN lin_auth a
+        ON g.id=a.group_id
     </select>
 
     <select id="getCount" resultType="java.lang.Integer">
@@ -27,7 +27,7 @@
     </select>
 
     <select id="findOneByName" resultType="com.lin.cms.demo.model.GroupDO">
-        SELECT lin_group.* FROM lin_group WHERE lin_group.`name`=#{name} LIMIT 1
+        SELECT g.* FROM lin_group g WHERE g.name=#{name} LIMIT 1
     </select>
 
 

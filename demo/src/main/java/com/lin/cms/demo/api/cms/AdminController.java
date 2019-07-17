@@ -109,7 +109,7 @@ public class AdminController {
     @RouteMeta(auth = "查询所有权限组", module = "管理员")
     public List<GroupDO> getAllGroup() {
         // List<GroupDO> groups = groupMapper.selectAll();
-        List<GroupDO> groups = groupMapper.selectList(null);
+        List<GroupDO> groups = adminService.getAllGroups();
         return groups;
     }
 

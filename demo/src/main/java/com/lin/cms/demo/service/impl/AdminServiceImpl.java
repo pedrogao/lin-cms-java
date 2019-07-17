@@ -42,9 +42,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public PageResult getUsers(Integer groupId, Integer count, Integer page) {
-        // start: start * count1
-        // 这里的 PageHelper 调用会失败，并不会真正的分页
-        List<UserAndGroupNameDO> usersAndGroupName = userMapper.findUsersAndGroupName(groupId, page * count, count);
+        Page pager = new Page(page, count);
+        IPage<UserAndGroupNameDO> iPage = userMapper.findUsersAndGroupName(pager, groupId);
+        List<UserAndGroupNameDO> usersAndGroupName = iPage.getRecords();
         Integer totalNums = userMapper.getCommonUsersCount(groupId);
         return PageResult.genPageResult(totalNums, usersAndGroupName);
     }
@@ -57,7 +57,6 @@ public class AdminServiceImpl implements AdminService {
         }
         user.setPasswordEncrypt(validator.getNewPassword());
         userMapper.updateById(user);
-        // userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
@@ -85,7 +84,6 @@ public class AdminServiceImpl implements AdminService {
         user.setGroupId(validator.getGroupId());
         user.setEmail(validator.getEmail());
         userMapper.updateById(user);
-        // userMapper.updateByPrimaryKeySelective(user);
     }
 
     @Override
@@ -230,5 +228,11 @@ public class AdminServiceImpl implements AdminService {
             throw new NotFound("分组不存在");
         }
         authMapper.deleteByGroupIdAndInAuths(validator.getGroupId(), validator.getAuths());
+    }
+
+    @Override
+    public List<GroupDO> getAllGroups() {
+        List<GroupDO> groups = groupMapper.selectList(null);
+        return groups;
     }
 }

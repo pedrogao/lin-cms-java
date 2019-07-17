@@ -1,5 +1,7 @@
 package com.lin.cms.demo.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lin.cms.demo.configure.Page;
 import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.model.UserAndGroupNameDO;
 import com.lin.cms.demo.model.UserDO;
@@ -34,7 +36,7 @@ public class UserMapperTest {
     private String email = "13129982604@qq.com";
     private String password = "123456";
     private Integer groupId;
-    private String nickname = "pedro";
+    private String nickname = "pedro-test";
 
     private Integer userId;
 
@@ -43,7 +45,6 @@ public class UserMapperTest {
         GroupDO groupDO = new GroupDO();
         groupDO.setName("分组而已啦！");
         groupDO.setInfo("信息是个傻子吧！");
-        // groupMapper.insertSelective(groupDO);
         groupMapper.insert(groupDO);
         this.groupId = groupDO.getId();
 
@@ -59,7 +60,9 @@ public class UserMapperTest {
 
     @Test
     public void testFindUsersAndGroupName() {
-        List<UserAndGroupNameDO> usersAndGroupName = userMapper.findUsersAndGroupName(groupId, 0, 10);
+        Page page = new Page(0, 10);
+        IPage<UserAndGroupNameDO> iPage = userMapper.findUsersAndGroupName(page, groupId);
+        List<UserAndGroupNameDO> usersAndGroupName = iPage.getRecords();
         assertTrue(usersAndGroupName.size() > 0);
     }
 

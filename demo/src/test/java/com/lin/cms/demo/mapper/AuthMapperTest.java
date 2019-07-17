@@ -67,7 +67,7 @@ public class AuthMapperTest {
 
     @Test
     public void testDeleteByGroupIdAndInAuths() {
-        List<String> auths = new ArrayList<String>();
+        List<String> auths = new ArrayList<>();
         auths.add(auth);
         authMapper.deleteByGroupIdAndInAuths(groupId, auths);
 

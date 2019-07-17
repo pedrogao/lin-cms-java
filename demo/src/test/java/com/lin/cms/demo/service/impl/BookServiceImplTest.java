@@ -93,8 +93,6 @@ public class BookServiceImplTest {
         bookService.updateBook(found, validator);
 
         // 不知道什么鬼问题，用 title 查询就不行
-//         BookDO found1 = bookMapper.findOneByTitle(newTitle);
-
         BookDO found2 = bookMapper.findOneByIdAndDeleteTime(id);
 
         assertNotNull(found2);
@@ -111,7 +109,6 @@ public class BookServiceImplTest {
         this.id = bookDO.getId();
 
         bookDO.setDeleteTime(new Date());
-        // bookMapper.updateByPrimaryKeySelective(bookDO);
         bookMapper.updateById(bookDO);
 
         BookDO one = bookService.findOneByIdAndDeleteTime(id);

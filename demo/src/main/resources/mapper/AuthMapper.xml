@@ -12,32 +12,32 @@
     </resultMap>
 
     <select id="selectOneByGroupIdAndAuthAndModule" resultMap="BaseResultMap">
-        select * from lin_auth
-        where group_id=#{groupId}
-        and auth=#{auth}
-        and module=#{module}
+        select * from lin_auth a
+        where a.group_id=#{groupId}
+        and a.auth=#{auth}
+        and a.module=#{module}
         limit 1
     </select>
 
     <select id="findByGroupId" resultType="com.lin.cms.demo.model.SimpleAuthDO">
-        select lin_auth.`auth`,lin_auth.`module` from lin_auth
+        select a.auth,a.module from lin_auth a
         where group_id=#{groupId}
     </select>
 
     <select id="findOneByGroupIdAndAuth" resultType="com.lin.cms.demo.model.AuthDO">
-        SELECT * from lin_auth
-        WHERE group_id=#{groupId}
-        AND auth=#{auth}
+        SELECT * from lin_auth a
+        WHERE a.group_id=#{groupId}
+        AND a.auth=#{auth}
         LIMIT 1
     </select>
 
     <delete id="deleteByGroupId">
-        DELETE FROM lin_auth WHERE lin_auth.`group_id`=#{groupId}
+        DELETE FROM lin_auth WHERE lin_auth.group_id=#{groupId}
     </delete>
 
     <delete id="deleteByGroupIdAndInAuths">
-        DELETE FROM lin_auth WHERE lin_auth.`group_id`=#{groupId}
-        AND lin_auth.`auth` IN
+        DELETE FROM lin_auth WHERE lin_auth.group_id=#{groupId}
+        AND lin_auth.auth IN
         <foreach collection="auths" item="auth" index="index"
                  open="(" close=")" separator=",">
             #{auth}

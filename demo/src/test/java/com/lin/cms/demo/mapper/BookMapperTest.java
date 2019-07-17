@@ -35,7 +35,6 @@ public class BookMapperTest {
         bookDO.setAuthor(author);
         bookDO.setImage(image);
         bookDO.setSummary(summary);
-        // bookMapper.insertSelective(bookDO);
         bookMapper.insert(bookDO);
         this.id = bookDO.getId();
     }
@@ -43,7 +42,7 @@ public class BookMapperTest {
 
     @Test
     public void testGetBookByKeyword() {
-        BookDO found = bookMapper.getBookByKeyword("千里");
+        BookDO found = bookMapper.getBookByKeyword("%千里%");
         assertEquals(found.getTitle(), title);
     }
 

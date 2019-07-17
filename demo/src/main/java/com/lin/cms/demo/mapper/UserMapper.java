@@ -1,17 +1,16 @@
 package com.lin.cms.demo.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lin.cms.demo.configure.Page;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.model.UserAndGroupNameDO;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 
 public interface UserMapper extends BaseMapper<UserDO> {
 
-    List<UserAndGroupNameDO> findUsersAndGroupName(@Param("groupId") Integer groupId,
-                                                   @Param("page") int page,
-                                                   @Param("count") int count);
+    IPage<UserAndGroupNameDO> findUsersAndGroupName(Page page, @Param("groupId") Integer groupId);
 
     Integer getCommonUsersCount(@Param("groupId") Integer groupId);
 

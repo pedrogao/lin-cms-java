@@ -18,66 +18,66 @@
 
 
     <select id="findLogsByUsernameAndRange" resultType="com.lin.cms.demo.model.LogDO">
-        SELECT lin_log.* FROM lin_log
+        SELECT l.* FROM lin_log l
         <where>
             <if test="name != null">
-                lin_log.`user_name`=#{name}
+                l.user_name=#{name}
             </if>
             <if test="start !=null and end !=null">
-                AND lin_log.`time` BETWEEN #{start} AND #{end}
+                AND l.time BETWEEN #{start} AND #{end}
             </if>
         </where>
-        ORDER BY lin_log.`time` DESC
+        ORDER BY l.time DESC
     </select>
 
     <select id="countLogsByUsernameAndRange" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM lin_log
+        SELECT COUNT(*) FROM lin_log l
         <where>
             <if test="name != null">
-                lin_log.`user_name`=#{name}
+                l.user_name=#{name}
             </if>
             <if test="start !=null and end !=null">
-                AND lin_log.`time` BETWEEN #{start} AND #{end}
+                AND l.time BETWEEN #{start} AND #{end}
             </if>
         </where>
     </select>
 
     <select id="searchLogsByUsernameAndKeywordAndRange" resultType="com.lin.cms.demo.model.LogDO">
-        SELECT lin_log.* FROM lin_log
+        SELECT l.* FROM lin_log l
         <where>
             <if test="name != null">
-                lin_log.`user_name`=#{name}
+                l.user_name=#{name}
             </if>
             <if test="start !=null and end !=null">
-                AND lin_log.`time` BETWEEN #{start} AND #{end}
+                AND l.time BETWEEN #{start} AND #{end}
             </if>
             <if test="keyword != null">
-                AND lin_log.`message` LIKE CONCAT("%",#{keyword},"%")
+                AND l.message LIKE CONCAT("%",#{keyword},"%")
             </if>
         </where>
-        ORDER BY lin_log.`time` DESC
+        ORDER BY l.time DESC
     </select>
 
     <select id="countLogsByUsernameAndKeywordAndRange" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM lin_log
+        SELECT COUNT(*) FROM lin_log l
         <where>
             <if test="name != null">
-                lin_log.`user_name`=#{name}
+                l.user_name=#{name}
             </if>
             <if test="start !=null and end !=null">
-                AND lin_log.`time` BETWEEN #{start} AND #{end}
+                AND l.time BETWEEN #{start} AND #{end}
             </if>
             <if test="keyword != null">
-                AND lin_log.`message` LIKE CONCAT("%",#{keyword},"%")
+                AND l.message LIKE CONCAT("%",#{keyword},"%")
             </if>
         </where>
     </select>
 
     <select id="getUserNames" resultType="java.lang.String">
-        SELECT lin_log.`user_name`
-        FROM lin_log
-        GROUP BY lin_log.`user_name`
-        HAVING COUNT(lin_log.`user_name`) > 0
+        SELECT l.user_name
+        FROM lin_log l
+        GROUP BY l.user_name
+        HAVING COUNT(l.user_name) > 0
     </select>
 
 </mapper>

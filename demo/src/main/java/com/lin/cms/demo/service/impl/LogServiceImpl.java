@@ -24,24 +24,19 @@ public class LogServiceImpl implements LogService {
     @Override
     public PageResult getLogs(Integer page, Integer count, String name, Date start, Date end) {
         Page<LogDO> pager = new Page<>(page, count);
-        // PageHelper.startPage(page + 1, count);
-        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(name, start, end, pager);
-        // Integer total = logMapper.countLogsByUsernameAndRange(name, start, end);
+        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(pager, name, start, end);
         return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords());
     }
 
     @Override
     public PageResult searchLogs(Integer page, Integer count, String name, String keyword, Date start, Date end) {
-        // PageHelper.startPage(page + 1, count);
         Page<LogDO> pager = new Page<>(page, count);
-        IPage<LogDO> iPage = logMapper.searchLogsByUsernameAndKeywordAndRange(name, keyword, start, end, pager);
-        // Integer total = logMapper.countLogsByUsernameAndKeywordAndRange(name, keyword, start, end);
+        IPage<LogDO> iPage = logMapper.searchLogsByUsernameAndKeywordAndRange(pager, name, keyword, start, end);
         return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords());
     }
 
     @Override
     public List<String> getUserNames(Integer page, Integer count) {
-        // PageHelper.startPage(page + 1, count);
         Page<LogDO> pager = new Page<>(page, count);
         IPage<String> iPage = logMapper.getUserNames(pager);
         return iPage.getRecords();
@@ -62,7 +57,6 @@ public class LogServiceImpl implements LogService {
         if (authority != null) {
             record.setAuthority(authority);
         }
-        // logMapper.insertSelective(record);
         logMapper.insert(record);
     }
 }

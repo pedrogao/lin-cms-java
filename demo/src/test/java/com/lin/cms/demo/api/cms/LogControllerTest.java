@@ -1,6 +1,5 @@
 package com.lin.cms.demo.api.cms;
 
-import com.alibaba.fastjson.JSON;
 import com.lin.cms.demo.mapper.LogMapper;
 import com.lin.cms.demo.model.LogDO;
 import org.junit.After;

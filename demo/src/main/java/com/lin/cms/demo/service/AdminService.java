@@ -1,11 +1,14 @@
 package com.lin.cms.demo.service;
 
+import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.exception.Parameter;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.dto.admin.*;
 import com.lin.cms.demo.bo.GroupWithAuthsBO;
+
+import java.util.List;
 
 
 public interface AdminService {
@@ -32,4 +35,6 @@ public interface AdminService {
     void dispatchAuths(DispatchAuthsDTO validator) throws NotFound;
 
     void removeAuths(RemoveAuthsDTO validator) throws NotFound;
+
+    List<GroupDO> getAllGroups();
 }

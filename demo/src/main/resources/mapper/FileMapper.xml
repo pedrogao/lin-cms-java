@@ -15,7 +15,8 @@
     </resultMap>
 
     <select id="findOneByMd5" resultType="com.lin.cms.demo.model.FileDO">
-        select * from lin_file
-        where md5=#{md5}
+        select *
+        from lin_file f
+        where f.md5=#{md5}
     </select>
 </mapper>
