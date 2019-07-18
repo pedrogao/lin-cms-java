@@ -1,5 +1,6 @@
 package com.lin.cms.exception;
 
+import com.lin.cms.autoconfigure.LinCmsProperties;
 import com.lin.cms.beans.ErrCode;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.interfaces.ExceptionResultResolver;
@@ -37,12 +38,19 @@ public class ExceptionHandler implements HandlerExceptionResolver {
     @Autowired
     private ExceptionResultResolver exceptionResultResolver;
 
+    @Autowired
+    private LinCmsProperties linCmsProperties;
+
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
+        // dev 环境下，原始异常
         Result result = new Result();
         if (e instanceof HttpException) {
             log.info(e.getMessage());
             result = ResultGenerator.genResult((HttpException) e);
+            Integer errorCode = ((HttpException) e).getErrorCode();
+            String s = linCmsProperties.getCodeMsgs().get(errorCode);
+            result.setMsg(s);
         } else if (e instanceof NoHandlerFoundException) {
             result.setHttpCode(HttpStatus.NOT_FOUND.value())
                     .setErrCode(ErrCode.NOT_FOUND.getCode())
@@ -54,6 +62,9 @@ public class ExceptionHandler implements HandlerExceptionResolver {
                     .setErrCode(ErrCode.FAIL.getCode())
                     .setUrl(request.getServletPath())
                     .setMsg(e.getMessage());
+            // Integer errorCode = result.getErrCode();
+            // String s = linCmsProperties.getCodeMsgs().get(errorCode);
+            // result.setMsg(s);
         } else if (e instanceof MethodArgumentNotValidException) {
             result = this.handleMethodArgumentNotValidException(e);
         } else if (e instanceof HttpMessageNotReadableException) {
@@ -75,6 +86,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
         } else {
             this.handleUnknownException(result, e, request, handler);
         }
+        // ConstraintVio
         exceptionResultResolver.rewrite(response, result, e);
         return new ModelAndView();
     }

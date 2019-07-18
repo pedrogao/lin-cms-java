@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 @MapperScan(basePackages = {"com.lin.cms.demo.mapper"/*, "com.lin.cms.plugins.poem.app"*/})
 @PropertySources({
         // @PropertySource("classpath:com/lin/cms/plugins/poem/plugin.properties"),
-        @PropertySource("classpath:com/lin/cms/demo/extensions/file/config.properties")
+        @PropertySource(value = "classpath:errorcode.properties", encoding = "UTF-8"),
+        @PropertySource(value = "classpath:com/lin/cms/demo/extensions/file/config.properties", encoding = "UTF-8")
 })
 @RestController
 public class DemoApplication {

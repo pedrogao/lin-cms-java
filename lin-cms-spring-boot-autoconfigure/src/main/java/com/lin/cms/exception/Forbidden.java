@@ -6,7 +6,7 @@ import com.lin.cms.core.enums.HttpStatus;
 
 @Data
 public class Forbidden extends HttpException {
-    private Object msg = ErrCode.FORBIDDEN.getDescription();
+    private String msg = ErrCode.FORBIDDEN.getDescription();
     private Integer errorCode = ErrCode.FORBIDDEN.getCode();
     private Integer httpCode = HttpStatus.FORBIDDEN.value();
 

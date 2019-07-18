@@ -6,7 +6,7 @@ import com.lin.cms.core.enums.HttpStatus;
 
 public class HttpException extends Exception {
 
-    private Object msg = ErrCode.INTERNAL_SERVER_ERROR.getDescription();
+    private String msg = ErrCode.INTERNAL_SERVER_ERROR.getDescription();
 
     private Integer errorCode = ErrCode.INTERNAL_SERVER_ERROR.getCode();
 
@@ -18,10 +18,6 @@ public class HttpException extends Exception {
         this.msg = msg;
         this.errorCode = errorCode;
         this.httpCode = httpCode;
-    }
-
-    public HttpException(Object msg) {
-        this.msg = msg;
     }
 
     public HttpException(String msg) {
@@ -40,7 +36,7 @@ public class HttpException extends Exception {
         return msg;
     }
 
-    public void setMsg(Object msg) {
+    public void setMsg(String msg) {
         this.msg = msg;
     }
 

@@ -6,7 +6,7 @@ import com.lin.cms.core.enums.HttpStatus;
 
 @Data
 public class FileExtension extends HttpException {
-    private Object msg = ErrCode.File_Extension.getDescription();
+    private String msg = ErrCode.File_Extension.getDescription();
     private Integer errorCode = ErrCode.File_Extension.getCode();
     private Integer httpCode = HttpStatus.NOT_ACCEPTABLE.value();
 

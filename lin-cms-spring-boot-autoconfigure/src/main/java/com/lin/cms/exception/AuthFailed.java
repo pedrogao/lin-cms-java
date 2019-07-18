@@ -6,7 +6,7 @@ import com.lin.cms.core.enums.HttpStatus;
 
 @Data
 public class AuthFailed extends HttpException {
-    private Object msg = ErrCode.UNAUTHORIZED.getDescription();
+    private String msg = ErrCode.UNAUTHORIZED.getDescription();
     private Integer errorCode = ErrCode.UNAUTHORIZED.getCode();
     private Integer httpCode = HttpStatus.UNAUTHORIZED.value();
 

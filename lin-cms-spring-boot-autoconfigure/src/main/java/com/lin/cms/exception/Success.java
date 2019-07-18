@@ -6,7 +6,7 @@ import com.lin.cms.core.enums.HttpStatus;
 
 @Data
 public class Success extends HttpException {
-    private Object msg = ErrCode.SUCCESS.getDescription();
+    private String msg = ErrCode.SUCCESS.getDescription();
     private Integer errorCode = ErrCode.SUCCESS.getCode();
     private Integer httpCode = HttpStatus.OK.value();
 
