@@ -1,5 +1,6 @@
 package com.lin.cms.token;
 
+import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -33,9 +34,7 @@ public class JWT {
 
     public String generateToken(String tokenType, Integer identity, String scope, long expire) {
         Algorithm algorithm = Algorithm.HMAC256(this.secret);
-        long nowTime = new Date().getTime();
-        long expireTime = nowTime + expire;
-        Date expireDate = new Date(expireTime);
+        Date expireDate = this.getExpireDate(expire);
         String token = com.auth0.jwt.JWT.create()
                 .withClaim("type", tokenType)
                 .withClaim("identity", identity)
@@ -45,35 +44,53 @@ public class JWT {
         return token;
     }
 
-    public Map<String, Claim> verifyAccess(String token) {
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(this.secret);
-            JWTVerifier verifier = com.auth0.jwt.JWT.require(algorithm)
-                    .acceptExpiresAt(this.accessExpire) // 一个小时 单位 s
-                    .build();
-            DecodedJWT jwt = verifier.verify(token);
-            Map<String, Claim> claims = jwt.getClaims();
-            return claims;
-        } catch (JWTVerificationException exception) {
-            log.error("token: ", exception);
-            return null;
-        }
+    /***
+     * 获得令牌的验证器
+     * @param expire 令牌的过期时间
+     * @return JWTVerifier
+     */
+    public JWTVerifier getVerifier(long expire) {
+        Algorithm algorithm = Algorithm.HMAC256(this.secret);
+        JWTVerifier verifier = com.auth0.jwt.JWT.require(algorithm)
+                .acceptExpiresAt(expire)
+                .build();
+        return verifier;
+    }
+
+    public JWTCreator.Builder getBuilder() {
+        JWTCreator.Builder builder = com.auth0.jwt.JWT.create();
+        return builder;
+    }
+
+    public String getSpecifyToken(long expire, Map<String, String> payloads) {
+        Algorithm algorithm = Algorithm.HMAC256(this.secret);
+        Date expireDate = this.getExpireDate(expire);
+        JWTCreator.Builder builder = com.auth0.jwt.JWT.create();
+        payloads.forEach(builder::withClaim);
+        builder.withExpiresAt(expireDate);
+        String token = builder.sign(algorithm);
+        return token;
+    }
+
+    public Map<String, Claim> verifyAccess(String token) throws JWTVerificationException {
+        Algorithm algorithm = Algorithm.HMAC256(this.secret);
+        JWTVerifier verifier = com.auth0.jwt.JWT.require(algorithm)
+                .acceptExpiresAt(this.accessExpire) // 一个小时 单位 s
+                .build();
+        DecodedJWT jwt = verifier.verify(token);
+        Map<String, Claim> claims = jwt.getClaims();
+        return claims;
     }
 
 
-    public Map<String, Claim> verifyRefresh(String token) {
-        try {
-            Algorithm algorithm = Algorithm.HMAC256(this.secret);
-            JWTVerifier verifier = com.auth0.jwt.JWT.require(algorithm)
-                    .acceptExpiresAt(this.refreshExpire) // 一个月
-                    .build();
-            DecodedJWT jwt = verifier.verify(token);
-            Map<String, Claim> claims = jwt.getClaims();
-            return claims;
-        } catch (JWTVerificationException exception) {
-            log.error("token: ", exception);
-            return null;
-        }
+    public Map<String, Claim> verifyRefresh(String token) throws JWTVerificationException {
+        Algorithm algorithm = Algorithm.HMAC256(this.secret);
+        JWTVerifier verifier = com.auth0.jwt.JWT.require(algorithm)
+                .acceptExpiresAt(this.refreshExpire) // 一个月
+                .build();
+        DecodedJWT jwt = verifier.verify(token);
+        Map<String, Claim> claims = jwt.getClaims();
+        return claims;
     }
 
     public String generateAccessToken(Integer identity) {
@@ -91,5 +108,52 @@ public class JWT {
         tokens.put("access_token", access);
         tokens.put("refresh_token", refresh);
         return tokens;
+    }
+
+    /**
+     * 获得过期时间
+     *
+     * @param expire 过期时间
+     * @return Date
+     */
+    private Date getExpireDate(long expire) {
+        long nowTime = new Date().getTime();
+        long expireTime = nowTime + expire;
+        Date expireDate = new Date(expireTime);
+        return expireDate;
+    }
+
+    /**
+     * 获得默认的token加密方法
+     *
+     * @return Algorithm
+     */
+    public Algorithm getDefaultAlgorithm() {
+        Algorithm algorithm = Algorithm.HMAC256(this.secret);
+        return algorithm;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
+
+    public Long getAccessExpire() {
+        return accessExpire;
+    }
+
+    public void setAccessExpire(Long accessExpire) {
+        this.accessExpire = accessExpire;
+    }
+
+    public Long getRefreshExpire() {
+        return refreshExpire;
+    }
+
+    public void setRefreshExpire(Long refreshExpire) {
+        this.refreshExpire = refreshExpire;
     }
 }

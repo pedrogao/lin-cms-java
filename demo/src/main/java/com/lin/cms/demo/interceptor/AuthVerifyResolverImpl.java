@@ -1,5 +1,6 @@
 package com.lin.cms.demo.interceptor;
 
+import com.auth0.jwt.exceptions.*;
 import com.auth0.jwt.interfaces.Claim;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.exception.AuthFailed;
@@ -47,29 +48,48 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         if (tokenStr == null) {
             return false;
         }
-        Map<String, Claim> claims = jwt.verifyAccess(tokenStr);
-        if (claims == null) {
-            AuthFailed failed = new AuthFailed("令牌损坏，请重新申请正确的令牌");
+        Map<String, Claim> claims = null;
+        try {
+            claims = jwt.verifyAccess(tokenStr);
+        } catch (TokenExpiredException e) {
+            AuthFailed failed = new AuthFailed("令牌过期，请重新申请令牌");
+            ResultGenerator.genAndWriteResult(response, failed);
+            return false;
+        } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
+            AuthFailed failed = new AuthFailed("令牌损坏，请检查令牌");
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
-        Integer identity = claims.get("identity").asInt();
-        String type = claims.get("type").asString();
+        if (claims == null) {
+            AuthFailed failed = new AuthFailed("令牌损坏，解析错误，请重新申请正确的令牌");
+            ResultGenerator.genAndWriteResult(response, failed);
+            return false;
+        }
+        // 先判断 scope 作用域
         String scope = claims.get("scope").asString();
+        // 为 lin 作用域下的令牌校验
+        if (scope.equals(JWT.LIN_SCOPE)) {
+            Integer identity = claims.get("identity").asInt();
+            String type = claims.get("type").asString();
 
-        boolean verifyLinScopeAndAccess = this.verifyLinScopeAndAccess(response, scope, type);
-        if (!verifyLinScopeAndAccess) {
+            boolean verifyLinAccess = this.verifyLinAccess(response, type);
+            if (!verifyLinAccess) {
+                return false;
+            }
+            UserDO user = userMapper.selectById(identity);
+            if (user == null) {
+                NotFound notFound = new NotFound("用户不存在");
+                ResultGenerator.genResult(notFound);
+                return false;
+            }
+            LocalUser.setLocalUser(user);
+            return true;
+        } else {
+            // 其它作用域 暂时返回 false，即其它作用域下均校验失败
+            AuthFailed failed = new AuthFailed("您的令牌领域(scope)错误");
+            ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
-        // UserDO user = userMapper.selectByPrimaryKey(identity);
-        UserDO user = userMapper.selectById(identity);
-        if (user == null) {
-            NotFound notFound = new NotFound("用户不存在");
-            ResultGenerator.genResult(notFound);
-            return false;
-        }
-        LocalUser.setLocalUser(user);
-        return true;
     }
 
     public boolean verifyGroup(HttpServletRequest request, HttpServletResponse response, Result result, RouteMeta meta) {
@@ -107,13 +127,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         return user.ifIsAdmin();
     }
 
-    private boolean verifyLinScopeAndAccess(HttpServletResponse response, String scope, String type) {
-        // 先判断scope，scope不对直接false
-        if (!scope.equals(JWT.LIN_SCOPE)) {
-            AuthFailed failed = new AuthFailed("您的令牌领域(scope)错误");
-            ResultGenerator.genAndWriteResult(response, failed);
-            return false;
-        }
+    private boolean verifyLinAccess(HttpServletResponse response, String type) {
         // 先判断token类型，login校验必须为access
         if (!type.equals(JWT.ACCESS_TYPE)) {
             AuthFailed failed = new AuthFailed("您的令牌类型错误");
@@ -157,11 +171,28 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         if (tokenStr == null) {
             return false;
         }
-        Map<String, Claim> claims = jwt.verifyRefresh(tokenStr);
+        Map<String, Claim> claims = null;
+        try {
+            claims = jwt.verifyRefresh(tokenStr);
+        } catch (TokenExpiredException e) {
+            AuthFailed failed = new AuthFailed("令牌过期，请重新申请令牌");
+            ResultGenerator.genAndWriteResult(response, failed);
+            return false;
+        } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
+            AuthFailed failed = new AuthFailed("令牌损坏，请检查令牌");
+            ResultGenerator.genAndWriteResult(response, failed);
+            return false;
+        }
+        if (claims == null) {
+            AuthFailed failed = new AuthFailed("令牌损坏，请重新申请正确的令牌");
+            ResultGenerator.genAndWriteResult(response, failed);
+            return false;
+        }
+        String scope = claims.get("scope").asString();
+
 
         Integer identity = claims.get("identity").asInt();
         String type = claims.get("type").asString();
-        String scope = claims.get("scope").asString();
         // 先判断scope，scope不对直接false
         if (!scope.equals(JWT.LIN_SCOPE)) {
             AuthFailed failed = new AuthFailed("您的令牌领域(scope)错误");
@@ -174,7 +205,6 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
-        // UserDO user = userMapper.selectByPrimaryKey(identity);
         UserDO user = userMapper.selectById(identity);
         if (user == null) {
             NotFound notFound = new NotFound("用户不存在");

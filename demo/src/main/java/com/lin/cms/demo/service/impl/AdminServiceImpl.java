@@ -2,7 +2,7 @@ package com.lin.cms.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.demo.configure.Page;
+import com.lin.cms.demo.common.page.Page;
 import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.exception.Parameter;

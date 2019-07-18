@@ -2,7 +2,7 @@ package com.lin.cms.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.core.result.PageResult;
-import com.lin.cms.demo.configure.Page;
+import com.lin.cms.demo.common.page.Page;
 import com.lin.cms.demo.mapper.LogMapper;
 import com.lin.cms.demo.service.LogService;
 import com.lin.cms.demo.model.LogDO;

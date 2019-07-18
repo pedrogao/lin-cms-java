@@ -1,7 +1,7 @@
 package com.lin.cms.demo.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lin.cms.demo.configure.Page;
+import com.lin.cms.demo.common.page.Page;
 import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.model.UserAndGroupNameDO;
 import com.lin.cms.demo.model.UserDO;
