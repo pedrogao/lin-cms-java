@@ -1,10 +1,14 @@
 package com.lin.cms.demo.dto.book;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.*;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
 public class CreateOrUpdateBookDTO {
 
     @NotEmpty(message = "必须传入图书名")

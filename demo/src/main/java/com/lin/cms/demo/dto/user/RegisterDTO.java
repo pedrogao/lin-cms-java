@@ -1,11 +1,15 @@
 package com.lin.cms.demo.dto.user;
 
 import com.lin.cms.demo.validator.EqualField;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.*;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
 @EqualField(srcField = "password", dstField = "confirmPassword", message = "两次输入密码不一致")
 public class RegisterDTO {
 

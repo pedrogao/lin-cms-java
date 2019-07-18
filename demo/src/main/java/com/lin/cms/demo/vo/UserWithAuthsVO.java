@@ -1,13 +1,15 @@
 package com.lin.cms.demo.vo;
 
 import com.lin.cms.demo.model.UserDO;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.BeanUtils;
 
 import java.util.Date;
 import java.util.List;
 
-@Data
+@Setter
+@Getter
 public class UserWithAuthsVO {
     private Integer id;
 

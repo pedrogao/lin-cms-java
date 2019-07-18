@@ -2,7 +2,6 @@ package com.lin.cms.demo.service.impl;
 
 import com.lin.cms.demo.extensions.file.Uploader;
 import com.lin.cms.demo.mapper.FileMapper;
-import com.lin.cms.demo.model.FileDO;
 import com.lin.cms.demo.service.FileService;
 import com.lin.cms.demo.bo.UploadFileBO;
 import com.lin.cms.exception.*;

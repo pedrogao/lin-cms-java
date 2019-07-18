@@ -19,7 +19,6 @@ import java.util.List;
 @RequestMapping("/v1/book")
 public class BookController {
 
-    // 尝试用jpa
     @Autowired
     private BookService bookService;
 

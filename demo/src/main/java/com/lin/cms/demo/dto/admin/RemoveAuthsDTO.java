@@ -1,13 +1,17 @@
 package com.lin.cms.demo.dto.admin;
 
 import com.lin.cms.demo.validator.NotEmptyFields;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
 public class RemoveAuthsDTO {
     @Min(value = 1, message = "分组id必须正整数")
     @NotNull(message = "分组id不可为空")

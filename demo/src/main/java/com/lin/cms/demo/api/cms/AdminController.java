@@ -8,7 +8,6 @@ import com.lin.cms.exception.NotFound;
 import com.lin.cms.exception.Parameter;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
-import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.bo.GroupWithAuthsBO;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
@@ -35,9 +34,6 @@ public class AdminController {
 
     @Autowired
     private AdminServiceImpl adminService;
-
-    @Autowired
-    private GroupMapper groupMapper;
 
     @Autowired
     private CollectMetaPostBeanProcessor postBeanProcessor;
@@ -108,7 +104,6 @@ public class AdminController {
     @Logger(template = "pedro正在调试呢！")
     @RouteMeta(auth = "查询所有权限组", module = "管理员")
     public List<GroupDO> getAllGroup() {
-        // List<GroupDO> groups = groupMapper.selectAll();
         List<GroupDO> groups = adminService.getAllGroups();
         return groups;
     }

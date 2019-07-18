@@ -1,13 +1,17 @@
 package com.lin.cms.demo.dto.admin;
 
 import com.lin.cms.demo.validator.EqualField;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
 @EqualField(srcField = "newPassword", dstField = "confirmPassword", message = "两次输入密码不一致")
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
 public class ResetPasswordDTO {
 
     @NotBlank(message = "密码不可为空")

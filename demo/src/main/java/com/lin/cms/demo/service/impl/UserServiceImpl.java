@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(RegisterDTO validator) throws Forbidden {
         UserDO exist = this.findByNickname(validator.getNickname());
-        // UserDO exist = this.findBy("nickname", validator.getNickname());
         if (exist != null) {
             throw new Forbidden("用户已经存在");
         }
@@ -61,13 +60,11 @@ public class UserServiceImpl implements UserService {
             QueryWrapper<UserDO> wrapper = new QueryWrapper<>();
             wrapper.eq("email", validator.getEmail());
             UserDO exist = userMapper.selectOne(wrapper);
-            // UserDO exist = this.findBy("email", validator.getEmail());
             if (exist != null) {
                 throw new Parameter("邮箱已被注册，请重新输入邮箱");
             }
         }
         user.setEmail(email);
-        // this.update(user);
         userMapper.updateById(user);
     }
 
@@ -79,7 +76,6 @@ public class UserServiceImpl implements UserService {
             throw new Parameter("请输入正确的旧密码");
         }
         user.setPasswordEncrypt(validator.getNewPassword());
-        // this.update(user);
         userMapper.updateById(user);
     }
 
@@ -87,7 +83,6 @@ public class UserServiceImpl implements UserService {
     public void updateAvatar(AvatarUpdateDTO validator) {
         UserDO user = LocalUser.getLocalUser();
         user.setAvatar(validator.getAvatar());
-        //this.update(user);
         userMapper.updateById(user);
     }
 
