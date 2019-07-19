@@ -41,12 +41,15 @@ public class ExceptionHandler implements HandlerExceptionResolver {
     @Autowired
     private LinCmsProperties linCmsProperties;
 
+    @Value("${spring.profiles.active}")
+    private String env;
+
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
         // dev 环境下，原始异常
         Result result = new Result();
         if (e instanceof HttpException) {
-            log.info(e.getMessage());
+            // log.info(e.getMessage());
             result = ResultGenerator.genResult((HttpException) e);
             Integer errorCode = ((HttpException) e).getErrorCode();
             String s = linCmsProperties.getCodeMsgs().get(errorCode);
@@ -62,9 +65,6 @@ public class ExceptionHandler implements HandlerExceptionResolver {
                     .setErrCode(ErrCode.FAIL.getCode())
                     .setUrl(request.getServletPath())
                     .setMsg(e.getMessage());
-            // Integer errorCode = result.getErrCode();
-            // String s = linCmsProperties.getCodeMsgs().get(errorCode);
-            // result.setMsg(s);
         } else if (e instanceof MethodArgumentNotValidException) {
             result = this.handleMethodArgumentNotValidException(e);
         } else if (e instanceof HttpMessageNotReadableException) {
@@ -110,10 +110,6 @@ public class ExceptionHandler implements HandlerExceptionResolver {
     }
 
     private void handleUnknownException(Result result, Exception e, HttpServletRequest request, Object handler) {
-        result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                .setErrCode(ErrCode.INTERNAL_SERVER_ERROR.getCode())
-                .setUrl(request.getServletPath())
-                .setMsg("服务器内部错误，正在抓紧排查");
         String message;
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
@@ -126,5 +122,16 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             message = e.getMessage();
         }
         log.error(message, e);
+        if (env.equals("dev")) {
+            result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .setErrCode(ErrCode.INTERNAL_SERVER_ERROR.getCode())
+                    .setUrl(request.getServletPath())
+                    .setMsg(message);
+        } else {
+            result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                    .setErrCode(ErrCode.INTERNAL_SERVER_ERROR.getCode())
+                    .setUrl(request.getServletPath())
+                    .setMsg("服务器内部错误，正在抓紧排查");
+        }
     }
 }

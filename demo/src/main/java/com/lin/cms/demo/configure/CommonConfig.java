@@ -24,11 +24,6 @@ public class CommonConfig {
     }
 
     @Bean
-    public ExceptionResultImpl exceptionResult() {
-        return new ExceptionResultImpl();
-    }
-
-    @Bean
     public RequestLogInterceptor requestLogInterceptor() {
         return new RequestLogInterceptor();
     }
