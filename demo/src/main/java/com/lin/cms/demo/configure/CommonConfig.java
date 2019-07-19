@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.lin.cms.beans.Manager;
-import com.lin.cms.demo.exception.ExceptionResultImpl;
 import com.lin.cms.demo.extensions.file.FileProperties;
 import com.lin.cms.demo.interceptor.RequestLogInterceptor;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
