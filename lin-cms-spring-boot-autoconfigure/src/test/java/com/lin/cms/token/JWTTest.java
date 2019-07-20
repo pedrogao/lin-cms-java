@@ -24,9 +24,14 @@ public class JWTTest {
 
     @Test
     public void getVerifier() {
-        String tt = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZGVudGl0eSI6InBlZHJvIiwic2NvcGUiOiIzMzQiLCJpcCI6IjEyOS44OTguMTEuMzMiLCJleHAiOjE1NjM0Mjc1NDF9.aOiZJ3EGfhF7OXOEzfK8tGozQnrl-tw29_bcuwxw2fY";
+        Map<String, String> payloads = new HashMap();
+        payloads.put("identity", "pedro");
+        payloads.put("scope", "334");
+        payloads.put("ip", "129.898.11.33");
+        String token = jwt.getSpecifyToken(jwt.getAccessExpire(), payloads);
+        log.info(token);
         JWTVerifier verifier = jwt.getVerifier(jwt.getAccessExpire());
-        DecodedJWT decodedJWT = verifier.verify(tt);
+        DecodedJWT decodedJWT = verifier.verify(token);
         String identity = decodedJWT.getClaim("identity").asString();
         String scope = decodedJWT.getClaim("scope").asString();
         assertEquals(identity, "pedro");
