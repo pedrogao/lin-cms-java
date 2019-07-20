@@ -4,13 +4,9 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import javax.persistence.*;
 
 @TableName("lin_group")
-@Entity(name = "lin_group")
 public class GroupDO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 

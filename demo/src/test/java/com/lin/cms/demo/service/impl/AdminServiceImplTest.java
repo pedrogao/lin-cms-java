@@ -1,5 +1,6 @@
 package com.lin.cms.demo.service.impl;
 
+import com.lin.cms.demo.service.AdminService;
 import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.exception.Parameter;
@@ -34,7 +35,7 @@ import static org.junit.Assert.*;
 public class AdminServiceImplTest {
 
     @Autowired
-    private AdminServiceImpl adminService;
+    private AdminService adminService;
 
     @Autowired
     private AuthMapper authMapper;

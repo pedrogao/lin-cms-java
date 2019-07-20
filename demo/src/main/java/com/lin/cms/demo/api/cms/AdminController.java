@@ -3,6 +3,7 @@ package com.lin.cms.demo.api.cms;
 import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.Logger;
 import com.lin.cms.core.annotation.RouteMeta;
+import com.lin.cms.demo.service.AdminService;
 import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.exception.Parameter;
@@ -12,7 +13,6 @@ import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.bo.GroupWithAuthsBO;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.utils.ResultGenerator;
-import com.lin.cms.demo.service.impl.AdminServiceImpl;
 import com.lin.cms.demo.dto.admin.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +33,7 @@ import java.util.Map;
 public class AdminController {
 
     @Autowired
-    private AdminServiceImpl adminService;
+    private AdminService adminService;
 
     @Autowired
     private CollectMetaPostBeanProcessor postBeanProcessor;

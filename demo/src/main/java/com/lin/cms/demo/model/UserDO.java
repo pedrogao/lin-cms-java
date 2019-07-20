@@ -9,19 +9,11 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lin.cms.core.enums.UserActive;
 import com.lin.cms.core.enums.UserAdmin;
-import org.hibernate.annotations.*;
 
-import javax.persistence.*;
-import javax.persistence.Entity;
 import java.util.Date;
 
 @TableName("lin_user")
-@Entity(name = "lin_user")
-@DynamicInsert
-@DynamicUpdate
 public class UserDO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
@@ -38,21 +30,15 @@ public class UserDO {
 
     private String email;
 
-    @Column(name = "group_id")
     private Integer groupId;
 
     @JSONField(serialize = false)
     private String password;
 
-    @Column(name = "create_time")
-    @CreationTimestamp
     private Date createTime;
 
-    @Column(name = "update_time")
-    @UpdateTimestamp
     private Date updateTime;
 
-    @Column(name = "delete_time")
     @JSONField(serialize = false)
     private Date deleteTime;
 

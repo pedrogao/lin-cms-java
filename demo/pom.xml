@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.5.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>com.lin.cms</groupId>
     <artifactId>demo</artifactId>
@@ -16,6 +16,10 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <fastjson.version>1.2.47</fastjson.version>
+        <druid.version>1.1.10</druid.version>
+        <guava.version>23.0</guava.version>
+        <mybatis-plus.version>3.1.2</mybatis-plus.version>
     </properties>
 
     <dependencies>
@@ -32,11 +36,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
         <dependency>
@@ -59,23 +58,23 @@
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!--MyBatis plus 及 插件依赖-->
+
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>3.1.2</version>
+            <version>${mybatis-plus.version}</version>
         </dependency>
-        <!--阿里 FastJson依赖-->
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.47</version>
+            <version>${fastjson.version}</version>
         </dependency>
-        <!--阿里 Druid Spring Boot Starter依赖-->
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.10</version>
+            <version>${druid.version}</version>
         </dependency>
 
         <dependency>
@@ -87,7 +86,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>23.0</version>
+            <version>${guava.version}</version>
         </dependency>
 
         <dependency>

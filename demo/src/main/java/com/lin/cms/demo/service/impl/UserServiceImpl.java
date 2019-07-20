@@ -49,7 +49,6 @@ public class UserServiceImpl implements UserService {
             user.setEmail(validator.getEmail());
         }
         userMapper.insert(user);
-        // this.saveWithTimeCreate(user);
     }
 
     @Override

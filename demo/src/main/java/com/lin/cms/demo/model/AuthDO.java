@@ -5,17 +5,12 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import javax.persistence.*;
 
 @TableName("lin_auth")
-@Entity(name = "lin_auth")
 public class AuthDO {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
-    @Column(name = "group_id")
     private Integer groupId;
 
     private String auth;

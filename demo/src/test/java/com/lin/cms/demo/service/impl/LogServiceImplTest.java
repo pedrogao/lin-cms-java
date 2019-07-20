@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.mapper.LogMapper;
 import com.lin.cms.demo.model.LogDO;
+import com.lin.cms.demo.service.LogService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +26,7 @@ import static org.junit.Assert.*;
 public class LogServiceImplTest {
 
     @Autowired
-    private LogServiceImpl logService;
+    private LogService logService;
 
     @Autowired
     private LogMapper logMapper;

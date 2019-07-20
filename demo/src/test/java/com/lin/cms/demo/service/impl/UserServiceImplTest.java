@@ -1,5 +1,6 @@
 package com.lin.cms.demo.service.impl;
 
+import com.lin.cms.demo.service.UserService;
 import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.Parameter;
 import com.lin.cms.demo.dto.user.AvatarUpdateDTO;
@@ -28,7 +29,7 @@ import static org.junit.Assert.*;
 public class UserServiceImplTest {
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
     private UserMapper userMapper;

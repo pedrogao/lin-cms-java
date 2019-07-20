@@ -3,6 +3,7 @@ package com.lin.cms.demo.service.impl;
 import com.lin.cms.demo.mapper.BookMapper;
 import com.lin.cms.demo.model.BookDO;
 import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
+import com.lin.cms.demo.service.BookService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +25,7 @@ import static org.junit.Assert.*;
 public class BookServiceImplTest {
 
     @Autowired
-    private BookServiceImpl bookService;
+    private BookService bookService;
 
     @Autowired
     private BookMapper bookMapper;
