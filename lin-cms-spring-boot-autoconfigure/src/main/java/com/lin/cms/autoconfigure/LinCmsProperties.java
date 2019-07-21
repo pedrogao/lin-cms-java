@@ -16,7 +16,7 @@ public class LinCmsProperties {
 
     private boolean loggerEnabled = true;
 
-    private Map<Integer, String> codeMsgs = new HashMap();
+    private Map<Integer, String> codeMsg = new HashMap();
 
     public boolean isLoggerEnabled() {
         return loggerEnabled;
@@ -50,11 +50,11 @@ public class LinCmsProperties {
         this.tokenRefreshExpire = tokenRefreshExpire;
     }
 
-    public Map<Integer, String> getCodeMsgs() {
-        return codeMsgs;
+    public Map<Integer, String> getCodeMsg() {
+        return codeMsg;
     }
 
-    public void setCodeMsgs(Map<Integer, String> codeMsgs) {
-        this.codeMsgs = codeMsgs;
+    public void setCodeMsg(Map<Integer, String> codeMsg) {
+        this.codeMsg = codeMsg;
     }
 }
