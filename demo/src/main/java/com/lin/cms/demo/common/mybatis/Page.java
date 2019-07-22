@@ -1,4 +1,4 @@
-package com.lin.cms.demo.common.page;
+package com.lin.cms.demo.common.mybatis;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.metadata.OrderItem;

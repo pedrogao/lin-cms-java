@@ -1,7 +1,7 @@
 package com.lin.cms.demo.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lin.cms.demo.common.page.Page;
+import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.model.LogDO;
 import org.junit.After;
 import org.junit.Before;
