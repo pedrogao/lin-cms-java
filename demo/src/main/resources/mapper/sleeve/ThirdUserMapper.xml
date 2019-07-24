@@ -3,7 +3,7 @@
 <mapper namespace="com.lin.cms.demo.sleeve.mapper.ThirdUserMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.User">
+    <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.ThirdUser">
         <id column="id" property="id" />
         <result column="openid" property="openid" />
         <result column="nickname" property="nickname" />
