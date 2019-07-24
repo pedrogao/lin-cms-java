@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lin.cms.demo.sleeve.mapper.SkuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.Sku">
+        <id column="id" property="id" />
+        <result column="price" property="price" />
+        <result column="discount" property="discount" />
+        <result column="on_sale" property="onSale" />
+        <result column="img" property="img" />
+        <result column="title" property="title" />
+        <result column="spu_id" property="spuId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="delete_time" property="deleteTime" />
+        <result column="specs" property="specs" />
+        <result column="code" property="code" />
+        <result column="currency" property="currency" />
+        <result column="stock" property="stock" />
+    </resultMap>
+
+</mapper>
