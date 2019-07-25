@@ -26,5 +26,5 @@ public class CategoryCreateOrUpdateDTO {
     private Integer isRoot;
 
     @Positive(message = "父种类id必须为正整数")
-    private Integer parentId;
+    private Long parentId;
 }

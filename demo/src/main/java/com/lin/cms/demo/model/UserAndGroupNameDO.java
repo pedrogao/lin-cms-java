@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserAndGroupNameDO {
-    private Integer id;
+    private Long id;
 
     private String nickname;
 

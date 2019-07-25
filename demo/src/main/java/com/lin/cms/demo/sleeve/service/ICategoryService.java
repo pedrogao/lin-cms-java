@@ -18,9 +18,9 @@ public interface ICategoryService extends IService<Category> {
 
     void createCategory(CategoryCreateOrUpdateDTO dto);
 
-    void updateCategory(CategoryCreateOrUpdateDTO dto, Integer id);
+    void updateCategory(CategoryCreateOrUpdateDTO dto, Long id);
 
-    void deleteCategory(Integer id);
+    void deleteCategory(Long id);
 
-    PageResult<Category> getCategoryByPage(Integer count, Integer page);
+    PageResult<Category> getCategoryByPage(Long count, Long page);
 }

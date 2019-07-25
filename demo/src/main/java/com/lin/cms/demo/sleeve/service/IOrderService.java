@@ -14,5 +14,5 @@ import com.lin.cms.demo.sleeve.model.Order;
  */
 public interface IOrderService extends IService<Order> {
 
-    PageResult<Order> getOrderByPage(Integer count, Integer page);
+    PageResult<Order> getOrderByPage(Long count, Long page);
 }

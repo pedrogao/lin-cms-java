@@ -9,6 +9,7 @@ import com.lin.cms.demo.sleeve.service.IThemeService;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -21,6 +22,7 @@ import javax.validation.constraints.Positive;
  */
 @RestController
 @RequestMapping("/sleeve/theme")
+@Validated
 public class ThemeController {
 
     @Autowired
@@ -33,19 +35,19 @@ public class ThemeController {
     }
 
     @PutMapping("/{id}")
-    public Result update(@RequestBody @Valid ThemeCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Integer id) {
+    public Result update(@RequestBody @Valid ThemeCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         themeService.updateTheme(dto, id);
         return ResultGenerator.genSuccessResult("更新商品主题成功！");
     }
 
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable @Positive(message = "id必须为正整数") Integer id) {
+    public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         themeService.deleteTheme(id);
         return ResultGenerator.genSuccessResult("删除商品主题成功！");
     }
 
     @GetMapping("/{id}")
-    public Theme get(@PathVariable @Positive(message = "id必须为正整数") Integer id) {
+    public Theme get(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         Theme theme = themeService.getById(id);
         if (theme == null) {
             throw new NotFound("未找到相关的主题");
@@ -56,9 +58,9 @@ public class ThemeController {
 
     @GetMapping("/page")
     public PageResult<Theme> page(@RequestParam(name = "count", required = false, defaultValue = "10")
-                                  @Min(value = 1, message = "count必须为正整数") Integer count,
+                                  @Min(value = 1, message = "count必须为正整数") Long count,
                                   @RequestParam(name = "page", required = false, defaultValue = "0")
-                                  @Min(value = 0, message = "page必须为整数，且大于等于0") Integer page) {
+                                  @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         PageResult<Theme> pageResult = themeService.getThemeByPage(count, page);
         if (pageResult.getTotalNums() == 0) {
             throw new NotFound("未找到相关的主题");

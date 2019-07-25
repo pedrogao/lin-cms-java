@@ -98,10 +98,10 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             return false;
         }
         UserDO user = LocalUser.getLocalUser();
-        if (user.ifIsAdmin()) {
+        if (user.checkAdmin()) {
             return true;
         }
-        Integer groupId = user.getGroupId();
+        Long groupId = user.getGroupId();
         if (groupId == null) {
             // 您还不属于任何权限组，请联系超级管理员获得权限
             AuthFailed failed = new AuthFailed("您还不属于任何权限组，请联系超级管理员获得权限");
@@ -124,7 +124,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             return stepValid;
         }
         UserDO user = LocalUser.getLocalUser();
-        return user.ifIsAdmin();
+        return user.checkAdmin();
     }
 
     private boolean verifyLinAccess(HttpServletResponse response, String type) {

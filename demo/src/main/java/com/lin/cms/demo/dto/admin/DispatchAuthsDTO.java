@@ -15,7 +15,7 @@ import java.util.List;
 public class DispatchAuthsDTO {
     @Min(value = 1, message = "分组id必须正整数")
     @NotNull(message = "分组id不可为空")
-    private Integer groupId;
+    private Long groupId;
 
     @NotEmptyFields(message = "请输入auths字段，且每一项不可为空")
     private List<String> auths;

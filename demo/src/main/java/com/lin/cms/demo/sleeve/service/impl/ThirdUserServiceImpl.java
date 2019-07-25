@@ -23,7 +23,7 @@ import java.util.List;
 public class ThirdUserServiceImpl extends ServiceImpl<ThirdUserMapper, ThirdUser> implements IThirdUserService {
 
     @Override
-    public PageResult<ThirdUser> getUserByPage(Integer count, Integer page) {
+    public PageResult<ThirdUser> getUserByPage(Long count, Long page) {
         Page pager = new Page(page, count);
         IPage<ThirdUser> iPage = this.getBaseMapper().selectPage(pager, null);
         List<ThirdUser> categories = iPage.getRecords();

@@ -33,7 +33,7 @@ public class ThemeServiceImpl extends ServiceImpl<ThemeMapper, Theme> implements
     }
 
     @Override
-    public void updateTheme(ThemeCreateOrUpdateDTO dto, Integer id) {
+    public void updateTheme(ThemeCreateOrUpdateDTO dto, Long id) {
         Theme exist = this.getById(id);
         if (exist == null) {
             throw new NotFound("未找到相关的主题");
@@ -43,7 +43,7 @@ public class ThemeServiceImpl extends ServiceImpl<ThemeMapper, Theme> implements
     }
 
     @Override
-    public void deleteTheme(Integer id) {
+    public void deleteTheme(Long id) {
         Theme exist = this.getById(id);
         if (exist == null) {
             throw new NotFound("未找到相关的主题");
@@ -52,7 +52,7 @@ public class ThemeServiceImpl extends ServiceImpl<ThemeMapper, Theme> implements
     }
 
     @Override
-    public PageResult<Theme> getThemeByPage(Integer count, Integer page) {
+    public PageResult<Theme> getThemeByPage(Long count, Long page) {
         Page pager = new Page(page, count);
         IPage<Theme> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Theme> categories = iPage.getRecords();

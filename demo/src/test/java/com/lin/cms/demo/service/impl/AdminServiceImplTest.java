@@ -48,10 +48,10 @@ public class AdminServiceImplTest {
 
     private String email = "13129982604@qq.com";
     private String password = "123456";
-    private Integer groupId;
+    private Long groupId;
     private String nickname = "pedro--test";
 
-    private Integer userId;
+    private Long userId;
 
     private String module = "信息";
     private String auth = "查看lin的信息";
@@ -73,14 +73,14 @@ public class AdminServiceImplTest {
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
         userDO.setEmail(email);
-        userDO.setGroupId(100);
+        userDO.setGroupId(100L);
         userMapper.insert(userDO);
         this.userId = userDO.getId();
 
-        PageResult users = adminService.getUsers(100, 10, 0);
+        PageResult users = adminService.getUsers(100L, 10L, 0L);
         assertTrue(users.getTotalNums() == 1);
 
-        PageResult users1 = adminService.getUsers(null, 10, 0);
+        PageResult users1 = adminService.getUsers(null, 10L, 0L);
         assertTrue(users1.getTotalNums() == 1);
     }
 
@@ -130,7 +130,7 @@ public class AdminServiceImplTest {
         this.userId = userDO.getId();
 
         UpdateUserInfoDTO dto = new UpdateUserInfoDTO();
-        dto.setGroupId(1);
+        dto.setGroupId(1L);
         dto.setEmail("23129982604@qq.com");
 
         adminService.updateUserInfo(this.userId, dto);
@@ -147,7 +147,7 @@ public class AdminServiceImplTest {
         groupDO.setInfo(info);
         groupMapper.insert(groupDO);
 
-        PageResult groups = adminService.getGroups(0, 10);
+        PageResult groups = adminService.getGroups(0L, 10L);
 
         assertTrue(groups.getTotalNums() > 0);
     }

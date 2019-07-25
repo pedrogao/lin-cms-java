@@ -12,9 +12,9 @@ public interface BookService {
 
     void updateBook(BookDO book, CreateOrUpdateBookDTO validator);
 
-    BookDO findOneByIdAndDeleteTime(Integer id);
+    BookDO findOneByIdAndDeleteTime(Long id);
 
     List<BookDO> findAll();
 
-    void deleteById(Integer id);
+    void deleteById(Long id);
 }

@@ -9,11 +9,11 @@ import java.util.Date;
 @TableName("lin_log")
 public class LogDO {
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String message;
 
-    private Integer userId;
+    private Long userId;
 
     private String userName;
 
@@ -30,14 +30,14 @@ public class LogDO {
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,14 +58,14 @@ public class LogDO {
     /**
      * @return user_id
      */
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
     /**
      * @param userId
      */
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

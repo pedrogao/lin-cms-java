@@ -13,5 +13,5 @@ import com.lin.cms.demo.sleeve.model.ThirdUser;
  * @since 2019-07-23
  */
 public interface IThirdUserService extends IService<ThirdUser> {
-    PageResult<ThirdUser> getUserByPage(Integer count, Integer page);
+    PageResult<ThirdUser> getUserByPage(Long count, Long page);
 }

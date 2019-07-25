@@ -51,11 +51,11 @@ public class AdminController {
     @RouteMeta(auth = "查询所有用户", module = "管理员")
     public PageResult getAdminUsers(
             @RequestParam(name = "group_id", required = false)
-            @Min(value = 1, message = "分组id必须为正整数") Integer groupId,
+            @Min(value = 1, message = "分组id必须为正整数") Long groupId,
             @RequestParam(name = "count", required = false, defaultValue = "10")
-            @Min(value = 1, message = "count必须为正整数") Integer count,
+            @Min(value = 1, message = "count必须为正整数") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "page必须为整数，且大于等于0") Integer page
+            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page
     ) {
         return adminService.getUsers(groupId, count, page);
     }
@@ -63,7 +63,7 @@ public class AdminController {
     @PutMapping("/password/{id}")
     @AdminRequired
     @RouteMeta(auth = "修改用户密码", module = "管理员")
-    public Result changeUserPassword(@PathVariable @PositiveOrZero Integer id, @RequestBody @Valid ResetPasswordDTO validator) throws NotFound {
+    public Result changeUserPassword(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id, @RequestBody @Valid ResetPasswordDTO validator) throws NotFound {
         adminService.changeUserPassword(id, validator);
         return ResultGenerator.genSuccessResult("密码修改成功");
     }
@@ -71,7 +71,7 @@ public class AdminController {
     @DeleteMapping("/{id}")
     @AdminRequired
     @RouteMeta(auth = "删除用户", module = "管理员")
-    public Result deleteUser(@PathVariable @PositiveOrZero Integer id) throws NotFound {
+    public Result deleteUser(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id) throws NotFound {
         adminService.deleteUser(id);
         return ResultGenerator.genSuccessResult("删除用户成功");
     }
@@ -80,7 +80,7 @@ public class AdminController {
     @PutMapping("/{id}")
     @AdminRequired
     @RouteMeta(auth = "管理员更新用户信息", module = "管理员")
-    public Result updateUser(@PathVariable @PositiveOrZero Integer id, @RequestBody @Valid UpdateUserInfoDTO validator) throws NotFound, Parameter {
+    public Result updateUser(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id, @RequestBody @Valid UpdateUserInfoDTO validator) throws NotFound, Parameter {
         adminService.updateUserInfo(id, validator);
         return ResultGenerator.genSuccessResult("更新用户成功");
     }
@@ -90,9 +90,9 @@ public class AdminController {
     @RouteMeta(auth = "查询所有权限组及其权限", module = "管理员")
     public PageResult getAdminGroups(
             @RequestParam(name = "count", required = false, defaultValue = "10")
-            @Min(value = 1, message = "count必须为正整数") Integer count,
+            @Min(value = 1, message = "count必须为正整数") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "page必须为整数，且大于等于0") Integer page) {
+            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
 
         PageResult pageResult = adminService.getGroups(page, count);
         return pageResult;
@@ -111,7 +111,7 @@ public class AdminController {
     @GetMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(auth = "查询一个权限组及其权限", module = "管理员")
-    public GroupWithAuthsBO getGroup(@PathVariable @PositiveOrZero Integer id) {
+    public GroupWithAuthsBO getGroup(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id) {
         GroupWithAuthsBO groupWithAuths = adminService.getGroup(id);
         return groupWithAuths;
     }
@@ -129,7 +129,7 @@ public class AdminController {
     @PutMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(auth = "更新一个权限组", module = "管理员")
-    public Result updateGroup(@PathVariable @PositiveOrZero Integer id,
+    public Result updateGroup(@PathVariable @PositiveOrZero Long id,
                               @RequestBody @Valid UpdateGroupDTO validator) throws NotFound {
         adminService.updateGroup(id, validator);
         return ResultGenerator.genSuccessResult("更新分组成功!");
@@ -138,7 +138,7 @@ public class AdminController {
     @DeleteMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(auth = "删除一个权限组", module = "管理员")
-    public Result deleteGroup(@PathVariable @PositiveOrZero Integer id) throws NotFound, Forbidden {
+    public Result deleteGroup(@PathVariable @PositiveOrZero Long id) throws NotFound, Forbidden {
         adminService.deleteGroup(id);
         return ResultGenerator.genSuccessResult("删除分组成功!");
     }

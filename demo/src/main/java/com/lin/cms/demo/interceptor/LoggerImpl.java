@@ -33,7 +33,7 @@ public class LoggerImpl implements LoggerResolver {
         UserDO user = LocalUser.getLocalUser(UserDO.class);
         template = this.parseTemplate(template, user, request, response);
         String authority = meta.auth();
-        Integer userId = user.getId();
+        Long userId = user.getId();
         String userName = user.getNickname();
         String method = request.getMethod();
         String path = request.getServletPath();

@@ -28,7 +28,7 @@ public class BannerItemServiceImpl extends ServiceImpl<BannerItemMapper, BannerI
     }
 
     @Override
-    public void updateBannerItem(BannerItemCreateOrUpdateDTO dto, Integer id) {
+    public void updateBannerItem(BannerItemCreateOrUpdateDTO dto, Long id) {
         BannerItem exist = this.getById(id);
         if (exist == null) {
             throw new NotFound("未找到相关的banner-item");
@@ -38,7 +38,7 @@ public class BannerItemServiceImpl extends ServiceImpl<BannerItemMapper, BannerI
     }
 
     @Override
-    public void deleteBannerItem(Integer id) {
+    public void deleteBannerItem(Long id) {
         BannerItem exist = this.getById(id);
         if (exist == null) {
             throw new NotFound("未找到相关的banner-item");

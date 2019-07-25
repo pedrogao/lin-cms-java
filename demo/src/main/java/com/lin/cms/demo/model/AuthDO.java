@@ -9,9 +9,9 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("lin_auth")
 public class AuthDO {
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
-    private Integer groupId;
+    private Long groupId;
 
     private String auth;
 
@@ -20,28 +20,28 @@ public class AuthDO {
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
     /**
      * @return group_id
      */
-    public Integer getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
     /**
      * @param groupId
      */
-    public void setGroupId(Integer groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 

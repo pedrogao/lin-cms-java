@@ -56,7 +56,7 @@ public class AdminControllerTest {
     private String password = "123456";
     private String nickname = "pedro";
 
-    private Integer groupId;
+    private Long groupId;
     private String module = "信息";
     private String auth = "查看lin的信息";
 
@@ -145,7 +145,7 @@ public class AdminControllerTest {
 
         UpdateUserInfoDTO dto = new UpdateUserInfoDTO();
         dto.setEmail(newEmail);
-        dto.setGroupId(100);
+        dto.setGroupId(100L);
 
         mvc.perform(put("/cms/admin/" + userDO.getId())
                 .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))

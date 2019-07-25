@@ -17,9 +17,9 @@ public interface IBrandService extends IService<Brand> {
 
     void createBrand(BrandCreateOrUpdateDTO dto);
 
-    void updateBrand(BrandCreateOrUpdateDTO dto, Integer id);
+    void updateBrand(BrandCreateOrUpdateDTO dto, Long id);
 
-    void deleteBrand(Integer id);
+    void deleteBrand(Long id);
 
-    PageResult<Brand> getBrandByPage(Integer count, Integer page);
+    PageResult<Brand> getBrandByPage(Long count, Long page);
 }

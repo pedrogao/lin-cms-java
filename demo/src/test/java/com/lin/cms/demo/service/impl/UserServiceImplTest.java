@@ -36,10 +36,10 @@ public class UserServiceImplTest {
 
     private String email = "13129982604@qq.com";
     private String password = "123456";
-    private Integer groupId = 100;
+    private Long groupId = 100L;
     private String nickname = "pedro";
 
-    private Integer userId;
+    private Long userId;
 
     @Before
     public void setUp() throws Exception {

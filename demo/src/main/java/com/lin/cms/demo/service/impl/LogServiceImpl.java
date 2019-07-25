@@ -22,28 +22,28 @@ public class LogServiceImpl implements LogService {
     private LogMapper logMapper;
 
     @Override
-    public PageResult getLogs(Integer page, Integer count, String name, Date start, Date end) {
+    public PageResult getLogs(Long page, Long count, String name, Date start, Date end) {
         Page<LogDO> pager = new Page<>(page, count);
         IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(pager, name, start, end);
         return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords());
     }
 
     @Override
-    public PageResult searchLogs(Integer page, Integer count, String name, String keyword, Date start, Date end) {
+    public PageResult searchLogs(Long page, Long count, String name, String keyword, Date start, Date end) {
         Page<LogDO> pager = new Page<>(page, count);
         IPage<LogDO> iPage = logMapper.searchLogsByUsernameAndKeywordAndRange(pager, name, keyword, start, end);
         return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords());
     }
 
     @Override
-    public List<String> getUserNames(Integer page, Integer count) {
+    public List<String> getUserNames(Long page, Long count) {
         Page<LogDO> pager = new Page<>(page, count);
         IPage<String> iPage = logMapper.getUserNames(pager);
         return iPage.getRecords();
     }
 
     @Override
-    public void createOneLog(String message, String authority, Integer userId,
+    public void createOneLog(String message, String authority, Long userId,
                              String userNickname, String method, String path,
                              Integer status) {
         //authority: auth

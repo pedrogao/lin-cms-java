@@ -12,13 +12,13 @@ import java.util.List;
  */
 public interface LogService {
 
-    PageResult getLogs(Integer page, Integer count, String name, Date start, Date end);
+    PageResult getLogs(Long page, Long count, String name, Date start, Date end);
 
-    PageResult searchLogs(Integer page, Integer count, String name, String keyword, Date start, Date end);
+    PageResult searchLogs(Long page, Long count, String name, String keyword, Date start, Date end);
 
-    List<String> getUserNames(Integer page, Integer count);
+    List<String> getUserNames(Long page, Long count);
 
-    void createOneLog(String message, String authority, Integer userId,
+    void createOneLog(String message, String authority, Long userId,
                       String userNickname, String method, String path,
                       Integer status);
 }

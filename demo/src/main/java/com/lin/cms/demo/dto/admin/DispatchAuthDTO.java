@@ -15,7 +15,7 @@ public class DispatchAuthDTO {
 
     @Min(value = 1, message = "分组id必须正整数")
     @NotNull(message = "分组id不可为空")
-    private Integer groupId;
+    private Long groupId;
 
     @NotBlank
     private String auth;

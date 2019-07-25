@@ -8,15 +8,15 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface AuthMapper extends BaseMapper<AuthDO> {
-    AuthDO selectOneByGroupIdAndAuthAndModule(@Param("groupId") Integer groupId,
+    AuthDO selectOneByGroupIdAndAuthAndModule(@Param("groupId") Long groupId,
                                               @Param("auth") String auth,
                                               @Param("module") String module);
 
-    List<SimpleAuthDO> findByGroupId(@Param("groupId") Integer groupId);
+    List<SimpleAuthDO> findByGroupId(@Param("groupId") Long groupId);
 
-    void deleteByGroupId(@Param("groupId") Integer groupId);
+    void deleteByGroupId(@Param("groupId") Long groupId);
 
-    void deleteByGroupIdAndInAuths(@Param("groupId") Integer groupId, @Param("auths") List<String> auths);
+    void deleteByGroupIdAndInAuths(@Param("groupId") Long groupId, @Param("auths") List<String> auths);
 
-    AuthDO findOneByGroupIdAndAuth(@Param("groupId") Integer groupId, @Param("auth") String auth);
+    AuthDO findOneByGroupIdAndAuth(@Param("groupId") Long groupId, @Param("auth") String auth);
 }

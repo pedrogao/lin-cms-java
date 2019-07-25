@@ -26,7 +26,7 @@ public class AuthMapperTest {
     @Autowired
     private AuthMapper authMapper;
 
-    private Integer groupId = 100;
+    private Long groupId = 100L;
     private String module = "信息";
     private String auth = "查看lin的信息";
 

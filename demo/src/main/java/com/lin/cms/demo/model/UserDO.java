@@ -16,7 +16,7 @@ import java.util.Date;
 @TableName("lin_user")
 public class UserDO {
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String nickname;
 
@@ -31,7 +31,7 @@ public class UserDO {
 
     private String email;
 
-    private Integer groupId;
+    private Long groupId;
 
     @JSONField(serialize = false)
     private String password;
@@ -45,25 +45,25 @@ public class UserDO {
     private Date deleteTime;
 
 
-    public boolean ifIsAdmin() {
+    public boolean checkAdmin() {
         return this.admin.intValue() == UserAdmin.ADMIN.getValue();
     }
 
-    public boolean ifIsActive() {
+    public boolean checkActive() {
         return this.active.intValue() == UserActive.ACTIVE.getValue();
     }
 
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -144,14 +144,14 @@ public class UserDO {
     /**
      * @return group_id
      */
-    public Integer getGroupId() {
+    public Long getGroupId() {
         return groupId;
     }
 
     /**
      * @param groupId
      */
-    public void setGroupId(Integer groupId) {
+    public void setGroupId(Long groupId) {
         this.groupId = groupId;
     }
 

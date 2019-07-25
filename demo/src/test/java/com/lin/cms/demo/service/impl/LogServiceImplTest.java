@@ -43,14 +43,14 @@ public class LogServiceImplTest {
     public void getLogs() {
         String message = "put your face to the light!";
         String authority = "查看lin的信息";
-        Integer userId = 100;
+        Long userId = 100L;
         String userName = "pedro";
         String method = "GET";
         String path = "/";
         Integer status = 200;
         logService.createOneLog(message, authority, userId, userName, method, path, status);
 
-        PageResult logs = logService.getLogs(0, 10, null, null, null);
+        PageResult logs = logService.getLogs(0L, 10L, null, null, null);
         assertTrue(logs.getTotalNums() > 0);
     }
 
@@ -58,14 +58,14 @@ public class LogServiceImplTest {
     public void searchLogs() {
         String message = "put your face to the light!";
         String authority = "查看lin的信息";
-        Integer userId = 100;
+        Long userId = 100L;
         String userName = "pedro";
         String method = "GET";
         String path = "/";
         Integer status = 200;
         logService.createOneLog(message, authority, userId, userName, method, path, status);
 
-        PageResult logs = logService.searchLogs(0, 10, null, "put", null, null);
+        PageResult logs = logService.searchLogs(0L, 10L, null, "put", null, null);
         assertTrue(logs.getTotalNums() > 0);
     }
 
@@ -73,14 +73,14 @@ public class LogServiceImplTest {
     public void getUserNames() {
         String message = "put your face to the light!";
         String authority = "查看lin的信息";
-        Integer userId = 100;
+        Long userId = 100L;
         String userName = "pedro";
         String method = "GET";
         String path = "/";
         Integer status = 200;
         logService.createOneLog(message, authority, userId, userName, method, path, status);
 
-        List<String> names = logService.getUserNames(0, 10);
+        List<String> names = logService.getUserNames(0L, 10L);
         assertTrue(names.size() > 0);
     }
 
@@ -88,7 +88,7 @@ public class LogServiceImplTest {
     public void createOneLog() {
         String message = "put your face to the light!";
         String authority = "查看lin的信息";
-        Integer userId = 100;
+        Long userId = 100L;
         String userName = "pedro";
         String method = "GET";
         String path = "/";

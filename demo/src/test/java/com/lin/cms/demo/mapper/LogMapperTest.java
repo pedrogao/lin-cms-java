@@ -34,7 +34,7 @@ public class LogMapperTest {
     private String method = "GET";
     private String path = "/";
     private Integer statusCode = 200;
-    private Integer userId = 1;
+    private Long userId = 1L;
     private String userName = "super";
 
     @Before

@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 public class GroupAndAuthDO {
-    private Integer id;
+    private Long id;
 
     private String name;
 

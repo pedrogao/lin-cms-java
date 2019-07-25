@@ -33,7 +33,7 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, Banner> impleme
     }
 
     @Override
-    public void updateBanner(BannerCreateOrUpdateDTO dto, Integer id) {
+    public void updateBanner(BannerCreateOrUpdateDTO dto, Long id) {
         Banner exist = this.getById(id);
         if (exist == null) {
             throw new NotFound("未找到相关的banner");
@@ -43,7 +43,7 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, Banner> impleme
     }
 
     @Override
-    public void deleteBanner(Integer id) {
+    public void deleteBanner(Long id) {
         Banner exist = this.getById(id);
         if (exist == null) {
             throw new NotFound("未找到相关的banner");
@@ -52,7 +52,7 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, Banner> impleme
     }
 
     @Override
-    public PageResult<Banner> getBannerByPage(Integer count, Integer page) {
+    public PageResult<Banner> getBannerByPage(Long count, Long page) {
         Page pager = new Page(page, count);
         IPage<Banner> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Banner> categories = iPage.getRecords();

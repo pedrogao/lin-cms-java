@@ -76,7 +76,7 @@ public class CategoryControllerTest {
         String newName = "千里之外111";
         validator.setName(newName);
         validator.setDescription(description);
-        validator.setParentId(22);
+        validator.setParentId(22L);
         validator.setIsRoot(CategoryRootOrNot.NOT_ROOT.getValue());
 
         mvc.perform(put("/sleeve/category/" + this.id)
@@ -89,7 +89,7 @@ public class CategoryControllerTest {
         Category category = categoryMapper.selectById(this.id);
         assertEquals(category.getName(), newName);
         assertTrue(category.getIsRoot() == CategoryRootOrNot.NOT_ROOT.getValue());
-        assertTrue(category.getParentId() == 22);
+        assertTrue(category.getParentId() == 22L);
     }
 
     @Test

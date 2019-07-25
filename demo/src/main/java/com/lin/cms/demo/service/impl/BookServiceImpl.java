@@ -41,7 +41,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookDO findOneByIdAndDeleteTime(Integer id) {
+    public BookDO findOneByIdAndDeleteTime(Long id) {
         BookDO book = bookMapper.findOneByIdAndDeleteTime(id);
         return book;
     }
@@ -53,7 +53,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         bookMapper.deleteById(id);
     }
 }

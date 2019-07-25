@@ -25,7 +25,7 @@ public interface UserService {
 
     void updateAvatar(AvatarUpdateDTO validator);
 
-    List<Map<String, List<Map<String, String>>>> getAuths(Integer groupId);
+    List<Map<String, List<Map<String, String>>>> getAuths(Long groupId);
 
     UserDO findByNickname(String nickname);
 }

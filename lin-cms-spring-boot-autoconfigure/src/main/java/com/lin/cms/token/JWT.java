@@ -32,7 +32,7 @@ public class JWT {
         this.refreshExpire = refreshExpire;
     }
 
-    public String generateToken(String tokenType, Integer identity, String scope, long expire) {
+    public String generateToken(String tokenType, Long identity, String scope, long expire) {
         Algorithm algorithm = Algorithm.HMAC256(this.secret);
         Date expireDate = this.getExpireDate(expire);
         String token = com.auth0.jwt.JWT.create()
@@ -93,15 +93,15 @@ public class JWT {
         return claims;
     }
 
-    public String generateAccessToken(Integer identity) {
+    public String generateAccessToken(Long identity) {
         return this.generateToken(JWT.ACCESS_TYPE, identity, LIN_SCOPE, this.accessExpire);
     }
 
-    public String generateRefreshToken(Integer identity) {
+    public String generateRefreshToken(Long identity) {
         return this.generateToken(JWT.REFRESH_TYPE, identity, LIN_SCOPE, this.refreshExpire);
     }
 
-    public Map generateTokens(Integer identity) {
+    public Map generateTokens(Long identity) {
         Map tokens = new HashMap<>();
         String access = this.generateToken(JWT.ACCESS_TYPE, identity, LIN_SCOPE, this.accessExpire);
         String refresh = this.generateToken(JWT.REFRESH_TYPE, identity, LIN_SCOPE, this.refreshExpire);

@@ -17,9 +17,9 @@ public interface IBannerService extends IService<Banner> {
 
     void createBanner(BannerCreateOrUpdateDTO dto);
 
-    void updateBanner(BannerCreateOrUpdateDTO dto, Integer id);
+    void updateBanner(BannerCreateOrUpdateDTO dto, Long id);
 
-    void deleteBanner(Integer id);
+    void deleteBanner(Long id);
 
-    PageResult<Banner> getBannerByPage(Integer count, Integer page);
+    PageResult<Banner> getBannerByPage(Long count, Long page);
 }

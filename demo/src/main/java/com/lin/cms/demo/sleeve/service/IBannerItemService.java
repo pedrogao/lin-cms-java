@@ -16,7 +16,7 @@ public interface IBannerItemService extends IService<BannerItem> {
 
     void createBannerItem(BannerItemCreateOrUpdateDTO dto);
 
-    void updateBannerItem(BannerItemCreateOrUpdateDTO dto, Integer id);
+    void updateBannerItem(BannerItemCreateOrUpdateDTO dto, Long id);
 
-    void deleteBannerItem(Integer id);
+    void deleteBannerItem(Long id);
 }

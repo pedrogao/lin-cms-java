@@ -7,7 +7,7 @@ import com.lin.cms.demo.sleeve.model.Theme;
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author pedro
@@ -17,9 +17,9 @@ public interface IThemeService extends IService<Theme> {
 
     void createTheme(ThemeCreateOrUpdateDTO dto);
 
-    void updateTheme(ThemeCreateOrUpdateDTO dto, Integer id);
+    void updateTheme(ThemeCreateOrUpdateDTO dto, Long id);
 
-    void deleteTheme(Integer id);
+    void deleteTheme(Long id);
 
-    PageResult<Theme> getThemeByPage(Integer count, Integer page);
+    PageResult<Theme> getThemeByPage(Long count, Long page);
 }

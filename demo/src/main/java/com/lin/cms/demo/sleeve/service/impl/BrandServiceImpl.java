@@ -33,7 +33,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     }
 
     @Override
-    public void updateBrand(BrandCreateOrUpdateDTO dto, Integer id) {
+    public void updateBrand(BrandCreateOrUpdateDTO dto, Long id) {
         Brand exist = this.getById(id);
         if (exist == null) {
             throw new NotFound("未找到相关的分类");
@@ -43,7 +43,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     }
 
     @Override
-    public void deleteBrand(Integer id) {
+    public void deleteBrand(Long id) {
         Brand exist = this.getById(id);
         if (exist == null) {
             throw new NotFound("未找到相关的分类");
@@ -52,7 +52,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
     }
 
     @Override
-    public PageResult<Brand> getBrandByPage(Integer count, Integer page) {
+    public PageResult<Brand> getBrandByPage(Long count, Long page) {
         Page pager = new Page(page, count);
         IPage<Brand> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Brand> categories = iPage.getRecords();

@@ -35,10 +35,10 @@ public class UserMapperTest {
 
     private String email = "13129982604@qq.com";
     private String password = "123456";
-    private Integer groupId;
+    private Long groupId;
     private String nickname = "pedro-test";
 
-    private Integer userId;
+    private Long userId;
 
     @Before
     public void setUp() throws Exception {

@@ -7,6 +7,7 @@ import com.lin.cms.demo.sleeve.service.IBannerItemService;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import javax.validation.constraints.Positive;
  */
 @RestController
 @RequestMapping("/sleeve/banner_item")
+@Validated
 public class BannerItemController {
 
     @Autowired
@@ -30,19 +32,19 @@ public class BannerItemController {
     }
 
     @PutMapping("/{id}")
-    public Result update(@RequestBody @Valid BannerItemCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Integer id) {
+    public Result update(@RequestBody @Valid BannerItemCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         bannerItemService.updateBannerItem(dto, id);
         return ResultGenerator.genSuccessResult("更新商品banner-item成功！");
     }
 
     @DeleteMapping("/{id}")
-    public Result delete(@PathVariable @Positive(message = "id必须为正整数") Integer id) {
+    public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         bannerItemService.deleteBannerItem(id);
         return ResultGenerator.genSuccessResult("删除商品banner-item成功！");
     }
 
     @GetMapping("/{id}")
-    public BannerItem get(@PathVariable @Positive(message = "id必须为正整数") Integer id) {
+    public BannerItem get(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         BannerItem bannerItem = bannerItemService.getById(id);
         if (bannerItem == null) {
             throw new NotFound("未找到相关的banner-item");

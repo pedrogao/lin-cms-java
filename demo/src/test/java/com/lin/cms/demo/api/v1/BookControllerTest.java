@@ -40,7 +40,7 @@ public class BookControllerTest {
     @Autowired
     private BookMapper bookMapper;
 
-    private Integer id;
+    private Long id;
     private String title = "千里之外";
     private String author = "pedro";
     private String image = "千里之外.png";

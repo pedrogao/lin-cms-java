@@ -24,6 +24,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,8 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             if (s != null) {
                 result.setMsg(s);
             }
+        } else if (e instanceof ConstraintViolationException) {
+            result = this.handleMethodConstraintViolationException(e);
         } else if (e instanceof NoHandlerFoundException) {
             result.setHttpCode(HttpStatus.NOT_FOUND.value())
                     .setErrCode(ErrCode.NOT_FOUND.getCode())
@@ -91,6 +94,19 @@ public class ExceptionHandler implements HandlerExceptionResolver {
         // ConstraintVio
         exceptionResultResolver.rewrite(response, result, e);
         return new ModelAndView();
+    }
+
+    private Result handleMethodConstraintViolationException(Exception e) {
+        ConstraintViolationException exception = (ConstraintViolationException) e;
+        Map<String, Object> msg = new HashMap<>();
+        exception.getConstraintViolations().forEach(constraintViolation -> {
+            String template = constraintViolation.getMessageTemplate();
+            String path = constraintViolation.getPropertyPath().toString();
+            msg.put(path,template);
+        });
+        Parameter parameter = new Parameter();
+        parameter.setMsg(msg);
+        return ResultGenerator.genResult(parameter);
     }
 
     private Result handleMethodArgumentNotValidException(Exception e) {

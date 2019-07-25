@@ -30,9 +30,9 @@ public class LogController {
             @RequestParam(required = false) @DateTimeFormat(pattern = "YYYY-MM-DD HH:mm:ss") Date end,
             @RequestParam(required = false) String name,
             @RequestParam(name = "count", required = false, defaultValue = "10")
-            @Min(value = 1, message = "count必须为正整数") Integer count,
+            @Min(value = 1, message = "count必须为正整数") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "page必须为整数，且大于等于0") Integer page) {
+            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         PageResult result = logService.getLogs(page, count, name, start, end);
         return result;
     }
@@ -46,9 +46,9 @@ public class LogController {
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
             @RequestParam(name = "count", required = false, defaultValue = "10")
-            @Min(value = 1, message = "count必须为正整数") Integer count,
+            @Min(value = 1, message = "count必须为正整数") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "page必须为整数，且大于等于0") Integer page) {
+            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         PageResult result = logService.searchLogs(page, count, name, keyword, start, end);
         return result;
     }
@@ -58,9 +58,9 @@ public class LogController {
     @GroupRequired
     public List<String> getUsers(
             @RequestParam(name = "count", required = false, defaultValue = "10")
-            @Min(value = 1, message = "count必须为正整数") Integer count,
+            @Min(value = 1, message = "count必须为正整数") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "page必须为整数，且大于等于0") Integer page) {
+            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         List<String> result = logService.getUserNames(page, count);
         return result;
     }

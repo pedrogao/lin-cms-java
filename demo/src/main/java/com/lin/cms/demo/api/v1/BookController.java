@@ -9,21 +9,24 @@ import com.lin.cms.exception.NotFound;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
 @RequestMapping("/v1/book")
+@Validated
 public class BookController {
 
     @Autowired
     private BookService bookService;
 
     @GetMapping("/{id}")
-    public BookDO getBook(@PathVariable(value = "id") @PositiveOrZero Integer id) throws NotFound {
+    public BookDO getBook(@PathVariable(value = "id") @Positive(message = "id必须为正整数") Long id) throws NotFound {
         BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
             throw new NotFound("未找到相关书籍");
@@ -59,7 +62,7 @@ public class BookController {
 
 
     @PutMapping("/{id}")
-    public Result updateBook(@PathVariable("id") Integer id, @RequestBody @Valid CreateOrUpdateBookDTO validator) throws NotFound {
+    public Result updateBook(@PathVariable("id") @Positive(message = "id必须为正整数") Long id, @RequestBody @Valid CreateOrUpdateBookDTO validator) throws NotFound {
         BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
             throw new NotFound("未找到相关书籍");
@@ -72,7 +75,7 @@ public class BookController {
     @DeleteMapping("/{id}")
     @RouteMeta(auth = "删除图书", module = "图书", mount = true)
     @GroupRequired
-    public Result deleteBook(@PathVariable("id") Integer id) throws NotFound {
+    public Result deleteBook(@PathVariable("id") @Positive(message = "id必须为正整数") Long id) throws NotFound {
         // 软删除，逻辑删除
         BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {

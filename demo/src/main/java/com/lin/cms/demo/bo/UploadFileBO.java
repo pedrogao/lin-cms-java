@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class UploadFileBO {
-    private Integer id;
+    private Long id;
 
     private String url;
 

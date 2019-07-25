@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("lin_group")
 public class GroupDO {
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -17,14 +17,14 @@ public class GroupDO {
     /**
      * @return id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
     /**
      * @param id
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

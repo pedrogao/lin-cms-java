@@ -33,7 +33,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public void updateCategory(CategoryCreateOrUpdateDTO dto, Integer id) {
+    public void updateCategory(CategoryCreateOrUpdateDTO dto, Long id) {
         Category exist = this.getById(id);
         if (exist == null) {
             throw new NotFound("未找到相关的分类");
@@ -43,7 +43,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public void deleteCategory(Integer id) {
+    public void deleteCategory(Long id) {
         Category exist = this.getById(id);
         if (exist == null) {
             throw new NotFound("未找到相关的分类");
@@ -52,7 +52,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     }
 
     @Override
-    public PageResult<Category> getCategoryByPage(Integer count, Integer page) {
+    public PageResult<Category> getCategoryByPage(Long count, Long page) {
         Page pager = new Page(page, count);
         IPage<Category> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Category> categories = iPage.getRecords();

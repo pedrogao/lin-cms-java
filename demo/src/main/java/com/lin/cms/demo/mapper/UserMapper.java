@@ -10,17 +10,17 @@ import org.apache.ibatis.annotations.Param;
 
 public interface UserMapper extends BaseMapper<UserDO> {
 
-    IPage<UserAndGroupNameDO> findUsersAndGroupName(Page page, @Param("groupId") Integer groupId);
+    IPage<UserAndGroupNameDO> findUsersAndGroupName(Page page, @Param("groupId") Long groupId);
 
-    Integer getCommonUsersCount(@Param("groupId") Integer groupId);
+    Integer getCommonUsersCount(@Param("groupId") Long groupId);
 
-    UserDO findOneUserByIdAndDeleteTime(@Param("id") Integer id);
+    UserDO findOneUserByIdAndDeleteTime(@Param("id") Long id);
 
-    void softDeleteById(@Param("id") Integer id);
+    void softDeleteById(@Param("id") Long id);
 
     UserDO findOneUserByEmailAndDeleteTime(@Param("email") String email);
 
     // 用户检测分组下是否存在用户
-    UserDO findOneUserByGroupId(@Param("groupId") Integer groupId);
+    UserDO findOneUserByGroupId(@Param("groupId") Long groupId);
 
 }

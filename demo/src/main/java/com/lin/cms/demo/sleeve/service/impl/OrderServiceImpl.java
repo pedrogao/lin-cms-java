@@ -23,7 +23,7 @@ import java.util.List;
 public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements IOrderService {
 
     @Override
-    public PageResult<Order> getOrderByPage(Integer count, Integer page) {
+    public PageResult<Order> getOrderByPage(Long count, Long page) {
         Page pager = new Page(page, count);
         IPage<Order> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Order> categories = iPage.getRecords();

@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Map<String, List<Map<String, String>>>> getAuths(Integer groupId) {
+    public List<Map<String, List<Map<String, String>>>> getAuths(Long groupId) {
         List<SimpleAuthDO> auths = authMapper.findByGroupId(groupId);
         return AuthSpliter.splitAuths(auths);
     }

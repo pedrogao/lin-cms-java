@@ -100,7 +100,7 @@ public class UserController {
     @RouteMeta(auth = "查询自己拥有的权限", module = "用户", mount = true)
     public UserWithAuthsVO getAuths() {
         UserDO user = LocalUser.getLocalUser();
-        if (user.ifIsAdmin()) {
+        if (user.checkAdmin()) {
             return new UserWithAuthsVO(user);
         }
         List<Map<String, List<Map<String, String>>>> auths = userService.getAuths(user.getGroupId());

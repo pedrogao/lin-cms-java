@@ -41,7 +41,7 @@ public class AdminServiceImpl implements AdminService {
     private CollectMetaPostBeanProcessor postProcessor;
 
     @Override
-    public PageResult getUsers(Integer groupId, Integer count, Integer page) {
+    public PageResult getUsers(Long groupId, Long count, Long page) {
         Page pager = new Page(page, count);
         IPage<UserAndGroupNameDO> iPage = userMapper.findUsersAndGroupName(pager, groupId);
         List<UserAndGroupNameDO> usersAndGroupName = iPage.getRecords();
@@ -50,7 +50,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void changeUserPassword(Integer id, ResetPasswordDTO validator) throws NotFound {
+    public void changeUserPassword(Long id, ResetPasswordDTO validator) throws NotFound {
         UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
             throw new NotFound("用户不存在");
@@ -60,7 +60,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteUser(Integer id) throws NotFound {
+    public void deleteUser(Long id) throws NotFound {
         UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
             throw new NotFound("用户不存在");
@@ -70,7 +70,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateUserInfo(Integer id, UpdateUserInfoDTO validator) throws NotFound, Parameter {
+    public void updateUserInfo(Long id, UpdateUserInfoDTO validator) throws NotFound, Parameter {
         UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
             throw new NotFound("用户不存在");
@@ -87,7 +87,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public PageResult getGroups(Integer page, Integer count) {
+    public PageResult getGroups(Long page, Long count) {
         Page<GroupDO> pager = new Page<>(page, count);
         IPage<GroupDO> iPage = groupMapper.selectPage(pager, null);
         List<GroupDO> groups = iPage.getRecords();
@@ -105,7 +105,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public GroupWithAuthsBO getGroup(Integer id) {
+    public GroupWithAuthsBO getGroup(Long id) {
         GroupDO group = groupMapper.selectById(id);
         GroupWithAuthsBO tmp = new GroupWithAuthsBO();
         BeanUtils.copyProperties(group, tmp);
@@ -126,7 +126,7 @@ public class AdminServiceImpl implements AdminService {
         group.setName(validator.getName());
         group.setInfo(validator.getInfo());
         groupMapper.insert(group);
-        Integer groupId = group.getId();
+        Long groupId = group.getId();
         validator.getAuths().forEach(item -> {
             AuthDO auth = new AuthDO();
             RouteMeta meta = postProcessor.findMetaByAuth(item);
@@ -140,7 +140,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateGroup(Integer id, UpdateGroupDTO validator) throws NotFound {
+    public void updateGroup(Long id, UpdateGroupDTO validator) throws NotFound {
         GroupDO group = groupMapper.selectById(id);
         if (group == null) {
             throw new NotFound("分组不存在，更新失败");
@@ -151,7 +151,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteGroup(Integer id) throws NotFound, Forbidden {
+    public void deleteGroup(Long id) throws NotFound, Forbidden {
         GroupDO group = groupMapper.selectById(id);
         if (group == null) {
             throw new NotFound("分组不存在，删除失败");
