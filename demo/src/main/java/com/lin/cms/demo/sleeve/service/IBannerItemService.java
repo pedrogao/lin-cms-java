@@ -1,6 +1,7 @@
 package com.lin.cms.demo.sleeve.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lin.cms.demo.sleeve.dto.BannerItemCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.BannerItem;
 
 /**
@@ -13,4 +14,9 @@ import com.lin.cms.demo.sleeve.model.BannerItem;
  */
 public interface IBannerItemService extends IService<BannerItem> {
 
+    void createBannerItem(BannerItemCreateOrUpdateDTO dto);
+
+    void updateBannerItem(BannerItemCreateOrUpdateDTO dto, Integer id);
+
+    void deleteBannerItem(Integer id);
 }

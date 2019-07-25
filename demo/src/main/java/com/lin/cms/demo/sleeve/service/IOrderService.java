@@ -1,6 +1,7 @@
 package com.lin.cms.demo.sleeve.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.sleeve.model.Order;
 
 /**
@@ -13,4 +14,5 @@ import com.lin.cms.demo.sleeve.model.Order;
  */
 public interface IOrderService extends IService<Order> {
 
+    PageResult<Order> getOrderByPage(Integer count, Integer page);
 }

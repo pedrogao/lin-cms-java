@@ -3,13 +3,14 @@ package com.lin.cms.demo.sleeve.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author pedro
@@ -20,7 +21,7 @@ public class Banner implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -33,15 +34,17 @@ public class Banner implements Serializable {
     private Date updateTime;
 
     @JSONField(serialize = false)
+    @TableLogic
     private Date deleteTime;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -49,6 +52,7 @@ public class Banner implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getDescription() {
         return description;
     }
@@ -56,6 +60,7 @@ public class Banner implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -63,6 +68,7 @@ public class Banner implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -70,6 +76,7 @@ public class Banner implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
     public Date getDeleteTime() {
         return deleteTime;
     }
@@ -81,12 +88,12 @@ public class Banner implements Serializable {
     @Override
     public String toString() {
         return "Banner{" +
-            "id=" + id +
-            ", name=" + name +
-            ", description=" + description +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", deleteTime=" + deleteTime +
-        "}";
+                "id=" + id +
+                ", name=" + name +
+                ", description=" + description +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteTime=" + deleteTime +
+                "}";
     }
 }

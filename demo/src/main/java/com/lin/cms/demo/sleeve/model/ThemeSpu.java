@@ -3,13 +3,14 @@ package com.lin.cms.demo.sleeve.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author pedro
@@ -20,11 +21,11 @@ public class ThemeSpu implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
-    private Integer themeId;
+    private Long themeId;
 
-    private Integer spuId;
+    private Long spuId;
 
     @JSONField(serialize = false)
     private Date createTime;
@@ -33,29 +34,33 @@ public class ThemeSpu implements Serializable {
     private Date updateTime;
 
     @JSONField(serialize = false)
+    @TableLogic
     private Date deleteTime;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
-    public Integer getThemeId() {
+
+    public Long getThemeId() {
         return themeId;
     }
 
-    public void setThemeId(Integer themeId) {
+    public void setThemeId(Long themeId) {
         this.themeId = themeId;
     }
-    public Integer getSpuId() {
+
+    public Long getSpuId() {
         return spuId;
     }
 
-    public void setSpuId(Integer spuId) {
+    public void setSpuId(Long spuId) {
         this.spuId = spuId;
     }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -63,6 +68,7 @@ public class ThemeSpu implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -70,6 +76,7 @@ public class ThemeSpu implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
     public Date getDeleteTime() {
         return deleteTime;
     }
@@ -81,12 +88,12 @@ public class ThemeSpu implements Serializable {
     @Override
     public String toString() {
         return "ThemeSpu{" +
-            "id=" + id +
-            ", themeId=" + themeId +
-            ", spuId=" + spuId +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", deleteTime=" + deleteTime +
-        "}";
+                "id=" + id +
+                ", themeId=" + themeId +
+                ", spuId=" + spuId +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteTime=" + deleteTime +
+                "}";
     }
 }

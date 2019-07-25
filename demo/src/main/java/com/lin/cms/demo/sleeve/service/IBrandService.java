@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lin.cms.core.result.PageResult;
+import com.lin.cms.demo.sleeve.dto.BrandCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.Brand;
 
 /**
@@ -13,4 +15,11 @@ import com.lin.cms.demo.sleeve.model.Brand;
  */
 public interface IBrandService extends IService<Brand> {
 
+    void createBrand(BrandCreateOrUpdateDTO dto);
+
+    void updateBrand(BrandCreateOrUpdateDTO dto, Integer id);
+
+    void deleteBrand(Integer id);
+
+    PageResult<Brand> getBrandByPage(Integer count, Integer page);
 }

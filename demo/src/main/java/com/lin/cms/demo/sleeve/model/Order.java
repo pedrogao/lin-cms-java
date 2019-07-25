@@ -1,29 +1,27 @@
 package com.lin.cms.demo.sleeve.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-/**
- * <p>
- * 
- * </p>
- *
- * @author pedro
- * @since 2019-07-23
- */
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
 
     private Integer orderNo;
 
     /**
      * user表外键
      */
-    private Integer uid;
+    private Long uid;
 
     private BigDecimal totalPrice;
 
@@ -33,6 +31,7 @@ public class Order implements Serializable {
     private Date createTime;
 
     @JSONField(serialize = false)
+    @TableLogic
     private Date deleteTime;
 
     @JSONField(serialize = false)
@@ -45,13 +44,15 @@ public class Order implements Serializable {
     public void setOrderNo(Integer orderNo) {
         this.orderNo = orderNo;
     }
-    public Integer getUid() {
+
+    public Long getUid() {
         return uid;
     }
 
-    public void setUid(Integer uid) {
+    public void setUid(Long uid) {
         this.uid = uid;
     }
+
     public BigDecimal getTotalPrice() {
         return totalPrice;
     }
@@ -59,6 +60,7 @@ public class Order implements Serializable {
     public void setTotalPrice(BigDecimal totalPrice) {
         this.totalPrice = totalPrice;
     }
+
     public Integer getSkuCount() {
         return skuCount;
     }
@@ -66,6 +68,7 @@ public class Order implements Serializable {
     public void setSkuCount(Integer skuCount) {
         this.skuCount = skuCount;
     }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -73,6 +76,7 @@ public class Order implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
     public Date getDeleteTime() {
         return deleteTime;
     }
@@ -80,6 +84,7 @@ public class Order implements Serializable {
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
     }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -88,16 +93,25 @@ public class Order implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
-            "orderNo=" + orderNo +
-            ", uid=" + uid +
-            ", totalPrice=" + totalPrice +
-            ", skuCount=" + skuCount +
-            ", createTime=" + createTime +
-            ", deleteTime=" + deleteTime +
-            ", updateTime=" + updateTime +
-        "}";
+                "orderNo=" + orderNo +
+                ", uid=" + uid +
+                ", totalPrice=" + totalPrice +
+                ", skuCount=" + skuCount +
+                ", createTime=" + createTime +
+                ", deleteTime=" + deleteTime +
+                ", updateTime=" + updateTime +
+                ", id=" + id +
+                "}";
     }
 }

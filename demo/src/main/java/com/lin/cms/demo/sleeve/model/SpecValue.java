@@ -3,13 +3,14 @@ package com.lin.cms.demo.sleeve.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author pedro
@@ -20,11 +21,11 @@ public class SpecValue implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String value;
 
-    private Integer specId;
+    private Long specId;
 
     @JSONField(serialize = false)
     private Date createTime;
@@ -33,17 +34,19 @@ public class SpecValue implements Serializable {
     private Date updateTime;
 
     @JSONField(serialize = false)
+    @TableLogic
     private Date deleteTime;
 
     private String extend;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
+
     public String getValue() {
         return value;
     }
@@ -51,13 +54,15 @@ public class SpecValue implements Serializable {
     public void setValue(String value) {
         this.value = value;
     }
-    public Integer getSpecId() {
+
+    public Long getSpecId() {
         return specId;
     }
 
-    public void setSpecId(Integer specId) {
+    public void setSpecId(Long specId) {
         this.specId = specId;
     }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -65,6 +70,7 @@ public class SpecValue implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -72,6 +78,7 @@ public class SpecValue implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
     public Date getDeleteTime() {
         return deleteTime;
     }
@@ -79,6 +86,7 @@ public class SpecValue implements Serializable {
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
     }
+
     public String getExtend() {
         return extend;
     }
@@ -90,13 +98,13 @@ public class SpecValue implements Serializable {
     @Override
     public String toString() {
         return "SpecValue{" +
-            "id=" + id +
-            ", value=" + value +
-            ", specId=" + specId +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", deleteTime=" + deleteTime +
-            ", extend=" + extend +
-        "}";
+                "id=" + id +
+                ", value=" + value +
+                ", specId=" + specId +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteTime=" + deleteTime +
+                ", extend=" + extend +
+                "}";
     }
 }

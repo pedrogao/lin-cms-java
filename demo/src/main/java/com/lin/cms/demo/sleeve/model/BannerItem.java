@@ -3,26 +3,25 @@ package com.lin.cms.demo.sleeve.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <p>
- * 
- * </p>
- *
  * @author pedro
  * @since 2019-07-23
  */
+@TableName("banner_item")
 public class BannerItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
-    private Integer imgId;
+    private Long imgId;
 
     private String keyWord;
 
@@ -35,24 +34,27 @@ public class BannerItem implements Serializable {
     private Date updateTime;
 
     @JSONField(serialize = false)
+    @TableLogic
     private Date deleteTime;
 
-    private Integer bannerId;
+    private Long bannerId;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
-    public Integer getImgId() {
+
+    public Long getImgId() {
         return imgId;
     }
 
-    public void setImgId(Integer imgId) {
+    public void setImgId(Long imgId) {
         this.imgId = imgId;
     }
+
     public String getKeyWord() {
         return keyWord;
     }
@@ -60,6 +62,7 @@ public class BannerItem implements Serializable {
     public void setKeyWord(String keyWord) {
         this.keyWord = keyWord;
     }
+
     public Integer getType() {
         return type;
     }
@@ -67,6 +70,7 @@ public class BannerItem implements Serializable {
     public void setType(Integer type) {
         this.type = type;
     }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -74,6 +78,7 @@ public class BannerItem implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -81,6 +86,7 @@ public class BannerItem implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
     public Date getDeleteTime() {
         return deleteTime;
     }
@@ -88,25 +94,26 @@ public class BannerItem implements Serializable {
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
     }
-    public Integer getBannerId() {
+
+    public Long getBannerId() {
         return bannerId;
     }
 
-    public void setBannerId(Integer bannerId) {
+    public void setBannerId(Long bannerId) {
         this.bannerId = bannerId;
     }
 
     @Override
     public String toString() {
         return "BannerItem{" +
-            "id=" + id +
-            ", imgId=" + imgId +
-            ", keyWord=" + keyWord +
-            ", type=" + type +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", deleteTime=" + deleteTime +
-            ", bannerId=" + bannerId +
-        "}";
+                "id=" + id +
+                ", imgId=" + imgId +
+                ", keyWord=" + keyWord +
+                ", type=" + type +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteTime=" + deleteTime +
+                ", bannerId=" + bannerId +
+                "}";
     }
 }

@@ -1,11 +1,14 @@
 package com.lin.cms.demo.sleeve.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lin.cms.core.result.PageResult;
+import com.lin.cms.demo.sleeve.dto.CategoryCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.Category;
+
 
 /**
  * <p>
- *  服务类
+ * 服务类
  * </p>
  *
  * @author pedro
@@ -13,4 +16,11 @@ import com.lin.cms.demo.sleeve.model.Category;
  */
 public interface ICategoryService extends IService<Category> {
 
+    void createCategory(CategoryCreateOrUpdateDTO dto);
+
+    void updateCategory(CategoryCreateOrUpdateDTO dto, Integer id);
+
+    void deleteCategory(Integer id);
+
+    PageResult<Category> getCategoryByPage(Integer count, Integer page);
 }

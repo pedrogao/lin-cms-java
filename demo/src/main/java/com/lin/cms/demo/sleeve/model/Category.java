@@ -3,13 +3,14 @@ package com.lin.cms.demo.sleeve.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author pedro
@@ -20,7 +21,7 @@ public class Category implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String name;
 
@@ -32,20 +33,22 @@ public class Category implements Serializable {
     @JSONField(serialize = false)
     private Date updateTime;
 
+    @TableLogic
     @JSONField(serialize = false)
     private Date deleteTime;
 
     private Integer isRoot;
 
-    private Integer parentId;
+    private Long parentId;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
+
     public String getName() {
         return name;
     }
@@ -53,6 +56,7 @@ public class Category implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getDescription() {
         return description;
     }
@@ -60,6 +64,7 @@ public class Category implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -67,6 +72,7 @@ public class Category implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -74,6 +80,7 @@ public class Category implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
     public Date getDeleteTime() {
         return deleteTime;
     }
@@ -81,6 +88,7 @@ public class Category implements Serializable {
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
     }
+
     public Integer getIsRoot() {
         return isRoot;
     }
@@ -88,25 +96,26 @@ public class Category implements Serializable {
     public void setIsRoot(Integer isRoot) {
         this.isRoot = isRoot;
     }
-    public Integer getParentId() {
+
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(Integer parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
     @Override
     public String toString() {
         return "Category{" +
-            "id=" + id +
-            ", name=" + name +
-            ", description=" + description +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", deleteTime=" + deleteTime +
-            ", isRoot=" + isRoot +
-            ", parentId=" + parentId +
-        "}";
+                "id=" + id +
+                ", name=" + name +
+                ", description=" + description +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteTime=" + deleteTime +
+                ", isRoot=" + isRoot +
+                ", parentId=" + parentId +
+                "}";
     }
 }

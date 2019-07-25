@@ -3,13 +3,14 @@ package com.lin.cms.demo.sleeve.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author pedro
@@ -20,13 +21,13 @@ public class Spu implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String title;
 
     private String subtitle;
 
-    private Integer categoryId;
+    private Long categoryId;
 
     private Integer onSale;
 
@@ -37,9 +38,10 @@ public class Spu implements Serializable {
     private Date updateTime;
 
     @JSONField(serialize = false)
+    @TableLogic
     private Date deleteTime;
 
-    private Integer brandId;
+    private Long brandId;
 
     /**
      * 文本型价格，有时候SPU需要展示的是一个范围，或者自定义平均价格
@@ -49,22 +51,23 @@ public class Spu implements Serializable {
     /**
      * 某种规格可以直接附加单品图片
      */
-    private Integer sketchSpecId;
+    private Long sketchSpecId;
 
     /**
      * 默认选中的sku
      */
-    private Integer defaultSkuId;
+    private Long defaultSkuId;
 
     private String img;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
+
     public String getTitle() {
         return title;
     }
@@ -72,6 +75,7 @@ public class Spu implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
     public String getSubtitle() {
         return subtitle;
     }
@@ -79,13 +83,15 @@ public class Spu implements Serializable {
     public void setSubtitle(String subtitle) {
         this.subtitle = subtitle;
     }
-    public Integer getCategoryId() {
+
+    public Long getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
+
     public Integer getOnSale() {
         return onSale;
     }
@@ -93,6 +99,7 @@ public class Spu implements Serializable {
     public void setOnSale(Integer onSale) {
         this.onSale = onSale;
     }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -100,6 +107,7 @@ public class Spu implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -107,6 +115,7 @@ public class Spu implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
     public Date getDeleteTime() {
         return deleteTime;
     }
@@ -114,13 +123,15 @@ public class Spu implements Serializable {
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
     }
-    public Integer getBrandId() {
+
+    public Long getBrandId() {
         return brandId;
     }
 
-    public void setBrandId(Integer brandId) {
+    public void setBrandId(Long brandId) {
         this.brandId = brandId;
     }
+
     public String getPrice() {
         return price;
     }
@@ -128,20 +139,23 @@ public class Spu implements Serializable {
     public void setPrice(String price) {
         this.price = price;
     }
-    public Integer getSketchSpecId() {
+
+    public Long getSketchSpecId() {
         return sketchSpecId;
     }
 
-    public void setSketchSpecId(Integer sketchSpecId) {
+    public void setSketchSpecId(Long sketchSpecId) {
         this.sketchSpecId = sketchSpecId;
     }
-    public Integer getDefaultSkuId() {
+
+    public Long getDefaultSkuId() {
         return defaultSkuId;
     }
 
-    public void setDefaultSkuId(Integer defaultSkuId) {
+    public void setDefaultSkuId(Long defaultSkuId) {
         this.defaultSkuId = defaultSkuId;
     }
+
     public String getImg() {
         return img;
     }
@@ -153,19 +167,19 @@ public class Spu implements Serializable {
     @Override
     public String toString() {
         return "Spu{" +
-            "id=" + id +
-            ", title=" + title +
-            ", subtitle=" + subtitle +
-            ", categoryId=" + categoryId +
-            ", onSale=" + onSale +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", deleteTime=" + deleteTime +
-            ", brandId=" + brandId +
-            ", price=" + price +
-            ", sketchSpecId=" + sketchSpecId +
-            ", defaultSkuId=" + defaultSkuId +
-            ", img=" + img +
-        "}";
+                "id=" + id +
+                ", title=" + title +
+                ", subtitle=" + subtitle +
+                ", categoryId=" + categoryId +
+                ", onSale=" + onSale +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteTime=" + deleteTime +
+                ", brandId=" + brandId +
+                ", price=" + price +
+                ", sketchSpecId=" + sketchSpecId +
+                ", defaultSkuId=" + defaultSkuId +
+                ", img=" + img +
+                "}";
     }
 }

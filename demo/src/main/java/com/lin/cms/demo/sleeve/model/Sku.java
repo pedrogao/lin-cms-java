@@ -3,6 +3,7 @@ package com.lin.cms.demo.sleeve.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author pedro
@@ -21,7 +22,7 @@ public class Sku implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private BigDecimal price;
 
@@ -33,7 +34,7 @@ public class Sku implements Serializable {
 
     private String title;
 
-    private Integer spuId;
+    private Long spuId;
 
     @JSONField(serialize = false)
     private Date createTime;
@@ -42,6 +43,7 @@ public class Sku implements Serializable {
     private Date updateTime;
 
     @JSONField(serialize = false)
+    @TableLogic
     private Date deleteTime;
 
     private String specs;
@@ -52,13 +54,14 @@ public class Sku implements Serializable {
 
     private Integer stock;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
+
     public BigDecimal getPrice() {
         return price;
     }
@@ -66,6 +69,7 @@ public class Sku implements Serializable {
     public void setPrice(BigDecimal price) {
         this.price = price;
     }
+
     public BigDecimal getDiscount() {
         return discount;
     }
@@ -73,6 +77,7 @@ public class Sku implements Serializable {
     public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
+
     public Integer getOnSale() {
         return onSale;
     }
@@ -80,6 +85,7 @@ public class Sku implements Serializable {
     public void setOnSale(Integer onSale) {
         this.onSale = onSale;
     }
+
     public String getImg() {
         return img;
     }
@@ -87,6 +93,7 @@ public class Sku implements Serializable {
     public void setImg(String img) {
         this.img = img;
     }
+
     public String getTitle() {
         return title;
     }
@@ -94,13 +101,15 @@ public class Sku implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-    public Integer getSpuId() {
+
+    public Long getSpuId() {
         return spuId;
     }
 
-    public void setSpuId(Integer spuId) {
+    public void setSpuId(Long spuId) {
         this.spuId = spuId;
     }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -108,6 +117,7 @@ public class Sku implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -115,6 +125,7 @@ public class Sku implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
     public Date getDeleteTime() {
         return deleteTime;
     }
@@ -122,6 +133,7 @@ public class Sku implements Serializable {
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
     }
+
     public String getSpecs() {
         return specs;
     }
@@ -129,6 +141,7 @@ public class Sku implements Serializable {
     public void setSpecs(String specs) {
         this.specs = specs;
     }
+
     public String getCode() {
         return code;
     }
@@ -136,6 +149,7 @@ public class Sku implements Serializable {
     public void setCode(String code) {
         this.code = code;
     }
+
     public String getCurrency() {
         return currency;
     }
@@ -143,6 +157,7 @@ public class Sku implements Serializable {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
     public Integer getStock() {
         return stock;
     }
@@ -154,20 +169,20 @@ public class Sku implements Serializable {
     @Override
     public String toString() {
         return "Sku{" +
-            "id=" + id +
-            ", price=" + price +
-            ", discount=" + discount +
-            ", onSale=" + onSale +
-            ", img=" + img +
-            ", title=" + title +
-            ", spuId=" + spuId +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", deleteTime=" + deleteTime +
-            ", specs=" + specs +
-            ", code=" + code +
-            ", currency=" + currency +
-            ", stock=" + stock +
-        "}";
+                "id=" + id +
+                ", price=" + price +
+                ", discount=" + discount +
+                ", onSale=" + onSale +
+                ", img=" + img +
+                ", title=" + title +
+                ", spuId=" + spuId +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteTime=" + deleteTime +
+                ", specs=" + specs +
+                ", code=" + code +
+                ", currency=" + currency +
+                ", stock=" + stock +
+                "}";
     }
 }

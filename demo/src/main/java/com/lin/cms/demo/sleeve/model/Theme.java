@@ -3,13 +3,14 @@ package com.lin.cms.demo.sleeve.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author pedro
@@ -20,7 +21,7 @@ public class Theme implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String title;
 
@@ -34,6 +35,7 @@ public class Theme implements Serializable {
     @JSONField(serialize = false)
     private Date updateTime;
 
+    @TableLogic
     @JSONField(serialize = false)
     private Date deleteTime;
 
@@ -41,13 +43,14 @@ public class Theme implements Serializable {
 
     private String extend;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
+
     public String getTitle() {
         return title;
     }
@@ -55,6 +58,7 @@ public class Theme implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
     public String getDescription() {
         return description;
     }
@@ -62,6 +66,7 @@ public class Theme implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getLocation() {
         return location;
     }
@@ -69,6 +74,7 @@ public class Theme implements Serializable {
     public void setLocation(String location) {
         this.location = location;
     }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -76,6 +82,7 @@ public class Theme implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
     public Date getUpdateTime() {
         return updateTime;
     }
@@ -83,6 +90,7 @@ public class Theme implements Serializable {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
     public Date getDeleteTime() {
         return deleteTime;
     }
@@ -90,6 +98,7 @@ public class Theme implements Serializable {
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
     }
+
     public String getImg() {
         return img;
     }
@@ -97,6 +106,7 @@ public class Theme implements Serializable {
     public void setImg(String img) {
         this.img = img;
     }
+
     public String getExtend() {
         return extend;
     }
@@ -108,15 +118,15 @@ public class Theme implements Serializable {
     @Override
     public String toString() {
         return "Theme{" +
-            "id=" + id +
-            ", title=" + title +
-            ", description=" + description +
-            ", location=" + location +
-            ", createTime=" + createTime +
-            ", updateTime=" + updateTime +
-            ", deleteTime=" + deleteTime +
-            ", img=" + img +
-            ", extend=" + extend +
-        "}";
+                "id=" + id +
+                ", title=" + title +
+                ", description=" + description +
+                ", location=" + location +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                ", deleteTime=" + deleteTime +
+                ", img=" + img +
+                ", extend=" + extend +
+                "}";
     }
 }

@@ -53,7 +53,9 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             result = ResultGenerator.genResult((HttpException) e);
             Integer errorCode = ((HttpException) e).getErrorCode();
             String s = linCmsProperties.getCodeMsg().get(errorCode);
-            result.setMsg(s);
+            if (s != null) {
+                result.setMsg(s);
+            }
         } else if (e instanceof NoHandlerFoundException) {
             result.setHttpCode(HttpStatus.NOT_FOUND.value())
                     .setErrCode(ErrCode.NOT_FOUND.getCode())
