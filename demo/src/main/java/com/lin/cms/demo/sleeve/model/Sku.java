@@ -10,10 +10,6 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * <p>
- *
- * </p>
- *
  * @author pedro
  * @since 2019-07-23
  */

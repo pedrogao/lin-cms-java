@@ -36,7 +36,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     public void updateCategory(CategoryCreateOrUpdateDTO dto, Long id) {
         Category exist = this.getById(id);
         if (exist == null) {
-            throw new NotFound("未找到相关的分类");
+            throw new NotFound("未找到相关的spu");
         }
         BeanUtils.copyProperties(dto, exist);
         this.updateById(exist);
@@ -46,7 +46,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
     public void deleteCategory(Long id) {
         Category exist = this.getById(id);
         if (exist == null) {
-            throw new NotFound("未找到相关的分类");
+            throw new NotFound("未找到相关的spu");
         }
         this.getBaseMapper().deleteById(id);
     }

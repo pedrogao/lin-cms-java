@@ -13,4 +13,13 @@
         <result column="extend" property="extend" />
     </resultMap>
 
+    <select id="getSpecKeyAndValueById" resultType="com.lin.cms.demo.sleeve.model.SpecKeyAndValue">
+        select v.id value_id, v.value spec_value, k.id key_id, k.name spec_key
+        from spec_value as v
+        left join spec_key as k on v.spec_id=k.id
+        where v.id=#{vId}
+        and k.id=#{kId}
+        limit 1
+    </select>
+
 </mapper>
