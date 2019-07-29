@@ -100,8 +100,9 @@ public class WebConfig implements WebMvcConfigurer {
     // 权限拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        if (authEnabled) { //开发环境忽略签名认证
-            registry.addInterceptor(authInterceptor);
+        if (authEnabled) {
+            //开发环境忽略签名认证
+            registry.addInterceptor(authInterceptor).excludePathPatterns("/assets/**");
         }
         if (requestLogEnabled) {
             registry.addInterceptor(requestLogInterceptor);
