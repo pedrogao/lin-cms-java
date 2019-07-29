@@ -3,6 +3,7 @@ package com.lin.cms.demo.sleeve.controller;
 
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
+import com.lin.cms.demo.sleeve.bo.BannerAndItems;
 import com.lin.cms.demo.sleeve.dto.BannerCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.Banner;
 import com.lin.cms.demo.sleeve.service.IBannerService;
@@ -42,17 +43,15 @@ public class BannerController {
 
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
+        // TODO: 查询banner下面有无banner_id
         bannerService.deleteBanner(id);
         return ResultGenerator.genSuccessResult("删除商品banner成功！");
     }
 
     @GetMapping("/{id}")
-    public Banner get(@PathVariable @Positive(message = "id必须为正整数") Long id) {
-        Banner banner = bannerService.getById(id);
-        if (banner == null) {
-            throw new NotFound("未找到相关的banner");
-        }
-        return banner;
+    public BannerAndItems get(@PathVariable @Positive(message = "id必须为正整数") Long id) {
+        BannerAndItems bannerAndItems = bannerService.getBannerAndItemsById(id);
+        return bannerAndItems;
     }
 
 

@@ -4,14 +4,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.BannerItem">
-        <id column="id" property="id" />
-        <result column="img_id" property="imgId" />
-        <result column="key_word" property="keyWord" />
-        <result column="type" property="type" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="delete_time" property="deleteTime" />
-        <result column="banner_id" property="bannerId" />
+        <id column="id" property="id"/>
+        <result column="img" property="img"/>
+        <result column="key_word" property="keyWord"/>
+        <result column="type" property="type"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="banner_id" property="bannerId"/>
     </resultMap>
 
 </mapper>

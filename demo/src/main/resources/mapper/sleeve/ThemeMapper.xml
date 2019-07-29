@@ -4,15 +4,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.Theme">
-        <id column="id" property="id" />
-        <result column="title" property="title" />
-        <result column="description" property="description" />
-        <result column="location" property="location" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="delete_time" property="deleteTime" />
-        <result column="img" property="img" />
-        <result column="extend" property="extend" />
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="location" property="location"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="img" property="img"/>
+        <result column="extend" property="extend"/>
+        <result column="entrance_img" property="entranceImg"/>
+        <result column="internal_top_img" property="internalTopImg"/>
     </resultMap>
 
 </mapper>

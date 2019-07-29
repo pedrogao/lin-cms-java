@@ -20,9 +20,9 @@ public class SkuSpec implements Serializable {
 
     private Long skuId;
 
-    private Long specKeyId;
+    private Long keyId;
 
-    private Long specValueId;
+    private Long valueId;
 
     public Long getId() {
         return id;
@@ -48,20 +48,20 @@ public class SkuSpec implements Serializable {
         this.skuId = skuId;
     }
 
-    public Long getSpecKeyId() {
-        return specKeyId;
+    public Long getKeyId() {
+        return keyId;
     }
 
-    public void setSpecKeyId(Long specKeyId) {
-        this.specKeyId = specKeyId;
+    public void setKeyId(Long keyId) {
+        this.keyId = keyId;
     }
 
-    public Long getSpecValueId() {
-        return specValueId;
+    public Long getValueId() {
+        return valueId;
     }
 
-    public void setSpecValueId(Long specValueId) {
-        this.specValueId = specValueId;
+    public void setValueId(Long valueId) {
+        this.valueId = valueId;
     }
 
     @Override
@@ -70,8 +70,8 @@ public class SkuSpec implements Serializable {
                 "id=" + id +
                 ", spuId=" + spuId +
                 ", skuId=" + skuId +
-                ", specKeyId=" + specKeyId +
-                ", specValueId=" + specValueId +
+                ", keyId=" + keyId +
+                ", valueId=" + valueId +
                 "}";
     }
 }

@@ -15,7 +15,7 @@ public class SpecKeyAndValue {
 
     private Long valueId;
 
-    private String specValue;
+    private String value;
 
-    private String specKey;
+    private String key;
 }

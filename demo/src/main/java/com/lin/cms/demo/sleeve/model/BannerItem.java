@@ -21,7 +21,7 @@ public class BannerItem implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    private Long imgId;
+    private String img;
 
     private String keyWord;
 
@@ -47,12 +47,12 @@ public class BannerItem implements Serializable {
         this.id = id;
     }
 
-    public Long getImgId() {
-        return imgId;
+    public String getImg() {
+        return img;
     }
 
-    public void setImgId(Long imgId) {
-        this.imgId = imgId;
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public String getKeyWord() {
@@ -107,7 +107,7 @@ public class BannerItem implements Serializable {
     public String toString() {
         return "BannerItem{" +
                 "id=" + id +
-                ", imgId=" + imgId +
+                ", img=" + img +
                 ", keyWord=" + keyWord +
                 ", type=" + type +
                 ", createTime=" + createTime +

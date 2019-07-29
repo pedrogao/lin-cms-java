@@ -4,7 +4,7 @@ import com.lin.cms.interfaces.AuthVerifyResolver;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.enums.UserLevel;
-import com.lin.cms.beans.ErrCode;
+import com.lin.cms.beans.ErrorCode;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.core.utils.AnnotationHelper;
@@ -32,7 +32,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             // 如果没有实现 AuthVerifyResolver 接口的类，则规定一切为true
             return true;
         }
-        Result result = ResultGenerator.genResult(ErrCode.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.value());
+        Result result = ResultGenerator.genResult(ErrorCode.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.value());
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();

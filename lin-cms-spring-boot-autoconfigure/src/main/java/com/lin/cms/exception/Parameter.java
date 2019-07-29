@@ -1,14 +1,14 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrCode;
+import com.lin.cms.beans.ErrorCode;
 import lombok.Data;
 import com.lin.cms.core.enums.HttpStatus;
 
 @Data
 public class Parameter extends HttpException {
-    private Object msg = ErrCode.PARAMETER_ERROR.getDescription();
+    private Object msg = ErrorCode.PARAMETER_ERROR.getDescription();
 
-    private Integer errorCode = ErrCode.PARAMETER_ERROR.getCode();
+    private Integer errorCode = ErrorCode.PARAMETER_ERROR.getCode();
 
     private Integer httpCode = HttpStatus.BAD_REQUEST.value();
 

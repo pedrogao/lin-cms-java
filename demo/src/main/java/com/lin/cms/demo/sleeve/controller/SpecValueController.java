@@ -35,6 +35,7 @@ public class SpecValueController {
 
     @PutMapping("/{id}")
     public Result update(@RequestBody @Valid SpecValueCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+        // TODO: 更新的时候检查，然后更新 sku 里面的specs
         specValueService.updateSpecValue(dto, id);
         return ResultGenerator.genSuccessResult("更新规格键成功！");
     }

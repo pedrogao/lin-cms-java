@@ -3,7 +3,7 @@ package com.lin.cms.utils;
 import com.alibaba.fastjson.JSON;
 import com.lin.cms.exception.HttpException;
 import com.lin.cms.exception.Success;
-import com.lin.cms.beans.ErrCode;
+import com.lin.cms.beans.ErrorCode;
 import com.lin.cms.core.result.Result;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +20,7 @@ public class ResultGenerator {
         String url = RequestHelper.getRequestUrl();
         return new Result()
                 .setMsg(e.getMsg())
-                .setErrCode(e.getErrorCode())
+                .setErrorCode(e.getErrorCode())
                 .setUrl(url)
                 .setHttpCode(e.getHttpCode());
     }
@@ -29,16 +29,16 @@ public class ResultGenerator {
         Success success = new Success();
         String url = RequestHelper.getRequestUrl();
         return new Result().setUrl(url)
-                .setErrCode(success.getErrorCode())
+                .setErrorCode(success.getErrorCode())
                 .setMsg(data)
                 .setHttpCode(success.getHttpCode());
     }
 
-    public static <T> Result<T> genResult(ErrCode errCode, int httpCode) {
+    public static <T> Result<T> genResult(ErrorCode errorCode, int httpCode) {
         String url = RequestHelper.getRequestUrl();
         return new Result().setUrl(url)
-                .setErrCode(errCode.getCode())
-                .setMsg(errCode.getDescription())
+                .setErrorCode(errorCode.getCode())
+                .setMsg(errorCode.getDescription())
                 .setHttpCode(httpCode);
     }
 

@@ -43,6 +43,26 @@ public class Theme implements Serializable {
 
     private String extend;
 
+    private String entranceImg;
+
+    private String internalTopImg;
+
+    public String getEntranceImg() {
+        return entranceImg;
+    }
+
+    public void setEntranceImg(String entranceImg) {
+        this.entranceImg = entranceImg;
+    }
+
+    public String getInternalTopImg() {
+        return internalTopImg;
+    }
+
+    public void setInternalTopImg(String internalTopImg) {
+        this.internalTopImg = internalTopImg;
+    }
+
     public Long getId() {
         return id;
     }

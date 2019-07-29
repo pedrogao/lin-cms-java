@@ -5,7 +5,7 @@ import com.lin.cms.demo.validator.Enum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
+import com.lin.cms.demo.validator.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -16,10 +16,10 @@ import javax.validation.constraints.Positive;
 public class CategoryCreateOrUpdateDTO {
 
     @NotBlank(message = "种类名不可为空")
-    @Length(min = 1, max = 100, message = "种类名长度不能超过100字符")
+    @Length(min = 1, max = 100, allowBlank = true, message = "种类名长度不能超过100字符")
     private String name;
 
-    @Length(min = 1, max = 255, message = "种类描述长度不能超过255字符")
+    @Length(min = 1, max = 255, allowBlank = true, message = "种类描述长度不能超过255字符")
     private String description;
 
     @Enum(message = "种类root必须为0，1中的一项", allowNull = true, target = CategoryRootOrNot.class)

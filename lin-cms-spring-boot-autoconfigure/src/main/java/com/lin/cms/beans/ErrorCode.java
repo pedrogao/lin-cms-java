@@ -4,7 +4,7 @@ package com.lin.cms.beans;
 /**
  * 错误码
  */
-public enum ErrCode {
+public enum ErrorCode {
 
     SUCCESS(0, "成功"),
 
@@ -29,7 +29,7 @@ public enum ErrCode {
     private int code;
     private String description;
 
-    ErrCode(int code, String description) {
+    ErrorCode(int code, String description) {
         // HttpStatus
         this.code = code;
         this.description = description;

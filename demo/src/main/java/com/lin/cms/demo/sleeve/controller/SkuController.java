@@ -48,7 +48,8 @@ public class SkuController {
 
     @GetMapping("/{id}")
     public Sku get(@PathVariable @Positive(message = "id必须为正整数") Long id) {
-        Sku sku = skuService.getDetailById(id);
+        // Sku sku = skuService.getDetailById(id);
+        Sku sku = skuService.getById(id);
         if (sku == null) {
             throw new NotFound("未找到相关的sku");
         }

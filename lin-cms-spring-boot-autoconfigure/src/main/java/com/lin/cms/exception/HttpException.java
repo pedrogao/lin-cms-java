@@ -1,14 +1,14 @@
 package com.lin.cms.exception;
 
 
-import com.lin.cms.beans.ErrCode;
+import com.lin.cms.beans.ErrorCode;
 import com.lin.cms.core.enums.HttpStatus;
 
 public class HttpException extends RuntimeException {
 
-    private String msg = ErrCode.INTERNAL_SERVER_ERROR.getDescription();
+    private String msg = ErrorCode.INTERNAL_SERVER_ERROR.getDescription();
 
-    private Integer errorCode = ErrCode.INTERNAL_SERVER_ERROR.getCode();
+    private Integer errorCode = ErrorCode.INTERNAL_SERVER_ERROR.getCode();
 
     private Integer httpCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
 

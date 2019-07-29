@@ -21,12 +21,12 @@ public class Transformer {
         try {
             Integer errCode = (Integer) errorCode.get(ex);
             Object msg1 = msg.get(ex);
-            res.put("err_code", errCode);
+            res.put("error_code", errCode);
             res.put("msg", msg1);
             res.put("url", request.getServletPath());
         } catch (IllegalAccessException e) {
             HttpException defaultEx = new HttpException();
-            res.put("err_code", defaultEx.getErrorCode());
+            res.put("error_code", defaultEx.getErrorCode());
             res.put("msg", defaultEx.getMsg());
             res.put("url", request.getServletPath());
         }

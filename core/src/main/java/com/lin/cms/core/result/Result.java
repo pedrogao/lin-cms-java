@@ -7,8 +7,8 @@ import com.alibaba.fastjson.annotation.JSONField;
  * 统一API响应结果封装
  */
 public class Result<T> {
-    @JSONField(name = "err_code")
-    private int errCode;
+    @JSONField(name = "error_code")
+    private int errorCode;
 
     private String url;
 
@@ -26,12 +26,12 @@ public class Result<T> {
         return this;
     }
 
-    public int getErrCode() {
-        return errCode;
+    public int getErrorCode() {
+        return errorCode;
     }
 
-    public Result setErrCode(int errCode) {
-        this.errCode = errCode;
+    public Result setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
         return this;
     }
 

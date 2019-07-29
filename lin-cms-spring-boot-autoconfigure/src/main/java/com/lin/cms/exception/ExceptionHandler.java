@@ -1,7 +1,7 @@
 package com.lin.cms.exception;
 
 import com.lin.cms.autoconfigure.LinCmsProperties;
-import com.lin.cms.beans.ErrCode;
+import com.lin.cms.beans.ErrorCode;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.interfaces.ExceptionResultResolver;
 import com.lin.cms.utils.ResultGenerator;
@@ -61,13 +61,13 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             result = this.handleMethodConstraintViolationException(e);
         } else if (e instanceof NoHandlerFoundException) {
             result.setHttpCode(HttpStatus.NOT_FOUND.value())
-                    .setErrCode(ErrCode.NOT_FOUND.getCode())
+                    .setErrorCode(ErrorCode.NOT_FOUND.getCode())
                     .setUrl(request.getServletPath())
                     .setMsg("未找到请求的接口");
         } else if (e instanceof ServletException) {
             // method not support
             result.setHttpCode(HttpStatus.BAD_REQUEST.value())
-                    .setErrCode(ErrCode.FAIL.getCode())
+                    .setErrorCode(ErrorCode.FAIL.getCode())
                     .setUrl(request.getServletPath())
                     .setMsg(e.getMessage());
         } else if (e instanceof MethodArgumentNotValidException) {
@@ -142,12 +142,12 @@ public class ExceptionHandler implements HandlerExceptionResolver {
         log.error(message, e);
         if (env.equals("dev")) {
             result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .setErrCode(ErrCode.INTERNAL_SERVER_ERROR.getCode())
+                    .setErrorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode())
                     .setUrl(request.getServletPath())
                     .setMsg(message);
         } else {
             result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .setErrCode(ErrCode.INTERNAL_SERVER_ERROR.getCode())
+                    .setErrorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode())
                     .setUrl(request.getServletPath())
                     .setMsg("服务器内部错误，正在抓紧排查");
         }

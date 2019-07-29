@@ -6,7 +6,7 @@ import com.lin.cms.demo.validator.Enum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
+import com.lin.cms.demo.validator.Length;
 
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMin;
@@ -21,11 +21,11 @@ import java.util.List;
 @NoArgsConstructor
 public class SkuCreateOrUpdateDTO {
     @NotBlank(message = "规格值名不可为空")
-    @Length(min = 1, max = 255, message = "规格值名长度不能超过255字符")
+    @Length(min = 1, max = 255, allowBlank = true, message = "规格值名长度不能超过255字符")
     private String title;
 
     @NotBlank(message = "图片url不可为空")
-    @Length(min = 1, max = 255, message = "图片url长度不能超过255字符")
+    @Length(min = 1, max = 255, allowBlank = true, message = "图片url长度不能超过255字符")
     private String img;
 
     @DecimalMin(value = "0.00", message = "折扣不能为负")

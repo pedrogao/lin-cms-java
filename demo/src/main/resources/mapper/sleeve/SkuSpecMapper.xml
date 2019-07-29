@@ -7,8 +7,12 @@
         <id column="id" property="id"/>
         <result column="spu_id" property="spuId"/>
         <result column="sku_id" property="skuId"/>
-        <result column="spec_key_id" property="specKeyId"/>
-        <result column="spec_value_id" property="specValueId"/>
+        <result column="key_id" property="keyId"/>
+        <result column="value_id" property="valueId"/>
     </resultMap>
+
+    <delete id="deleteSpecs">
+        delete from sku_spec s where s.spu_id=#{spuId} and s.sku_id=#{skuId}
+    </delete>
 
 </mapper>

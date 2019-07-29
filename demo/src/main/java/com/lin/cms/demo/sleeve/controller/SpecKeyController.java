@@ -3,6 +3,7 @@ package com.lin.cms.demo.sleeve.controller;
 
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
+import com.lin.cms.demo.sleeve.bo.SpecKeyAndItems;
 import com.lin.cms.demo.sleeve.dto.SpecKeyCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.Banner;
 import com.lin.cms.demo.sleeve.model.SpecKey;
@@ -29,13 +30,14 @@ public class SpecKeyController {
     private ISpecKeyService specKeyService;
 
     @PostMapping("/")
-    public Result create(@RequestBody @Valid SpecKeyCreateOrUpdateDTO dto) {
+    public Result create(@RequestBody @Validated SpecKeyCreateOrUpdateDTO dto) {
         specKeyService.createSpecKey(dto);
         return ResultGenerator.genSuccessResult("创建规格键成功！");
     }
 
     @PutMapping("/{id}")
-    public Result update(@RequestBody @Valid SpecKeyCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+    public Result update(@RequestBody @Validated SpecKeyCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+        // TODO: 更新的时候检查，然后更新 sku 里面的specs
         specKeyService.updateSpecKey(dto, id);
         return ResultGenerator.genSuccessResult("更新规格键成功！");
     }
@@ -53,6 +55,12 @@ public class SpecKeyController {
             throw new NotFound("未找到相关的规格键");
         }
         return specKey;
+    }
+
+    @GetMapping("/{id}/detail")
+    public SpecKeyAndItems getDetail(@PathVariable @Positive(message = "id必须为正整数") Long id) {
+        SpecKeyAndItems specKeyAndItems = specKeyService.getKeyAndValuesById(id);
+        return specKeyAndItems;
     }
 
 
