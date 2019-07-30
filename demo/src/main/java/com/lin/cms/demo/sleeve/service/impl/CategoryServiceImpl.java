@@ -7,9 +7,11 @@ import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.sleeve.dto.CategoryCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.mapper.CategoryMapper;
 import com.lin.cms.demo.sleeve.model.Category;
+import com.lin.cms.demo.sleeve.model.CategorySuggestionDO;
 import com.lin.cms.demo.sleeve.service.ICategoryService;
 import com.lin.cms.exception.NotFound;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,9 @@ import java.util.List;
  */
 @Service
 public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> implements ICategoryService {
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     @Override
     public void createCategory(CategoryCreateOrUpdateDTO dto) {
@@ -57,5 +62,10 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         IPage<Category> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Category> categories = iPage.getRecords();
         return PageResult.genPageResult(iPage.getTotal(), categories);
+    }
+
+    @Override
+    public List<CategorySuggestionDO> getSuggestions(Long id) {
+        return categoryMapper.getSuggestions(id);
     }
 }

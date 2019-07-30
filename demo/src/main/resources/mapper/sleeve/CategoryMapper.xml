@@ -4,14 +4,23 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.Category">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="description" property="description" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="delete_time" property="deleteTime" />
-        <result column="is_root" property="isRoot" />
-        <result column="parent_id" property="parentId" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="is_root" property="isRoot"/>
+        <result column="parent_id" property="parentId"/>
     </resultMap>
+
+    <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.CategorySuggestionDO">
+        select c.id id,c.name name from category c
+        <where>
+            <if test="id != null">
+                c.id != #{id}
+            </if>
+        </where>
+    </select>
 
 </mapper>

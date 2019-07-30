@@ -13,7 +13,7 @@ import javax.validation.constraints.Positive;
 @Getter
 @NoArgsConstructor
 public class SpuCreateOrUpdateDTO {
-    @NotBlank(message = "规格值名不可为空")
+    @NotBlank(message = "标题不可为空")
     @Length(min = 1, max = 255, allowBlank = true, message = "规格值名长度不能超过255字符")
     private String title;
 
@@ -41,7 +41,6 @@ public class SpuCreateOrUpdateDTO {
 
 
     @Positive(message = "默认 sku id 必须为正整数")
-    @NotNull(message = "默认 sku id不可为空")
     private Long defaultSkuId;
 
     @Length(min = 1, max = 60, allowBlank = true, message = "价格长度不能超过60字符")

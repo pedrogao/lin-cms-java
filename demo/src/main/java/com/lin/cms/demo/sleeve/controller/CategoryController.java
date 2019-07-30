@@ -4,8 +4,11 @@ package com.lin.cms.demo.sleeve.controller;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.CategoryCreateOrUpdateDTO;
+import com.lin.cms.demo.sleeve.enums.CategoryRootOrNot;
 import com.lin.cms.demo.sleeve.model.Category;
+import com.lin.cms.demo.sleeve.model.CategorySuggestionDO;
 import com.lin.cms.demo.sleeve.service.ICategoryService;
+import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 /**
  * 自顶向下进行开发
@@ -32,12 +36,15 @@ public class CategoryController {
 
     @PostMapping("/")
     public Result create(@RequestBody @Valid CategoryCreateOrUpdateDTO dto) {
+        // parent_id 与 is_root 不能同时有
+        checkRootAndParent(dto);
         categoryService.createCategory(dto);
         return ResultGenerator.genSuccessResult("创建商品种类成功！");
     }
 
     @PutMapping("/{id}")
     public Result update(@RequestBody @Valid CategoryCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+        checkRootAndParent(dto);
         categoryService.updateCategory(dto, id);
         return ResultGenerator.genSuccessResult("更新商品种类成功！");
     }
@@ -68,5 +75,19 @@ public class CategoryController {
             throw new NotFound("未找到相关的分类");
         }
         return pageResult;
+    }
+
+    @GetMapping("/suggestion")
+    public List<CategorySuggestionDO> suggest(@RequestParam(name = "id", required = false)
+                                              @Min(value = 1, message = "count必须为正整数") Long id) {
+        return categoryService.getSuggestions(id);
+    }
+
+    private void checkRootAndParent(CategoryCreateOrUpdateDTO dto) {
+        if ((dto.getIsRoot() != null) &&
+                (dto.getParentId() != null && dto.getIsRoot() == CategoryRootOrNot.ROOT.getValue())
+        ) {
+            throw new Forbidden("root分类不能有父分类");
+        }
     }
 }

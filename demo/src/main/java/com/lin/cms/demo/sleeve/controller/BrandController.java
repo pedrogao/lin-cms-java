@@ -5,6 +5,8 @@ import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.BrandCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.Brand;
+import com.lin.cms.demo.sleeve.model.BrandSuggestionDO;
+import com.lin.cms.demo.sleeve.model.CategorySuggestionDO;
 import com.lin.cms.demo.sleeve.service.IBrandService;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.utils.ResultGenerator;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 /**
  * @author pedro
@@ -55,7 +58,6 @@ public class BrandController {
         return brand;
     }
 
-
     @GetMapping("/page")
     public PageResult<Brand> page(@RequestParam(name = "count", required = false, defaultValue = "10")
                                   @Min(value = 1, message = "count必须为正整数") Long count,
@@ -66,5 +68,11 @@ public class BrandController {
             throw new NotFound("未找到相关的品牌");
         }
         return pageResult;
+    }
+
+    @GetMapping("/suggestion")
+    public List<BrandSuggestionDO> suggest(@RequestParam(name = "id", required = false)
+                                           @Min(value = 1, message = "count必须为正整数") Long id) {
+        return brandService.getSuggestions(id);
     }
 }

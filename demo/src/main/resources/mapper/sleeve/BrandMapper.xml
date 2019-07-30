@@ -12,4 +12,13 @@
         <result column="delete_time" property="deleteTime" />
     </resultMap>
 
+    <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.BrandSuggestionDO">
+        select b.id id,b.name name from brand b
+        <where>
+            <if test="id != null">
+                b.id != #{id}
+            </if>
+        </where>
+    </select>
+
 </mapper>

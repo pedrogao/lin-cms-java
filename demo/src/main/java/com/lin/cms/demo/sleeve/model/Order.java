@@ -16,7 +16,7 @@ public class Order implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    private Integer orderNo;
+    private String orderNo;
 
     /**
      * user表外键
@@ -37,11 +37,11 @@ public class Order implements Serializable {
     @JSONField(serialize = false)
     private Date updateTime;
 
-    public Integer getOrderNo() {
+    public String getOrderNo() {
         return orderNo;
     }
 
-    public void setOrderNo(Integer orderNo) {
+    public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
     }
 

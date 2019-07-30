@@ -7,9 +7,11 @@ import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.sleeve.dto.BrandCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.mapper.BrandMapper;
 import com.lin.cms.demo.sleeve.model.Brand;
+import com.lin.cms.demo.sleeve.model.BrandSuggestionDO;
 import com.lin.cms.demo.sleeve.service.IBrandService;
 import com.lin.cms.exception.NotFound;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,9 @@ import java.util.List;
  */
 @Service
 public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements IBrandService {
+
+    @Autowired
+    private BrandMapper brandMapper;
 
     @Override
     public void createBrand(BrandCreateOrUpdateDTO dto) {
@@ -57,5 +62,10 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         IPage<Brand> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Brand> categories = iPage.getRecords();
         return PageResult.genPageResult(iPage.getTotal(), categories);
+    }
+
+    @Override
+    public List<BrandSuggestionDO> getSuggestions(Long id) {
+        return brandMapper.getSuggestions(id);
     }
 }

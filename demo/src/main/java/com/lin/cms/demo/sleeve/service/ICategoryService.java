@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.sleeve.dto.CategoryCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.Category;
+import com.lin.cms.demo.sleeve.model.CategorySuggestionDO;
+
+import java.util.List;
 
 
 /**
- * <p>
- * 服务类
- * </p>
- *
  * @author pedro
  * @since 2019-07-23
  */
@@ -23,4 +22,6 @@ public interface ICategoryService extends IService<Category> {
     void deleteCategory(Long id);
 
     PageResult<Category> getCategoryByPage(Long count, Long page);
+
+    List<CategorySuggestionDO> getSuggestions(Long id);
 }

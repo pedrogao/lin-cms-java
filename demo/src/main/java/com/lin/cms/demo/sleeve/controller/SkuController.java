@@ -4,7 +4,10 @@ package com.lin.cms.demo.sleeve.controller;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.SkuCreateOrUpdateDTO;
+import com.lin.cms.demo.sleeve.model.BrandSuggestionDO;
 import com.lin.cms.demo.sleeve.model.Sku;
+import com.lin.cms.demo.sleeve.model.SkuWithNameDO;
+import com.lin.cms.demo.sleeve.model.SuggestionDO;
 import com.lin.cms.demo.sleeve.service.ISkuService;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.utils.ResultGenerator;
@@ -15,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 /**
  * @author pedro
@@ -56,6 +60,15 @@ public class SkuController {
         return sku;
     }
 
+    @GetMapping("/{id}/name")
+    public SkuWithNameDO getWithName(@PathVariable @Positive(message = "id必须为正整数") Long id) {
+        SkuWithNameDO sku = skuService.getWithName(id);
+        if (sku == null) {
+            throw new NotFound("未找到相关的sku");
+        }
+        return sku;
+    }
+
 
     @GetMapping("/page")
     public PageResult<Sku> page(@RequestParam(name = "count", required = false, defaultValue = "10")
@@ -67,6 +80,15 @@ public class SkuController {
             throw new NotFound("未找到相关的sku");
         }
         return pageResult;
+    }
+
+
+    @GetMapping("/suggestion")
+    public List<SuggestionDO> suggest(@RequestParam(name = "id", required = false)
+                                      @Min(value = 1, message = "id必须为正整数") Long id,
+                                      @RequestParam(name = "spu_id", required = false)
+                                      @Min(value = 1, message = "spu_id必须为正整数") Long spuId) {
+        return skuService.getSuggestions(id, spuId);
     }
 
 }

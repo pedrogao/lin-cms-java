@@ -4,20 +4,46 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.Sku">
-        <id column="id" property="id" />
-        <result column="price" property="price" />
-        <result column="discount" property="discount" />
-        <result column="on_sale" property="onSale" />
-        <result column="img" property="img" />
-        <result column="title" property="title" />
-        <result column="spu_id" property="spuId" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="delete_time" property="deleteTime" />
-        <result column="specs" property="specs" />
-        <result column="code" property="code" />
-        <result column="currency" property="currency" />
-        <result column="stock" property="stock" />
+        <id column="id" property="id"/>
+        <result column="price" property="price"/>
+        <result column="discount" property="discount"/>
+        <result column="on_sale" property="onSale"/>
+        <result column="img" property="img"/>
+        <result column="title" property="title"/>
+        <result column="spu_id" property="spuId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="specs" property="specs"/>
+        <result column="code" property="code"/>
+        <result column="currency" property="currency"/>
+        <result column="stock" property="stock"/>
     </resultMap>
+
+    <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.SuggestionDO">
+        select s.id id, s.title name from sku s
+        where s.spu_id = #{spuId}
+        <if test="id != null">
+            and s.id != #{id}
+        </if>
+    </select>
+
+    <select id="getWithName" resultType="com.lin.cms.demo.sleeve.model.SkuWithNameDO">
+        select s.id,
+        s.price,
+        s.discount,
+        s.on_sale,
+        s.img,
+        s.title,
+        s.spu_id,
+        s.code,
+        s.currency,
+        s.stock,
+        s.specs,
+        p.title spu_name
+        from sku s
+        left join spu p on p.id = s.spu_id
+        where s.id = #{id}
+    </select>
 
 </mapper>

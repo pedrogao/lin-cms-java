@@ -4,14 +4,23 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.SpecKey">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="unit" property="unit" />
-        <result column="standard" property="standard" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="delete_time" property="deleteTime" />
-        <result column="description" property="description" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="unit" property="unit"/>
+        <result column="standard" property="standard"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="description" property="description"/>
     </resultMap>
+
+    <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.SpecKeySuggestionDO">
+        select s.id id,s.name name from spec_key s
+        <where>
+            <if test="id != null">
+                s.id != #{id}
+            </if>
+        </where>
+    </select>
 
 </mapper>

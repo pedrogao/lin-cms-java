@@ -6,6 +6,9 @@ import com.lin.cms.demo.sleeve.bo.SpecKeyAndItems;
 import com.lin.cms.demo.sleeve.dto.SpecKeyCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.Banner;
 import com.lin.cms.demo.sleeve.model.SpecKey;
+import com.lin.cms.demo.sleeve.model.SpecKeySuggestionDO;
+
+import java.util.List;
 
 /**
  * @author pedro
@@ -22,4 +25,6 @@ public interface ISpecKeyService extends IService<SpecKey> {
     PageResult<SpecKey> getSpecKeyByPage(Long count, Long page);
 
     SpecKeyAndItems getKeyAndValuesById(Long id);
+
+    List<SpecKeySuggestionDO> getSuggestions(Long id);
 }

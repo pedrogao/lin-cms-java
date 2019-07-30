@@ -6,7 +6,9 @@ import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.bo.SpecKeyAndItems;
 import com.lin.cms.demo.sleeve.dto.SpecKeyCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.Banner;
+import com.lin.cms.demo.sleeve.model.BrandSuggestionDO;
 import com.lin.cms.demo.sleeve.model.SpecKey;
+import com.lin.cms.demo.sleeve.model.SpecKeySuggestionDO;
 import com.lin.cms.demo.sleeve.service.ISpecKeyService;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.utils.ResultGenerator;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 /**
  * @author pedro
@@ -74,5 +77,11 @@ public class SpecKeyController {
             throw new NotFound("未找到相关的规格键");
         }
         return pageResult;
+    }
+
+    @GetMapping("/suggestion")
+    public List<SpecKeySuggestionDO> suggest(@RequestParam(name = "id", required = false)
+                                           @Min(value = 1, message = "count必须为正整数") Long id) {
+        return specKeyService.getSuggestions(id);
     }
 }

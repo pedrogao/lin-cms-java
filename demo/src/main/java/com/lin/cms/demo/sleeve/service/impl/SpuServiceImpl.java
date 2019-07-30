@@ -7,6 +7,8 @@ import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.sleeve.dto.SpuCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.mapper.SpuMapper;
 import com.lin.cms.demo.sleeve.model.Spu;
+import com.lin.cms.demo.sleeve.model.SpuWithNamesDO;
+import com.lin.cms.demo.sleeve.model.SuggestionDO;
 import com.lin.cms.demo.sleeve.service.ISpuService;
 import com.lin.cms.exception.NotFound;
 import org.springframework.beans.BeanUtils;
@@ -20,7 +22,6 @@ import java.util.List;
  */
 @Service
 public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuService {
-
     @Override
     public void createSpu(SpuCreateOrUpdateDTO dto) {
         Spu spu = new Spu();
@@ -53,5 +54,16 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         IPage<Spu> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Spu> categories = iPage.getRecords();
         return PageResult.genPageResult(iPage.getTotal(), categories);
+    }
+
+    @Override
+    public SpuWithNamesDO getWithNames(Long id) {
+        SpuWithNamesDO spu = this.baseMapper.getWithNames(id);
+        return spu;
+    }
+
+    @Override
+    public List<SuggestionDO> getSuggestions(Long id) {
+        return this.baseMapper.getSuggestions(id);
     }
 }

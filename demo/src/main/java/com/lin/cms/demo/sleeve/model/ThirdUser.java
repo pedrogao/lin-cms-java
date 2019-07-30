@@ -32,6 +32,7 @@ public class ThirdUser implements Serializable {
 
     private String mobile;
 
+    @JSONField(serialize = false)
     private String wxProfile;
 
     @JSONField(serialize = false)

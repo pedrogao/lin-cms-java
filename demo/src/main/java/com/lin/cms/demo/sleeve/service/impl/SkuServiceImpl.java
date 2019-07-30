@@ -110,6 +110,20 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
         return null;
     }
 
+    @Override
+    public List<SuggestionDO> getSuggestions(Long id, Long spuId) {
+        List<SuggestionDO> suggestions = this.getBaseMapper().getSuggestions(id, spuId);
+        if (suggestions.size() == 0) {
+            throw new NotFound("未找到相关的sku建议");
+        }
+        return suggestions;
+    }
+
+    @Override
+    public SkuWithNameDO getWithName(Long id) {
+        return this.getBaseMapper().getWithName(id);
+    }
+
     private List<SpecKeyAndValue> checkSelectors(List<SkuSelector> selectors) {
         List<SpecKeyAndValue> specs = new ArrayList<>();
         for (int i = 0; i < selectors.size(); i++) {

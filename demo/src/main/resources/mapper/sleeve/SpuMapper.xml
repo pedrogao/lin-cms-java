@@ -4,19 +4,42 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.Spu">
-        <id column="id" property="id" />
-        <result column="title" property="title" />
-        <result column="subtitle" property="subtitle" />
-        <result column="category_id" property="categoryId" />
-        <result column="on_sale" property="onSale" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="delete_time" property="deleteTime" />
-        <result column="brand_id" property="brandId" />
-        <result column="price" property="price" />
-        <result column="sketch_spec_id" property="sketchSpecId" />
-        <result column="default_sku_id" property="defaultSkuId" />
-        <result column="img" property="img" />
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="subtitle" property="subtitle"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="on_sale" property="onSale"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="brand_id" property="brandId"/>
+        <result column="price" property="price"/>
+        <result column="sketch_spec_id" property="sketchSpecId"/>
+        <result column="default_sku_id" property="defaultSkuId"/>
+        <result column="img" property="img"/>
     </resultMap>
+
+    <select id="getWithNames" resultType="com.lin.cms.demo.sleeve.model.SpuWithNamesDO">
+        select s.*,
+        c.name as category_name,
+        b.name as brand_name,
+        s1.name as sketch_spec_name,
+        s2.title as default_sku_name
+        from spu s
+        left join category c on s.category_id = c.id
+        left join brand b on s.brand_id = b.id
+        left join spec_key s1 on s.sketch_spec_id = s1.id
+        left join sku s2 on s.default_sku_id = s2.id
+        where s.id = #{id}
+    </select>
+
+    <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.SuggestionDO">
+        select s.id id, s.title name from spu s
+        <where>
+            <if test="id != null">
+                s.id != #{id}
+            </if>
+        </where>
+    </select>
 
 </mapper>

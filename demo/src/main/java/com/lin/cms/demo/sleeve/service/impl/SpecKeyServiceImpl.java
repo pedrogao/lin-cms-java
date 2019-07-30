@@ -10,6 +10,7 @@ import com.lin.cms.demo.sleeve.dto.SpecKeyCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.mapper.SpecKeyMapper;
 import com.lin.cms.demo.sleeve.mapper.SpecValueMapper;
 import com.lin.cms.demo.sleeve.model.SpecKey;
+import com.lin.cms.demo.sleeve.model.SpecKeySuggestionDO;
 import com.lin.cms.demo.sleeve.model.SpecValue;
 import com.lin.cms.demo.sleeve.service.ISpecKeyService;
 import com.lin.cms.exception.Forbidden;
@@ -33,6 +34,9 @@ public class SpecKeyServiceImpl extends ServiceImpl<SpecKeyMapper, SpecKey> impl
 
     @Autowired
     private SpecValueMapper specValueMapper;
+
+    @Autowired
+    private SpecKeyMapper specKeyMapper;
 
     @Override
     public void createSpecKey(SpecKeyCreateOrUpdateDTO dto) {
@@ -86,5 +90,10 @@ public class SpecKeyServiceImpl extends ServiceImpl<SpecKeyMapper, SpecKey> impl
         List<SpecValue> items = specValueMapper.selectList(wrapper);
         SpecKeyAndItems specKeyAndItems = new SpecKeyAndItems(exist, items);
         return specKeyAndItems;
+    }
+
+    @Override
+    public List<SpecKeySuggestionDO> getSuggestions(Long id) {
+        return specKeyMapper.getSuggestions(id);
     }
 }
