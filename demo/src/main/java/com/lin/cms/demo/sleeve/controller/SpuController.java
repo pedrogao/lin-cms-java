@@ -4,6 +4,7 @@ package com.lin.cms.demo.sleeve.controller;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.SpuCreateOrUpdateDTO;
+import com.lin.cms.demo.sleeve.dto.SpuKeyAddDTO;
 import com.lin.cms.demo.sleeve.model.Spu;
 import com.lin.cms.demo.sleeve.model.SpuWithNamesDO;
 import com.lin.cms.demo.sleeve.model.SuggestionDO;
@@ -81,5 +82,18 @@ public class SpuController {
     public List<SuggestionDO> suggest(@RequestParam(name = "id", required = false)
                                       @Min(value = 1, message = "id必须为正整数") Long id) {
         return spuService.getSuggestions(id);
+    }
+
+    // 在 spu 下选择 spec_key 而后， 与 spu 相关的 sku 在 spec_key 下选择 spec_value
+    @PostMapping("/key")
+    public Result addSpecKey(@RequestBody @Validated SpuKeyAddDTO dto) {
+        spuService.addSpecKey(dto);
+        return ResultGenerator.genSuccessResult("添加规格值成功！");
+    }
+
+    @GetMapping("/key")
+    public List<Long> getSpecKeys(@RequestParam(name = "id")
+                                  @Min(value = 1, message = "id必须为正整数") Long id) {
+        return spuService.getSpecKeys(id);
     }
 }

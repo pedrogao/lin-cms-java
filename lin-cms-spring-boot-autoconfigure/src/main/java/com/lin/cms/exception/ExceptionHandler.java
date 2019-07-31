@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -64,6 +65,11 @@ public class ExceptionHandler implements HandlerExceptionResolver {
                     .setErrorCode(ErrorCode.NOT_FOUND.getCode())
                     .setUrl(request.getServletPath())
                     .setMsg("未找到请求的接口");
+        } else if (e instanceof MissingServletRequestParameterException) {
+            Parameter parameter = new Parameter();
+            MissingServletRequestParameterException ex = (MissingServletRequestParameterException) e;
+            parameter.setMsg("丢失" + ex.getParameterName() + "参数");
+            result = ResultGenerator.genResult(parameter);
         } else if (e instanceof ServletException) {
             // method not support
             result.setHttpCode(HttpStatus.BAD_REQUEST.value())
@@ -91,7 +97,8 @@ public class ExceptionHandler implements HandlerExceptionResolver {
         } else {
             this.handleUnknownException(result, e, request, handler);
         }
-        // ConstraintVio
+        // ConstraintViolationException
+        // org.springframework.web.bind.MissingServletRequestParameterException
         exceptionResultResolver.rewrite(response, result, e);
         return new ModelAndView();
     }
@@ -102,7 +109,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
         exception.getConstraintViolations().forEach(constraintViolation -> {
             String template = constraintViolation.getMessageTemplate();
             String path = constraintViolation.getPropertyPath().toString();
-            msg.put(path,template);
+            msg.put(path, template);
         });
         Parameter parameter = new Parameter();
         parameter.setMsg(msg);

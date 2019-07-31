@@ -93,7 +93,7 @@ public class SpecKeyServiceImpl extends ServiceImpl<SpecKeyMapper, SpecKey> impl
     }
 
     @Override
-    public List<SpecKeySuggestionDO> getSuggestions(Long id) {
-        return specKeyMapper.getSuggestions(id);
+    public List<SpecKeySuggestionDO> getSuggestions(Long id, Long spuId) {
+        return specKeyMapper.getSuggestions(id, spuId);
     }
 }

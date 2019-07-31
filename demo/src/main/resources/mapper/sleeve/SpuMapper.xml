@@ -42,4 +42,8 @@
         </where>
     </select>
 
+    <select id="getSpecKeys" resultType="java.lang.Long">
+        select s.spec_key_id from spu_key s where s.spu_id = #{id}
+    </select>
+
 </mapper>

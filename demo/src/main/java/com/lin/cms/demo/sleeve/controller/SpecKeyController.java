@@ -81,7 +81,9 @@ public class SpecKeyController {
 
     @GetMapping("/suggestion")
     public List<SpecKeySuggestionDO> suggest(@RequestParam(name = "id", required = false)
-                                           @Min(value = 1, message = "count必须为正整数") Long id) {
-        return specKeyService.getSuggestions(id);
+                                             @Min(value = 1, message = "id必须为正整数") Long id,
+                                             @RequestParam(name = "spu_id", required = false)
+                                             @Min(value = 1, message = "id必须为正整数") Long spuId) {
+        return specKeyService.getSuggestions(id, spuId);
     }
 }

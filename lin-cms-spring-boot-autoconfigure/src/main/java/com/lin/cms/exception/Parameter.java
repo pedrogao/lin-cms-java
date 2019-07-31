@@ -18,4 +18,16 @@ public class Parameter extends HttpException {
 
     public Parameter() {
     }
+
+    public Object getMsg() {
+        return msg;
+    }
+
+    public void setMsg(Object msg) {
+        this.msg = msg;
+    }
+
+    public void setMsg(String msg) {
+        this.msg = msg;
+    }
 }

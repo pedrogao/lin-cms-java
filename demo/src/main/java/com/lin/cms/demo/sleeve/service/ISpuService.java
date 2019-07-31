@@ -3,6 +3,7 @@ package com.lin.cms.demo.sleeve.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.sleeve.dto.SpuCreateOrUpdateDTO;
+import com.lin.cms.demo.sleeve.dto.SpuKeyAddDTO;
 import com.lin.cms.demo.sleeve.model.Spu;
 import com.lin.cms.demo.sleeve.model.SpuWithNamesDO;
 import com.lin.cms.demo.sleeve.model.SuggestionDO;
@@ -26,4 +27,8 @@ public interface ISpuService extends IService<Spu> {
     SpuWithNamesDO getWithNames(Long id);
 
     List<SuggestionDO> getSuggestions(Long id);
+
+    void addSpecKey(SpuKeyAddDTO dto);
+
+    List<Long> getSpecKeys(Long id);
 }

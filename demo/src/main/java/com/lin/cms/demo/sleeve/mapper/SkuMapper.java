@@ -17,4 +17,6 @@ public interface SkuMapper extends BaseMapper<Sku> {
     List<SuggestionDO> getSuggestions(@Param("id") Long id, @Param("spuId") Long spuId);
 
     SkuWithNameDO getWithName(@Param("id") Long id);
+
+    Long getSpecValueId(@Param("keyId") Long keyId, @Param("skuId") Long skuId);
 }

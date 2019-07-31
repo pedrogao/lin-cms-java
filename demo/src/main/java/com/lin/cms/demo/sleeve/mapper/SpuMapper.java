@@ -17,4 +17,6 @@ public interface SpuMapper extends BaseMapper<Spu> {
     SpuWithNamesDO getWithNames(@Param("id") Long id);
 
     List<SuggestionDO> getSuggestions(@Param("id") Long id);
+
+    List<Long> getSpecKeys(@Param("id") Long id);
 }

@@ -1,6 +1,7 @@
 package com.lin.cms.demo.sleeve.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lin.cms.core.result.PageResult;
@@ -10,6 +11,7 @@ import com.lin.cms.demo.sleeve.dto.SkuSelector;
 import com.lin.cms.demo.sleeve.mapper.*;
 import com.lin.cms.demo.sleeve.model.*;
 import com.lin.cms.demo.sleeve.service.ISkuService;
+import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.exception.Parameter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,10 +40,20 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
     @Autowired
     private SpuMapper spuMapper;
 
+    @Autowired
+    private SkuMapper skuMapper;
+
+    @SuppressWarnings("Duplicates")
     @Transactional
     @Override
     public void createSku(SkuCreateOrUpdateDTO dto) {
         // 1. 检测选择器是否存在
+        QueryWrapper<Sku> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(Sku::getTitle, dto.getTitle());
+        Sku one = skuMapper.selectOne(wrapper);
+        if (one != null) {
+            throw new Forbidden("不可创建同名的sku");
+        }
         // 检测 spu 是否存在
         Spu spu = spuMapper.selectById(dto.getSpuId());
         if (spu == null) {
@@ -54,12 +66,14 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
         }
         // 2. 存储sku基础信息
         Sku sku = new Sku();
-        this.updateSkuData(sku, dto, selectors, specs);
+        this.updateSkuData(sku, dto, selectors, specs, false);
         // 3. 存储信息到关联表中，防止规格更新后查询的信息错误
         // sku_spec
         this.insertSpecs(specs, sku, dto);
     }
 
+    @SuppressWarnings("Duplicates")
+    @Transactional
     @Override
     public void updateSku(SkuCreateOrUpdateDTO dto, Long id) {
         // 1. 检测选择器是否存在
@@ -78,7 +92,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
         if (sku == null) {
             throw new NotFound("未找到相关的sku，请检查参数");
         }
-        this.updateSkuData(sku, dto, selectors, specs);
+        this.updateSkuData(sku, dto, selectors, specs, true);
         // 3. 先删除关联信息，然后存储信息到关联表中，防止规格更新后查询的信息错误
         skuSpecMapper.deleteSpecs(sku.getSpuId(), sku.getId());
         this.insertSpecs(specs, sku, dto);
@@ -124,6 +138,11 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
         return this.getBaseMapper().getWithName(id);
     }
 
+    @Override
+    public Long getSpecValueId(Long keyId, Long skuId) {
+        return this.getBaseMapper().getSpecValueId(keyId, skuId);
+    }
+
     private List<SpecKeyAndValue> checkSelectors(List<SkuSelector> selectors) {
         List<SpecKeyAndValue> specs = new ArrayList<>();
         for (int i = 0; i < selectors.size(); i++) {
@@ -143,16 +162,20 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
         StringBuilder builder = new StringBuilder();
         builder.append(spuId);
         builder.append("$");
-        selectors.forEach(skuSelector -> {
+        for (int i = 0; i < selectors.size(); i++) {
+            SkuSelector skuSelector = selectors.get(i);
             builder.append(skuSelector.getKeyId());
             builder.append("-");
             builder.append(skuSelector.getValueId());
-            builder.append("#");
-        });
+            if (i < selectors.size() - 1) {
+                builder.append("#");
+            }
+        }
+        // blob law
         return builder.toString();
     }
 
-    private void updateSkuData(Sku sku, SkuCreateOrUpdateDTO dto, List<SkuSelector> selectors, List<SpecKeyAndValue> specs) {
+    private void updateSkuData(Sku sku, SkuCreateOrUpdateDTO dto, List<SkuSelector> selectors, List<SpecKeyAndValue> specs, boolean isUpdate) {
         String code = this.generateSkuCode(selectors, dto.getSpuId());
         sku.setCode(code);
         sku.setCurrency(dto.getCurrency());
@@ -165,7 +188,11 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
         sku.setTitle(dto.getTitle());
         String specsStr = JSON.toJSONString(specs);
         sku.setSpecs(specsStr);
-        this.save(sku);
+        if (isUpdate) {
+            this.updateById(sku);
+        } else {
+            this.save(sku);
+        }
     }
 
     private void insertSpecs(List<SpecKeyAndValue> specs, Sku sku, SkuCreateOrUpdateDTO dto) {

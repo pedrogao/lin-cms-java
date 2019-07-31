@@ -26,5 +26,5 @@ public interface ISpecKeyService extends IService<SpecKey> {
 
     SpecKeyAndItems getKeyAndValuesById(Long id);
 
-    List<SpecKeySuggestionDO> getSuggestions(Long id);
+    List<SpecKeySuggestionDO> getSuggestions(Long id, Long spuId);
 }

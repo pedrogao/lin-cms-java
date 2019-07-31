@@ -30,4 +30,8 @@
         limit 1
     </select>
 
+    <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.SuggestionDO">
+        select s.id id,s.value name from spec_value s
+        where s.spec_id = ${keyId}
+    </select>
 </mapper>

@@ -28,4 +28,6 @@ public interface ISkuService extends IService<Sku> {
     List<SuggestionDO> getSuggestions(Long id, Long spuId);
 
     SkuWithNameDO getWithName(Long id);
+
+    Long getSpecValueId(Long keyId, Long skuId);
 }

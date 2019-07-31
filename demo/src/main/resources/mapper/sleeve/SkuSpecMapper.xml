@@ -12,7 +12,7 @@
     </resultMap>
 
     <delete id="deleteSpecs">
-        delete from sku_spec s where s.spu_id=#{spuId} and s.sku_id=#{skuId}
+        delete from sku_spec where sku_spec.spu_id=#{spuId} and sku_spec.sku_id=#{skuId}
     </delete>
 
 </mapper>

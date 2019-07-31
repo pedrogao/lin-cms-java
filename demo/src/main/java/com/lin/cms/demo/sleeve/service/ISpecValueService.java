@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.sleeve.dto.SpecValueCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.SpecValue;
+import com.lin.cms.demo.sleeve.model.SuggestionDO;
+
+import java.util.List;
 
 /**
  * <p>
@@ -22,4 +25,6 @@ public interface ISpecValueService extends IService<SpecValue> {
     void deleteSpecValue(Long id);
 
     PageResult<SpecValue> getSpecValueByPage(Long count, Long page);
+
+    List<SuggestionDO> getSuggestions(Long keyId);
 }

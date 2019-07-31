@@ -28,6 +28,12 @@
         </if>
     </select>
 
+    <select id="getSpecValueId" resultType="java.lang.Long">
+        select s.value_id as value_id from sku_spec s
+        where s.sku_id = #{skuId}
+        and s.key_id = #{keyId}
+    </select>
+
     <select id="getWithName" resultType="com.lin.cms.demo.sleeve.model.SkuWithNameDO">
         select s.id,
         s.price,

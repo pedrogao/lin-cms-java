@@ -1,5 +1,6 @@
 package com.lin.cms.demo.sleeve.dto;
 
+import com.lin.cms.demo.validator.ListIntPositive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import com.lin.cms.demo.validator.Length;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.util.List;
 
 @Setter
 @Getter
@@ -46,4 +48,6 @@ public class SpuCreateOrUpdateDTO {
     @Length(min = 1, max = 60, allowBlank = true, message = "价格长度不能超过60字符")
     private String price;
 
+    @ListIntPositive(min = 1, allowBlank = true, message = "规格值列表每一项必须为正整数")
+    private List<Long> specKeyIds;
 }

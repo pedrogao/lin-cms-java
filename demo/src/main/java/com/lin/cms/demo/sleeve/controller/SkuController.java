@@ -91,4 +91,12 @@ public class SkuController {
         return skuService.getSuggestions(id, spuId);
     }
 
+    // 在 spu 下选择 spec_key 而后， 与 spu 相关的 sku 在 spec_key 下选择 spec_value
+    @GetMapping("/spec_value_id")
+    public Long getSpecValueId(@RequestParam(name = "key_id", required = false)
+                               @Min(value = 1, message = "key_id必须为正整数") Long keyId,
+                               @RequestParam(name = "sku_id", required = false)
+                               @Min(value = 1, message = "sku_id必须为正整数") Long skuId) {
+        return skuService.getSpecValueId(keyId, skuId);
+    }
 }

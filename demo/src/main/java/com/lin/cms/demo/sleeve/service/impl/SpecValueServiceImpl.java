@@ -7,6 +7,7 @@ import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.sleeve.dto.SpecValueCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.mapper.SpecValueMapper;
 import com.lin.cms.demo.sleeve.model.SpecValue;
+import com.lin.cms.demo.sleeve.model.SuggestionDO;
 import com.lin.cms.demo.sleeve.service.ISpecValueService;
 import com.lin.cms.exception.NotFound;
 import org.springframework.beans.BeanUtils;
@@ -15,10 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * <p>
- *  服务实现类
- * </p>
- *
  * @author pedro
  * @since 2019-07-23
  */
@@ -57,5 +54,10 @@ public class SpecValueServiceImpl extends ServiceImpl<SpecValueMapper, SpecValue
         IPage<SpecValue> iPage = this.getBaseMapper().selectPage(pager, null);
         List<SpecValue> categories = iPage.getRecords();
         return PageResult.genPageResult(iPage.getTotal(), categories);
+    }
+
+    @Override
+    public List<SuggestionDO> getSuggestions(Long keyId) {
+        return this.getBaseMapper().getSuggestions(keyId);
     }
 }

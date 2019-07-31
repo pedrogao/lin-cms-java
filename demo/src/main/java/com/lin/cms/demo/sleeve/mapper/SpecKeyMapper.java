@@ -13,5 +13,5 @@ import java.util.List;
  */
 public interface SpecKeyMapper extends BaseMapper<SpecKey> {
 
-    List<SpecKeySuggestionDO> getSuggestions(@Param("id") Long id);
+    List<SpecKeySuggestionDO> getSuggestions(@Param("id") Long id, @Param("spuId") Long spuId);
 }

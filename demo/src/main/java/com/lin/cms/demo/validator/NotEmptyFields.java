@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = NotEmptyFieldsValidator.class)
 public @interface NotEmptyFields {
 
-    String message() default "List cannot contain empty fields";
+    String message() default "ListIntPositive cannot contain empty fields";
 
     Class<?>[] groups() default {};
 
