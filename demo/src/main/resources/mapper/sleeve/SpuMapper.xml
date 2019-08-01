@@ -30,16 +30,15 @@
         left join brand b on s.brand_id = b.id
         left join spec_key s1 on s.sketch_spec_id = s1.id
         left join sku s2 on s.default_sku_id = s2.id
-        where s.id = #{id}
+        where s.id = #{id} and s.delete_time is null
     </select>
 
     <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.SuggestionDO">
         select s.id id, s.title name from spu s
-        <where>
-            <if test="id != null">
-                s.id != #{id}
-            </if>
-        </where>
+        where s.delete_time is null
+        <if test="id != null">
+            and s.id != #{id}
+        </if>
     </select>
 
     <select id="getSpecKeys" resultType="java.lang.Long">

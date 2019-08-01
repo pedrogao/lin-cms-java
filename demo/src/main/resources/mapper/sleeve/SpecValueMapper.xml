@@ -25,13 +25,15 @@
         select v.id value_id, v.value spec_value, k.id key_id, k.name spec_key
         from spec_value as v
         left join spec_key as k on v.spec_id=k.id
-        where v.id=#{vId}
-        and k.id=#{kId}
+        where v.id = #{vId}
+        and v.delete_time is null
+        and k.id = #{kId}
+        and k.delete_time is null
         limit 1
     </select>
 
     <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.SuggestionDO">
         select s.id id,s.value name from spec_value s
-        where s.spec_id = ${keyId}
+        where s.spec_id = #{keyId} and s.delete_time is null
     </select>
 </mapper>

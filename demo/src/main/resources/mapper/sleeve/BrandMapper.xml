@@ -4,21 +4,20 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.Brand">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="description" property="description" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="delete_time" property="deleteTime" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
     </resultMap>
 
     <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.BrandSuggestionDO">
         select b.id id,b.name name from brand b
-        <where>
-            <if test="id != null">
-                b.id != #{id}
-            </if>
-        </where>
+        where b.delete_time is null
+        <if test="id != null">
+            and b.id != #{id}
+        </if>
     </select>
 
 </mapper>

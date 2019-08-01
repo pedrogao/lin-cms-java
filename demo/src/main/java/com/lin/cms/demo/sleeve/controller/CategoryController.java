@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -51,6 +52,7 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
+        // 检验是否为 root
         categoryService.deleteCategory(id);
         return ResultGenerator.genSuccessResult("删除商品种类成功！");
     }
@@ -69,8 +71,25 @@ public class CategoryController {
     public PageResult<Category> page(@RequestParam(name = "count", required = false, defaultValue = "10")
                                      @Min(value = 1, message = "count必须为正整数") Long count,
                                      @RequestParam(name = "page", required = false, defaultValue = "0")
-                                     @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
-        PageResult<Category> pageResult = categoryService.getCategoryByPage(count, page);
+                                     @Min(value = 0, message = "page必须为整数，且大于等于0") Long page,
+                                     @RequestParam(name = "root", required = false, defaultValue = "0")
+                                     @Min(value = 0, message = "root必须为0或1")
+                                     @Max(value = 1, message = "root必须为0或1") Integer root) {
+        PageResult<Category> pageResult = categoryService.getCategoryByPage(count, page, root);
+        if (pageResult.getTotalNums() == 0) {
+            throw new NotFound("未找到相关的分类");
+        }
+        return pageResult;
+    }
+
+    @GetMapping("/sub_page")
+    public PageResult<Category> getSubPage(@RequestParam(name = "count", required = false, defaultValue = "10")
+                                           @Min(value = 1, message = "count必须为正整数") Long count,
+                                           @RequestParam(name = "page", required = false, defaultValue = "0")
+                                           @Min(value = 0, message = "page必须为整数，且大于等于0") Long page,
+                                           @RequestParam(name = "id")
+                                           @Min(value = 0, message = "id必须为整数，且大于等于0") Integer id) {
+        PageResult<Category> pageResult = categoryService.getSubCategoryByPage(count, page, id);
         if (pageResult.getTotalNums() == 0) {
             throw new NotFound("未找到相关的分类");
         }

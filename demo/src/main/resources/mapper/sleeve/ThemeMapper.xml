@@ -17,4 +17,21 @@
         <result column="internal_top_img" property="internalTopImg"/>
     </resultMap>
 
+    <select id="getSpus" resultType="com.lin.cms.demo.sleeve.model.SimpleSpuDO">
+        <!--        select s.id, s.title, s.subtitle, s.img-->
+        <!--        from spu s-->
+        <!--        where s.delete_time is null-->
+        <!--        and s.id in (-->
+        <!--        select ts.spu_id-->
+        <!--        from theme_spu ts-->
+        <!--        where ts.theme_id = #{id}-->
+        <!--        )-->
+        select s.id, s.title, s.subtitle, s.img, ts.id tid
+        from spu s
+        right join theme_spu ts
+        on s.id = ts.spu_id
+        where s.delete_time is null
+        and ts.theme_id = #{id}
+    </select>
+
 </mapper>

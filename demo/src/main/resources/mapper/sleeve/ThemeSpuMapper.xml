@@ -4,12 +4,22 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.ThemeSpu">
-        <id column="id" property="id" />
-        <result column="theme_id" property="themeId" />
-        <result column="spu_id" property="spuId" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="delete_time" property="deleteTime" />
+        <id column="id" property="id"/>
+        <result column="theme_id" property="themeId"/>
+        <result column="spu_id" property="spuId"/>
     </resultMap>
+
+    <select id="getSpuSuggestion" resultType="com.lin.cms.demo.sleeve.model.SuggestionDO">
+        select s.id id, s.title name
+        from spu s
+        where s.delete_time is null
+        and
+        s.id not in (
+        select ts.spu_id
+        from theme_spu ts
+        where
+        ts.theme_id = #{id}
+        )
+    </select>
 
 </mapper>

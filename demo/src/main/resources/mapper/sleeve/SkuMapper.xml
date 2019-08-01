@@ -23,6 +23,7 @@
     <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.SuggestionDO">
         select s.id id, s.title name from sku s
         where s.spu_id = #{spuId}
+        and s.delete_time is null
         <if test="id != null">
             and s.id != #{id}
         </if>
@@ -50,6 +51,7 @@
         from sku s
         left join spu p on p.id = s.spu_id
         where s.id = #{id}
+        and s.delete_time is null
     </select>
 
 </mapper>

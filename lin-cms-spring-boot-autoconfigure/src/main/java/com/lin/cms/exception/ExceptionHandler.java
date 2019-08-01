@@ -17,6 +17,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
@@ -70,6 +71,11 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             MissingServletRequestParameterException ex = (MissingServletRequestParameterException) e;
             parameter.setMsg("丢失" + ex.getParameterName() + "参数");
             result = ResultGenerator.genResult(parameter);
+        } else if (e instanceof MethodArgumentTypeMismatchException) {
+            Parameter parameter = new Parameter();
+            MethodArgumentTypeMismatchException ex = (MethodArgumentTypeMismatchException) e;
+            parameter.setMsg(ex.getValue() + "类型错误");
+            result = ResultGenerator.genResult(parameter);
         } else if (e instanceof ServletException) {
             // method not support
             result.setHttpCode(HttpStatus.BAD_REQUEST.value())
@@ -99,6 +105,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
         }
         // ConstraintViolationException
         // org.springframework.web.bind.MissingServletRequestParameterException
+        // MethodArgumentTypeMismatchException
         exceptionResultResolver.rewrite(response, result, e);
         return new ModelAndView();
     }

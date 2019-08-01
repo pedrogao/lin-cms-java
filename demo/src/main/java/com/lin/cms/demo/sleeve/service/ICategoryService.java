@@ -21,7 +21,9 @@ public interface ICategoryService extends IService<Category> {
 
     void deleteCategory(Long id);
 
-    PageResult<Category> getCategoryByPage(Long count, Long page);
+    PageResult<Category> getCategoryByPage(Long count, Long page, Integer root);
 
     List<CategorySuggestionDO> getSuggestions(Long id);
+
+    PageResult<Category> getSubCategoryByPage(Long count, Long page, Integer id);
 }

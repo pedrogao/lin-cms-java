@@ -5,18 +5,24 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.sleeve.dto.ThemeCreateOrUpdateDTO;
+import com.lin.cms.demo.sleeve.dto.ThemeSpuCreateDTO;
 import com.lin.cms.demo.sleeve.mapper.ThemeMapper;
+import com.lin.cms.demo.sleeve.mapper.ThemeSpuMapper;
+import com.lin.cms.demo.sleeve.model.SimpleSpuDO;
+import com.lin.cms.demo.sleeve.model.SuggestionDO;
 import com.lin.cms.demo.sleeve.model.Theme;
+import com.lin.cms.demo.sleeve.model.ThemeSpu;
 import com.lin.cms.demo.sleeve.service.IThemeService;
 import com.lin.cms.exception.NotFound;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author pedro
@@ -24,6 +30,9 @@ import java.util.List;
  */
 @Service
 public class ThemeServiceImpl extends ServiceImpl<ThemeMapper, Theme> implements IThemeService {
+
+    @Autowired
+    private ThemeSpuMapper themeSpuMapper;
 
     @Override
     public void createTheme(ThemeCreateOrUpdateDTO dto) {
@@ -57,5 +66,28 @@ public class ThemeServiceImpl extends ServiceImpl<ThemeMapper, Theme> implements
         IPage<Theme> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Theme> categories = iPage.getRecords();
         return PageResult.genPageResult(iPage.getTotal(), categories);
+    }
+
+    @Override
+    public List<SimpleSpuDO> getSpus(Long id) {
+        return this.getBaseMapper().getSpus(id);
+    }
+
+    @Override
+    public void deleteThemeSpu(Long id) {
+        themeSpuMapper.deleteById(id);
+    }
+
+    @Override
+    public List<SuggestionDO> getSpuSuggestion(Long id) {
+        return themeSpuMapper.getSpuSuggestion(id);
+    }
+
+    @Override
+    public void addThemeSpu(ThemeSpuCreateDTO dto) {
+        ThemeSpu themeSpu = new ThemeSpu();
+        themeSpu.setThemeId(dto.getThemeId());
+        themeSpu.setSpuId(dto.getSpuId());
+        themeSpuMapper.insert(themeSpu);
     }
 }
