@@ -121,7 +121,8 @@ public class WebConfig implements WebMvcConfigurer {
             absDir = path.toAbsolutePath().toString();
         }
         //registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/assets/**").addResourceLocations("file:" + absDir + "/");
+        registry.addResourceHandler("/assets/**")
+                .addResourceLocations("file:" + absDir + "/");
     }
 
     private boolean isAbsolute(String str) {

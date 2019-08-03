@@ -25,7 +25,7 @@ public class FileServiceImpl implements FileService {
     private Uploader uploader;
 
     @Override
-    public List<UploadFileBO> upload(MultiValueMap<String, MultipartFile> fileMap) throws NotFound, Parameter, FileTooMany, FileExtension, FileTooLarge {
+    public List<UploadFileBO> upload(MultiValueMap<String, MultipartFile> fileMap) {
         List<UploadFileBO> res = uploader.upload(fileMap);
         return res;
     }

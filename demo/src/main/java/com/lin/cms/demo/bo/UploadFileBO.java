@@ -13,4 +13,6 @@ public class UploadFileBO {
     private String url;
 
     private String key;
+
+    private String path;
 }

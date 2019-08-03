@@ -17,6 +17,7 @@
     <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.CategorySuggestionDO">
         select c.id id,c.name name from category c
         where c.delete_time is null
+        and c.is_root = 0
         <if test="id != null">
             and c.id != #{id}
         </if>

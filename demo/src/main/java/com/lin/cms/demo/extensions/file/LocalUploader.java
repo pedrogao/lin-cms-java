@@ -50,7 +50,7 @@ public class LocalUploader implements Uploader {
 
     private String absDir;
 
-    public List<UploadFileBO> upload(MultiValueMap<String, MultipartFile> fileMap) throws NotFound, Parameter, FileTooMany, FileExtension, FileTooLarge {
+    public List<UploadFileBO> upload(MultiValueMap<String, MultipartFile> fileMap) {
 
         if (fileMap.isEmpty()) {
             throw new NotFound("未找到文件");
@@ -135,6 +135,7 @@ public class LocalUploader implements Uploader {
         item.setKey(key);
         String url = getServerDir() + record.getName();
         item.setUrl(url);
+        item.setPath(record.getPath());
         return item;
     }
 

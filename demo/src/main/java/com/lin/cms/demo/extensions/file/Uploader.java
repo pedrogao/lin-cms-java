@@ -8,5 +8,5 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface Uploader {
-    List<UploadFileBO> upload(MultiValueMap<String, MultipartFile> fileMap) throws NotFound, Parameter, FileTooMany, FileExtension, FileTooLarge;
+    List<UploadFileBO> upload(MultiValueMap<String, MultipartFile> fileMap);
 }

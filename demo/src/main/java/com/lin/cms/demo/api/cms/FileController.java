@@ -20,7 +20,7 @@ public class FileController {
     private FileService fileService;
 
     @PostMapping("/")
-    public List<UploadFileBO> upload(HttpServletRequest request) throws NotFound, Parameter, FileExtension, FileTooLarge, FileTooMany {
+    public List<UploadFileBO> upload(HttpServletRequest request) {
         MultipartHttpServletRequest multipartHttpServletRequest = ((MultipartHttpServletRequest) request);
         MultiValueMap<String, MultipartFile> fileMap = multipartHttpServletRequest.getMultiFileMap();
         List<UploadFileBO> res = fileService.upload(fileMap);

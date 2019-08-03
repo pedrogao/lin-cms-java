@@ -12,5 +12,5 @@ import java.util.List;
  * Created by lin on 2019/06/14.
  */
 public interface FileService {
-    List<UploadFileBO> upload(MultiValueMap<String, MultipartFile> fileMap) throws NotFound, Parameter, FileTooMany, FileExtension, FileTooLarge;
+    List<UploadFileBO> upload(MultiValueMap<String, MultipartFile> fileMap);
 }

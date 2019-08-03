@@ -99,6 +99,7 @@ public class CategoryController {
     @GetMapping("/suggestion")
     public List<CategorySuggestionDO> suggest(@RequestParam(name = "id", required = false)
                                               @Min(value = 1, message = "count必须为正整数") Long id) {
+        // 排除 root 分类
         return categoryService.getSuggestions(id);
     }
 
