@@ -4,6 +4,8 @@ import com.lin.cms.demo.mapper.FileMapper;
 import com.lin.cms.demo.model.FileDO;
 import com.lin.cms.demo.bo.UploadFileBO;
 import com.lin.cms.exception.*;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.exec.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -14,13 +16,16 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class LocalUploader implements Uploader {
     @Autowired
     private FileMapper fileMapper;
@@ -30,9 +35,6 @@ public class LocalUploader implements Uploader {
 
     @Value("${lin.cms.file.single-limit}")
     private String singleLimit;
-
-    // @Value("${file.total-limit}")
-    // private Integer totalLimit;
 
     @Value("${lin.cms.file.nums}")
     private Integer nums;
@@ -45,6 +47,11 @@ public class LocalUploader implements Uploader {
 
     @Value("${lin.cms.file.domain}")
     private String domain;
+
+    @Value("${spring.profiles.active}")
+    private String profile;
+
+    private String remotePrefix = "https://gitee.com/gaopedro/shop-static/raw/master/";
 
     private long slBytes = 0;
 
@@ -113,12 +120,13 @@ public class LocalUploader implements Uploader {
                         FileDO record = new FileDO();
                         record.setMd5(md5);
                         record.setName(newFilename);
-                        record.setPath(storePath);
+                        // record.setPath(storePath);
                         record.setSize(bytes.length);
                         // type = 1 时 为本地，= 2 时 为remote
-                        // record.setType();
+                        record.setType((byte) 2);
+                        // https://gitee.com/gaopedro/shop-static/raw/master/5200dacb-f594-4c4b-b665-022a787d29f1.jpg
+                        record.setPath(remotePrefix + newFilename);
                         record.setExtension(ext);
-                        // fileMapper.insertSelective(record);
                         fileMapper.insert(record);
                         UploadFileBO item = this.genFileView(record, keys[i]);
                         res.add(item);
@@ -126,6 +134,8 @@ public class LocalUploader implements Uploader {
                 }
             }
         }
+        // 上传到码云
+        uploadToGitee();
         return res;
     }
 
@@ -133,7 +143,12 @@ public class LocalUploader implements Uploader {
         UploadFileBO item = new UploadFileBO();
         item.setId(record.getId());
         item.setKey(key);
-        String url = getServerDir() + record.getName();
+        String url;
+        if (record.getType().intValue() == 1) {
+            url = getServerDir() + record.getName();
+        } else {
+            url = record.getPath();
+        }
         item.setUrl(url);
         item.setPath(record.getPath());
         return item;
@@ -223,6 +238,21 @@ public class LocalUploader implements Uploader {
     private String getServerDir() {
         String serverDir = this.domain + this.dir;
         return serverDir;
+    }
+
+    private void uploadToGitee() {
+        // 生产环境下才可使用
+        // /root/digital/upload.sh
+        if (profile.equals("prod")) {
+            try {
+                CommandLine cmdLine = new CommandLine("/root/digital/upload.sh");
+                Executor executor = new DefaultExecutor();
+                executor.execute(cmdLine);
+            } catch (IOException e) {
+                log.info("执行git文件上传失败");
+                log.info("msg: {}", e.getMessage());
+            }
+        }
     }
 
     public String getAbsDir() {
