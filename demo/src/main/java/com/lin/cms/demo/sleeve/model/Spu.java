@@ -60,6 +60,16 @@ public class Spu implements Serializable {
 
     private String img;
 
+    private String tags;
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
     public Long getId() {
         return id;
     }

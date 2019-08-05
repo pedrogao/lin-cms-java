@@ -17,6 +17,7 @@
         <result column="sketch_spec_id" property="sketchSpecId"/>
         <result column="default_sku_id" property="defaultSkuId"/>
         <result column="img" property="img"/>
+        <result column="tags" property="tags"/>
     </resultMap>
 
     <select id="getWithNames" resultType="com.lin.cms.demo.sleeve.model.SpuWithNamesDO">

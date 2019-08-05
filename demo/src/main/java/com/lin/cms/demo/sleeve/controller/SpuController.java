@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -33,13 +32,13 @@ public class SpuController {
     private ISpuService spuService;
 
     @PostMapping("/")
-    public Result create(@RequestBody @Valid SpuCreateOrUpdateDTO dto) {
+    public Result create(@RequestBody @Validated SpuCreateOrUpdateDTO dto) {
         spuService.createSpu(dto);
         return ResultGenerator.genSuccessResult("创建spu成功！");
     }
 
     @PutMapping("/{id}")
-    public Result update(@RequestBody @Valid SpuCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+    public Result update(@RequestBody @Validated SpuCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         spuService.updateSpu(dto, id);
         return ResultGenerator.genSuccessResult("更新spu成功！");
     }

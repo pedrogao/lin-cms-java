@@ -48,6 +48,9 @@ public class SpuCreateOrUpdateDTO {
     @Length(min = 1, max = 60, allowBlank = true, message = "价格长度不能超过60字符")
     private String price;
 
+    @Length(min = 1, max = 255, allowBlank = true, message = "标签长度不能超过255字符")
+    private String tags;
+
     @ListIntPositive(min = 1, allowBlank = true, message = "规格值列表每一项必须为正整数")
     private List<Long> specKeyIds;
 }

@@ -9,6 +9,7 @@ import com.lin.cms.demo.sleeve.dto.SpuCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.dto.SpuKeyAddDTO;
 import com.lin.cms.demo.sleeve.mapper.SpuKeyMapper;
 import com.lin.cms.demo.sleeve.mapper.SpuMapper;
+import com.lin.cms.demo.sleeve.mapper.TagMapper;
 import com.lin.cms.demo.sleeve.model.*;
 import com.lin.cms.demo.sleeve.service.ISpuService;
 import com.lin.cms.exception.NotFound;
@@ -30,12 +31,18 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     @Autowired
     private SpuKeyMapper spuKeyMapper;
 
+    @Autowired
+    private TagMapper tagMapper;
+
+    private static String spuPosition = "spu";
+
     @Transactional
     @Override
     public void createSpu(SpuCreateOrUpdateDTO dto) {
         Spu spu = new Spu();
         BeanUtils.copyProperties(dto, spu);
         this.save(spu);
+        createTags(dto.getTags());
         SpuKeyAddDTO spuKeyAddDTO = new SpuKeyAddDTO();
         spuKeyAddDTO.setSpuId(spu.getId());
         spuKeyAddDTO.setSpecKeyIds(dto.getSpecKeyIds());
@@ -51,6 +58,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         }
         BeanUtils.copyProperties(dto, exist);
         this.updateById(exist);
+        createTags(dto.getTags());
         SpuKeyAddDTO spuKeyAddDTO = new SpuKeyAddDTO();
         spuKeyAddDTO.setSpuId(exist.getId());
         spuKeyAddDTO.setSpecKeyIds(dto.getSpecKeyIds());
@@ -154,5 +162,25 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
             wrapper.lambda().eq(SpuKey::getSpecKeyId, deleteSpecKey);
             spuKeyMapper.delete(wrapper);
         });
+    }
+
+
+    private void createTags(String tags) {
+        if (tags == null) {
+            return;
+        }
+        String[] parts = tags.split("\\$");
+        for (String part : parts) {
+            QueryWrapper<Tag> wrapper = new QueryWrapper<>();
+            wrapper.lambda().eq(Tag::getPosition, spuPosition);
+            wrapper.lambda().eq(Tag::getName, part);
+            Tag tag = tagMapper.selectOne(wrapper);
+            if (tag == null) {
+                tag = new Tag();
+                tag.setName(part);
+                tag.setPosition(spuPosition);
+                tagMapper.insert(tag);
+            }
+        }
     }
 }

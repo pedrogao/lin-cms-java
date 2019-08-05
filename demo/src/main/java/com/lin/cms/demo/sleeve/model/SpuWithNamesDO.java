@@ -22,6 +22,8 @@ public class SpuWithNamesDO {
 
     private String brandName;
 
+    private String tags;
+
     private String price;
 
     private Long sketchSpecId;
