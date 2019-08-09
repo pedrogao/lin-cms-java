@@ -12,6 +12,10 @@
         <result column="delete_time" property="deleteTime"/>
         <result column="is_root" property="isRoot"/>
         <result column="parent_id" property="parentId"/>
+        <result column="img" property="img"/>
+        <result column="index" property="index"/>
+        <result column="online" property="online"/>
+        <result column="level" property="level"/>
     </resultMap>
 
     <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.CategorySuggestionDO">

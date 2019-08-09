@@ -14,19 +14,15 @@ import java.util.Date;
  * @since 2019-08-09
  */
 @Data
-public class Tag implements Serializable {
+public class ActivityCover implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    /**
-     * 中文限制6个，英文限制12个，由逻辑层控制
-     */
-    private String title;
-
-    private String description;
+    @JSONField(serialize = false)
+    private Date createTime;
 
     @JSONField(serialize = false)
     private Date updateTime;
@@ -35,6 +31,15 @@ public class Tag implements Serializable {
     @JSONField(serialize = false)
     private Date deleteTime;
 
-    @JSONField(serialize = false)
-    private Date createTime;
+    private String coverImg;
+
+    private String internalTopImg;
+
+    private String name;
+
+    private String title;
+
+    private String description;
+
+    private Integer online;
 }

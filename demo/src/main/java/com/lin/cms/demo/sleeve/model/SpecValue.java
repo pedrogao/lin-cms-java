@@ -4,18 +4,16 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <p>
- *
- * </p>
- *
  * @author pedro
  * @since 2019-07-23
  */
+@Data
 public class SpecValue implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,73 +36,4 @@ public class SpecValue implements Serializable {
     private Date deleteTime;
 
     private String extend;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public Long getSpecId() {
-        return specId;
-    }
-
-    public void setSpecId(Long specId) {
-        this.specId = specId;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Date getDeleteTime() {
-        return deleteTime;
-    }
-
-    public void setDeleteTime(Date deleteTime) {
-        this.deleteTime = deleteTime;
-    }
-
-    public String getExtend() {
-        return extend;
-    }
-
-    public void setExtend(String extend) {
-        this.extend = extend;
-    }
-
-    @Override
-    public String toString() {
-        return "SpecValue{" +
-                "id=" + id +
-                ", value=" + value +
-                ", specId=" + specId +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", deleteTime=" + deleteTime +
-                ", extend=" + extend +
-                "}";
-    }
 }

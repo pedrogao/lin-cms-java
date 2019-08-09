@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Date;
  * @since 2019-07-23
  */
 @TableName("user")
+@Data
 public class ThirdUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,100 +46,4 @@ public class ThirdUser implements Serializable {
     @JSONField(serialize = false)
     @TableLogic
     private Date deleteTime;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getOpenid() {
-        return openid;
-    }
-
-    public void setOpenid(String openid) {
-        this.openid = openid;
-    }
-
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getWxProfile() {
-        return wxProfile;
-    }
-
-    public void setWxProfile(String wxProfile) {
-        this.wxProfile = wxProfile;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Date getDeleteTime() {
-        return deleteTime;
-    }
-
-    public void setDeleteTime(Date deleteTime) {
-        this.deleteTime = deleteTime;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", openid=" + openid +
-                ", nickname=" + nickname +
-                ", email=" + email +
-                ", password=" + password +
-                ", mobile=" + mobile +
-                ", wxProfile=" + wxProfile +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", deleteTime=" + deleteTime +
-                "}";
-    }
 }

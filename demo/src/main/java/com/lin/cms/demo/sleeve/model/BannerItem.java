@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,6 +15,7 @@ import java.util.Date;
  * @since 2019-07-23
  */
 @TableName("banner_item")
+@Data
 public class BannerItem implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,81 +41,5 @@ public class BannerItem implements Serializable {
 
     private Long bannerId;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public String getKeyWord() {
-        return keyWord;
-    }
-
-    public void setKeyWord(String keyWord) {
-        this.keyWord = keyWord;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Date getDeleteTime() {
-        return deleteTime;
-    }
-
-    public void setDeleteTime(Date deleteTime) {
-        this.deleteTime = deleteTime;
-    }
-
-    public Long getBannerId() {
-        return bannerId;
-    }
-
-    public void setBannerId(Long bannerId) {
-        this.bannerId = bannerId;
-    }
-
-    @Override
-    public String toString() {
-        return "BannerItem{" +
-                "id=" + id +
-                ", img=" + img +
-                ", keyWord=" + keyWord +
-                ", type=" + type +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                ", deleteTime=" + deleteTime +
-                ", bannerId=" + bannerId +
-                "}";
-    }
+    private String name;
 }

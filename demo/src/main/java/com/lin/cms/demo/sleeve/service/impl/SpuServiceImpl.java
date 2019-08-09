@@ -9,6 +9,7 @@ import com.lin.cms.demo.sleeve.dto.SpuCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.dto.SpuKeyAddDTO;
 import com.lin.cms.demo.sleeve.mapper.SpuKeyMapper;
 import com.lin.cms.demo.sleeve.mapper.SpuMapper;
+import com.lin.cms.demo.sleeve.mapper.SpuTagMapper;
 import com.lin.cms.demo.sleeve.mapper.TagMapper;
 import com.lin.cms.demo.sleeve.model.*;
 import com.lin.cms.demo.sleeve.service.ISpuService;
@@ -34,7 +35,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     @Autowired
     private TagMapper tagMapper;
 
-    private static String spuPosition = "spu";
+    private SpuTagMapper spuTagMapper;
 
     @Transactional
     @Override
@@ -42,7 +43,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         Spu spu = new Spu();
         BeanUtils.copyProperties(dto, spu);
         this.save(spu);
-        createTags(dto.getTags());
+        createTags(dto.getTags(), spu.getId());
         SpuKeyAddDTO spuKeyAddDTO = new SpuKeyAddDTO();
         spuKeyAddDTO.setSpuId(spu.getId());
         spuKeyAddDTO.setSpecKeyIds(dto.getSpecKeyIds());
@@ -58,7 +59,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         }
         BeanUtils.copyProperties(dto, exist);
         this.updateById(exist);
-        createTags(dto.getTags());
+        createTags(dto.getTags(), exist.getId());
         SpuKeyAddDTO spuKeyAddDTO = new SpuKeyAddDTO();
         spuKeyAddDTO.setSpuId(exist.getId());
         spuKeyAddDTO.setSpecKeyIds(dto.getSpecKeyIds());
@@ -78,8 +79,8 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     public PageResult<Spu> getSpuByPage(Long count, Long page) {
         Page pager = new Page(page, count);
         IPage<Spu> iPage = this.getBaseMapper().selectPage(pager, null);
-        List<Spu> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        List<Spu> records = iPage.getRecords();
+        return PageResult.genPageResult(iPage.getTotal(), records);
     }
 
     @Override
@@ -165,21 +166,35 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     }
 
 
-    private void createTags(String tags) {
+    private void createTags(String tags, Long spuId) {
         if (tags == null) {
             return;
         }
         String[] parts = tags.split("\\$");
         for (String part : parts) {
             QueryWrapper<Tag> wrapper = new QueryWrapper<>();
-            wrapper.lambda().eq(Tag::getPosition, spuPosition);
-            wrapper.lambda().eq(Tag::getName, part);
+            wrapper.lambda().eq(Tag::getTitle, part);
             Tag tag = tagMapper.selectOne(wrapper);
             if (tag == null) {
                 tag = new Tag();
-                tag.setName(part);
-                tag.setPosition(spuPosition);
+                tag.setTitle(part);
                 tagMapper.insert(tag);
+
+                SpuTag spuTag = new SpuTag();
+                spuTag.setSpuId(spuId);
+                spuTag.setTagId(tag.getId());
+                spuTagMapper.insert(spuTag);
+            } else {
+                QueryWrapper<SpuTag> spuTagWrapper = new QueryWrapper<>();
+                spuTagWrapper.lambda().eq(SpuTag::getSpuId, spuId);
+                spuTagWrapper.lambda().eq(SpuTag::getTagId, tag.getId());
+                SpuTag spuTag = spuTagMapper.selectOne(spuTagWrapper);
+                if (spuTag == null) {
+                    spuTag = new SpuTag();
+                    spuTag.setSpuId(spuId);
+                    spuTag.setTagId(tag.getId());
+                    spuTagMapper.insert(spuTag);
+                }
             }
         }
     }

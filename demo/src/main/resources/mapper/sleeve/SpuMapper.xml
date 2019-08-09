@@ -17,7 +17,13 @@
         <result column="sketch_spec_id" property="sketchSpecId"/>
         <result column="default_sku_id" property="defaultSkuId"/>
         <result column="img" property="img"/>
+        <result column="discount_price" property="discountPrice"/>
+        <result column="description" property="description"/>
         <result column="tags" property="tags"/>
+        <result column="is_test" property="isTest"/>
+        <result column="root_category_id" property="rootCategoryId"/>
+        <result column="spu_theme_img" property="spuThemeImg"/>
+        <result column="for_theme_img" property="forThemeImg"/>
     </resultMap>
 
     <select id="getWithNames" resultType="com.lin.cms.demo.sleeve.model.SpuWithNamesDO">

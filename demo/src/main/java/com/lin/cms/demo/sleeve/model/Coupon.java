@@ -7,26 +7,49 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
+ * <p>
+ *
+ * </p>
+ *
  * @author pedro
  * @since 2019-08-09
  */
 @Data
-public class Tag implements Serializable {
+public class Coupon implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    /**
-     * 中文限制6个，英文限制12个，由逻辑层控制
-     */
     private String title;
 
+    private Date startTime;
+
+    private Date endTime;
+
     private String description;
+
+    private BigDecimal fullMoney;
+
+    private BigDecimal minus;
+
+    /**
+     * 国内多是打折，国外多是百分比 off
+     */
+    private BigDecimal discount;
+
+    /**
+     * 1. 满减券 2.折扣券 3.无门槛券 4.满金额折扣券
+     */
+    private Integer type;
+
+    @JSONField(serialize = false)
+    private Date createTime;
 
     @JSONField(serialize = false)
     private Date updateTime;
@@ -35,6 +58,5 @@ public class Tag implements Serializable {
     @JSONField(serialize = false)
     private Date deleteTime;
 
-    @JSONField(serialize = false)
-    private Date createTime;
+    private Integer valitiy;
 }

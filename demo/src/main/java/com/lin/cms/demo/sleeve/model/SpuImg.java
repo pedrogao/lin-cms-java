@@ -14,27 +14,27 @@ import java.util.Date;
  * @since 2019-08-09
  */
 @Data
-public class Tag implements Serializable {
+public class SpuImg implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    /**
-     * 中文限制6个，英文限制12个，由逻辑层控制
-     */
-    private String title;
+    private String img;
 
-    private String description;
-
-    @JSONField(serialize = false)
-    private Date updateTime;
+    private Long spuId;
 
     @TableLogic
     @JSONField(serialize = false)
     private Date deleteTime;
 
     @JSONField(serialize = false)
+    private Date updateTime;
+
+    @JSONField(serialize = false)
     private Date createTime;
+
+    private Long themeId;
+
 }

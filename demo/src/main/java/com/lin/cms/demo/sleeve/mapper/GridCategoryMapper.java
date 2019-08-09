@@ -1,7 +1,7 @@
 package com.lin.cms.demo.sleeve.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.lin.cms.demo.sleeve.model.Tag;
+import com.lin.cms.demo.sleeve.model.GridCategory;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.lin.cms.demo.sleeve.model.Tag;
  * @author pedro
  * @since 2019-08-09
  */
-public interface TagMapper extends BaseMapper<Tag> {
+public interface GridCategoryMapper extends BaseMapper<GridCategory> {
 
 }
