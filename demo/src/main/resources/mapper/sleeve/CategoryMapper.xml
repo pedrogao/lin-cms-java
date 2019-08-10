@@ -27,4 +27,23 @@
         </if>
     </select>
 
+
+    <select id="getById" resultType="com.lin.cms.demo.sleeve.model.Category">
+        SELECT `id`,
+        `name`,
+        `description`,
+        `img`,
+        `index`,
+        `online`,
+        `level`,
+        `create_time`,
+        `update_time`,
+        `delete_time`,
+        `is_root`,
+        `parent_id`
+        FROM category
+        WHERE id = #{id}
+        AND delete_time is NULL
+    </select>
+
 </mapper>

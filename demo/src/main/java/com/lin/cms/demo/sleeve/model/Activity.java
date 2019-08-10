@@ -49,5 +49,5 @@ public class Activity implements Serializable {
 
     private String name;
 
-    private Integer activityCoverId;
+    private Long activityCoverId;
 }

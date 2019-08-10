@@ -32,8 +32,6 @@ public class ThemeCreateOrUpdateDTO {
     @Length(min = 1, max = 255, allowBlank = true, message = "入口图长度不能超过255字符")
     private String entranceImg;
 
-    // TODO:添加 entranceImg internalTopImg 两个字段
-
     @Length(min = 1, max = 255, allowBlank = true, message = "外链图长度不能超过255字符")
     private String internalTopImg;
 }

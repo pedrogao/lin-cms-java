@@ -2,6 +2,7 @@ package com.lin.cms.demo.sleeve.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
@@ -27,10 +28,13 @@ public class Category implements Serializable {
 
     private String img;
 
+    @TableField(value = "`index`")
     private Integer index;
 
+    @TableField(value = "`online`")
     private Integer online;
 
+    @TableField(value = "`level`")
     private Integer level;
 
     @JSONField(serialize = false)
