@@ -46,6 +46,8 @@ public class Spu implements Serializable {
      */
     private String price;
 
+    private String discountPrice;
+
     /**
      * 某种规格可以直接附加单品图片
      */
@@ -62,7 +64,7 @@ public class Spu implements Serializable {
 
     private Integer isTest;
 
-    private Integer rootCategoryId;
+    private Long rootCategoryId;
 
     private String spuThemeImg;
 

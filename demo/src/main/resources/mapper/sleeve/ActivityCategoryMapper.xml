@@ -4,9 +4,13 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.ActivityCategory">
-        <id column="id" property="id" />
-        <result column="category_id" property="categoryId" />
-        <result column="activity_id" property="activityId" />
+        <id column="id" property="id"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="activity_id" property="activityId"/>
     </resultMap>
 
+
+    <select id="getCategoryIds" resultType="java.lang.Long">
+        select ac.category_id from activity_category ac where ac.activity_id = #{activityId}
+    </select>
 </mapper>

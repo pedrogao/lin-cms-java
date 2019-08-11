@@ -3,6 +3,8 @@ package com.lin.cms.demo.sleeve.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class SpuWithNamesDO {
 
@@ -26,6 +28,8 @@ public class SpuWithNamesDO {
 
     private String price;
 
+    private String discountPrice;
+
     private Long sketchSpecId;
 
     private String sketchSpecName;
@@ -35,4 +39,16 @@ public class SpuWithNamesDO {
     private String defaultSkuName;
 
     private String img;
+
+    private Integer isTest;
+
+    private Long rootCategoryId;
+
+    // private String spuThemeImg;
+
+    private String forThemeImg;
+
+    private List<String> bannerImgs;
+
+    private List<String> detailImgs;
 }

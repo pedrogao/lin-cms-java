@@ -98,9 +98,15 @@ public class CategoryController {
 
     @GetMapping("/suggestion")
     public List<CategorySuggestionDO> suggest(@RequestParam(name = "id", required = false)
-                                              @Min(value = 1, message = "count必须为正整数") Long id) {
+                                              @Min(value = 1, message = "id必须为正整数") Long id) {
         // 排除 root 分类
         return categoryService.getSuggestions(id);
+    }
+
+    @GetMapping("/suggestion_all")
+    public List<CategorySuggestionDO> suggestAll(@RequestParam(name = "id", required = false)
+                                                 @Min(value = 1, message = "id必须为正整数") Long id) {
+        return categoryService.getAllSuggestions(id);
     }
 
     private void checkRootAndParent(CategoryCreateOrUpdateDTO dto) {

@@ -15,4 +15,6 @@ public interface CategoryMapper extends BaseMapper<Category> {
     List<CategorySuggestionDO> getSuggestions(@Param("id") Long id);
 
     Category getById(@Param("id") Long id);
+
+    List<CategorySuggestionDO> getAllSuggestions(@Param("id") Long id);
 }

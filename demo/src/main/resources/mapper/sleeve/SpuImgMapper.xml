@@ -13,4 +13,11 @@
         <result column="theme_id" property="themeId"/>
     </resultMap>
 
+    <delete id="hardDeleteImgsBySpuId">
+        delete from spu_img where spu_img.`spu_id` = #{spuId}
+    </delete>
+
+    <select id="getImgsBySpuId" resultType="java.lang.String">
+        select s.img from spu_img s where s.spu_id = #{spuId} and s.delete_time is null
+    </select>
 </mapper>

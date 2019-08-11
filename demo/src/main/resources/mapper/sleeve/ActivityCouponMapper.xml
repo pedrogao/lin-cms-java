@@ -9,4 +9,8 @@
         <result column="activity_id" property="activityId" />
     </resultMap>
 
+
+    <select id="getCouponIds" resultType="java.lang.Long">
+        select ac.coupon_id from activity_coupon ac where ac.activity_id = #{activityId}
+    </select>
 </mapper>

@@ -4,8 +4,10 @@ package com.lin.cms.demo.sleeve.controller;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.CouponCreateOrUpdateDTO;
+import com.lin.cms.demo.sleeve.model.CategorySuggestionDO;
 import com.lin.cms.demo.sleeve.model.Coupon;
 import com.lin.cms.demo.sleeve.model.CouponTemplate;
+import com.lin.cms.demo.sleeve.model.SuggestionDO;
 import com.lin.cms.demo.sleeve.service.ICouponService;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.utils.ResultGenerator;
@@ -76,6 +78,12 @@ public class CouponController {
             throw new NotFound("未找到优惠卷模板");
         }
         return templates;
+    }
+
+    @GetMapping("/suggestion")
+    public List<SuggestionDO> suggest(@RequestParam(name = "id", required = false)
+                                      @Min(value = 1, message = "id必须为正整数") Long id) {
+        return couponService.getSuggestions(id);
     }
 
 }

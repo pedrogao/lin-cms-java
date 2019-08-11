@@ -7,10 +7,7 @@ import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.sleeve.dto.SpuCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.dto.SpuKeyAddDTO;
-import com.lin.cms.demo.sleeve.mapper.SpuKeyMapper;
-import com.lin.cms.demo.sleeve.mapper.SpuMapper;
-import com.lin.cms.demo.sleeve.mapper.SpuTagMapper;
-import com.lin.cms.demo.sleeve.mapper.TagMapper;
+import com.lin.cms.demo.sleeve.mapper.*;
 import com.lin.cms.demo.sleeve.model.*;
 import com.lin.cms.demo.sleeve.service.ISpuService;
 import com.lin.cms.exception.NotFound;
@@ -35,14 +32,49 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     @Autowired
     private TagMapper tagMapper;
 
+    @Autowired
     private SpuTagMapper spuTagMapper;
 
+    @Autowired
+    private CategoryMapper categoryMapper;
+
+    @Autowired
+    private SpuImgMapper spuImgMapper;
+
+    @Autowired
+    private SpuDetailImgMapper spuDetailImgMapper;
+
+    @SuppressWarnings("Duplicates")
     @Transactional
     @Override
     public void createSpu(SpuCreateOrUpdateDTO dto) {
         Spu spu = new Spu();
         BeanUtils.copyProperties(dto, spu);
+        // 插入 root_category_id，for_theme_img
+        Category category = categoryMapper.selectById(dto.getCategoryId());
+        if (category.getParentId() != null) {
+            spu.setRootCategoryId(category.getParentId());
+        }
+        // 如果没有上传主图，则将banner的第一张图当作主图
+        if (dto.getImg() == null && dto.getBannerImgs().size() > 0) {
+            spu.setImg(dto.getBannerImgs().get(0));
+        }
         this.save(spu);
+        // 插入 banner_imgs,detail_imgs
+        for (int i = 0; i < dto.getBannerImgs().size(); i++) {
+            SpuImg spuImg = new SpuImg();
+            spuImg.setImg(dto.getBannerImgs().get(i));
+            spuImg.setSpuId(spu.getId());
+            // spuImg.setThemeId();
+            spuImgMapper.insert(spuImg);
+        }
+        for (int i = 0; i < dto.getDetailImgs().size(); i++) {
+            SpuDetailImg spuDetailImg = new SpuDetailImg();
+            spuDetailImg.setImg(dto.getDetailImgs().get(i));
+            spuDetailImg.setSpuId(spu.getId());
+            spuDetailImg.setIndex(i + 1);
+            spuDetailImgMapper.insert(spuDetailImg);
+        }
         createTags(dto.getTags(), spu.getId());
         SpuKeyAddDTO spuKeyAddDTO = new SpuKeyAddDTO();
         spuKeyAddDTO.setSpuId(spu.getId());
@@ -50,6 +82,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         this.addSpecKeyWithoutConfirm(spuKeyAddDTO);
     }
 
+    @SuppressWarnings("Duplicates")
     @Transactional
     @Override
     public void updateSpu(SpuCreateOrUpdateDTO dto, Long id) {
@@ -58,7 +91,40 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
             throw new NotFound("未找到相关的分类");
         }
         BeanUtils.copyProperties(dto, exist);
+        // 插入 root_category_id，for_theme_img
+        Category category = categoryMapper.selectById(dto.getCategoryId());
+        if (category.getParentId() != null) {
+            exist.setRootCategoryId(category.getParentId());
+        }
+        // 如果没有上传主图，则将banner的第一张图当作主图
+        if (dto.getImg() == null && dto.getBannerImgs().size() > 0) {
+            exist.setImg(dto.getBannerImgs().get(0));
+        }
         this.updateById(exist);
+        // 删除原来的banner_imgs
+        // QueryWrapper<SpuImg> delWrapper1 = new QueryWrapper<>();
+        // delWrapper1.lambda().eq(SpuImg::getSpuId, exist.getId());
+        // spuImgMapper.delete(delWrapper1);
+        spuImgMapper.hardDeleteImgsBySpuId(exist.getId());
+        // 插入 banner_imgs,detail_imgs
+        for (int i = 0; i < dto.getBannerImgs().size(); i++) {
+            SpuImg spuImg = new SpuImg();
+            spuImg.setImg(dto.getBannerImgs().get(i));
+            spuImg.setSpuId(exist.getId());
+            // spuImg.setThemeId();
+            spuImgMapper.insert(spuImg);
+        }
+        // 删除原来的 detail_imgs
+        QueryWrapper<SpuDetailImg> delWrapper2 = new QueryWrapper<>();
+        delWrapper2.lambda().eq(SpuDetailImg::getSpuId, exist.getId());
+        spuDetailImgMapper.delete(delWrapper2);
+        for (int i = 0; i < dto.getDetailImgs().size(); i++) {
+            SpuDetailImg spuDetailImg = new SpuDetailImg();
+            spuDetailImg.setImg(dto.getDetailImgs().get(i));
+            spuDetailImg.setSpuId(exist.getId());
+            spuDetailImg.setIndex(i + 1);
+            spuDetailImgMapper.insert(spuDetailImg);
+        }
         createTags(dto.getTags(), exist.getId());
         SpuKeyAddDTO spuKeyAddDTO = new SpuKeyAddDTO();
         spuKeyAddDTO.setSpuId(exist.getId());
@@ -86,6 +152,10 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
     @Override
     public SpuWithNamesDO getWithNames(Long id) {
         SpuWithNamesDO spu = this.baseMapper.getWithNames(id);
+        List<String> bannerImgs = spuImgMapper.getImgsBySpuId(id);
+        List<String> detailImgs = spuDetailImgMapper.getImgsBySpuId(id);
+        spu.setBannerImgs(bannerImgs);
+        spu.setDetailImgs(detailImgs);
         return spu;
     }
 

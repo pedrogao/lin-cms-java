@@ -26,4 +26,6 @@ public interface ICategoryService extends IService<Category> {
     List<CategorySuggestionDO> getSuggestions(Long id);
 
     PageResult<Category> getSubCategoryByPage(Long count, Long page, Integer id);
+
+    List<CategorySuggestionDO> getAllSuggestions(Long id);
 }

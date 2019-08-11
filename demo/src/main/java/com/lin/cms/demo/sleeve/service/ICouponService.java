@@ -5,6 +5,7 @@ import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.sleeve.dto.CouponCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.Coupon;
 import com.lin.cms.demo.sleeve.model.CouponTemplate;
+import com.lin.cms.demo.sleeve.model.SuggestionDO;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface ICouponService extends IService<Coupon> {
     PageResult<Coupon> getCouponByPage(Long count, Long page);
 
     List<CouponTemplate> getTemplates();
+
+    List<SuggestionDO> getSuggestions(Long id);
 }

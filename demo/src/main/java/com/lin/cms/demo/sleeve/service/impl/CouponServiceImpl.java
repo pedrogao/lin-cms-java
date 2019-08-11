@@ -10,6 +10,7 @@ import com.lin.cms.demo.sleeve.mapper.CouponMapper;
 import com.lin.cms.demo.sleeve.mapper.CouponTemplateMapper;
 import com.lin.cms.demo.sleeve.model.Coupon;
 import com.lin.cms.demo.sleeve.model.CouponTemplate;
+import com.lin.cms.demo.sleeve.model.SuggestionDO;
 import com.lin.cms.demo.sleeve.service.ICouponService;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.exception.Parameter;
@@ -74,6 +75,11 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, Coupon> impleme
     @Override
     public List<CouponTemplate> getTemplates() {
         return couponTemplateMapper.selectList(null);
+    }
+
+    @Override
+    public List<SuggestionDO> getSuggestions(Long id) {
+        return this.getBaseMapper().getSuggestions(id);
     }
 
     /**

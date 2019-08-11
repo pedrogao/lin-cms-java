@@ -10,4 +10,8 @@
         <result column="index" property="index"/>
     </resultMap>
 
+
+    <select id="getImgsBySpuId" resultType="java.lang.String">
+        select s.img from spu_detail_img s where s.spu_id = #{spuId} order by s.`index`;
+    </select>
 </mapper>

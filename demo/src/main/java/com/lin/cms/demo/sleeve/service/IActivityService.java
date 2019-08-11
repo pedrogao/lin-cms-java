@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.sleeve.dto.ActivityCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.Activity;
+import com.lin.cms.demo.sleeve.model.ActivityDetailDO;
 
 /**
  * <p>
@@ -22,4 +23,6 @@ public interface IActivityService extends IService<Activity> {
     void deleteActivity(Long id);
 
     PageResult<Activity> getActivityByPage(Long count, Long page);
+
+    ActivityDetailDO getDetailById(Long id);
 }

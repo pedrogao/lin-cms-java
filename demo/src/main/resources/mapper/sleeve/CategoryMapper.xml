@@ -27,6 +27,14 @@
         </if>
     </select>
 
+    <select id="getAllSuggestions" resultType="com.lin.cms.demo.sleeve.model.CategorySuggestionDO">
+        select c.id id,c.name name from category c
+        where c.delete_time is null
+        <if test="id != null">
+            and c.id != #{id}
+        </if>
+    </select>
+
 
     <select id="getById" resultType="com.lin.cms.demo.sleeve.model.Category">
         SELECT `id`,

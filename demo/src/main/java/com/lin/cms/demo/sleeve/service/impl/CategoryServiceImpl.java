@@ -102,4 +102,9 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         List<Category> categories = iPage.getRecords();
         return PageResult.genPageResult(iPage.getTotal(), categories);
     }
+
+    @Override
+    public List<CategorySuggestionDO> getAllSuggestions(Long id) {
+        return categoryMapper.getAllSuggestions(id);
+    }
 }
