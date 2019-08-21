@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.controller;
 
 
+import com.lin.cms.core.annotation.GroupRequired;
+import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.SpecValueCreateOrUpdateDTO;
@@ -30,22 +32,29 @@ public class SpecValueController {
     private ISpecValueService specValueService;
 
     @PostMapping("/")
+    @RouteMeta(module = "规格值", auth = "创建规格值", mount = true)
+    @GroupRequired
     public Result create(@RequestBody @Valid SpecValueCreateOrUpdateDTO dto) {
         specValueService.createSpecValue(dto);
         return ResultGenerator.genSuccessResult("创建规格键成功！");
     }
 
     @PutMapping("/{id}")
+    @RouteMeta(module = "规格值", auth = "更新规格值", mount = true)
+    @GroupRequired
     public Result update(@RequestBody @Valid SpecValueCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
-        // TODO: 更新的时候检查，然后更新 sku 里面的specs
-        specValueService.updateSpecValue(dto, id);
-        return ResultGenerator.genSuccessResult("更新规格键成功！");
+        // specValueService.updateSpecValue(dto, id);
+        // return ResultGenerator.genSuccessResult("更新规格键成功！");
+        return ResultGenerator.genSuccessResult("不允许更新！");
     }
 
     @DeleteMapping("/{id}")
+    @RouteMeta(module = "规格值", auth = "删除规格值", mount = true)
+    @GroupRequired
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
-        specValueService.deleteSpecValue(id);
-        return ResultGenerator.genSuccessResult("删除规格键成功！");
+        // specValueService.deleteSpecValue(id);
+        // return ResultGenerator.genSuccessResult("删除规格键成功！");
+        return ResultGenerator.genSuccessResult("不允许删除！");
     }
 
     @GetMapping("/{id}")

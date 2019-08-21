@@ -18,6 +18,9 @@ public class BannerItemCreateOrUpdateDTO {
     @Length(min = 1, max = 255, allowBlank = true, message = "图片url长度不能超过255字符")
     private String img;
 
+    @Length(min = 1, max = 255, allowBlank = true, message = "名称长度不能超过255字符")
+    private String name;
+
     @NotNull(message = "类型不可为空")
     @Positive(message = "类型必须为正整数")
     private Integer type;

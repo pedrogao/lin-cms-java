@@ -25,7 +25,7 @@ public class Theme implements Serializable {
 
     private String description;
 
-    private String location;
+    private String name;
 
     @JSONField(serialize = false)
     private Date createTime;
@@ -37,7 +37,7 @@ public class Theme implements Serializable {
     @JSONField(serialize = false)
     private Date deleteTime;
 
-    private String img;
+    // private String img;
 
     private String extend;
 
@@ -48,4 +48,6 @@ public class Theme implements Serializable {
     private Integer online;
 
     private String titleImg;
+
+    private String tplName;
 }

@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.controller;
 
 
+import com.lin.cms.core.annotation.GroupRequired;
+import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.ActivityCreateOrUpdateDTO;
@@ -26,24 +28,28 @@ import javax.validation.constraints.Positive;
 @Validated
 public class ActivityController {
 
-    // TODO: activity相关 ， 新增的spu业务
-
     @Autowired
     private IActivityService activityService;
 
     @PostMapping("/")
+    @RouteMeta(module = "活动", auth = "创建活动", mount = true)
+    @GroupRequired
     public Result create(@RequestBody @Valid ActivityCreateOrUpdateDTO dto) {
         activityService.createActivity(dto);
         return ResultGenerator.genSuccessResult("创建活动成功！");
     }
 
     @PutMapping("/{id}")
+    @RouteMeta(module = "活动", auth = "更新活动", mount = true)
+    @GroupRequired
     public Result update(@RequestBody @Valid ActivityCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         activityService.updateActivity(dto, id);
         return ResultGenerator.genSuccessResult("更新活动成功！");
     }
 
     @DeleteMapping("/{id}")
+    @RouteMeta(module = "活动", auth = "删除活动", mount = true)
+    @GroupRequired
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         activityService.deleteActivity(id);
         return ResultGenerator.genSuccessResult("删除活动成功！");

@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.controller;
 
 
+import com.lin.cms.core.annotation.GroupRequired;
+import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.GridCategoryCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.GridCategory;
@@ -36,18 +38,24 @@ public class GridCategoryController {
     }
 
     @PostMapping("/")
+    @RouteMeta(module = "六宫格", auth = "创建六宫格", mount = true)
+    @GroupRequired
     public Result create(@RequestBody @Validated GridCategoryCreateOrUpdateDTO dto) {
         gridCategoryService.createGridCategory(dto);
         return ResultGenerator.genSuccessResult("创建成功！");
     }
 
     @PutMapping("/{id}")
+    @RouteMeta(module = "六宫格", auth = "更新六宫格", mount = true)
+    @GroupRequired
     public Result update(@RequestBody @Validated GridCategoryCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         gridCategoryService.updateGridCategory(dto, id);
         return ResultGenerator.genSuccessResult("更新成功！");
     }
 
     @DeleteMapping("/{id}")
+    @RouteMeta(module = "六宫格", auth = "删除六宫格", mount = true)
+    @GroupRequired
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         gridCategoryService.deleteGridCategory(id);
         return ResultGenerator.genSuccessResult("删除成功！");

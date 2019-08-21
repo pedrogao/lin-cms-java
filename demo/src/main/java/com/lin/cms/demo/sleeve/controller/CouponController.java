@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.controller;
 
 
+import com.lin.cms.core.annotation.GroupRequired;
+import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.CouponCreateOrUpdateDTO;
@@ -33,18 +35,24 @@ public class CouponController {
     private ICouponService couponService;
 
     @PostMapping("/")
+    @RouteMeta(module = "优惠卷", auth = "创建优惠卷", mount = true)
+    @GroupRequired
     public Result create(@RequestBody @Valid CouponCreateOrUpdateDTO dto) {
         couponService.createCoupon(dto);
         return ResultGenerator.genSuccessResult("创建优惠卷成功！");
     }
 
     @PutMapping("/{id}")
+    @RouteMeta(module = "优惠卷", auth = "更新优惠卷", mount = true)
+    @GroupRequired
     public Result update(@RequestBody @Valid CouponCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         couponService.updateCoupon(dto, id);
         return ResultGenerator.genSuccessResult("更新优惠卷成功！");
     }
 
     @DeleteMapping("/{id}")
+    @RouteMeta(module = "优惠卷", auth = "删除优惠卷", mount = true)
+    @GroupRequired
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         couponService.deleteCoupon(id);
         return ResultGenerator.genSuccessResult("删除优惠卷成功！");

@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.controller;
 
 
+import com.lin.cms.core.annotation.GroupRequired;
+import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.SkuCreateOrUpdateDTO;
@@ -33,18 +35,24 @@ public class SkuController {
     private ISkuService skuService;
 
     @PostMapping("/")
+    @RouteMeta(module = "sku", auth = "创建sku", mount = true)
+    @GroupRequired
     public Result create(@RequestBody @Valid SkuCreateOrUpdateDTO dto) {
         skuService.createSku(dto);
         return ResultGenerator.genSuccessResult("创建sku成功！");
     }
 
     @PutMapping("/{id}")
+    @RouteMeta(module = "sku", auth = "更新sku", mount = true)
+    @GroupRequired
     public Result update(@RequestBody @Valid SkuCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         skuService.updateSku(dto, id);
         return ResultGenerator.genSuccessResult("更新sku成功！");
     }
 
     @DeleteMapping("/{id}")
+    @RouteMeta(module = "sku", auth = "删除sku", mount = true)
+    @GroupRequired
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         skuService.deleteSku(id);
         return ResultGenerator.genSuccessResult("删除sku成功！");

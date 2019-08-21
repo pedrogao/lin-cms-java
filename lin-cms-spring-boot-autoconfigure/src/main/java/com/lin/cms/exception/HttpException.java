@@ -63,4 +63,12 @@ public class HttpException extends RuntimeException {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    @Override
+    public String getMessage() {
+        return "{" +
+                "msg='" + msg + '\'' +
+                ", errorCode=" + errorCode +
+                '}';
+    }
 }

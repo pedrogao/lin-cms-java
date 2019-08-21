@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.controller;
 
 
+import com.lin.cms.core.annotation.GroupRequired;
+import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.ActivityCoverCreateOrUpdateDTO;
@@ -28,18 +30,24 @@ public class ActivityCoverController {
     private IActivityCoverService activityCoverService;
 
     @PostMapping("/")
+    @RouteMeta(module = "活动页", auth = "创建活动页", mount = true)
+    @GroupRequired
     public Result create(@RequestBody @Validated ActivityCoverCreateOrUpdateDTO dto) {
         activityCoverService.createActivityCover(dto);
         return ResultGenerator.genSuccessResult("创建活动页成功！");
     }
 
     @PutMapping("/{id}")
+    @RouteMeta(module = "活动页", auth = "更新活动页", mount = true)
+    @GroupRequired
     public Result update(@RequestBody @Validated ActivityCoverCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         activityCoverService.updateActivityCover(dto, id);
         return ResultGenerator.genSuccessResult("更新活动页成功！");
     }
 
     @DeleteMapping("/{id}")
+    @RouteMeta(module = "活动页", auth = "删除活动页", mount = true)
+    @GroupRequired
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         activityCoverService.deleteActivityCover(id);
         return ResultGenerator.genSuccessResult("删除活动页成功！");
@@ -56,9 +64,9 @@ public class ActivityCoverController {
 
     @GetMapping("/page")
     public PageResult<ActivityCover> page(@RequestParam(name = "count", required = false, defaultValue = "10")
-                                     @Min(value = 1, message = "count必须为正整数") Long count,
-                                     @RequestParam(name = "page", required = false, defaultValue = "0")
-                                     @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
+                                          @Min(value = 1, message = "count必须为正整数") Long count,
+                                          @RequestParam(name = "page", required = false, defaultValue = "0")
+                                          @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         PageResult<ActivityCover> pageResult = activityCoverService.getActivityCoverByPage(count, page);
         if (pageResult.getTotalNums() == 0) {
             throw new NotFound("未找到相关的活动页");

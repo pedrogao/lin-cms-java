@@ -11,11 +11,17 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @NoArgsConstructor
 public class BannerCreateOrUpdateDTO {
-    @NotBlank(message = "banner名不可为空")
-    @Length(min = 1, max = 100, allowBlank = true, message = "banner名长度不能超过100字符")
+    @NotBlank(message = "名称不可为空")
+    @Length(min = 1, max = 255, allowBlank = true, message = "名称长度不能超过255字符")
     private String name;
 
-    @Length(min = 1, max = 255, allowBlank = true, message = "banner描述长度不能超过255字符")
+    @Length(min = 1, max = 255, allowBlank = true, message = "标题长度不能超过255字符")
+    private String title;
+
+    @Length(min = 1, max = 255, allowBlank = true, message = "图片url长度不能超过255字符")
+    private String img;
+
+    @Length(min = 1, max = 255, allowBlank = true, message = "描述长度不能超过255字符")
     private String description;
 
 }

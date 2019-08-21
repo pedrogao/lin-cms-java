@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.controller;
 
 
+import com.lin.cms.core.annotation.GroupRequired;
+import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.CategoryCreateOrUpdateDTO;
@@ -36,6 +38,8 @@ public class CategoryController {
     private ICategoryService categoryService;
 
     @PostMapping("/")
+    @RouteMeta(module = "分类", auth = "创建分类", mount = true)
+    @GroupRequired
     public Result create(@RequestBody @Valid CategoryCreateOrUpdateDTO dto) {
         // parent_id 与 is_root 不能同时有
         checkRootAndParent(dto);
@@ -44,6 +48,8 @@ public class CategoryController {
     }
 
     @PutMapping("/{id}")
+    @RouteMeta(module = "分类", auth = "更新分类", mount = true)
+    @GroupRequired
     public Result update(@RequestBody @Valid CategoryCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         checkRootAndParent(dto);
         categoryService.updateCategory(dto, id);
@@ -51,6 +57,8 @@ public class CategoryController {
     }
 
     @DeleteMapping("/{id}")
+    @RouteMeta(module = "分类", auth = "删除分类", mount = true)
+    @GroupRequired
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         // 检验是否为 root
         categoryService.deleteCategory(id);

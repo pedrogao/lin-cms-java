@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.controller;
 
 
+import com.lin.cms.core.annotation.GroupRequired;
+import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.BrandCreateOrUpdateDTO;
@@ -32,18 +34,24 @@ public class BrandController {
     private IBrandService brandService;
 
     @PostMapping("/")
+    @RouteMeta(module = "品牌", auth = "创建品牌", mount = true)
+    @GroupRequired
     public Result create(@RequestBody @Valid BrandCreateOrUpdateDTO dto) {
         brandService.createBrand(dto);
         return ResultGenerator.genSuccessResult("创建商品品牌成功！");
     }
 
     @PutMapping("/{id}")
+    @RouteMeta(module = "品牌", auth = "更新品牌", mount = true)
+    @GroupRequired
     public Result update(@RequestBody @Valid BrandCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         brandService.updateBrand(dto, id);
         return ResultGenerator.genSuccessResult("更新商品品牌成功！");
     }
 
     @DeleteMapping("/{id}")
+    @RouteMeta(module = "品牌", auth = "删除品牌", mount = true)
+    @GroupRequired
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         brandService.deleteBrand(id);
         return ResultGenerator.genSuccessResult("删除商品品牌成功！");

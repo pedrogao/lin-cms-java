@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.controller;
 
 
+import com.lin.cms.core.annotation.GroupRequired;
+import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.bo.SpecKeyAndItems;
@@ -10,6 +12,7 @@ import com.lin.cms.demo.sleeve.model.BrandSuggestionDO;
 import com.lin.cms.demo.sleeve.model.SpecKey;
 import com.lin.cms.demo.sleeve.model.SpecKeySuggestionDO;
 import com.lin.cms.demo.sleeve.service.ISpecKeyService;
+import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,26 +32,35 @@ import java.util.List;
 @RequestMapping("/sleeve/spec_key")
 @Validated
 public class SpecKeyController {
+
     @Autowired
     private ISpecKeyService specKeyService;
 
     @PostMapping("/")
+    @RouteMeta(module = "规格名", auth = "创建规格名", mount = true)
+    @GroupRequired
     public Result create(@RequestBody @Validated SpecKeyCreateOrUpdateDTO dto) {
         specKeyService.createSpecKey(dto);
         return ResultGenerator.genSuccessResult("创建规格键成功！");
     }
 
     @PutMapping("/{id}")
+    @RouteMeta(module = "规格名", auth = "更新规格名", mount = true)
+    @GroupRequired
     public Result update(@RequestBody @Validated SpecKeyCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
-        // TODO: 更新的时候检查，然后更新 sku 里面的specs
-        specKeyService.updateSpecKey(dto, id);
-        return ResultGenerator.genSuccessResult("更新规格键成功！");
+        // 更新的时候检查，然后更新 sku 里面的specs
+        // specKeyService.updateSpecKey(dto, id);
+        // return ResultGenerator.genSuccessResult("更新规格键成功！");
+        return ResultGenerator.genSuccessResult("不允许修改！");
     }
 
     @DeleteMapping("/{id}")
+    @RouteMeta(module = "规格名", auth = "删除规格名", mount = true)
+    @GroupRequired
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
-        specKeyService.deleteSpecKey(id);
-        return ResultGenerator.genSuccessResult("删除规格键成功！");
+        // specKeyService.deleteSpecKey(id);
+        // return ResultGenerator.genSuccessResult("删除规格键成功！");
+        return ResultGenerator.genSuccessResult("不允许删除！");
     }
 
     @GetMapping("/{id}")

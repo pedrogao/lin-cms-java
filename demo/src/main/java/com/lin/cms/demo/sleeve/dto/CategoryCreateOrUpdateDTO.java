@@ -1,6 +1,7 @@
 package com.lin.cms.demo.sleeve.dto;
 
 import com.lin.cms.demo.sleeve.enums.CategoryRootOrNot;
+import com.lin.cms.demo.sleeve.enums.OnlineOrNot;
 import com.lin.cms.demo.validator.Enum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,16 @@ public class CategoryCreateOrUpdateDTO {
 
     @Positive(message = "父种类id必须为正整数")
     private Long parentId;
+
+    @Length(min = 1, max = 255, allowBlank = true, message = "图片url长度不能超过100字符")
+    private String img;
+
+    @Positive(message = "排序必须为正整数")
+    private Integer index;
+
+    @Enum(message = "online必须为0，1中的一项", allowNull = true, target = OnlineOrNot.class)
+    private Integer online;
+
+    @Positive(message = "等级必须为正整数")
+    private Integer level;
 }

@@ -1,8 +1,7 @@
 package com.lin.cms.demo.service;
 
+import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.exception.Forbidden;
-import com.lin.cms.exception.Parameter;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
 import com.lin.cms.demo.dto.user.AvatarUpdateDTO;
@@ -17,15 +16,17 @@ import java.util.Map;
  */
 public interface UserService {
 
-    void createUser(RegisterDTO validator) throws Forbidden;
+    void createUser(RegisterDTO validator);
 
-    void updateUser(UpdateInfoDTO validator) throws Parameter;
+    void updateUser(UpdateInfoDTO validator);
 
-    void changePassword(ChangePasswordDTO validator) throws Parameter;
+    void changePassword(ChangePasswordDTO validator);
 
     void updateAvatar(AvatarUpdateDTO validator);
 
     List<Map<String, List<Map<String, String>>>> getAuths(Long groupId);
 
     UserDO findByNickname(String nickname);
+
+    GroupDO findGroupByUserId(Long groupId);
 }

@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.controller;
 
 
+import com.lin.cms.core.annotation.GroupRequired;
+import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.SpuCreateOrUpdateDTO;
@@ -32,18 +34,24 @@ public class SpuController {
     private ISpuService spuService;
 
     @PostMapping("/")
+    @RouteMeta(module = "spu", auth = "创建spu", mount = true)
+    @GroupRequired
     public Result create(@RequestBody @Validated SpuCreateOrUpdateDTO dto) {
         spuService.createSpu(dto);
         return ResultGenerator.genSuccessResult("创建spu成功！");
     }
 
     @PutMapping("/{id}")
+    @RouteMeta(module = "spu", auth = "更新spu", mount = true)
+    @GroupRequired
     public Result update(@RequestBody @Validated SpuCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         spuService.updateSpu(dto, id);
         return ResultGenerator.genSuccessResult("更新spu成功！");
     }
 
     @DeleteMapping("/{id}")
+    @RouteMeta(module = "spu", auth = "删除spu", mount = true)
+    @GroupRequired
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
         spuService.deleteSpu(id);
         return ResultGenerator.genSuccessResult("删除spu成功！");
@@ -85,6 +93,8 @@ public class SpuController {
 
     // 在 spu 下选择 spec_key 而后， 与 spu 相关的 sku 在 spec_key 下选择 spec_value
     @PostMapping("/key")
+    @RouteMeta(module = "spu", auth = "添加规格值", mount = true)
+    @GroupRequired
     public Result addSpecKey(@RequestBody @Validated SpuKeyAddDTO dto) {
         spuService.addSpecKey(dto);
         return ResultGenerator.genSuccessResult("添加规格值成功！");

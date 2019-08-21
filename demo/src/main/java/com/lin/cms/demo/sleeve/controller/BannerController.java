@@ -1,6 +1,8 @@
 package com.lin.cms.demo.sleeve.controller;
 
 
+import com.lin.cms.core.annotation.GroupRequired;
+import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.bo.BannerAndItems;
@@ -30,20 +32,25 @@ public class BannerController {
     private IBannerService bannerService;
 
     @PostMapping("/")
+    @RouteMeta(module = "Banner", auth = "添加Banner", mount = true)
+    @GroupRequired
     public Result create(@RequestBody @Valid BannerCreateOrUpdateDTO dto) {
         bannerService.createBanner(dto);
         return ResultGenerator.genSuccessResult("创建商品banner成功！");
     }
 
     @PutMapping("/{id}")
+    @RouteMeta(module = "Banner", auth = "更新Banner", mount = true)
+    @GroupRequired
     public Result update(@RequestBody @Valid BannerCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         bannerService.updateBanner(dto, id);
         return ResultGenerator.genSuccessResult("更新商品banner成功！");
     }
 
     @DeleteMapping("/{id}")
+    @RouteMeta(module = "Banner", auth = "删除Banner", mount = true)
+    @GroupRequired
     public Result delete(@PathVariable @Positive(message = "id必须为正整数") Long id) {
-        // TODO: 查询banner下面有无banner_id
         bannerService.deleteBanner(id);
         return ResultGenerator.genSuccessResult("删除商品banner成功！");
     }

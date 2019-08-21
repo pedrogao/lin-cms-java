@@ -1,6 +1,8 @@
 package com.lin.cms.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.lin.cms.demo.mapper.GroupMapper;
+import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.Parameter;
 import com.lin.cms.demo.mapper.AuthMapper;
@@ -33,9 +35,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private AuthMapper authMapper;
 
+    @Autowired
+    private GroupMapper groupMapper;
+
 
     @Override
-    public void createUser(RegisterDTO validator) throws Forbidden {
+    public void createUser(RegisterDTO validator) {
         UserDO exist = this.findByNickname(validator.getNickname());
         if (exist != null) {
             throw new Forbidden("用户已经存在");
@@ -52,7 +57,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(UpdateInfoDTO validator) throws Parameter {
+    public void updateUser(UpdateInfoDTO validator) {
         String email = validator.getEmail();
         UserDO user = LocalUser.getLocalUser();
         if (!user.getEmail().equals(email)) {
@@ -68,7 +73,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void changePassword(ChangePasswordDTO validator) throws Parameter {
+    public void changePassword(ChangePasswordDTO validator) {
         UserDO user = LocalUser.getLocalUser();
         boolean valid = user.verify(validator.getOldPassword());
         if (!valid) {
@@ -97,5 +102,10 @@ public class UserServiceImpl implements UserService {
         wrapper.eq("nickname", nickname);
         UserDO exist = userMapper.selectOne(wrapper);
         return exist;
+    }
+
+    @Override
+    public GroupDO findGroupByUserId(Long groupId) {
+        return groupMapper.selectById(groupId);
     }
 }

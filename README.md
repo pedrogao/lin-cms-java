@@ -11,6 +11,7 @@
 **正在抓紧实现，占坑中...**
 
 - [ ] 主键均换成 Long，数据库层面均为 bigint
+- [ ] fastjson换回jackson
 - [ ] 移动core的部分代码到starter
 - [ ] 尝试重构异常处理部分，提供接口供 demo 重写
 - [ ] 文档
