@@ -33,7 +33,7 @@ public class ThemeController {
     @Autowired
     private IThemeService themeService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "主题", auth = "创建主题", mount = true)
     @GroupRequired
     public Result create(@RequestBody @Validated ThemeCreateOrUpdateDTO dto) {
@@ -73,12 +73,14 @@ public class ThemeController {
                                   @RequestParam(name = "page", required = false, defaultValue = "0")
                                   @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         PageResult<Theme> pageResult = themeService.getThemeByPage(count, page);
-        if (pageResult.getTotalNums() == 0) {
-            throw new NotFound("未找到相关的主题");
-        }
         return pageResult;
     }
 
+    /**
+     * 选择 theme/spus?id=1 作为 规则
+     * 而没有选择 theme/1/spu 最为路由规则的主要原因是
+     * theme下的spus以后可能会通过其它的属性进行筛选，例如 name
+     */
     @GetMapping("/spus")
     public List<SimpleSpuDO> getSpus(@RequestParam(name = "id")
                                      @Min(value = 0, message = "id必须为整数，且大于等于0") Long id) {
@@ -91,7 +93,7 @@ public class ThemeController {
         return themeService.getSpuSuggestion(id);
     }
 
-    @DeleteMapping("spu/{id}")
+    @DeleteMapping("/spu/{id}")
     @RouteMeta(module = "主题", auth = "删除主题下的spu", mount = true)
     @GroupRequired
     public Result deleteSpu(@PathVariable @Positive(message = "id必须为正整数") Long id) {
@@ -99,7 +101,7 @@ public class ThemeController {
         return ResultGenerator.genSuccessResult("删除成功！");
     }
 
-    @PostMapping("spu")
+    @PostMapping("/spu")
     @RouteMeta(module = "主题", auth = "添加主题下的spu", mount = true)
     @GroupRequired
     public Result addThemeSpu(@RequestBody @Validated ThemeSpuCreateDTO dto) {

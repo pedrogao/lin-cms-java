@@ -146,7 +146,7 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
         Page pager = new Page(page, count);
         IPage<Spu> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Spu> records = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), records);
+        return PageResult.genPageResult(iPage.getTotal(), records, page, count);
     }
 
     @Override

@@ -37,7 +37,7 @@ public class GridCategoryController {
         return gridCategory;
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "六宫格", auth = "创建六宫格", mount = true)
     @GroupRequired
     public Result create(@RequestBody @Validated GridCategoryCreateOrUpdateDTO dto) {
@@ -64,9 +64,6 @@ public class GridCategoryController {
     @GetMapping("/list")
     public List<GridCategory> getList() {
         List<GridCategory> list = gridCategoryService.getList();
-        if (list == null || list.size() == 0) {
-            throw new NotFound("未找到六宫格数据");
-        }
         return list;
     }
 }

@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -31,10 +30,10 @@ public class SpecValueController {
     @Autowired
     private ISpecValueService specValueService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "规格值", auth = "创建规格值", mount = true)
     @GroupRequired
-    public Result create(@RequestBody @Valid SpecValueCreateOrUpdateDTO dto) {
+    public Result create(@RequestBody @Validated SpecValueCreateOrUpdateDTO dto) {
         specValueService.createSpecValue(dto);
         return ResultGenerator.genSuccessResult("创建规格键成功！");
     }
@@ -42,7 +41,7 @@ public class SpecValueController {
     @PutMapping("/{id}")
     @RouteMeta(module = "规格值", auth = "更新规格值", mount = true)
     @GroupRequired
-    public Result update(@RequestBody @Valid SpecValueCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+    public Result update(@RequestBody @Validated SpecValueCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         // specValueService.updateSpecValue(dto, id);
         // return ResultGenerator.genSuccessResult("更新规格键成功！");
         return ResultGenerator.genSuccessResult("不允许更新！");
@@ -73,9 +72,6 @@ public class SpecValueController {
                                       @RequestParam(name = "page", required = false, defaultValue = "0")
                                       @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         PageResult<SpecValue> pageResult = specValueService.getSpecValueByPage(count, page);
-        if (pageResult.getTotalNums() == 0) {
-            throw new NotFound("未找到相关的规格键");
-        }
         return pageResult;
     }
 

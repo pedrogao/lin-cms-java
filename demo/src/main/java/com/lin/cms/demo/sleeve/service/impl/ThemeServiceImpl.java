@@ -61,7 +61,7 @@ public class ThemeServiceImpl extends ServiceImpl<ThemeMapper, Theme> implements
         Page pager = new Page(page, count);
         IPage<Theme> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Theme> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, page, count);
     }
 
     @Override

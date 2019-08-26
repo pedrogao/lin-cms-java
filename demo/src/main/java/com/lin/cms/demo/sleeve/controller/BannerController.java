@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 
@@ -31,10 +30,10 @@ public class BannerController {
     @Autowired
     private IBannerService bannerService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "Banner", auth = "添加Banner", mount = true)
     @GroupRequired
-    public Result create(@RequestBody @Valid BannerCreateOrUpdateDTO dto) {
+    public Result create(@RequestBody @Validated BannerCreateOrUpdateDTO dto) {
         bannerService.createBanner(dto);
         return ResultGenerator.genSuccessResult("创建商品banner成功！");
     }
@@ -42,7 +41,7 @@ public class BannerController {
     @PutMapping("/{id}")
     @RouteMeta(module = "Banner", auth = "更新Banner", mount = true)
     @GroupRequired
-    public Result update(@RequestBody @Valid BannerCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+    public Result update(@RequestBody @Validated BannerCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         bannerService.updateBanner(dto, id);
         return ResultGenerator.genSuccessResult("更新商品banner成功！");
     }

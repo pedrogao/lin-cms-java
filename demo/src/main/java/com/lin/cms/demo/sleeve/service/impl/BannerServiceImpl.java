@@ -69,7 +69,7 @@ public class BannerServiceImpl extends ServiceImpl<BannerMapper, Banner> impleme
         Page pager = new Page(page, count);
         IPage<Banner> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Banner> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, page, count);
     }
 
     @Override

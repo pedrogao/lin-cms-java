@@ -92,7 +92,7 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         Page pager = new Page(page, count);
         IPage<Activity> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Activity> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, page, count);
     }
 
     @Override

@@ -8,7 +8,6 @@ import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.BrandCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.Brand;
 import com.lin.cms.demo.sleeve.model.BrandSuggestionDO;
-import com.lin.cms.demo.sleeve.model.CategorySuggestionDO;
 import com.lin.cms.demo.sleeve.service.IBrandService;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.utils.ResultGenerator;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -33,10 +31,10 @@ public class BrandController {
     @Autowired
     private IBrandService brandService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "品牌", auth = "创建品牌", mount = true)
     @GroupRequired
-    public Result create(@RequestBody @Valid BrandCreateOrUpdateDTO dto) {
+    public Result create(@RequestBody @Validated BrandCreateOrUpdateDTO dto) {
         brandService.createBrand(dto);
         return ResultGenerator.genSuccessResult("创建商品品牌成功！");
     }
@@ -44,7 +42,7 @@ public class BrandController {
     @PutMapping("/{id}")
     @RouteMeta(module = "品牌", auth = "更新品牌", mount = true)
     @GroupRequired
-    public Result update(@RequestBody @Valid BrandCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+    public Result update(@RequestBody @Validated BrandCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         brandService.updateBrand(dto, id);
         return ResultGenerator.genSuccessResult("更新商品品牌成功！");
     }

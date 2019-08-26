@@ -84,7 +84,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         }
         IPage<Category> iPage = this.getBaseMapper().selectPage(pager, wrapper);
         List<Category> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, page, count);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
         wrapper.lambda().eq(Category::getParentId, id);
         IPage<Category> iPage = this.getBaseMapper().selectPage(pager, wrapper);
         List<Category> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, page, count);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class ActivityCoverController {
     @Autowired
     private IActivityCoverService activityCoverService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "活动页", auth = "创建活动页", mount = true)
     @GroupRequired
     public Result create(@RequestBody @Validated ActivityCoverCreateOrUpdateDTO dto) {

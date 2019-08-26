@@ -6,6 +6,7 @@ import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,12 +18,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/cms/log")
+@Validated
 public class LogController {
 
     @Autowired
     private LogService logService;
 
-    @GetMapping("/")
+    @GetMapping("")
     @RouteMeta(auth = "查询所有日志", module = "日志", mount = true)
     @GroupRequired
     public PageResult getLogs(

@@ -115,7 +115,7 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
         Page pager = new Page(page, count);
         IPage<Sku> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Sku> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, page, count);
     }
 
     @Override
@@ -127,9 +127,6 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
     @Override
     public List<SuggestionDO> getSuggestions(Long id, Long spuId) {
         List<SuggestionDO> suggestions = this.getBaseMapper().getSuggestions(id, spuId);
-        if (suggestions.size() == 0) {
-            throw new NotFound("未找到相关的sku建议");
-        }
         return suggestions;
     }
 

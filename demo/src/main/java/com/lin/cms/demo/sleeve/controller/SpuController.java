@@ -33,7 +33,7 @@ public class SpuController {
     @Autowired
     private ISpuService spuService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "spu", auth = "创建spu", mount = true)
     @GroupRequired
     public Result create(@RequestBody @Validated SpuCreateOrUpdateDTO dto) {
@@ -79,9 +79,6 @@ public class SpuController {
                                 @RequestParam(name = "page", required = false, defaultValue = "0")
                                 @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         PageResult<Spu> pageResult = spuService.getSpuByPage(count, page);
-        if (pageResult.getTotalNums() == 0) {
-            throw new NotFound("未找到相关的spu");
-        }
         return pageResult;
     }
 

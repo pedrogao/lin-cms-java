@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 
@@ -31,10 +30,10 @@ public class ActivityController {
     @Autowired
     private IActivityService activityService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "活动", auth = "创建活动", mount = true)
     @GroupRequired
-    public Result create(@RequestBody @Valid ActivityCreateOrUpdateDTO dto) {
+    public Result create(@RequestBody @Validated ActivityCreateOrUpdateDTO dto) {
         activityService.createActivity(dto);
         return ResultGenerator.genSuccessResult("创建活动成功！");
     }
@@ -42,7 +41,7 @@ public class ActivityController {
     @PutMapping("/{id}")
     @RouteMeta(module = "活动", auth = "更新活动", mount = true)
     @GroupRequired
-    public Result update(@RequestBody @Valid ActivityCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+    public Result update(@RequestBody @Validated ActivityCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         activityService.updateActivity(dto, id);
         return ResultGenerator.genSuccessResult("更新活动成功！");
     }

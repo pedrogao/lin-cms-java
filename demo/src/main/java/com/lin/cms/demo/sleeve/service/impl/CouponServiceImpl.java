@@ -69,7 +69,7 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, Coupon> impleme
         Page pager = new Page(page, count);
         IPage<Coupon> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Coupon> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, page, count);
     }
 
     @Override

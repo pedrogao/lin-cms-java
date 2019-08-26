@@ -17,15 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
 /**
- * 自顶向下进行开发
- *
  * @author pedro
  * @since 2019-07-23
  */
@@ -37,10 +34,10 @@ public class CategoryController {
     @Autowired
     private ICategoryService categoryService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "分类", auth = "创建分类", mount = true)
     @GroupRequired
-    public Result create(@RequestBody @Valid CategoryCreateOrUpdateDTO dto) {
+    public Result create(@RequestBody @Validated CategoryCreateOrUpdateDTO dto) {
         // parent_id 与 is_root 不能同时有
         checkRootAndParent(dto);
         categoryService.createCategory(dto);
@@ -50,7 +47,7 @@ public class CategoryController {
     @PutMapping("/{id}")
     @RouteMeta(module = "分类", auth = "更新分类", mount = true)
     @GroupRequired
-    public Result update(@RequestBody @Valid CategoryCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+    public Result update(@RequestBody @Validated CategoryCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         checkRootAndParent(dto);
         categoryService.updateCategory(dto, id);
         return ResultGenerator.genSuccessResult("更新商品种类成功！");
@@ -84,9 +81,6 @@ public class CategoryController {
                                      @Min(value = 0, message = "root必须为0或1")
                                      @Max(value = 1, message = "root必须为0或1") Integer root) {
         PageResult<Category> pageResult = categoryService.getCategoryByPage(count, page, root);
-        if (pageResult.getTotalNums() == 0) {
-            throw new NotFound("未找到相关的分类");
-        }
         return pageResult;
     }
 
@@ -98,9 +92,6 @@ public class CategoryController {
                                            @RequestParam(name = "id")
                                            @Min(value = 0, message = "id必须为整数，且大于等于0") Integer id) {
         PageResult<Category> pageResult = categoryService.getSubCategoryByPage(count, page, id);
-        if (pageResult.getTotalNums() == 0) {
-            throw new NotFound("未找到相关的分类");
-        }
         return pageResult;
     }
 

@@ -15,10 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * <p>
- * 服务实现类
- * </p>
- *
  * @author pedro
  * @since 2019-08-09
  */

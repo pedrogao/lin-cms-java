@@ -24,10 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>
- * 服务实现类
- * </p>
- *
  * @author pedro
  * @since 2019-07-23
  */
@@ -103,7 +99,7 @@ public class SpecKeyServiceImpl extends ServiceImpl<SpecKeyMapper, SpecKey> impl
         Page pager = new Page(page, count);
         IPage<SpecKey> iPage = this.getBaseMapper().selectPage(pager, null);
         List<SpecKey> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, page, count);
     }
 
     @Override

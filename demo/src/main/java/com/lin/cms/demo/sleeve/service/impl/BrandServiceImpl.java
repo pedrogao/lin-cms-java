@@ -17,10 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * <p>
- * 服务实现类
- * </p>
- *
  * @author pedro
  * @since 2019-07-23
  */
@@ -61,7 +57,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandMapper, Brand> implements
         Page pager = new Page(page, count);
         IPage<Brand> iPage = this.getBaseMapper().selectPage(pager, null);
         List<Brand> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, page, count);
     }
 
     @Override

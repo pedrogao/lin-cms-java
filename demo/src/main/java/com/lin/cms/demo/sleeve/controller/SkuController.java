@@ -6,7 +6,6 @@ import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.SkuCreateOrUpdateDTO;
-import com.lin.cms.demo.sleeve.model.BrandSuggestionDO;
 import com.lin.cms.demo.sleeve.model.Sku;
 import com.lin.cms.demo.sleeve.model.SkuWithNameDO;
 import com.lin.cms.demo.sleeve.model.SuggestionDO;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -34,10 +32,10 @@ public class SkuController {
     @Autowired
     private ISkuService skuService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "sku", auth = "创建sku", mount = true)
     @GroupRequired
-    public Result create(@RequestBody @Valid SkuCreateOrUpdateDTO dto) {
+    public Result create(@RequestBody @Validated SkuCreateOrUpdateDTO dto) {
         skuService.createSku(dto);
         return ResultGenerator.genSuccessResult("创建sku成功！");
     }
@@ -45,7 +43,7 @@ public class SkuController {
     @PutMapping("/{id}")
     @RouteMeta(module = "sku", auth = "更新sku", mount = true)
     @GroupRequired
-    public Result update(@RequestBody @Valid SkuCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+    public Result update(@RequestBody @Validated SkuCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         skuService.updateSku(dto, id);
         return ResultGenerator.genSuccessResult("更新sku成功！");
     }
@@ -60,7 +58,6 @@ public class SkuController {
 
     @GetMapping("/{id}")
     public Sku get(@PathVariable @Positive(message = "id必须为正整数") Long id) {
-        // Sku sku = skuService.getDetailById(id);
         Sku sku = skuService.getById(id);
         if (sku == null) {
             throw new NotFound("未找到相关的sku");
@@ -84,9 +81,6 @@ public class SkuController {
                                 @RequestParam(name = "page", required = false, defaultValue = "0")
                                 @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         PageResult<Sku> pageResult = skuService.getSkuByPage(count, page);
-        if (pageResult.getTotalNums() == 0) {
-            throw new NotFound("未找到相关的sku");
-        }
         return pageResult;
     }
 

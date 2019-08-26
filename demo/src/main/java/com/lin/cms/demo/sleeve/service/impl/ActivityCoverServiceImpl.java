@@ -48,6 +48,6 @@ public class ActivityCoverServiceImpl extends ServiceImpl<ActivityCoverMapper, A
         Page pager = new Page(page, count);
         IPage<ActivityCover> iPage = this.getBaseMapper().selectPage(pager, null);
         List<ActivityCover> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, count, page);
     }
 }

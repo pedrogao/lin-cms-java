@@ -86,7 +86,7 @@ public class SpecValueServiceImpl extends ServiceImpl<SpecValueMapper, SpecValue
         Page pager = new Page(page, count);
         IPage<SpecValue> iPage = this.getBaseMapper().selectPage(pager, null);
         List<SpecValue> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, page, count);
     }
 
     @Override

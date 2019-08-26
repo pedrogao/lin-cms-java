@@ -46,11 +46,11 @@ public class AdminServiceImpl implements AdminService {
         IPage<UserAndGroupNameDO> iPage = userMapper.findUsersAndGroupName(pager, groupId);
         List<UserAndGroupNameDO> usersAndGroupName = iPage.getRecords();
         Integer totalNums = userMapper.getCommonUsersCount(groupId);
-        return PageResult.genPageResult(totalNums, usersAndGroupName);
+        return PageResult.genPageResult(totalNums, usersAndGroupName, page, count);
     }
 
     @Override
-    public void changeUserPassword(Long id, ResetPasswordDTO validator) throws NotFound {
+    public void changeUserPassword(Long id, ResetPasswordDTO validator) {
         UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
             throw new NotFound("用户不存在");
@@ -60,7 +60,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteUser(Long id) throws NotFound {
+    public void deleteUser(Long id) {
         UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
             throw new NotFound("用户不存在");
@@ -70,7 +70,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateUserInfo(Long id, UpdateUserInfoDTO validator) throws NotFound, Parameter {
+    public void updateUserInfo(Long id, UpdateUserInfoDTO validator) {
         UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
             throw new NotFound("用户不存在");
@@ -101,7 +101,7 @@ public class AdminServiceImpl implements AdminService {
             tmp.setAuths(auths);
             groupAndAuths.add(tmp);
         });
-        return new PageResult(total, groupAndAuths);
+        return new PageResult(total, groupAndAuths, page, count);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Transactional
     @Override
-    public void createGroup(NewGroupDTO validator) throws Forbidden {
+    public void createGroup(NewGroupDTO validator) {
         GroupDO exist = groupMapper.findOneByName(validator.getName());
         if (exist != null) {
             throw new Forbidden("分组已存在，不可创建同名分组");
@@ -140,7 +140,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void updateGroup(Long id, UpdateGroupDTO validator) throws NotFound {
+    public void updateGroup(Long id, UpdateGroupDTO validator) {
         GroupDO group = groupMapper.selectById(id);
         if (group == null) {
             throw new NotFound("分组不存在，更新失败");
@@ -151,7 +151,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void deleteGroup(Long id) throws NotFound, Forbidden {
+    public void deleteGroup(Long id) {
         GroupDO group = groupMapper.selectById(id);
         if (group == null) {
             throw new NotFound("分组不存在，删除失败");
@@ -167,7 +167,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void dispatchAuth(DispatchAuthDTO validator) throws NotFound, Forbidden {
+    public void dispatchAuth(DispatchAuthDTO validator) {
         GroupDO group = groupMapper.selectById(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
@@ -185,7 +185,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void dispatchAuths(DispatchAuthsDTO validator) throws NotFound {
+    public void dispatchAuths(DispatchAuthsDTO validator) {
         GroupDO group = groupMapper.selectById(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
@@ -205,7 +205,7 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     @Transactional
-    public void removeAuths(RemoveAuthsDTO validator) throws NotFound {
+    public void removeAuths(RemoveAuthsDTO validator) {
         GroupDO group = groupMapper.selectById(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");

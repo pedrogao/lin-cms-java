@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 @RestController
@@ -26,7 +24,7 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/{id}")
-    public BookDO getBook(@PathVariable(value = "id") @Positive(message = "id必须为正整数") Long id) throws NotFound {
+    public BookDO getBook(@PathVariable(value = "id") @Positive(message = "id必须为正整数") Long id) {
         BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
             throw new NotFound("未找到相关书籍");
@@ -34,18 +32,15 @@ public class BookController {
         return book;
     }
 
-    @GetMapping("/")
-    public List<BookDO> getBooks() throws NotFound {
+    @GetMapping("")
+    public List<BookDO> getBooks() {
         List<BookDO> books = bookService.findAll();
-        if (books == null || books.size() < 1) {
-            throw new NotFound("未找到相关书籍");
-        }
         return books;
     }
 
 
     @GetMapping("/search/one")
-    public BookDO searchBook(@RequestParam("q") String q) throws NotFound {
+    public BookDO searchBook(@RequestParam("q") String q) {
         BookDO book = bookService.getBookByKeyword("%" + q + "%");
         if (book == null) {
             throw new NotFound("未找到相关书籍");
@@ -54,15 +49,15 @@ public class BookController {
     }
 
 
-    @PostMapping("/")
-    public Result createBook(@RequestBody @Valid CreateOrUpdateBookDTO validator) {
+    @PostMapping("")
+    public Result createBook(@RequestBody @Validated CreateOrUpdateBookDTO validator) {
         bookService.createBook(validator);
         return ResultGenerator.genSuccessResult("新建图书成功");
     }
 
 
     @PutMapping("/{id}")
-    public Result updateBook(@PathVariable("id") @Positive(message = "id必须为正整数") Long id, @RequestBody @Valid CreateOrUpdateBookDTO validator) throws NotFound {
+    public Result updateBook(@PathVariable("id") @Positive(message = "id必须为正整数") Long id, @RequestBody @Validated CreateOrUpdateBookDTO validator) {
         BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
             throw new NotFound("未找到相关书籍");
@@ -75,8 +70,7 @@ public class BookController {
     @DeleteMapping("/{id}")
     @RouteMeta(auth = "删除图书", module = "图书", mount = true)
     @GroupRequired
-    public Result deleteBook(@PathVariable("id") @Positive(message = "id必须为正整数") Long id) throws NotFound {
-        // 软删除，逻辑删除
+    public Result deleteBook(@PathVariable("id") @Positive(message = "id必须为正整数") Long id) {
         BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
             throw new NotFound("未找到相关书籍");

@@ -7,19 +7,15 @@ import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.bo.SpecKeyAndItems;
 import com.lin.cms.demo.sleeve.dto.SpecKeyCreateOrUpdateDTO;
-import com.lin.cms.demo.sleeve.model.Banner;
-import com.lin.cms.demo.sleeve.model.BrandSuggestionDO;
 import com.lin.cms.demo.sleeve.model.SpecKey;
 import com.lin.cms.demo.sleeve.model.SpecKeySuggestionDO;
 import com.lin.cms.demo.sleeve.service.ISpecKeyService;
-import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -36,7 +32,7 @@ public class SpecKeyController {
     @Autowired
     private ISpecKeyService specKeyService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "规格名", auth = "创建规格名", mount = true)
     @GroupRequired
     public Result create(@RequestBody @Validated SpecKeyCreateOrUpdateDTO dto) {
@@ -85,9 +81,6 @@ public class SpecKeyController {
                                     @RequestParam(name = "page", required = false, defaultValue = "0")
                                     @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         PageResult<SpecKey> pageResult = specKeyService.getSpecKeyByPage(count, page);
-        if (pageResult.getTotalNums() == 0) {
-            throw new NotFound("未找到相关的规格键");
-        }
         return pageResult;
     }
 

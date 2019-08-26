@@ -6,7 +6,6 @@ import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.dto.CouponCreateOrUpdateDTO;
-import com.lin.cms.demo.sleeve.model.CategorySuggestionDO;
 import com.lin.cms.demo.sleeve.model.Coupon;
 import com.lin.cms.demo.sleeve.model.CouponTemplate;
 import com.lin.cms.demo.sleeve.model.SuggestionDO;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
@@ -34,10 +32,10 @@ public class CouponController {
     @Autowired
     private ICouponService couponService;
 
-    @PostMapping("/")
+    @PostMapping("")
     @RouteMeta(module = "优惠卷", auth = "创建优惠卷", mount = true)
     @GroupRequired
-    public Result create(@RequestBody @Valid CouponCreateOrUpdateDTO dto) {
+    public Result create(@RequestBody @Validated CouponCreateOrUpdateDTO dto) {
         couponService.createCoupon(dto);
         return ResultGenerator.genSuccessResult("创建优惠卷成功！");
     }
@@ -45,7 +43,7 @@ public class CouponController {
     @PutMapping("/{id}")
     @RouteMeta(module = "优惠卷", auth = "更新优惠卷", mount = true)
     @GroupRequired
-    public Result update(@RequestBody @Valid CouponCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
+    public Result update(@RequestBody @Validated CouponCreateOrUpdateDTO dto, @PathVariable @Positive(message = "id必须为正整数") Long id) {
         couponService.updateCoupon(dto, id);
         return ResultGenerator.genSuccessResult("更新优惠卷成功！");
     }
@@ -73,18 +71,12 @@ public class CouponController {
                                    @RequestParam(name = "page", required = false, defaultValue = "0")
                                    @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         PageResult<Coupon> pageResult = couponService.getCouponByPage(count, page);
-        if (pageResult.getTotalNums() == 0) {
-            throw new NotFound("未找到相关的优惠卷");
-        }
         return pageResult;
     }
 
     @GetMapping("/templates")
     public List<CouponTemplate> templates() {
         List<CouponTemplate> templates = couponService.getTemplates();
-        if (templates == null || templates.size() == 0) {
-            throw new NotFound("未找到优惠卷模板");
-        }
         return templates;
     }
 

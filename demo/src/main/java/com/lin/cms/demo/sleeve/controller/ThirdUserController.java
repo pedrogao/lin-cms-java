@@ -43,13 +43,10 @@ public class ThirdUserController {
 
     @GetMapping("/page")
     public PageResult<ThirdUser> page(@RequestParam(name = "count", required = false, defaultValue = "10")
-                                   @Min(value = 1, message = "count必须为正整数") Long count,
-                                   @RequestParam(name = "page", required = false, defaultValue = "0")
-                                   @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
+                                      @Min(value = 1, message = "count必须为正整数") Long count,
+                                      @RequestParam(name = "page", required = false, defaultValue = "0")
+                                      @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         PageResult<ThirdUser> pageResult = thirdUserService.getUserByPage(count, page);
-        if (pageResult.getTotalNums() == 0) {
-            throw new NotFound("未找到相关的用户");
-        }
         return pageResult;
     }
 }

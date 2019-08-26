@@ -14,7 +14,7 @@ import java.util.Map;
 @RequestMapping("/cms/test")
 public class TestController {
 
-    @RequestMapping("/")
+    @RequestMapping("")
     public String index() {
         return "<style type=\"text/css\">*{ padding: 0; margin: 0; } div{ padding: 4px 48px;} a{color:#2E5CD5;cursor:" +
                 "pointer;text-decoration: none} a:hover{text-decoration:underline; } body{ background: #fff; font-family:" +
@@ -38,7 +38,7 @@ public class TestController {
     @GroupRequired
     public Map getTestInfo() {
         Map res = new HashMap();
-        res.put("msg", "Lin 是一套基于 Python-Flask 的一整套开箱即用的后台管理系统（CMS）。Lin 遵循简洁、高效的原则，通过核心库加插件的方式来驱动整个系统高效的运行");
+        res.put("msg", "Lin 是一套基于 Spring boot 的一整套开箱即用的后台管理系统（CMS）。Lin 遵循简洁、高效的原则，通过核心库加插件的方式来驱动整个系统高效的运行");
         return res;
     }
 

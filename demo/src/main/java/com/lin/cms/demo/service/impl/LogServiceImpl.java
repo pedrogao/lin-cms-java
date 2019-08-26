@@ -25,14 +25,14 @@ public class LogServiceImpl implements LogService {
     public PageResult getLogs(Long page, Long count, String name, Date start, Date end) {
         Page<LogDO> pager = new Page<>(page, count);
         IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(pager, name, start, end);
-        return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords());
+        return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
     @Override
     public PageResult searchLogs(Long page, Long count, String name, String keyword, Date start, Date end) {
         Page<LogDO> pager = new Page<>(page, count);
         IPage<LogDO> iPage = logMapper.searchLogsByUsernameAndKeywordAndRange(pager, name, keyword, start, end);
-        return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords());
+        return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
     @Override

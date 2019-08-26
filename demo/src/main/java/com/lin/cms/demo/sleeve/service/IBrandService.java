@@ -9,10 +9,6 @@ import com.lin.cms.demo.sleeve.model.BrandSuggestionDO;
 import java.util.List;
 
 /**
- * <p>
- *  服务类
- * </p>
- *
  * @author pedro
  * @since 2019-07-23
  */

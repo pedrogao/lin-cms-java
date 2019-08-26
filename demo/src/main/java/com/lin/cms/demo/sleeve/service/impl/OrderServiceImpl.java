@@ -12,10 +12,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * <p>
- * 服务实现类
- * </p>
- *
  * @author pedro
  * @since 2019-07-23
  */
@@ -25,9 +21,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Override
     public PageResult<Order> getOrderByPage(Long count, Long page) {
         Page pager = new Page(page, count);
-        // IPage<Order> iPage = this.getBaseMapper().selectPage(pager, null);
         IPage<Order> iPage = this.getBaseMapper().getOrderByPage(pager);
         List<Order> categories = iPage.getRecords();
-        return PageResult.genPageResult(iPage.getTotal(), categories);
+        return PageResult.genPageResult(iPage.getTotal(), categories, page, count);
     }
 }
