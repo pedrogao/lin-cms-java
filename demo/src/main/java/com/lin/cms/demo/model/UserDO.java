@@ -10,10 +10,12 @@ import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.lin.cms.core.enums.UserActive;
 import com.lin.cms.core.enums.UserAdmin;
+import lombok.Data;
 
 import java.util.Date;
 
 @TableName("lin_user")
+@Data
 public class UserDO {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
@@ -51,164 +53,6 @@ public class UserDO {
 
     public boolean checkActive() {
         return this.active.intValue() == UserActive.ACTIVE.getValue();
-    }
-
-    /**
-     * @return id
-     */
-    public Long getId() {
-        return id;
-    }
-
-    /**
-     * @param id
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    /**
-     * @return nickname
-     */
-    public String getNickname() {
-        return nickname;
-    }
-
-    /**
-     * @param nickname
-     */
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
-    /**
-     * 获取头像url
-     *
-     * @return avatar - 头像url
-     */
-    public String getAvatar() {
-        return avatar;
-    }
-
-    /**
-     * 设置头像url
-     *
-     * @param avatar 头像url
-     */
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    /**
-     * @return admin
-     */
-    public Byte getAdmin() {
-        return admin;
-    }
-
-    /**
-     * @param admin
-     */
-    public void setAdmin(Byte admin) {
-        this.admin = admin;
-    }
-
-    /**
-     * @return active
-     */
-    public Byte getActive() {
-        return active;
-    }
-
-    /**
-     * @param active
-     */
-    public void setActive(Byte active) {
-        this.active = active;
-    }
-
-    /**
-     * @return email
-     */
-    public String getEmail() {
-        return email;
-    }
-
-    /**
-     * @param email
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    /**
-     * @return group_id
-     */
-    public Long getGroupId() {
-        return groupId;
-    }
-
-    /**
-     * @param groupId
-     */
-    public void setGroupId(Long groupId) {
-        this.groupId = groupId;
-    }
-
-    /**
-     * @return password
-     */
-    public String getPassword() {
-        return password;
-    }
-
-    /**
-     * @param password
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * @return create_time
-     */
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    /**
-     * @param createTime
-     */
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    /**
-     * @return update_time
-     */
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    /**
-     * @param updateTime
-     */
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    /**
-     * @return delete_time
-     */
-    public Date getDeleteTime() {
-        return deleteTime;
-    }
-
-    /**
-     * @param deleteTime
-     */
-    public void setDeleteTime(Date deleteTime) {
-        this.deleteTime = deleteTime;
     }
 
     /**

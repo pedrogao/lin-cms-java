@@ -5,7 +5,6 @@ import com.lin.cms.demo.model.FileDO;
 import com.lin.cms.demo.bo.UploadFileBO;
 import com.lin.cms.exception.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.exec.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -123,7 +121,6 @@ public class LocalUploader implements Uploader {
                         record.setSize(bytes.length);
                         // type = 1 时 为本地，= 2 时 为remote
                         record.setType((byte) 2);
-                        // https://gitee.com/gaopedro/shop-static/raw/master/5200dacb-f594-4c4b-b665-022a787d29f1.jpg
                         record.setPath(remotePrefix + newFilename);
                         record.setExtension(ext);
                         fileMapper.insert(record);
@@ -133,8 +130,6 @@ public class LocalUploader implements Uploader {
                 }
             }
         }
-        // 上传到码云
-        uploadToGitee();
         return res;
     }
 
@@ -237,21 +232,6 @@ public class LocalUploader implements Uploader {
     private String getServerDir() {
         String serverDir = this.domain + this.dir;
         return serverDir;
-    }
-
-    private void uploadToGitee() {
-        // 生产环境下才可使用
-        // /root/digital/upload.sh
-        if (profile.equals("prod")) {
-            try {
-                CommandLine cmdLine = new CommandLine("/root/digital/upload.sh");
-                Executor executor = new DefaultExecutor();
-                executor.execute(cmdLine);
-            } catch (IOException e) {
-                log.info("执行git文件上传失败");
-                log.info("msg: {}", e.getMessage());
-            }
-        }
     }
 
     public String getAbsDir() {

@@ -4,7 +4,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.List;
 
-public class LongListValidator implements ConstraintValidator<ListIntPositive, List<Long>> {
+public class LongListValidator implements ConstraintValidator<LongList, List<Long>> {
 
     private int min;
 
@@ -13,7 +13,7 @@ public class LongListValidator implements ConstraintValidator<ListIntPositive, L
     private boolean allowBlank;
 
     @Override
-    public void initialize(ListIntPositive constraintAnnotation) {
+    public void initialize(LongList constraintAnnotation) {
         this.max = constraintAnnotation.max();
         this.min = constraintAnnotation.min();
         this.allowBlank = constraintAnnotation.allowBlank();

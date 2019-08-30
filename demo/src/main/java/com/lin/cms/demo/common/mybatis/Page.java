@@ -12,6 +12,7 @@ import java.util.function.Predicate;
 
 /**
  * 简单分页模型
+ * mybatis-plus的默认分页实现，起始页都是1，为了与其它端保持一致，故重写了Page，起始页从 0 开始
  *
  * @author hubin
  * @since 2018-06-09

@@ -3,7 +3,6 @@ package com.lin.cms.demo.model;
 import lombok.Getter;
 import lombok.Setter;
 
-// setter getter
 @Setter
 @Getter
 public class GroupAndAuthDO {

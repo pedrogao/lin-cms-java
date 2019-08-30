@@ -189,8 +189,6 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             return false;
         }
         String scope = claims.get("scope").asString();
-
-
         Integer identity = claims.get("identity").asInt();
         String type = claims.get("type").asString();
         // 先判断scope，scope不对直接false

@@ -12,6 +12,9 @@ import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.util.Properties;
 
+/**
+ * mybatis-plus 的逻辑删除，目前不支持 date 类型，因此通过全局的Sql注入来支持逻辑删除(软删除)
+ */
 @Intercepts({@Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class, Integer.class})})
 @Slf4j
 public class LogicInterceptor implements Interceptor {
@@ -22,8 +25,8 @@ public class LogicInterceptor implements Interceptor {
         BoundSql boundSql = (BoundSql) metaObject.getValue("delegate.boundSql");
         //获取到原始sql语句
         String sql = boundSql.getSql();
-        if (sql.contains("delete_time=NULL")){
-            String mSql = sql.replace("delete_time=NULL","delete_time is NULL");
+        if (sql.contains("delete_time=NULL")) {
+            String mSql = sql.replace("delete_time=NULL", "delete_time is NULL");
             //通过反射修改sql语句
             Field field = boundSql.getClass().getDeclaredField("sql");
             field.setAccessible(true);
