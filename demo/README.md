@@ -78,8 +78,7 @@ SPU、SKU、规格的联动展示与管理
 
 待补充。。。
 
+将开源的page返回改下
 
-
-
-
+page,count,items,total
 
