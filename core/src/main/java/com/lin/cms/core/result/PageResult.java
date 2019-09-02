@@ -4,17 +4,17 @@ import java.util.List;
 
 public class PageResult<T> {
 
-    private long totalNums;
+    private long total;
 
-    private List<T> collection;
+    private List<T> items;
 
     private long page;
 
     private long count;
 
-    public PageResult(long totalNums, List<T> collection, long page, long count) {
-        this.totalNums = totalNums;
-        this.collection = collection;
+    public PageResult(long total, List<T> items, long page, long count) {
+        this.total = total;
+        this.items = items;
         this.page = page;
         this.count = count;
     }
@@ -22,24 +22,8 @@ public class PageResult<T> {
     public PageResult() {
     }
 
-    public static PageResult genPageResult(long totalNums, List collection, long page, long count) {
-        return new PageResult(totalNums, collection, page, count);
-    }
-
-    public long getTotalNums() {
-        return totalNums;
-    }
-
-    public void setTotalNums(long totalNums) {
-        this.totalNums = totalNums;
-    }
-
-    public List<T> getCollection() {
-        return collection;
-    }
-
-    public void setCollection(List<T> collection) {
-        this.collection = collection;
+    public static PageResult genPageResult(long total, List items, long page, long count) {
+        return new PageResult(total, items, page, count);
     }
 
     public long getPage() {
@@ -56,5 +40,21 @@ public class PageResult<T> {
 
     public void setCount(long count) {
         this.count = count;
+    }
+
+    public long getTotal() {
+        return total;
+    }
+
+    public void setTotal(long total) {
+        this.total = total;
+    }
+
+    public List<T> getItems() {
+        return items;
+    }
+
+    public void setItems(List<T> items) {
+        this.items = items;
     }
 }

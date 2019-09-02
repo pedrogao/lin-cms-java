@@ -78,10 +78,10 @@ public class AdminServiceImplTest {
         this.userId = userDO.getId();
 
         PageResult users = adminService.getUsers(100L, 10L, 0L);
-        assertTrue(users.getTotalNums() == 1);
+        assertTrue(users.getCount() == 1);
 
         PageResult users1 = adminService.getUsers(null, 10L, 0L);
-        assertTrue(users1.getTotalNums() == 1);
+        assertTrue(users1.getCount() == 1);
     }
 
     @Test
@@ -149,7 +149,7 @@ public class AdminServiceImplTest {
 
         PageResult groups = adminService.getGroups(0L, 10L);
 
-        assertTrue(groups.getTotalNums() > 0);
+        assertTrue(groups.getCount() > 0);
     }
 
     @Test

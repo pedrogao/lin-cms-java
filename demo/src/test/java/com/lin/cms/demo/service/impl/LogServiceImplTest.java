@@ -51,7 +51,7 @@ public class LogServiceImplTest {
         logService.createOneLog(message, authority, userId, userName, method, path, status);
 
         PageResult logs = logService.getLogs(0L, 10L, null, null, null);
-        assertTrue(logs.getTotalNums() > 0);
+        assertTrue(logs.getCount() > 0);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class LogServiceImplTest {
         logService.createOneLog(message, authority, userId, userName, method, path, status);
 
         PageResult logs = logService.searchLogs(0L, 10L, null, "put", null, null);
-        assertTrue(logs.getTotalNums() > 0);
+        assertTrue(logs.getCount() > 0);
     }
 
     @Test

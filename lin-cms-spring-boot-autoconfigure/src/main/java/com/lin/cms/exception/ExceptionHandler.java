@@ -35,7 +35,7 @@ import java.util.Map;
 public class ExceptionHandler implements HandlerExceptionResolver {
 
 
-    @Value("${spring.servlet.multipart.max-file-size}")
+    @Value("${spring.servlet.multipart.max-file-size:20M}")
     private String maxFileSize;
 
     @Autowired
@@ -44,7 +44,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
     @Autowired
     private LinCmsProperties linCmsProperties;
 
-    @Value("${spring.profiles.active}")
+    @Value("${spring.profiles.active:dev}")
     private String env;
 
     @Override
@@ -154,7 +154,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             message = e.getMessage();
         }
         log.error(message, e);
-        if (env.equals("dev")) {
+        if (env != null && env.equals("dev")) {
             result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .setErrorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode())
                     .setUrl(request.getServletPath())

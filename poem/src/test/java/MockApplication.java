@@ -1,15 +1,15 @@
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
-import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * application.properties
  */
 
-@SuppressWarnings("ALL")
-@SpringBootApplication(scanBasePackages = {"com.lin.cms.plugins", "auth"})
+@SuppressWarnings("SpringBootApplicationSetup")
+@SpringBootApplication(scanBasePackages = {"com.lin.cms.plugins.poem", "auth"})
 @MapperScan(basePackages = {"com.lin.cms.plugins.poem.app"})
 @PropertySources({
         @PropertySource("classpath:com/lin/cms/plugins/poem/plugin.properties")

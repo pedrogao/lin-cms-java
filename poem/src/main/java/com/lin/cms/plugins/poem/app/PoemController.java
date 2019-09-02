@@ -1,6 +1,7 @@
 package com.lin.cms.plugins.poem.app;
 
-import com.github.pagehelper.PageHelper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lin.cms.core.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,16 +24,16 @@ public class PoemController {
 
     @GetMapping
     public PageResult index() {
-        PageHelper.startPage(1, limit);
-        List<PoemDO> poems = poemMapper.selectAll();
-        return PageResult.genPageResult(limit, poems);
+        long pageNum = 1L;
+        Page<PoemDO> pager = new Page<>(pageNum, limit);
+        IPage<PoemDO> page = poemMapper.selectPage(pager, null);
+        return PageResult.genPageResult(page.getTotal(), page.getRecords(), pageNum, limit);
     }
 
     @GetMapping("/search")
     public PageResult count(@RequestParam("author") String author) {
         // 纳兰性德
         List<PoemDO> poems = poemMapper.findPoemsByAuthor(author);
-        // Integer count = poemMapper.getCount();
-        return PageResult.genPageResult(2, poems);
+        return PageResult.genPageResult(2, poems, 0, 2);
     }
 }
