@@ -89,7 +89,7 @@ public class AdminControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.total_nums").isNumber()
+                        jsonPath("$.total").isNumber()
                 );
     }
 
@@ -175,7 +175,7 @@ public class AdminControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.total_nums").isNotEmpty()
+                        jsonPath("$.total").isNotEmpty()
                 );
     }
 

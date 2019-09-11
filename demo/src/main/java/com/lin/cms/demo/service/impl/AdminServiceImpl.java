@@ -45,8 +45,8 @@ public class AdminServiceImpl implements AdminService {
         Page pager = new Page(page, count);
         IPage<UserAndGroupNameDO> iPage = userMapper.findUsersAndGroupName(pager, groupId);
         List<UserAndGroupNameDO> usersAndGroupName = iPage.getRecords();
-        Integer totalNums = userMapper.getCommonUsersCount(groupId);
-        return PageResult.genPageResult(totalNums, usersAndGroupName, page, count);
+        Integer total = userMapper.getCommonUsersCount(groupId);
+        return PageResult.genPageResult(total, usersAndGroupName, page, count);
     }
 
     @Override
