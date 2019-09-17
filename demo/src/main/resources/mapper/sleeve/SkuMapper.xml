@@ -7,7 +7,7 @@
         <id column="id" property="id"/>
         <result column="price" property="price"/>
         <result column="discount" property="discount"/>
-        <result column="on_sale" property="onSale"/>
+        <result column="online" property="online"/>
         <result column="img" property="img"/>
         <result column="title" property="title"/>
         <result column="spu_id" property="spuId"/>
@@ -16,8 +16,10 @@
         <result column="delete_time" property="deleteTime"/>
         <result column="specs" property="specs"/>
         <result column="code" property="code"/>
-        <result column="currency" property="currency"/>
+        <!--        <result column="currency" property="currency"/>-->
         <result column="stock" property="stock"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="root_category_id" property="rootCategoryId"/>
     </resultMap>
 
     <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.SuggestionDO">
@@ -38,13 +40,12 @@
     <select id="getWithName" resultType="com.lin.cms.demo.sleeve.model.SkuWithNameDO">
         select s.id,
         s.price,
-        s.discount,
-        s.on_sale,
+        s.discount_price,
+        s.online,
         s.img,
         s.title,
         s.spu_id,
         s.code,
-        s.currency,
         s.stock,
         s.specs,
         p.title spu_name

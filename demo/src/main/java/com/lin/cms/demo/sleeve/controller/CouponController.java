@@ -80,6 +80,14 @@ public class CouponController {
         return templates;
     }
 
+
+    @GetMapping("/list")
+    public List<Coupon> getListByActivityId(@RequestParam(name = "id")
+                                         @Min(value = 1, message = "id必须为正整数") Long id) {
+        List<Coupon> coupons = couponService.getListByActivityId(id);
+        return coupons;
+    }
+
     @GetMapping("/suggestion")
     public List<SuggestionDO> suggest(@RequestParam(name = "id", required = false)
                                       @Min(value = 1, message = "id必须为正整数") Long id) {

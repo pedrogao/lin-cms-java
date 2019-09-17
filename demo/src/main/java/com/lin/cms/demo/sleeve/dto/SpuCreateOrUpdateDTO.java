@@ -38,17 +38,17 @@ public class SpuCreateOrUpdateDTO {
     private Long categoryId;
 
     @Enum(target = SaleOrNot.class, allowNull = true, message = "是否出售必须在0，1中选择")
-    private Integer onSale;
+    private Integer online;
 
     @Enum(target = SaleOrNot.class, allowNull = true, message = "是否测试必须在0，1中选择")
     private Integer isTest;
 
-    @Positive(message = "品牌id必须为正整数")
-    @NotNull(message = "品牌id不可为空")
-    private Long brandId;
+    //@Positive(message = "品牌id必须为正整数")
+    //@NotNull(message = "品牌id不可为空")
+    //private Long brandId;
 
-    @Positive(message = "默认规格键id必须为正整数")
-    @NotNull(message = "默认规格键id不可为空")
+    @Positive(message = "可是规格id必须为正整数")
+    // @NotNull(message = "默认规格键id不可为空")
     private Long sketchSpecId;
 
     @Positive(message = "默认 sku id 必须为正整数")

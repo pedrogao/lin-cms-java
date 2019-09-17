@@ -22,7 +22,7 @@ public class CouponTemplate implements Serializable {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    private String name;
+    private String title;
 
     private String description;
 

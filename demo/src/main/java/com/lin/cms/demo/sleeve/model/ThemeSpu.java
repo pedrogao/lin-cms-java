@@ -21,5 +21,4 @@ public class ThemeSpu implements Serializable {
     private Long themeId;
 
     private Long spuId;
-
 }

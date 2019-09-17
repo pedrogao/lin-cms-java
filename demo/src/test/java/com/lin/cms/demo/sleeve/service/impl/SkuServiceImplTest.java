@@ -62,11 +62,11 @@ public class SkuServiceImplTest {
         //
         dto.setTitle(title);
         dto.setImg(img);
-        dto.setDiscount(discount);
-        dto.setOnSale(onSale);
+        dto.setDiscountPrice(discount);
+        dto.setOnline(onSale);
         dto.setSpuId(spuId);
         dto.setPrice(price);
-        dto.setCurrency(currency);
+        // dto.setCurrency(currency);
         dto.setStock(stock);
         dto.setSelectors(selectors);
         //

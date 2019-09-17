@@ -17,6 +17,8 @@ public class BannerAndItems {
 
     private String name;
 
+    private String title;
+
     private String img;
 
     private String description;

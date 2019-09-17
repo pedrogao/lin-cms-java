@@ -8,10 +8,17 @@
         <result column="img" property="img"/>
         <result column="spu_id" property="spuId"/>
         <result column="index" property="index"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="create_time" property="createTime"/>
     </resultMap>
 
 
     <select id="getImgsBySpuId" resultType="java.lang.String">
         select s.img from spu_detail_img s where s.spu_id = #{spuId} order by s.`index`;
     </select>
+
+    <delete id="hardDeleteImgsBySpuId">
+        delete from spu_detail_img where spu_detail_img.`spu_id` = #{spuId}
+    </delete>
 </mapper>

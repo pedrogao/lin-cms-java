@@ -25,7 +25,7 @@ public class BannerItem implements Serializable {
 
     private String img;
 
-    private String keyWord;
+    private String keyword;
 
     private Integer type;
 

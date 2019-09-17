@@ -26,4 +26,6 @@ public interface ICouponService extends IService<Coupon> {
     List<CouponTemplate> getTemplates();
 
     List<SuggestionDO> getSuggestions(Long id);
+
+    List<Coupon> getListByActivityId(Long id);
 }

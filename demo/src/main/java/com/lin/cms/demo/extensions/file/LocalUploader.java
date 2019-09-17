@@ -50,7 +50,8 @@ public class LocalUploader implements Uploader {
     @Value("${spring.profiles.active}")
     private String profile;
 
-    private String remotePrefix = "https://gitee.com/gaopedro/shop-static/raw/master/";
+    // https://talelin.coding.net/p/sleeve/git/raw/master/jiazi1/sp4.png
+    private String remotePrefix = "https://talelin.coding.net/p/sleeve/git/raw/master/assets/";
 
     private long slBytes = 0;
 
@@ -133,8 +134,8 @@ public class LocalUploader implements Uploader {
                 }
             }
         }
-        // 上传到码云
-        uploadToGitee();
+        // 上传到coding
+        uploadToCoding();
         return res;
     }
 
@@ -239,7 +240,7 @@ public class LocalUploader implements Uploader {
         return serverDir;
     }
 
-    private void uploadToGitee() {
+    private void uploadToCoding() {
         // 生产环境下才可使用
         // /root/digital/upload.sh
         if (profile.equals("prod")) {

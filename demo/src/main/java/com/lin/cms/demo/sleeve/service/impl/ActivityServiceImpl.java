@@ -1,18 +1,15 @@
 package com.lin.cms.demo.sleeve.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.sleeve.dto.ActivityCreateOrUpdateDTO;
-import com.lin.cms.demo.sleeve.mapper.ActivityCategoryMapper;
-import com.lin.cms.demo.sleeve.mapper.ActivityCouponMapper;
 import com.lin.cms.demo.sleeve.mapper.ActivityMapper;
+import com.lin.cms.demo.sleeve.mapper.CouponMapper;
 import com.lin.cms.demo.sleeve.model.Activity;
-import com.lin.cms.demo.sleeve.model.ActivityCategory;
-import com.lin.cms.demo.sleeve.model.ActivityCoupon;
 import com.lin.cms.demo.sleeve.model.ActivityDetailDO;
+import com.lin.cms.demo.sleeve.model.Coupon;
 import com.lin.cms.demo.sleeve.service.IActivityService;
 import com.lin.cms.exception.NotFound;
 import org.springframework.beans.BeanUtils;
@@ -31,10 +28,7 @@ import java.util.List;
 public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> implements IActivityService {
 
     @Autowired
-    private ActivityCategoryMapper activityCategoryMapper;
-
-    @Autowired
-    private ActivityCouponMapper activityCouponMapper;
+    private CouponMapper couponMapper;
 
     @Transactional
     @Override
@@ -43,18 +37,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         BeanUtils.copyProperties(dto, activity);
         this.save(activity);
         // 关联category和coupon
-        dto.getCategoryIds().forEach(categoryId -> {
-            ActivityCategory activityCategory = new ActivityCategory();
-            activityCategory.setActivityId(activity.getId());
-            activityCategory.setCategoryId(categoryId);
-            activityCategoryMapper.insert(activityCategory);
-        });
 
         dto.getCouponIds().forEach(couponId -> {
-            ActivityCoupon activityCoupon = new ActivityCoupon();
-            activityCoupon.setActivityId(activity.getId());
-            activityCoupon.setCouponId(couponId);
-            activityCouponMapper.insert(activityCoupon);
         });
     }
 
@@ -67,12 +51,6 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         }
         // 找到要删除的，找到保留的
         if (dto.getCouponIds() != null) {
-            List<Long> couponIds = activityCouponMapper.getCouponIds(id);
-            updateActivityCoupon(dto.getCouponIds(), couponIds, id);
-        }
-        if (dto.getCategoryIds() != null) {
-            List<Long> categoryIds = activityCategoryMapper.getCategoryIds(id);
-            updateActivityCategory(dto.getCategoryIds(), categoryIds, id);
         }
         BeanUtils.copyProperties(dto, exist);
         this.updateById(exist);
@@ -101,12 +79,10 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         if (exist == null) {
             throw new NotFound("未找到相关的活动");
         }
+        List<Long> coupons = couponMapper.getCouponsByActivityId(id);
         ActivityDetailDO activityDetail = new ActivityDetailDO();
+        activityDetail.setCouponIds(coupons);
         BeanUtils.copyProperties(exist, activityDetail);
-        List<Long> couponIds = activityCouponMapper.getCouponIds(id);
-        activityDetail.setCouponIds(couponIds);
-        List<Long> categoryIds = activityCategoryMapper.getCategoryIds(id);
-        activityDetail.setCategoryIds(categoryIds);
         return activityDetail;
     }
 
@@ -114,16 +90,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         List<Long> add = findAdd(newCategoryIds, oldCategoryIds);
         List<Long> del = findDel(newCategoryIds, oldCategoryIds);
         add.forEach(it -> {
-            ActivityCategory activityCategory = new ActivityCategory();
-            activityCategory.setActivityId(activityId);
-            activityCategory.setCategoryId(it);
-            activityCategoryMapper.insert(activityCategory);
         });
         del.forEach(it -> {
-            QueryWrapper<ActivityCategory> wrapper = new QueryWrapper<>();
-            wrapper.lambda().eq(ActivityCategory::getActivityId, activityId);
-            wrapper.lambda().eq(ActivityCategory::getCategoryId, it);
-            activityCategoryMapper.delete(wrapper);
         });
     }
 
@@ -132,16 +100,8 @@ public class ActivityServiceImpl extends ServiceImpl<ActivityMapper, Activity> i
         List<Long> add = findAdd(newCouponIds, oldCouponIds);
         List<Long> del = findDel(newCouponIds, oldCouponIds);
         add.forEach(it -> {
-            ActivityCoupon activityCoupon = new ActivityCoupon();
-            activityCoupon.setActivityId(activityId);
-            activityCoupon.setCouponId(it);
-            activityCouponMapper.insert(activityCoupon);
         });
         del.forEach(it -> {
-            QueryWrapper<ActivityCoupon> wrapper = new QueryWrapper<>();
-            wrapper.lambda().eq(ActivityCoupon::getActivityId, activityId);
-            wrapper.lambda().eq(ActivityCoupon::getCouponId, it);
-            activityCouponMapper.delete(wrapper);
         });
     }
 

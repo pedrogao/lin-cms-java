@@ -11,9 +11,9 @@ public class SkuWithNameDO {
 
     private BigDecimal price;
 
-    private BigDecimal discount;
+    private BigDecimal discountPrice;
 
-    private Integer onSale;
+    private Integer online;
 
     private String img;
 

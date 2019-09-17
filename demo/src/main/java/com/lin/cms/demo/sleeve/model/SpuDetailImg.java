@@ -1,11 +1,14 @@
 package com.lin.cms.demo.sleeve.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author pedro
@@ -25,4 +28,14 @@ public class SpuDetailImg implements Serializable {
 
     @TableField(value = "`index`")
     private Integer index;
+
+    @JSONField(serialize = false)
+    private Date createTime;
+
+    @JSONField(serialize = false)
+    private Date updateTime;
+
+    @JSONField(serialize = false)
+    @TableLogic
+    private Date deleteTime;
 }

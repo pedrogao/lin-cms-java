@@ -5,10 +5,6 @@ import com.lin.cms.demo.sleeve.dto.BannerItemCreateOrUpdateDTO;
 import com.lin.cms.demo.sleeve.model.BannerItem;
 
 /**
- * <p>
- *  服务类
- * </p>
- *
  * @author pedro
  * @since 2019-07-23
  */

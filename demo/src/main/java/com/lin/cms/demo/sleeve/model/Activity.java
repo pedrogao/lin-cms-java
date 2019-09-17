@@ -48,6 +48,4 @@ public class Activity implements Serializable {
     private String internalTopImg;
 
     private String name;
-
-    private Long activityCoverId;
 }

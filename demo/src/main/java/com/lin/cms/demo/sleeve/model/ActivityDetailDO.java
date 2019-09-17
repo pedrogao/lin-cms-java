@@ -28,9 +28,7 @@ public class ActivityDetailDO {
 
     private String name;
 
-    private Long activityCoverId;
-
     private List<Long> couponIds;
 
-    private List<Long> categoryIds;
+    // private List<Long> categoryIds;
 }

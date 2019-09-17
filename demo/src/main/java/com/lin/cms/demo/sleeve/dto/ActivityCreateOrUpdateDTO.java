@@ -43,9 +43,9 @@ public class ActivityCreateOrUpdateDTO {
     @Enum(allowNull = false, target = OnlineOrNot.class, message = "上线值必须为0,1中的一种")
     private Integer online;
 
-    @Positive(message = "活动页id必须为正整数")
-    @NotNull(message = "活动页不可为空")
-    private Long activityCoverId;
+    //@Positive(message = "活动页id必须为正整数")
+    //@NotNull(message = "活动页不可为空")
+    //private Long activityCoverId;
 
     @NotBlank(message = "入口图url不可为空")
     @Length(min = 1, max = 255, allowBlank = true, message = "入口图url长度不能超过255字符")
@@ -56,8 +56,8 @@ public class ActivityCreateOrUpdateDTO {
     private String internalTopImg;
 
 
-    @ListIntPositive(min = 1, allowBlank = true, message = "分类id列表每一项必须为正整数")
-    private List<Long> categoryIds;
+    //@ListIntPositive(min = 1, allowBlank = true, message = "分类id列表每一项必须为正整数")
+    //private List<Long> categoryIds;
 
     @ListIntPositive(min = 1, allowBlank = true, message = "优惠卷id列表每一项必须为正整数")
     private List<Long> couponIds;

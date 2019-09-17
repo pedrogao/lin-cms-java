@@ -10,7 +10,6 @@
         <result column="delete_time" property="deleteTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="create_time" property="createTime"/>
-        <result column="theme_id" property="themeId"/>
     </resultMap>
 
     <delete id="hardDeleteImgsBySpuId">

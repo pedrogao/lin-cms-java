@@ -34,7 +34,4 @@ public class SpuImg implements Serializable {
 
     @JSONField(serialize = false)
     private Date createTime;
-
-    private Long themeId;
-
 }

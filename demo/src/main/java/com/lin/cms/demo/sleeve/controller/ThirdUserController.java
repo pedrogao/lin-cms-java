@@ -4,6 +4,7 @@ package com.lin.cms.demo.sleeve.controller;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.sleeve.model.ThirdUser;
+import com.lin.cms.demo.sleeve.model.ThirdUserParsedDO;
 import com.lin.cms.demo.sleeve.service.IThirdUserService;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.utils.ResultGenerator;
@@ -33,11 +34,8 @@ public class ThirdUserController {
     }
 
     @GetMapping("/{id}")
-    public ThirdUser get(@PathVariable @Positive(message = "id必须为正整数") Long id) {
-        ThirdUser user = thirdUserService.getById(id);
-        if (user == null) {
-            throw new NotFound("未找到相关的用户");
-        }
+    public ThirdUserParsedDO get(@PathVariable @Positive(message = "id必须为正整数") Long id) {
+        ThirdUserParsedDO user = thirdUserService.getParsedUserById(id);
         return user;
     }
 

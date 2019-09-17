@@ -30,6 +30,6 @@ public class BannerItemCreateOrUpdateDTO {
     private Long bannerId;
 
     @Length(min = 1, max = 50, allowBlank = true, message = "关键字长度不能超过50字符")
-    private String keyWord;
+    private String keyword;
 
 }

@@ -10,6 +10,8 @@ import lombok.Setter;
 
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -20,6 +22,10 @@ public class CouponCreateOrUpdateDTO {
     @NotBlank(message = "优惠卷标题不可为空")
     @Length(min = 1, max = 100, allowBlank = true, message = "优惠卷标题长度不能超过255字符")
     private String title;
+
+    @Positive(message = "活动id必须为正整数")
+    @NotNull(message = "活动id不可为空")
+    private Long activityId;
 
     @DateTime(allowNull = false, message = "开始时间不可为空，且格式必须为 yyyy-MM-dd HH:mm:ss")
     private Date startTime;

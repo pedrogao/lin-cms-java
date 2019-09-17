@@ -1,5 +1,6 @@
 package com.lin.cms.demo.sleeve.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lin.cms.core.result.PageResult;
@@ -80,6 +81,13 @@ public class CouponServiceImpl extends ServiceImpl<CouponMapper, Coupon> impleme
     @Override
     public List<SuggestionDO> getSuggestions(Long id) {
         return this.getBaseMapper().getSuggestions(id);
+    }
+
+    @Override
+    public List<Coupon> getListByActivityId(Long id) {
+        QueryWrapper<Coupon> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(Coupon::getActivityId, id);
+        return this.getBaseMapper().selectList(wrapper);
     }
 
     /**

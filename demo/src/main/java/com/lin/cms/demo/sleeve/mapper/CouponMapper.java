@@ -14,4 +14,6 @@ import java.util.List;
 public interface CouponMapper extends BaseMapper<Coupon> {
 
     List<SuggestionDO> getSuggestions(@Param("id") Long id);
+
+    List<Long> getCouponsByActivityId(@Param("id") Long id);
 }

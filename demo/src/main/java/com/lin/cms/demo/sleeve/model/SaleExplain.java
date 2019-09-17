@@ -11,35 +11,33 @@ import java.util.Date;
 
 /**
  * @author pedro
- * @since 2019-08-09
+ * @since 2019-09-11
  */
 @Data
-public class ActivityCover implements Serializable {
+public class SaleExplain implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
+    private Integer fixed;
+
+    private String text;
+
+    private Long spuId;
+
+    private Integer index;
+
+    private Long replaceId;
+
     @JSONField(serialize = false)
     private Date createTime;
 
     @JSONField(serialize = false)
-    private Date updateTime;
-
     @TableLogic
-    @JSONField(serialize = false)
     private Date deleteTime;
 
-    private String coverImg;
-
-    private String internalTopImg;
-
-    private String name;
-
-    private String title;
-
-    private String description;
-
-    private Integer online;
+    @JSONField(serialize = false)
+    private Date updateTime;
 }

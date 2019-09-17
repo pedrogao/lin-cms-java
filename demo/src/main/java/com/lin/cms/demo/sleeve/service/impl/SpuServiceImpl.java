@@ -56,24 +56,30 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
             spu.setRootCategoryId(category.getParentId());
         }
         // 如果没有上传主图，则将banner的第一张图当作主图
-        if (dto.getImg() == null && dto.getBannerImgs().size() > 0) {
+        if (dto.getImg() == null &&
+                dto.getBannerImgs() != null &&
+                dto.getBannerImgs().size() > 0) {
             spu.setImg(dto.getBannerImgs().get(0));
         }
         this.save(spu);
         // 插入 banner_imgs,detail_imgs
-        for (int i = 0; i < dto.getBannerImgs().size(); i++) {
-            SpuImg spuImg = new SpuImg();
-            spuImg.setImg(dto.getBannerImgs().get(i));
-            spuImg.setSpuId(spu.getId());
-            // spuImg.setThemeId();
-            spuImgMapper.insert(spuImg);
+        if (dto.getBannerImgs() != null) {
+            for (int i = 0; i < dto.getBannerImgs().size(); i++) {
+                SpuImg spuImg = new SpuImg();
+                spuImg.setImg(dto.getBannerImgs().get(i));
+                spuImg.setSpuId(spu.getId());
+                // spuImg.setThemeId();
+                spuImgMapper.insert(spuImg);
+            }
         }
-        for (int i = 0; i < dto.getDetailImgs().size(); i++) {
-            SpuDetailImg spuDetailImg = new SpuDetailImg();
-            spuDetailImg.setImg(dto.getDetailImgs().get(i));
-            spuDetailImg.setSpuId(spu.getId());
-            spuDetailImg.setIndex(i + 1);
-            spuDetailImgMapper.insert(spuDetailImg);
+        if (dto.getDetailImgs() != null) {
+            for (int i = 0; i < dto.getDetailImgs().size(); i++) {
+                SpuDetailImg spuDetailImg = new SpuDetailImg();
+                spuDetailImg.setImg(dto.getDetailImgs().get(i));
+                spuDetailImg.setSpuId(spu.getId());
+                spuDetailImg.setIndex(i + 1);
+                spuDetailImgMapper.insert(spuDetailImg);
+            }
         }
         createTags(dto.getTags(), spu.getId());
         SpuKeyAddDTO spuKeyAddDTO = new SpuKeyAddDTO();
@@ -115,9 +121,10 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
             spuImgMapper.insert(spuImg);
         }
         // 删除原来的 detail_imgs
-        QueryWrapper<SpuDetailImg> delWrapper2 = new QueryWrapper<>();
-        delWrapper2.lambda().eq(SpuDetailImg::getSpuId, exist.getId());
-        spuDetailImgMapper.delete(delWrapper2);
+        // QueryWrapper<SpuDetailImg> delWrapper2 = new QueryWrapper<>();
+        // delWrapper2.lambda().eq(SpuDetailImg::getSpuId, exist.getId());
+        // spuDetailImgMapper.delete(delWrapper2);
+        spuDetailImgMapper.hardDeleteImgsBySpuId(exist.getId());
         for (int i = 0; i < dto.getDetailImgs().size(); i++) {
             SpuDetailImg spuDetailImg = new SpuDetailImg();
             spuDetailImg.setImg(dto.getDetailImgs().get(i));
@@ -250,22 +257,23 @@ public class SpuServiceImpl extends ServiceImpl<SpuMapper, Spu> implements ISpuS
                 tag.setTitle(part);
                 tagMapper.insert(tag);
 
-                SpuTag spuTag = new SpuTag();
-                spuTag.setSpuId(spuId);
-                spuTag.setTagId(tag.getId());
-                spuTagMapper.insert(spuTag);
-            } else {
-                QueryWrapper<SpuTag> spuTagWrapper = new QueryWrapper<>();
-                spuTagWrapper.lambda().eq(SpuTag::getSpuId, spuId);
-                spuTagWrapper.lambda().eq(SpuTag::getTagId, tag.getId());
-                SpuTag spuTag = spuTagMapper.selectOne(spuTagWrapper);
-                if (spuTag == null) {
-                    spuTag = new SpuTag();
-                    spuTag.setSpuId(spuId);
-                    spuTag.setTagId(tag.getId());
-                    spuTagMapper.insert(spuTag);
-                }
+                // SpuTag spuTag = new SpuTag();
+                // spuTag.setSpuId(spuId);
+                // spuTag.setTagId(tag.getId());
+                // spuTagMapper.insert(spuTag);
             }
+            //else {
+            // QueryWrapper<SpuTag> spuTagWrapper = new QueryWrapper<>();
+            // spuTagWrapper.lambda().eq(SpuTag::getSpuId, spuId);
+            // spuTagWrapper.lambda().eq(SpuTag::getTagId, tag.getId());
+            // SpuTag spuTag = spuTagMapper.selectOne(spuTagWrapper);
+            // if (spuTag == null) {
+            //     spuTag = new SpuTag();
+            //     spuTag.setSpuId(spuId);
+            //     spuTag.setTagId(tag.getId());
+            //     spuTagMapper.insert(spuTag);
+            // }
+            //}
         }
     }
 }

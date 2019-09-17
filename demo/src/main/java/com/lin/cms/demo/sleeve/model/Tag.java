@@ -28,6 +28,10 @@ public class Tag implements Serializable {
 
     private String description;
 
+    private Integer highlight;
+
+    private Integer type;
+
     @JSONField(serialize = false)
     private Date updateTime;
 

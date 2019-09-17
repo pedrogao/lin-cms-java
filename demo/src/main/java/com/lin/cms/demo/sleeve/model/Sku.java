@@ -24,9 +24,9 @@ public class Sku implements Serializable {
 
     private BigDecimal price;
 
-    private BigDecimal discount;
+    private BigDecimal discountPrice;
 
-    private Integer onSale;
+    private Integer online;
 
     private String img;
 
@@ -48,7 +48,11 @@ public class Sku implements Serializable {
 
     private String code;
 
-    private String currency;
+    // private String currency;
 
     private Integer stock;
+
+    private Long categoryId;
+
+    private Long rootCategoryId;
 }

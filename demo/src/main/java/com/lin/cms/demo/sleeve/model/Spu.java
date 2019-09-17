@@ -27,7 +27,7 @@ public class Spu implements Serializable {
 
     private Long categoryId;
 
-    private Integer onSale;
+    private Integer online;
 
     @JSONField(serialize = false)
     private Date createTime;
@@ -39,7 +39,7 @@ public class Spu implements Serializable {
     @TableLogic
     private Date deleteTime;
 
-    private Long brandId;
+    // private Long brandId;
 
     /**
      * 文本型价格，有时候SPU需要展示的是一个范围，或者自定义平均价格

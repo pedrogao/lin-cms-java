@@ -6,7 +6,7 @@
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.BannerItem">
         <id column="id" property="id" />
         <result column="img" property="img" />
-        <result column="key_word" property="keyWord" />
+        <result column="keyword" property="keyword" />
         <result column="type" property="type" />
         <result column="create_time" property="createTime" />
         <result column="update_time" property="updateTime" />

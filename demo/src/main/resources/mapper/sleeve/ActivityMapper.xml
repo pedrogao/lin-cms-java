@@ -4,20 +4,21 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.sleeve.model.Activity">
-        <id column="id" property="id" />
-        <result column="title" property="title" />
-        <result column="description" property="description" />
-        <result column="start_time" property="startTime" />
-        <result column="end_time" property="endTime" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
-        <result column="delete_time" property="deleteTime" />
-        <result column="remark" property="remark" />
-        <result column="online" property="online" />
-        <result column="entrance_img" property="entranceImg" />
-        <result column="internal_top_img" property="internalTopImg" />
-        <result column="name" property="name" />
-        <result column="activity_cover_id" property="activityCoverId" />
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="description" property="description"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
+        <result column="remark" property="remark"/>
+        <result column="online" property="online"/>
+        <result column="entrance_img" property="entranceImg"/>
+        <result column="internal_top_img" property="internalTopImg"/>
+        <result column="name" property="name"/>
+        <result column="activity_cover_id" property="activityCoverId"/>
+        <result column="whole_store" property="wholeStore"/>
     </resultMap>
 
 </mapper>

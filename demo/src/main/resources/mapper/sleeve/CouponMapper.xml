@@ -11,12 +11,15 @@
         <result column="description" property="description"/>
         <result column="full_money" property="fullMoney"/>
         <result column="minus" property="minus"/>
-        <result column="discount" property="discount"/>
+        <result column="rate" property="rate"/>
         <result column="type" property="type"/>
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
         <result column="delete_time" property="deleteTime"/>
         <result column="valitiy" property="valitiy"/>
+        <result column="activity_id" property="activityId"/>
+        <result column="remark" property="remark"/>
+        <result column="whole_store" property="wholeStore"/>
     </resultMap>
 
     <select id="getSuggestions" resultType="com.lin.cms.demo.sleeve.model.SuggestionDO">
@@ -25,6 +28,13 @@
         <if test="id != null">
             and c.id != #{id}
         </if>
+    </select>
+
+    <select id="getCouponsByActivityId" resultType="java.lang.Long">
+        select c.id
+        from coupon c
+        where c.activity_id = #{id}
+        and c.delete_time is null
     </select>
 
 </mapper>

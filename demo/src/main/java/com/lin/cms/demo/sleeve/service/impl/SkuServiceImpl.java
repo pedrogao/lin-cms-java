@@ -66,6 +66,8 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
         }
         // 2. 存储sku基础信息
         Sku sku = new Sku();
+        sku.setCategoryId(spu.getCategoryId());
+        sku.setRootCategoryId(spu.getRootCategoryId());
         this.updateSkuData(sku, dto, selectors, specs, false);
         // 3. 存储信息到关联表中，防止规格更新后查询的信息错误
         // sku_spec
@@ -175,10 +177,10 @@ public class SkuServiceImpl extends ServiceImpl<SkuMapper, Sku> implements ISkuS
     private void updateSkuData(Sku sku, SkuCreateOrUpdateDTO dto, List<SkuSelector> selectors, List<SpecKeyAndValue> specs, boolean isUpdate) {
         String code = this.generateSkuCode(selectors, dto.getSpuId());
         sku.setCode(code);
-        sku.setCurrency(dto.getCurrency());
-        sku.setDiscount(dto.getDiscount());
+        // sku.setCurrency(dto.getCurrency());
+        sku.setDiscountPrice(dto.getDiscountPrice());
         sku.setImg(dto.getImg());
-        sku.setOnSale(dto.getOnSale());
+        sku.setOnline(dto.getOnline());
         sku.setSpuId(dto.getSpuId());
         sku.setPrice(dto.getPrice());
         sku.setStock(dto.getStock());

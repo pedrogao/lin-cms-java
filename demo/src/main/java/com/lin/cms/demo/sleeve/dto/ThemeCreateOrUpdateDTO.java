@@ -39,7 +39,7 @@ public class ThemeCreateOrUpdateDTO {
     @Length(min = 1, max = 30, allowBlank = true, message = "名称长度不能超过30字符")
     private String name;
 
-    @NotBlank(message = "模版名不可为空")
+    // @NotBlank(message = "模版名不可为空")
     @Length(min = 1, max = 30, allowBlank = true, message = "名称长度不能超过30字符")
     private String tplName;
 

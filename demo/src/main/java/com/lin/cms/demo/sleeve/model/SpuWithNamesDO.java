@@ -18,9 +18,9 @@ public class SpuWithNamesDO {
 
     private String categoryName;
 
-    private Integer onSale;
+    private Integer online;
 
-    private Long brandId;
+    // private Long brandId;
 
     private String brandName;
 

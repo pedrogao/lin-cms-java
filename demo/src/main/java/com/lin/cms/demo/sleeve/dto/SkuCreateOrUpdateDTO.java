@@ -1,6 +1,5 @@
 package com.lin.cms.demo.sleeve.dto;
 
-import com.lin.cms.demo.sleeve.enums.Currency;
 import com.lin.cms.demo.sleeve.enums.SaleOrNot;
 import com.lin.cms.demo.validator.Enum;
 import lombok.Getter;
@@ -29,10 +28,10 @@ public class SkuCreateOrUpdateDTO {
     private String img;
 
     @DecimalMin(value = "0.00", message = "折扣不能为负")
-    private BigDecimal discount;
+    private BigDecimal discountPrice;
 
     @Enum(target = SaleOrNot.class, allowNull = true, message = "是否出售必须在0，1中选择")
-    private Integer onSale;
+    private Integer online;
 
     @Positive(message = "spu id 必须为正整数")
     @NotNull(message = "spu id不可为空")
@@ -42,8 +41,8 @@ public class SkuCreateOrUpdateDTO {
     @DecimalMin(value = "0.00", message = "价格不能为负")
     private BigDecimal price;
 
-    @Enum(target = Currency.class, allowNull = true, message = "货币目前必须为CNY")
-    private String currency;
+    // @Enum(target = Currency.class, allowNull = true, message = "货币目前必须为CNY")
+    // private String currency;
 
     @Positive(message = "库存必须为正整数")
     private Integer stock;

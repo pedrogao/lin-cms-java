@@ -11,17 +11,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * <p>
- *
- * </p>
- *
  * @author pedro
  * @since 2019-08-09
  */
 @Data
 public class Coupon implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
@@ -41,12 +35,23 @@ public class Coupon implements Serializable {
     /**
      * 国内多是打折，国外多是百分比 off
      */
-    private BigDecimal discount;
+    private BigDecimal rate;
 
     /**
      * 1. 满减券 2.折扣券 3.无门槛券 4.满金额折扣券
      */
     private Integer type;
+
+    private Integer valitiy;
+
+    private Long activityId;
+
+    private String remark;
+
+    /**
+     * 0 代表非，1代表是
+     */
+    private Integer wholeStore;
 
     @JSONField(serialize = false)
     private Date createTime;
@@ -57,6 +62,4 @@ public class Coupon implements Serializable {
     @TableLogic
     @JSONField(serialize = false)
     private Date deleteTime;
-
-    private Integer valitiy;
 }
