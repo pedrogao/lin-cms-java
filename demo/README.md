@@ -80,8 +80,28 @@ SPU、SKU、规格的联动展示与管理
 
 将开源的page返回改下
 
-page,count,items,total
+page,count,items,total,total_page
 
 jackson
 
 datetime(3)
+
+activity and others ....
+
+*图片丢在第二列，hover之后显示全称，文字hover，太长省略
+
+*tabbar fixed *
+
+表格层次，表格10个 - 
+
+订单状态，筛选，状态切换，UNPAID和CANCELED，已发货，已完成的改变，添加超时异常
+
+图表的颜色
+
+无折扣，第一个框禁用
+
+spu 测试
+
+refresh_token是否失效
+
+按照code.md同步异常类即可

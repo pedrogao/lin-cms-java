@@ -48,7 +48,8 @@ public class LocalUploader implements Uploader {
     @Value("${spring.profiles.active}")
     private String profile;
 
-    private String remotePrefix = "https://gitee.com/gaopedro/shop-static/raw/master/";
+    // https://talelin.coding.net/p/sleeve/git/raw/master/jiazi1/sp4.png
+    private String remotePrefix = "https://talelin.coding.net/p/sleeve/git/raw/master/assets/";
 
     private long slBytes = 0;
 

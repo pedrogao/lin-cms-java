@@ -3,8 +3,7 @@ package com.lin.cms.demo.interceptor;
 import com.auth0.jwt.exceptions.*;
 import com.auth0.jwt.interfaces.Claim;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.exception.AuthFailed;
-import com.lin.cms.exception.NotFound;
+import com.lin.cms.exception.*;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.demo.mapper.AuthMapper;
@@ -52,17 +51,17 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         try {
             claims = jwt.verifyAccess(tokenStr);
         } catch (TokenExpiredException e) {
-            AuthFailed failed = new AuthFailed("令牌过期，请重新申请令牌");
-            ResultGenerator.genAndWriteResult(response, failed);
+            TokenExpired expired = new TokenExpired("令牌过期，请重新申请令牌");
+            ResultGenerator.genAndWriteResult(response, expired);
             return false;
         } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
-            AuthFailed failed = new AuthFailed("令牌损坏，请检查令牌");
-            ResultGenerator.genAndWriteResult(response, failed);
+            TokenInvalid invalid = new TokenInvalid("令牌损坏，请检查令牌");
+            ResultGenerator.genAndWriteResult(response, invalid);
             return false;
         }
         if (claims == null) {
-            AuthFailed failed = new AuthFailed("令牌损坏，解析错误，请重新申请正确的令牌");
-            ResultGenerator.genAndWriteResult(response, failed);
+            TokenInvalid invalid = new TokenInvalid("令牌损坏，解析错误，请重新申请正确的令牌");
+            ResultGenerator.genAndWriteResult(response, invalid);
             return false;
         }
         // 先判断 scope 作用域
@@ -86,8 +85,8 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             return true;
         } else {
             // 其它作用域 暂时返回 false，即其它作用域下均校验失败
-            AuthFailed failed = new AuthFailed("您的令牌领域(scope)错误");
-            ResultGenerator.genAndWriteResult(response, failed);
+            TokenInvalid invalid = new TokenInvalid("您的令牌领域(scope)错误");
+            ResultGenerator.genAndWriteResult(response, invalid);
             return false;
         }
     }
@@ -130,8 +129,8 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
     private boolean verifyLinAccess(HttpServletResponse response, String type) {
         // 先判断token类型，login校验必须为access
         if (!type.equals(JWT.ACCESS_TYPE)) {
-            AuthFailed failed = new AuthFailed("您的令牌类型错误");
-            ResultGenerator.genAndWriteResult(response, failed);
+            TokenInvalid invalid = new TokenInvalid("您的令牌类型错误");
+            ResultGenerator.genAndWriteResult(response, invalid);
             return false;
         }
         return true;
@@ -175,16 +174,16 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         try {
             claims = jwt.verifyRefresh(tokenStr);
         } catch (TokenExpiredException e) {
-            AuthFailed failed = new AuthFailed("令牌过期，请重新申请令牌");
+            RefreshFailed failed = new RefreshFailed("令牌过期，请重新申请令牌");
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
-            AuthFailed failed = new AuthFailed("令牌损坏，请检查令牌");
+            RefreshFailed failed = new RefreshFailed("令牌损坏，请检查令牌");
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
         if (claims == null) {
-            AuthFailed failed = new AuthFailed("令牌损坏，请重新申请正确的令牌");
+            RefreshFailed failed = new RefreshFailed("令牌损坏，请重新申请正确的令牌");
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
@@ -193,13 +192,13 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         String type = claims.get("type").asString();
         // 先判断scope，scope不对直接false
         if (!scope.equals(JWT.LIN_SCOPE)) {
-            AuthFailed failed = new AuthFailed("您的令牌领域(scope)错误");
+            RefreshFailed failed = new RefreshFailed("您的令牌领域(scope)错误");
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
         // 先判断token类型，login校验必须为access
         if (!type.equals(JWT.REFRESH_TYPE)) {
-            AuthFailed failed = new AuthFailed("您的令牌类型错误");
+            RefreshFailed failed = new RefreshFailed("您的令牌类型错误");
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
