@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lin.cms.demo.mapper.LogMapper">
+    <resultMap id="BaseResultMap" type="com.lin.cms.demo.model.LogDO">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="status_code" jdbcType="INTEGER" property="statusCode"/>
+        <result column="method" jdbcType="VARCHAR" property="method"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="authority" jdbcType="VARCHAR" property="authority"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+    </resultMap>
+
+
+    <select id="findLogsByUsernameAndRange" resultType="com.lin.cms.demo.model.LogDO">
+        SELECT l.* FROM lin_log l
+        <where>
+            <if test="name != null">
+                l.user_name=#{name}
+            </if>
+            <if test="start !=null and end !=null">
+                AND l.time BETWEEN #{start} AND #{end}
+            </if>
+        </where>
+        ORDER BY l.time DESC
+    </select>
+
+    <select id="countLogsByUsernameAndRange" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM lin_log l
+        <where>
+            <if test="name != null">
+                l.user_name=#{name}
+            </if>
+            <if test="start !=null and end !=null">
+                AND l.time BETWEEN #{start} AND #{end}
+            </if>
+        </where>
+    </select>
+
+    <select id="searchLogsByUsernameAndKeywordAndRange" resultType="com.lin.cms.demo.model.LogDO">
+        SELECT l.* FROM lin_log l
+        <where>
+            <if test="name != null">
+                l.user_name=#{name}
+            </if>
+            <if test="start !=null and end !=null">
+                AND l.time BETWEEN #{start} AND #{end}
+            </if>
+            <if test="keyword != null">
+                AND l.message LIKE CONCAT("%",#{keyword},"%")
+            </if>
+        </where>
+        ORDER BY l.time DESC
+    </select>
+
+    <select id="countLogsByUsernameAndKeywordAndRange" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM lin_log l
+        <where>
+            <if test="name != null">
+                l.user_name=#{name}
+            </if>
+            <if test="start !=null and end !=null">
+                AND l.time BETWEEN #{start} AND #{end}
+            </if>
+            <if test="keyword != null">
+                AND l.message LIKE CONCAT("%",#{keyword},"%")
+            </if>
+        </where>
+    </select>
+
+    <select id="getUserNames" resultType="java.lang.String">
+        SELECT l.user_name
+        FROM lin_log l
+        GROUP BY l.user_name
+        HAVING COUNT(l.user_name) > 0
+    </select>
+
+</mapper>
