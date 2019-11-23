@@ -3,21 +3,26 @@ package com.lin.cms.demo.interceptor;
 import com.auth0.jwt.exceptions.*;
 import com.auth0.jwt.interfaces.Claim;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.exception.*;
 import com.lin.cms.core.result.Result;
-import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.AuthDO;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.utils.LocalUser;
+import com.lin.cms.demo.v2.mapper.LinPermissionMapper;
+import com.lin.cms.demo.v2.mapper.LinRoleAdminMapper;
+import com.lin.cms.demo.v2.mapper.LinRoleMapper;
+import com.lin.cms.demo.v2.mapper.LinUserMapper;
+import com.lin.cms.demo.v2.model.LinPermission;
+import com.lin.cms.demo.v2.model.LinUser;
+import com.lin.cms.exception.*;
 import com.lin.cms.interfaces.AuthVerifyResolver;
 import com.lin.cms.token.JWT;
+import com.lin.cms.utils.ResultGenerator;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,20 +31,23 @@ import java.util.regex.Pattern;
 
 @SuppressWarnings("Duplicates")
 @Component
-public class AuthVerifyResolverImpl implements AuthVerifyResolver {
+public class AuthVerifyResolverImpl2 implements AuthVerifyResolver {
 
 
     @Autowired
     private JWT jwt;
 
     @Autowired
-    private UserMapper userMapper;
+    private LinUserMapper userMapper;
 
     @Autowired
-    private GroupMapper groupMapper;
+    private LinPermissionMapper permissionMapper;
 
     @Autowired
-    private AuthMapper authMapper;
+    private LinRoleAdminMapper roleAdminMapper;
+
+    @Autowired
+    private LinRoleMapper roleMapper;
 
 
     public boolean verifyLogin(HttpServletRequest request, HttpServletResponse response, Result result, RouteMeta meta) {
@@ -76,7 +84,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             if (!verifyLinAccess) {
                 return false;
             }
-            UserDO user = userMapper.selectById(identity);
+            LinUser user = userMapper.selectById(identity);
             if (user == null) {
                 NotFound notFound = new NotFound("用户不存在");
                 ResultGenerator.genResult(notFound);
@@ -97,10 +105,12 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         if (!stepValid) {
             return false;
         }
-        UserDO user = LocalUser.getLocalUser();
-        if (user.checkAdmin()) {
-            return true;
-        }
+        // 获得用户
+        LinUser user = LocalUser.getLocalUser();
+        // 获得用户的角色
+        // roleAdminMapper
+        // roleMapper
+        // 检查用户所拥有的角色是否具有该权限
         Long groupId = user.getGroupId();
         if (groupId == null) {
             // 您还不属于任何权限组，请联系超级管理员获得权限
@@ -123,7 +133,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         if (!stepValid) {
             return stepValid;
         }
-        UserDO user = LocalUser.getLocalUser();
+        LinUser user = LocalUser.getLocalUser();
         return user.checkAdmin();
     }
 

@@ -1,16 +1,16 @@
 package com.lin.cms.demo.utils;
 
-import com.lin.cms.demo.model.UserDO;
+import com.lin.cms.demo.v2.model.LinUser;
 
 public class LocalUser {
 
-    private static ThreadLocal<UserDO> local = new ThreadLocal<>();
+    private static ThreadLocal<LinUser> local = new ThreadLocal<>();
 
-    public static UserDO getLocalUser() {
+    public static LinUser getLocalUser() {
         return LocalUser.local.get();
     }
 
-    public static void setLocalUser(UserDO user) {
+    public static void setLocalUser(LinUser user) {
         LocalUser.local.set(user);
     }
 
