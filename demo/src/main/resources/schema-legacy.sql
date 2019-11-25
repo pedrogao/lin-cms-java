@@ -137,6 +137,21 @@ CREATE TABLE `lin_user_role`
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
+-- ----------------------------
+-- 用户-权限表
+-- ----------------------------
+DROP TABLE IF EXISTS `lin_user_permission`;
+CREATE TABLE `lin_user_permission`
+(
+    `id`            int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `user_id`       int(10) unsigned NOT NULL COMMENT '用户id',
+    `permission_id` int(10) unsigned NOT NULL COMMENT '权限id',
+    PRIMARY KEY (`id`),
+    KEY `user_id_permission_id` (`user_id`, `permission_id`) USING BTREE COMMENT '联合索引'
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- ----------------------------
@@ -167,6 +182,14 @@ ROLLBACK;
 -- 测试用户是否有无权限
 -- ----------------------------
 BEGIN;
+
+--
+-- 直接找
+--
+SELECT *
+FROM `lin_user_permission`
+WHERE user_id = 1
+  AND permission_id = 1;
 --
 -- 从角色找
 --
