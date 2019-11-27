@@ -55,32 +55,32 @@ CREATE TABLE `lin_permission`
   COLLATE = utf8mb4_general_ci;
 
 -- ----------------------------
--- 分组表
+-- 角色表
 -- ----------------------------
-DROP TABLE IF EXISTS `lin_group`;
-CREATE TABLE `lin_group`
+DROP TABLE IF EXISTS `lin_role`;
+CREATE TABLE `lin_role`
 (
     `id`    int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `name`  varchar(60)      NOT NULL COMMENT '分组名称，例如：搬砖者',
-    `path`  varchar(255)     NOT NULL COMMENT '分组路径，例如：/root/boy',
-    `level` int(11)          NOT NULL COMMENT '分组登记，例如：2，root用户默认为1级，其它的依次向下递增',
-    `info`  varchar(255) DEFAULT NULL COMMENT '分组信息：例如：搬砖的人',
+    `name`  varchar(60)      NOT NULL COMMENT '角色名称，例如：搬砖者',
+    `path`  varchar(255)     NOT NULL COMMENT '角色路径，例如：/root/boy',
+    `level` int(11)          NOT NULL COMMENT '角色登记，例如：2，root用户默认为1级，其它的依次向下递增',
+    `info`  varchar(255) DEFAULT NULL COMMENT '角色信息：例如：搬砖的人',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
 -- ----------------------------
--- 分组-权限表
+-- 角色-权限表
 -- ----------------------------
-DROP TABLE IF EXISTS `lin_group_permission`;
-CREATE TABLE `lin_group_permission`
+DROP TABLE IF EXISTS `lin_role_permission`;
+CREATE TABLE `lin_role_permission`
 (
     `id`            int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `group_id`       int(10) unsigned NOT NULL COMMENT '分组id',
+    `role_id`       int(10) unsigned NOT NULL COMMENT '角色id',
     `permission_id` int(10) unsigned NOT NULL COMMENT '权限id',
     PRIMARY KEY (`id`),
-    KEY `group_id_permission_id` (`group_id`, `permission_id`) USING BTREE COMMENT '联合索引'
+    KEY `role_id_permission_id` (`role_id`, `permission_id`) USING BTREE COMMENT '联合索引'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
@@ -110,7 +110,7 @@ CREATE TABLE `lin_user`
 
 -- ----------------------------
 -- 插入超级管理员
--- 插入root分组
+-- 插入root角色
 -- ----------------------------
 BEGIN;
 INSERT INTO `lin_user`
@@ -118,21 +118,21 @@ VALUES (1, 'super', 'super', NULL, NULL,
         'pbkdf2sha256:64000:18:24:n:yUnDokcNRbwILZllmUOItIyo9MnI00QW:6ZcPf+sfzyoygOU8h/GSoirF',
         '2019-06-10 15:04:35.000', '2019-07-07 10:22:15.000', NULL);
 
-INSERT INTO `lin_group`
+INSERT INTO `lin_role`
 VALUES (1, 'root', '/root', 1, 'root用户');
 COMMIT;
 
 -- ----------------------------
--- 用户-分组表
+-- 用户-角色表
 -- ----------------------------
-DROP TABLE IF EXISTS `lin_user_group`;
-CREATE TABLE `lin_user_group`
+DROP TABLE IF EXISTS `lin_user_role`;
+CREATE TABLE `lin_user_role`
 (
     `id`      int(10) unsigned NOT NULL AUTO_INCREMENT,
     `user_id` int(10) unsigned NOT NULL COMMENT '用户id',
-    `group_id` int(10) unsigned NOT NULL COMMENT '分组id',
+    `role_id` int(10) unsigned NOT NULL COMMENT '角色id',
     PRIMARY KEY (`id`),
-    KEY `user_id_group_id` (`user_id`, `group_id`) USING BTREE COMMENT '联合索引'
+    KEY `user_id_role_id` (`user_id`, `role_id`) USING BTREE COMMENT '联合索引'
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
@@ -149,16 +149,16 @@ VALUES (2, 'pedro', 'pedro', NULL, '1312342604@qq.com',
         'pbkdf2sha256:64000:18:24:n:yUnDokcNRbwILZllmUOItIyo9MnI00QW:6ZcPf+sfzyoygOU8h/GSoirF',
         '2019-06-10 15:04:35.000', '2019-07-07 10:22:15.000', NULL);
 
-INSERT INTO `lin_group`
+INSERT INTO `lin_role`
 VALUES (2, 'guest', '/root/guest', 2, '游客');
 
-INSERT INTO `lin_user_group`
+INSERT INTO `lin_user_role`
 VALUES (1, 2, 2);
 
 INSERT INTO `lin_permission`
 VALUES (1, '访问首页', '访问');
 
-INSERT INTO `lin_group_permission`
+INSERT INTO `lin_role_permission`
 VALUES (1, 2, 1);
 
 ROLLBACK;
@@ -168,11 +168,11 @@ ROLLBACK;
 -- ----------------------------
 BEGIN;
 --
--- 从分组找
+-- 从角色找
 --
 SELECT *
-from `lin_group_permission`
-WHERE group_id in (SELECT group_id FROM `lin_user_group` WHERE user_id = 1);
+from `lin_role_permission`
+WHERE role_id in (SELECT role_id FROM `lin_user_role` WHERE user_id = 1);
 
 COMMIT;
 
@@ -184,7 +184,7 @@ COMMIT;
 BEGIN;
 
 SELECT *
-FROM lin_group
+FROM lin_role
 WHERE path REGEXP '^/root'
   AND level > 1;
 
