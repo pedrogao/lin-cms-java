@@ -2,7 +2,6 @@ package com.lin.cms.demo.utils;
 
 
 import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.v2.model.LinUser;
 
 public class LocalUser {
 
