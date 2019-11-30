@@ -1,5 +1,8 @@
 # lin-cms-java
 
+
+**正在大规模重构中，请勿使用！！！**
+
 > lin-cms 的 java 版实现基于 spring boot 和 mybatis
 
 ## 设计哲学
