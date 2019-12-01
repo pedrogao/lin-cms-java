@@ -1,7 +1,8 @@
 package com.lin.cms.demo.v2.mapper;
 
-import com.lin.cms.demo.v2.model.LinLog;
+import com.lin.cms.demo.v2.model.UserDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author pedro
  * @since 2019-11-30
  */
-public interface LinLogMapper extends BaseMapper<LinLog> {
+@Service("userMapper2")
+public interface UserMapper extends BaseMapper<UserDO> {
 
 }

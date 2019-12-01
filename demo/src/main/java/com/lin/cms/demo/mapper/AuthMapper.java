@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface AuthMapper extends BaseMapper<AuthDO> {
+
     AuthDO selectOneByGroupIdAndAuthAndModule(@Param("groupId") Long groupId,
                                               @Param("auth") String auth,
                                               @Param("module") String module);

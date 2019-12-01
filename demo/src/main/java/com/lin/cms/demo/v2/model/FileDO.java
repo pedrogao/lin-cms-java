@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author pedro
  * @since 2019-11-30
  */
-public class LinFile implements Serializable {
+public class FileDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -89,7 +89,7 @@ public class LinFile implements Serializable {
 
     @Override
     public String toString() {
-        return "LinFile{" +
+        return "FileDO{" +
             "id=" + id +
             ", path=" + path +
             ", type=" + type +

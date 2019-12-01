@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author pedro
  * @since 2019-11-30
  */
-public class LinLog implements Serializable {
+public class LogDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -102,7 +102,7 @@ public class LinLog implements Serializable {
 
     @Override
     public String toString() {
-        return "LinLog{" +
+        return "LogDO{" +
             "id=" + id +
             ", message=" + message +
             ", userId=" + userId +

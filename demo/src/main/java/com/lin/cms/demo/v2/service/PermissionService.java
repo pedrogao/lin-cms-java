@@ -1,6 +1,6 @@
 package com.lin.cms.demo.v2.service;
 
-import com.lin.cms.demo.v2.model.LinGroupPermission;
+import com.lin.cms.demo.v2.model.PermissionDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author pedro
  * @since 2019-11-30
  */
-public interface ILinGroupPermissionService extends IService<LinGroupPermission> {
+public interface PermissionService extends IService<PermissionDO> {
 
 }

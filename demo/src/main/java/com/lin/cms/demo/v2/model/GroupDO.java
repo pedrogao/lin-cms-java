@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author pedro
  * @since 2019-11-30
  */
-public class LinGroupPermission implements Serializable {
+public class GroupDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,14 +20,14 @@ public class LinGroupPermission implements Serializable {
     private Integer id;
 
     /**
-     * 分组id
+     * 分组名称，例如：搬砖者
      */
-    private Integer groupId;
+    private String name;
 
     /**
-     * 权限id
+     * 分组信息：例如：搬砖的人
      */
-    private Integer permissionId;
+    private String info;
 
     public Integer getId() {
         return id;
@@ -36,27 +36,27 @@ public class LinGroupPermission implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
-    public Integer getGroupId() {
-        return groupId;
+    public String getName() {
+        return name;
     }
 
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
+    public void setName(String name) {
+        this.name = name;
     }
-    public Integer getPermissionId() {
-        return permissionId;
+    public String getInfo() {
+        return info;
     }
 
-    public void setPermissionId(Integer permissionId) {
-        this.permissionId = permissionId;
+    public void setInfo(String info) {
+        this.info = info;
     }
 
     @Override
     public String toString() {
-        return "LinGroupPermission{" +
+        return "GroupDO{" +
             "id=" + id +
-            ", groupId=" + groupId +
-            ", permissionId=" + permissionId +
+            ", name=" + name +
+            ", info=" + info +
         "}";
     }
 }

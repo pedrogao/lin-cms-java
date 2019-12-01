@@ -17,14 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @SpringBootApplication(scanBasePackages = {"com.lin.cms"})
-@MapperScan(basePackages = {"com.lin.cms.demo.mapper"/*, "com.lin.cms.plugins.poem.app"*/})
+@MapperScan(basePackages = {"com.lin.cms.demo.mapper", "com.lin.cms.demo.v2.mapper"/*, "com.lin.cms.plugins.poem.app"*/})
 @PropertySources({
         // @PropertySource("classpath:com/lin/cms/plugins/poem/plugin.properties"),
         @PropertySource(value = "classpath:errorcode.properties", encoding = "UTF-8"),
         @PropertySource(value = "classpath:com/lin/cms/demo/extensions/file/config.properties", encoding = "UTF-8")
 })
 @RestController
-//@EnableTransactionManagement
 public class DemoApplication {
 
     public static void main(String[] args) {

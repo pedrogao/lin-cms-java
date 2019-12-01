@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author pedro
  * @since 2019-11-30
  */
-public class LinUserGroup implements Serializable {
+public class UserInfoDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,9 +25,19 @@ public class LinUserGroup implements Serializable {
     private Integer userId;
 
     /**
-     * 分组id
+     * 用户昵称
      */
-    private Integer groupId;
+    private String nickname;
+
+    /**
+     * 头像url
+     */
+    private String avatar;
+
+    /**
+     * 邮箱
+     */
+    private String email;
 
     public Integer getId() {
         return id;
@@ -43,20 +53,36 @@ public class LinUserGroup implements Serializable {
     public void setUserId(Integer userId) {
         this.userId = userId;
     }
-    public Integer getGroupId() {
-        return groupId;
+    public String getNickname() {
+        return nickname;
     }
 
-    public void setGroupId(Integer groupId) {
-        this.groupId = groupId;
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
     public String toString() {
-        return "LinUserGroup{" +
+        return "UserInfoDO{" +
             "id=" + id +
             ", userId=" + userId +
-            ", groupId=" + groupId +
+            ", nickname=" + nickname +
+            ", avatar=" + avatar +
+            ", email=" + email +
         "}";
     }
 }

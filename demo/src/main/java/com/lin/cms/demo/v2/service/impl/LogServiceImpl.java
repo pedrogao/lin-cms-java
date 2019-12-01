@@ -1,8 +1,8 @@
 package com.lin.cms.demo.v2.service.impl;
 
-import com.lin.cms.demo.v2.model.LinLog;
-import com.lin.cms.demo.v2.mapper.LinLogMapper;
-import com.lin.cms.demo.v2.service.ILinLogService;
+import com.lin.cms.demo.v2.model.LogDO;
+import com.lin.cms.demo.v2.mapper.LogMapper;
+import com.lin.cms.demo.v2.service.LogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * @author pedro
  * @since 2019-11-30
  */
-@Service
-public class LinLogServiceImpl extends ServiceImpl<LinLogMapper, LinLog> implements ILinLogService {
+@Service("logServiceImpl-v2")
+public class LogServiceImpl extends ServiceImpl<LogMapper, LogDO> implements LogService {
 
 }
