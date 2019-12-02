@@ -84,41 +84,43 @@ CREATE TABLE `lin_group_permission`
   COLLATE = utf8mb4_general_ci;
 
 -- ----------------------------
--- 用户表
+-- 用户基本信息表
 -- ----------------------------
 DROP TABLE IF EXISTS `lin_user`;
 CREATE TABLE `lin_user`
 (
     `id`          int(10) unsigned NOT NULL AUTO_INCREMENT,
     `username`    varchar(24)      NOT NULL COMMENT '用户名，唯一',
-    `password`    varchar(100)              DEFAULT NULL,
+    `nickname`    varchar(24)      NOT NULL COMMENT '用户昵称',
+    `avatar`      varchar(500)              DEFAULT NULL COMMENT '头像url',
+    `email`       varchar(100)              DEFAULT NULL COMMENT '邮箱',
     `create_time` datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `update_time` datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     `delete_time` datetime(3)               DEFAULT NULL,
     PRIMARY KEY (`id`),
-    UNIQUE KEY `username` (`username`)
+    UNIQUE KEY `username` (`username`),
+    UNIQUE KEY `email` (`email`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
 -- ----------------------------
--- 用户信息表
+-- 用户授权信息表
 # id
 # user_id
 # identity_type 登录类型（手机号 邮箱 用户名）或第三方应用名称（微信 微博等）
 # identifier 标识（手机号 邮箱 用户名或第三方应用的唯一标识）
 # credential 密码凭证（站内的保存密码，站外的不保存或保存token）
 -- ----------------------------
-DROP TABLE IF EXISTS `lin_user_indentify`;
-CREATE TABLE `lin_user_info`
+DROP TABLE IF EXISTS `lin_user_identity`;
+CREATE TABLE `lin_user_identity`
 (
-    `id`       int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `user_id`  int(10) unsigned NOT NULL COMMENT '用户id',
-    `nickname` varchar(24)      NOT NULL COMMENT '用户昵称',
-    `avatar`   varchar(500) DEFAULT NULL COMMENT '头像url',
-    `email`    varchar(100) DEFAULT NULL COMMENT '邮箱',
-    PRIMARY KEY (`id`),
-    UNIQUE KEY `email` (`email`)
+    `id`            int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `user_id`       int(10) unsigned NOT NULL COMMENT '用户id',
+    `identity_type` varchar(100)     NOT NULL,
+    `identifier`    varchar(100),
+    `credential`    varchar(100),
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
@@ -129,12 +131,11 @@ CREATE TABLE `lin_user_info`
 -- ----------------------------
 BEGIN;
 INSERT INTO `lin_user`
-VALUES (1, 'super',
-        'pbkdf2sha256:64000:18:24:n:yUnDokcNRbwILZllmUOItIyo9MnI00QW:6ZcPf+sfzyoygOU8h/GSoirF',
-        '2019-06-10 15:04:35.000', '2019-07-07 10:22:15.000', NULL);
+VALUES (1, 'super', 'super', NULL, NULL, NULL, NULL, NULL);
 
-INSERT INTO `lin_user_info`
-VALUES (1, 1, 'super', NULL, NULL);
+INSERT INTO `lin_user_identity`
+VALUES (1, 1, 'username', 'super',
+        'pbkdf2sha256:64000:18:24:n:yUnDokcNRbwILZllmUOItIyo9MnI00QW:6ZcPf+sfzyoygOU8h/GSoirF');
 
 INSERT INTO `lin_group`
 VALUES (1, 'super', '超级用户组');
