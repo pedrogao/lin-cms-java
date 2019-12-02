@@ -1,29 +1,31 @@
 package com.lin.cms.demo.v2.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 import java.util.Date;
 
 /**
- * <p>
- *
- * </p>
- *
  * @author pedro
  * @since 2019-12-02
  */
-@Data
+@Setter
+@Getter
+@ToString
 @TableName("lin_user")
 public class UserDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 用户名，唯一
@@ -49,5 +51,7 @@ public class UserDO implements Serializable {
 
     private Date updateTime;
 
+    @JSONField(serialize = false)
+    @TableLogic
     private Date deleteTime;
 }

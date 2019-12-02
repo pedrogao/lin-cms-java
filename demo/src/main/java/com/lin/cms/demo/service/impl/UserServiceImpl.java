@@ -41,18 +41,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(RegisterDTO validator) {
-        UserDO exist = this.findByNickname(validator.getNickname());
-        if (exist != null) {
-            throw new Forbidden("用户已经存在");
-        }
+        // UserDO exist = this.findByNickname(validator.getNickname());
+        // if (exist != null) {
+        //     throw new Forbidden("用户已经存在");
+        // }
         UserDO user = new UserDO();
-        user.setNickname(validator.getNickname());
-        user.setPasswordEncrypt(validator.getPassword());
-        user.setGroupId(validator.getGroupId());
-        user.setNickname(validator.getNickname());
-        if (validator.getEmail() != null) {
-            user.setEmail(validator.getEmail());
-        }
+        // user.setNickname(validator.getNickname());
+        // user.setPasswordEncrypt(validator.getPassword());
+        // user.setGroupId(validator.getGroupId());
+        // user.setNickname(validator.getNickname());
+        // if (validator.getEmail() != null) {
+        //     user.setEmail(validator.getEmail());
+        // }
         userMapper.insert(user);
     }
 

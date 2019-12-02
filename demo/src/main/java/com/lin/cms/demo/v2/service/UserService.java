@@ -57,4 +57,20 @@ public interface UserService extends IService<UserDO> {
      * @return 用户
      */
     UserDO findByUsername(String username);
+
+    /**
+     * 根据用户名检查用户是否存在
+     *
+     * @param username 用户名
+     * @return true代表存在
+     */
+    boolean checkUserExistByUsername(String username);
+
+    /**
+     * 根据用户id检查用户是否存在
+     *
+     * @param id 用户名
+     * @return true代表存在
+     */
+    boolean checkUserExistById(Long id);
 }

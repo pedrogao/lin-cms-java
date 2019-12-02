@@ -60,7 +60,7 @@ public class UserControllerTest {
         dto.setEmail(email);
         dto.setConfirmPassword(password);
         dto.setPassword(password);
-        dto.setNickname(nickname);
+        // dto.setNickname(nickname);
 
         mvc.perform(post("/cms/user/register")
                 .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))

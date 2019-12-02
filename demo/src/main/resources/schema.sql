@@ -91,7 +91,7 @@ CREATE TABLE `lin_user`
 (
     `id`          int(10) unsigned NOT NULL AUTO_INCREMENT,
     `username`    varchar(24)      NOT NULL COMMENT '用户名，唯一',
-    `nickname`    varchar(24)      NOT NULL COMMENT '用户昵称',
+    `nickname`    varchar(24)               DEFAULT NULL COMMENT '用户昵称',
     `avatar`      varchar(500)              DEFAULT NULL COMMENT '头像url',
     `email`       varchar(100)              DEFAULT NULL COMMENT '邮箱',
     `create_time` datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),

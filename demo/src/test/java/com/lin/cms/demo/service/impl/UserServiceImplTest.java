@@ -52,7 +52,7 @@ public class UserServiceImplTest {
     @Test
     public void createUser() throws Forbidden {
         RegisterDTO validator = new RegisterDTO();
-        validator.setNickname(nickname);
+        // validator.setNickname(nickname);
         validator.setPassword(password);
         validator.setConfirmPassword(password);
         validator.setEmail(email);
@@ -67,7 +67,7 @@ public class UserServiceImplTest {
     @Test
     public void updateUser() throws Forbidden, Parameter {
         RegisterDTO validator = new RegisterDTO();
-        validator.setNickname(nickname);
+        // validator.setNickname(nickname);
         validator.setPassword(password);
         validator.setConfirmPassword(password);
         validator.setEmail(email);
@@ -87,7 +87,7 @@ public class UserServiceImplTest {
     @Test
     public void changePassword() throws Forbidden, Parameter {
         RegisterDTO validator = new RegisterDTO();
-        validator.setNickname(nickname);
+        // validator.setNickname(nickname);
         validator.setPassword(password);
         validator.setConfirmPassword(password);
         validator.setEmail(email);
@@ -109,7 +109,7 @@ public class UserServiceImplTest {
     @Test
     public void updateAvatar() throws Forbidden {
         RegisterDTO validator = new RegisterDTO();
-        validator.setNickname(nickname);
+        // validator.setNickname(nickname);
         validator.setPassword(password);
         validator.setConfirmPassword(password);
         validator.setEmail(email);

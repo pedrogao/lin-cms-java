@@ -13,9 +13,9 @@ import javax.validation.constraints.*;
 @EqualField(srcField = "password", dstField = "confirmPassword", message = "两次输入密码不一致")
 public class RegisterDTO {
 
-    @NotBlank(message = "昵称不可为空")
-    @Size(min = 2, max = 10, message = "昵称长度必须在2~10之间")
-    private String nickname;
+    @NotBlank(message = "用户名不可为空")
+    @Size(min = 2, max = 10, message = "用户名长度必须在2~10之间")
+    private String username;
 
     @NotNull(message = "分组id不可为空")
     @Min(value = 1, message = "分组id必须是整数，且大于0")
