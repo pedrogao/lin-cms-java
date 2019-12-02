@@ -130,8 +130,8 @@ CREATE TABLE `lin_user_identity`
 -- 插入root分组
 -- ----------------------------
 BEGIN;
-INSERT INTO `lin_user`
-VALUES (1, 'super', 'super', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `lin_user`(`id`, `username`, `nickname`)
+VALUES (1, 'super', 'super');
 
 INSERT INTO `lin_user_identity`
 VALUES (1, 1, 'username', 'super',

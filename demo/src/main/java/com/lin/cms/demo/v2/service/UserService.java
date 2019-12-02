@@ -3,8 +3,8 @@ package com.lin.cms.demo.v2.service;
 import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
-import com.lin.cms.demo.v2.model.UserDO;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lin.cms.demo.v2.model.UserDO;
 
 import java.util.List;
 import java.util.Map;

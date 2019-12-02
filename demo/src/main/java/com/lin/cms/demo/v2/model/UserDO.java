@@ -9,8 +9,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * <p>
+ *
+ * </p>
+ *
  * @author pedro
- * @since 2019-11-30
+ * @since 2019-12-02
  */
 @Data
 @TableName("lin_user")
@@ -26,7 +30,20 @@ public class UserDO implements Serializable {
      */
     private String username;
 
-    private String password;
+    /**
+     * 用户昵称
+     */
+    private String nickname;
+
+    /**
+     * 头像url
+     */
+    private String avatar;
+
+    /**
+     * 邮箱
+     */
+    private String email;
 
     private Date createTime;
 

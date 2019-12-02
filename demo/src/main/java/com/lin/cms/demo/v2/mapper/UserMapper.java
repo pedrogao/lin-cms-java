@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author pedro
- * @since 2019-11-30
+ * @since 2019-12-02
  */
 @Service("userMapper2")
 public interface UserMapper extends BaseMapper<UserDO> {
