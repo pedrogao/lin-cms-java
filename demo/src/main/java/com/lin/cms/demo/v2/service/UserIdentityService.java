@@ -55,4 +55,22 @@ public interface UserIdentityService extends IService<UserIdentityDO> {
      * @return 是否验证成功
      */
     boolean verifyUsernamePassword(Long userId, String username, String password);
+
+    /**
+     * 修改密码
+     *
+     * @param userId   用户id
+     * @param password 新密码
+     * @return 是否成功
+     */
+    boolean changePassword(Long userId, String password);
+
+    /**
+     * 修改用户名
+     *
+     * @param userId   用户id
+     * @param username 新用户名
+     * @return 是否成功
+     */
+    boolean changeUsername(Long userId, String username);
 }

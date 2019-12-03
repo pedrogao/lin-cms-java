@@ -52,4 +52,23 @@ public class UserIdentityServiceImpl extends ServiceImpl<UserIdentityMapper, Use
         UserIdentityDO userIdentity = userIdentityMapper.selectOne(wrapper);
         return EncryptUtil.verify(userIdentity.getCredential(), password);
     }
+
+    @Override
+    public boolean changePassword(Long userId, String password) {
+        String encrypted = EncryptUtil.encrypt(password);
+        UserIdentityDO userIdentity = new UserIdentityDO();
+        userIdentity.setCredential(encrypted);
+        QueryWrapper<UserIdentityDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(UserIdentityDO::getUserId, userId);
+        return userIdentityMapper.update(userIdentity, wrapper) > 0;
+    }
+
+    @Override
+    public boolean changeUsername(Long userId, String username) {
+        UserIdentityDO userIdentity = new UserIdentityDO();
+        userIdentity.setIdentifier(username);
+        QueryWrapper<UserIdentityDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(UserIdentityDO::getUserId, userId);
+        return userIdentityMapper.update(userIdentity, wrapper) > 0;
+    }
 }

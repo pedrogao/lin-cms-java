@@ -21,7 +21,6 @@ public class ChangePasswordDTO {
     @NotBlank(message = "确认密码不可为空")
     private String confirmPassword;
 
-
     @NotBlank(message = "请输入旧密码")
     private String oldPassword;
 }

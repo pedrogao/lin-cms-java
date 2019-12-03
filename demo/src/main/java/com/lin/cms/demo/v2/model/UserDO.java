@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -19,6 +17,8 @@ import java.util.Date;
 @Setter
 @Getter
 @ToString
+@Builder
+@NoArgsConstructor
 @TableName("lin_user")
 public class UserDO implements Serializable {
 
