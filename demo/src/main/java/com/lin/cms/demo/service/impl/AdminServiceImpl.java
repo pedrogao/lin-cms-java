@@ -15,7 +15,7 @@ import com.lin.cms.demo.bo.GroupWithAuthsBO;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.demo.model.*;
 import com.lin.cms.demo.dto.admin.*;
-import com.lin.cms.demo.utils.AuthSpliter;
+import com.lin.cms.demo.common.AuthSpliter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

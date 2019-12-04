@@ -9,7 +9,7 @@ import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.SimpleAuthDO;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.service.UserService;
-import com.lin.cms.demo.utils.AuthSpliter;
+import com.lin.cms.demo.common.AuthSpliter;
 import com.lin.cms.demo.common.LocalUserLegacy;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;

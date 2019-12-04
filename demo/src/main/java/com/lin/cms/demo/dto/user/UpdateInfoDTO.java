@@ -1,15 +1,12 @@
 package com.lin.cms.demo.dto.user;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
-@Setter
-@Getter
 @NoArgsConstructor
+@Data
 public class UpdateInfoDTO {
 
     @NotBlank(message = "邮箱不可为空")
