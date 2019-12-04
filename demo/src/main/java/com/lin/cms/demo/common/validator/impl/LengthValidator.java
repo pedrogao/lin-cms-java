@@ -1,5 +1,6 @@
-package com.lin.cms.demo.validator;
+package com.lin.cms.demo.common.validator.impl;
 
+import com.lin.cms.demo.common.validator.Length;
 import org.apache.logging.log4j.util.Strings;
 
 import javax.validation.ConstraintValidator;

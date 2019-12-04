@@ -1,4 +1,4 @@
-package com.lin.cms.demo.interceptor;
+package com.lin.cms.demo.common.interceptor;
 
 import com.auth0.jwt.exceptions.*;
 import com.auth0.jwt.interfaces.Claim;
@@ -11,7 +11,7 @@ import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.AuthDO;
 import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.utils.LocalUser;
+import com.lin.cms.demo.common.LocalUserLegacy;
 import com.lin.cms.interfaces.AuthVerifyResolver;
 import com.lin.cms.token.JWT;
 import org.apache.logging.log4j.util.Strings;
@@ -82,7 +82,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
                 ResultGenerator.genResult(notFound);
                 return false;
             }
-            LocalUser.setLocalUser(user);
+            LocalUserLegacy.setLocalUser(user);
             return true;
         } else {
             // 其它作用域 暂时返回 false，即其它作用域下均校验失败
@@ -97,7 +97,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         if (!stepValid) {
             return false;
         }
-        UserDO user = LocalUser.getLocalUser();
+        UserDO user = LocalUserLegacy.getLocalUser();
         if (user.checkAdmin()) {
             return true;
         }
@@ -123,7 +123,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         if (!stepValid) {
             return stepValid;
         }
-        UserDO user = LocalUser.getLocalUser();
+        UserDO user = LocalUserLegacy.getLocalUser();
         return user.checkAdmin();
     }
 
@@ -209,7 +209,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             ResultGenerator.genAndWriteResult(response, notFound);
             return false;
         }
-        LocalUser.setLocalUser(user);
+        LocalUserLegacy.setLocalUser(user);
         return true;
     }
 }

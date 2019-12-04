@@ -1,18 +1,18 @@
-package com.lin.cms.demo.utils;
+package com.lin.cms.demo.common;
 
 
 import com.lin.cms.demo.model.UserDO;
 
-public class LocalUser {
+public class LocalUserLegacy {
 
     private static ThreadLocal<UserDO> local = new ThreadLocal<>();
 
     public static UserDO getLocalUser() {
-        return LocalUser.local.get();
+        return LocalUserLegacy.local.get();
     }
 
     public static void setLocalUser(UserDO user) {
-        LocalUser.local.set(user);
+        LocalUserLegacy.local.set(user);
     }
 
     public static <T> T getLocalUser(Class<T> clazz) {

@@ -1,11 +1,11 @@
-package com.lin.cms.demo.configure;
+package com.lin.cms.demo.common.configure;
 
 import com.alibaba.fastjson.PropertyNamingStrategy;
 import com.alibaba.fastjson.serializer.SerializeConfig;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
-import com.lin.cms.demo.interceptor.RequestLogInterceptor;
+import com.lin.cms.demo.common.interceptor.RequestLogInterceptor;
 import com.lin.cms.exception.ExceptionHandler;
 import com.lin.cms.interceptor.AuthInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;

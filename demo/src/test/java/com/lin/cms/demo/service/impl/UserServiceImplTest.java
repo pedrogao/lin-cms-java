@@ -9,7 +9,7 @@ import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.utils.LocalUser;
+import com.lin.cms.demo.common.LocalUserLegacy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -74,7 +74,7 @@ public class UserServiceImplTest {
         validator.setGroupId(groupId);
         userService.createUser(validator);
         UserDO localUser = userMapper.findOneUserByEmailAndDeleteTime(email);
-        LocalUser.setLocalUser(localUser);
+        LocalUserLegacy.setLocalUser(localUser);
 
         UpdateInfoDTO dto = new UpdateInfoDTO();
         dto.setEmail("11111111111@qq.com");
@@ -94,7 +94,7 @@ public class UserServiceImplTest {
         validator.setGroupId(groupId);
         userService.createUser(validator);
         UserDO localUser = userMapper.findOneUserByEmailAndDeleteTime(email);
-        LocalUser.setLocalUser(localUser);
+        LocalUserLegacy.setLocalUser(localUser);
 
         ChangePasswordDTO dto = new ChangePasswordDTO();
         dto.setNewPassword("147258");
@@ -116,7 +116,7 @@ public class UserServiceImplTest {
         validator.setGroupId(groupId);
         userService.createUser(validator);
         UserDO localUser = userMapper.findOneUserByEmailAndDeleteTime(email);
-        LocalUser.setLocalUser(localUser);
+        LocalUserLegacy.setLocalUser(localUser);
 
         AvatarUpdateDTO dto = new AvatarUpdateDTO();
         dto.setAvatar("oohoihihiiiuvuiv.jpg");

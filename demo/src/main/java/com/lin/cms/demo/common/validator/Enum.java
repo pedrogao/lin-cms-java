@@ -1,4 +1,6 @@
-package com.lin.cms.demo.validator;
+package com.lin.cms.demo.common.validator;
+
+import com.lin.cms.demo.common.validator.impl.EnumValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

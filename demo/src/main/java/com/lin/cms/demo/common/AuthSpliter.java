@@ -1,4 +1,4 @@
-package com.lin.cms.demo.utils;
+package com.lin.cms.demo.common;
 
 import com.lin.cms.demo.model.SimpleAuthDO;
 

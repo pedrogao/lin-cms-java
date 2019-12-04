@@ -1,4 +1,4 @@
-package com.lin.cms.demo.configure;
+package com.lin.cms.demo.common.configure;
 
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
@@ -8,7 +8,7 @@ import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.lin.cms.beans.Manager;
 import com.lin.cms.demo.common.mybatis.LogicInterceptor;
 import com.lin.cms.demo.extensions.file.FileProperties;
-import com.lin.cms.demo.interceptor.RequestLogInterceptor;
+import com.lin.cms.demo.common.interceptor.RequestLogInterceptor;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

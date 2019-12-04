@@ -10,7 +10,7 @@ import java.util.List;
 
 @Setter
 @Getter
-public class UserWithAuthsVO {
+public class UserAuthsVO {
     private Integer id;
 
     private String nickname;
@@ -31,15 +31,15 @@ public class UserWithAuthsVO {
 
     private List auths;
 
-    public UserWithAuthsVO() {
+    public UserAuthsVO() {
     }
 
-    public UserWithAuthsVO(UserDO userDO, List auths) {
+    public UserAuthsVO(UserDO userDO, List auths) {
         BeanUtils.copyProperties(userDO, this);
         this.auths = auths;
     }
 
-    public UserWithAuthsVO(UserDO userDO) {
+    public UserAuthsVO(UserDO userDO) {
         BeanUtils.copyProperties(userDO, this);
     }
 }

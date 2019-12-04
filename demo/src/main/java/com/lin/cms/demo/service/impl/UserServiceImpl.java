@@ -3,7 +3,6 @@ package com.lin.cms.demo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.model.GroupDO;
-import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.Parameter;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.UserMapper;
@@ -11,7 +10,7 @@ import com.lin.cms.demo.model.SimpleAuthDO;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.service.UserService;
 import com.lin.cms.demo.utils.AuthSpliter;
-import com.lin.cms.demo.utils.LocalUser;
+import com.lin.cms.demo.common.LocalUserLegacy;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
 import com.lin.cms.demo.dto.user.AvatarUpdateDTO;
@@ -59,7 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(UpdateInfoDTO validator) {
         String email = validator.getEmail();
-        UserDO user = LocalUser.getLocalUser();
+        UserDO user = LocalUserLegacy.getLocalUser();
         if (!user.getEmail().equals(email)) {
             QueryWrapper<UserDO> wrapper = new QueryWrapper<>();
             wrapper.eq("email", validator.getEmail());
@@ -74,7 +73,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void changePassword(ChangePasswordDTO validator) {
-        UserDO user = LocalUser.getLocalUser();
+        UserDO user = LocalUserLegacy.getLocalUser();
         boolean valid = user.verify(validator.getOldPassword());
         if (!valid) {
             throw new Parameter("请输入正确的旧密码");
@@ -85,7 +84,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateAvatar(AvatarUpdateDTO validator) {
-        UserDO user = LocalUser.getLocalUser();
+        UserDO user = LocalUserLegacy.getLocalUser();
         user.setAvatar(validator.getAvatar());
         userMapper.updateById(user);
     }

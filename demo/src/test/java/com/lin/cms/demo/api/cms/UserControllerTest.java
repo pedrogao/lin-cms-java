@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.lin.cms.demo.dto.user.*;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.utils.LocalUser;
+import com.lin.cms.demo.common.LocalUserLegacy;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,8 +20,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -103,7 +101,7 @@ public class UserControllerTest {
         UpdateInfoDTO dto = new UpdateInfoDTO();
         dto.setEmail("23129982604@qq.com");
 
-        LocalUser.setLocalUser(userDO);
+        LocalUserLegacy.setLocalUser(userDO);
 
         mvc.perform(MockMvcRequestBuilders.put("/cms/user/")
                 .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))
@@ -127,7 +125,7 @@ public class UserControllerTest {
         dto.setNewPassword("147258");
         dto.setConfirmPassword("147258");
 
-        LocalUser.setLocalUser(userDO);
+        LocalUserLegacy.setLocalUser(userDO);
 
         mvc.perform(MockMvcRequestBuilders.put("/cms/user/change_password")
                 .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))
@@ -145,7 +143,7 @@ public class UserControllerTest {
         userDO.setEmail(email);
 
         userMapper.insert(userDO);
-        LocalUser.setLocalUser(userDO);
+        LocalUserLegacy.setLocalUser(userDO);
 
         mvc.perform(MockMvcRequestBuilders.get("/cms/user/refresh")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -168,7 +166,7 @@ public class UserControllerTest {
         userDO.setEmail(email);
 
         userMapper.insert(userDO);
-        LocalUser.setLocalUser(userDO);
+        LocalUserLegacy.setLocalUser(userDO);
 
         mvc.perform(MockMvcRequestBuilders.get("/cms/user/information")
                 .contentType(MediaType.APPLICATION_JSON))
@@ -186,7 +184,7 @@ public class UserControllerTest {
         userDO.setEmail(email);
 
         userMapper.insert(userDO);
-        LocalUser.setLocalUser(userDO);
+        LocalUserLegacy.setLocalUser(userDO);
 
         AvatarUpdateDTO dto = new AvatarUpdateDTO();
         dto.setAvatar("ijbiigguiiubbjibi.png");

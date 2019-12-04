@@ -1,4 +1,4 @@
-package com.lin.cms.demo.interceptor;
+package com.lin.cms.demo.common.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;

@@ -1,4 +1,4 @@
-package com.lin.cms.demo.exception;
+package com.lin.cms.demo.common.exception;
 
 import com.lin.cms.core.result.Result;
 import com.lin.cms.interfaces.ExceptionResultResolver;

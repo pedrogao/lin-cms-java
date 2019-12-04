@@ -7,8 +7,8 @@ import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.utils.LocalUser;
-import com.lin.cms.demo.vo.UserWithAuthsVO;
+import com.lin.cms.demo.common.LocalUserLegacy;
+import com.lin.cms.demo.vo.UserAuthsVO;
 import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.demo.service.UserService;
 import com.lin.cms.token.JWT;
@@ -85,7 +85,7 @@ public class UserController {
     @GetMapping("/refresh")
     @RefreshRequired
     public Map refreshToken() {
-        UserDO user = LocalUser.getLocalUser();
+        UserDO user = LocalUserLegacy.getLocalUser();
         Map res = jwt.generateTokens(user.getId());
         return res;
     }
@@ -96,13 +96,13 @@ public class UserController {
     @GetMapping("/auths")
     @LoginRequired
     @RouteMeta(auth = "查询自己拥有的权限", module = "用户", mount = true)
-    public UserWithAuthsVO getAuths() {
-        UserDO user = LocalUser.getLocalUser();
+    public UserAuthsVO getAuths() {
+        UserDO user = LocalUserLegacy.getLocalUser();
         if (user.checkAdmin()) {
-            return new UserWithAuthsVO(user);
+            return new UserAuthsVO(user);
         }
         List<Map<String, List<Map<String, String>>>> auths = userService.getAuths(user.getGroupId());
-        return new UserWithAuthsVO(user, auths);
+        return new UserAuthsVO(user, auths);
     }
 
     /**
@@ -112,7 +112,7 @@ public class UserController {
     @RouteMeta(auth = "查询自己信息", module = "用户", mount = true)
     @GetMapping("/information")
     public UserDO getInformation() {
-        UserDO user = LocalUser.getLocalUser();
+        UserDO user = LocalUserLegacy.getLocalUser();
         return user;
     }
 
