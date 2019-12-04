@@ -7,13 +7,16 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `lin_file`;
 CREATE TABLE `lin_file`
 (
-    `id`        int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `path`      varchar(500)     NOT NULL,
-    `type`      tinyint(4)       NOT NULL DEFAULT '1' COMMENT '1 local，其他表示其他地方',
-    `name`      varchar(100)     NOT NULL,
-    `extension` varchar(50)               DEFAULT NULL,
-    `size`      int(11)                   DEFAULT NULL,
-    `md5`       varchar(40)               DEFAULT NULL COMMENT 'md5值，防止上传重复文件',
+    `id`          int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `path`        varchar(500)     NOT NULL,
+    `type`        tinyint(4)       NOT NULL DEFAULT '1' COMMENT '1 local，其他表示其他地方',
+    `name`        varchar(100)     NOT NULL,
+    `extension`   varchar(50)               DEFAULT NULL,
+    `size`        int(11)                   DEFAULT NULL,
+    `md5`         varchar(40)               DEFAULT NULL COMMENT 'md5值，防止上传重复文件',
+    `create_time` datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `update_time` datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    `delete_time` datetime(3)               DEFAULT NULL,
     PRIMARY KEY (`id`),
     UNIQUE KEY `md5` (`md5`)
 ) ENGINE = InnoDB
@@ -34,7 +37,9 @@ CREATE TABLE `lin_log`
     `method`      varchar(20)               DEFAULT NULL,
     `path`        varchar(50)               DEFAULT NULL,
     `permission`  varchar(100)              DEFAULT NULL,
-    `time`        datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `create_time` datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `update_time` datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    `delete_time` datetime(3)               DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -46,9 +51,12 @@ CREATE TABLE `lin_log`
 DROP TABLE IF EXISTS `lin_permission`;
 CREATE TABLE `lin_permission`
 (
-    `id`     int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `name`   varchar(60)      NOT NULL COMMENT '权限名称，例如：访问首页',
-    `module` varchar(50)      NOT NULL COMMENT '权限所属模块，例如：人员管理',
+    `id`          int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name`        varchar(60)      NOT NULL COMMENT '权限名称，例如：访问首页',
+    `module`      varchar(50)      NOT NULL COMMENT '权限所属模块，例如：人员管理',
+    `create_time` datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `update_time` datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    `delete_time` datetime(3)               DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -60,9 +68,12 @@ CREATE TABLE `lin_permission`
 DROP TABLE IF EXISTS `lin_group`;
 CREATE TABLE `lin_group`
 (
-    `id`   int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `name` varchar(60)      NOT NULL COMMENT '分组名称，例如：搬砖者',
-    `info` varchar(255) DEFAULT NULL COMMENT '分组信息：例如：搬砖的人',
+    `id`          int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `name`        varchar(60)      NOT NULL COMMENT '分组名称，例如：搬砖者',
+    `info`        varchar(255)              DEFAULT NULL COMMENT '分组信息：例如：搬砖的人',
+    `create_time` datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `update_time` datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    `delete_time` datetime(3)               DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -120,6 +131,9 @@ CREATE TABLE `lin_user_identity`
     `identity_type` varchar(100)     NOT NULL,
     `identifier`    varchar(100),
     `credential`    varchar(100),
+    `create_time`   datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `update_time`   datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    `delete_time`   datetime(3)               DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4
@@ -133,14 +147,14 @@ BEGIN;
 INSERT INTO `lin_user`(`id`, `username`, `nickname`)
 VALUES (1, 'super', 'super');
 
-INSERT INTO `lin_user_identity`
+INSERT INTO `lin_user_identity` (id, user_id, identity_type, identifier, credential)
 VALUES (1, 1, 'username', 'super',
         'pbkdf2sha256:64000:18:24:n:yUnDokcNRbwILZllmUOItIyo9MnI00QW:6ZcPf+sfzyoygOU8h/GSoirF');
 
-INSERT INTO `lin_group`
+INSERT INTO `lin_group`(id, name, info)
 VALUES (1, 'super', '超级用户组');
 
-INSERT INTO `lin_group`
+INSERT INTO `lin_group`(id, name, info)
 VALUES (2, 'guest', '游客组');
 COMMIT;
 
