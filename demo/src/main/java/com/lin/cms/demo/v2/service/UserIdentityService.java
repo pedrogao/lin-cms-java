@@ -73,4 +73,14 @@ public interface UserIdentityService extends IService<UserIdentityDO> {
      * @return 是否成功
      */
     boolean changeUsername(Long userId, String username);
+
+    /**
+     * 修改用户名密码
+     *
+     * @param userId   用户id
+     * @param username 新用户名
+     * @param password 新密码
+     * @return 是否成功
+     */
+    boolean changeUsernamePassword(Long userId, String username, String password);
 }

@@ -27,7 +27,7 @@ public class EncryptUtil {
     public static boolean verify(String encryptedPassword, String plainPassword) {
         char[] chars = plainPassword.toCharArray();
         try {
-            return Hash.password(chars).verify(encryptedPassword);
+            return Hash.password(chars).algorithm(Type.PBKDF2_SHA256).verify(encryptedPassword);
         } catch (InvalidHashException e) {
             return false;
         }

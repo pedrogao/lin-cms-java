@@ -11,6 +11,7 @@ import com.lin.cms.demo.v2.model.UserDO;
 import com.lin.cms.demo.v2.service.UserIdentityService;
 import com.lin.cms.demo.v2.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.lin.cms.exception.Failed;
 import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.Parameter;
 import org.apache.logging.log4j.util.Strings;
@@ -78,7 +79,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         }
         valid = userIdentityService.changePassword(user.getId(), dto.getNewPassword());
         if (!valid) {
-            throw new Parameter("更新密码失败");
+            throw new Failed("更新密码失败");
         }
         return user;
     }

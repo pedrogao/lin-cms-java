@@ -17,7 +17,6 @@ import java.util.Date;
 @Setter
 @Getter
 @ToString
-@Builder
 @NoArgsConstructor
 @TableName("lin_user")
 public class UserDO implements Serializable {

@@ -56,8 +56,7 @@ public class UserIdentityServiceImpl extends ServiceImpl<UserIdentityMapper, Use
     @Override
     public boolean changePassword(Long userId, String password) {
         String encrypted = EncryptUtil.encrypt(password);
-        UserIdentityDO userIdentity = new UserIdentityDO();
-        userIdentity.setCredential(encrypted);
+        UserIdentityDO userIdentity = UserIdentityDO.builder().credential(encrypted).build();
         QueryWrapper<UserIdentityDO> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(UserIdentityDO::getUserId, userId);
         return userIdentityMapper.update(userIdentity, wrapper) > 0;
@@ -65,8 +64,15 @@ public class UserIdentityServiceImpl extends ServiceImpl<UserIdentityMapper, Use
 
     @Override
     public boolean changeUsername(Long userId, String username) {
-        UserIdentityDO userIdentity = new UserIdentityDO();
-        userIdentity.setIdentifier(username);
+        UserIdentityDO userIdentity = UserIdentityDO.builder().identifier(username).build();
+        QueryWrapper<UserIdentityDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(UserIdentityDO::getUserId, userId);
+        return userIdentityMapper.update(userIdentity, wrapper) > 0;
+    }
+
+    @Override
+    public boolean changeUsernamePassword(Long userId, String username, String password) {
+        UserIdentityDO userIdentity = UserIdentityDO.builder().identifier(username).credential(password).build();
         QueryWrapper<UserIdentityDO> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(UserIdentityDO::getUserId, userId);
         return userIdentityMapper.update(userIdentity, wrapper) > 0;
