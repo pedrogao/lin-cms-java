@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 @Getter
 @NoArgsConstructor
-public class GroupWithAuthsBO {
+public class GroupAuthsBO {
     private Integer id;
 
     private String name;

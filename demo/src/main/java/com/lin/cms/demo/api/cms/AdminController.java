@@ -6,7 +6,7 @@ import com.lin.cms.demo.service.AdminService;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.model.GroupDO;
-import com.lin.cms.demo.bo.GroupWithAuthsBO;
+import com.lin.cms.demo.bo.GroupAuthsBO;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.demo.dto.admin.*;
@@ -107,8 +107,8 @@ public class AdminController {
     @GetMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(auth = "查询一个权限组及其权限", module = "管理员")
-    public GroupWithAuthsBO getGroup(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id) {
-        GroupWithAuthsBO groupWithAuths = adminService.getGroup(id);
+    public GroupAuthsBO getGroup(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id) {
+        GroupAuthsBO groupWithAuths = adminService.getGroup(id);
         return groupWithAuths;
     }
 

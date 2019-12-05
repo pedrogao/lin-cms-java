@@ -1,6 +1,6 @@
 package com.lin.cms.demo.api.cms;
 
-import com.lin.cms.demo.bo.UploadFileBO;
+import com.lin.cms.demo.extensions.file.File;
 import com.lin.cms.demo.service.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.MultiValueMap;
@@ -19,10 +19,10 @@ public class FileController {
     private FileService fileService;
 
     @PostMapping("")
-    public List<UploadFileBO> upload(HttpServletRequest request) {
+    public List<File> upload(HttpServletRequest request) {
         MultipartHttpServletRequest multipartHttpServletRequest = ((MultipartHttpServletRequest) request);
         MultiValueMap<String, MultipartFile> fileMap = multipartHttpServletRequest.getMultiFileMap();
-        List<UploadFileBO> res = fileService.upload(fileMap);
+        List<File> res = fileService.upload(fileMap);
         return res;
     }
 

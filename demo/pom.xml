@@ -21,6 +21,7 @@
         <guava.version>23.0</guava.version>
         <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <hutool.version>5.0.6</hutool.version>
+        <freemarker.version>2.3.28</freemarker.version>
     </properties>
 
     <dependencies>
@@ -51,12 +52,6 @@
         <!--<artifactId>poem</artifactId>-->
         <!--<version>0.0.1-SNAPSHOT</version>-->
         <!--</dependency>-->
-
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <scope>compile</scope>
-        </dependency>
 
         <!--MySQL JDBC驱动-->
         <dependency>
@@ -108,11 +103,17 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
         <!--代码生成器依赖-->
         <dependency>
             <groupId>org.freemarker</groupId>
             <artifactId>freemarker</artifactId>
-            <version>2.3.28</version>
+            <version>${freemarker.version}</version>
             <scope>test</scope>
         </dependency>
 
@@ -122,8 +123,6 @@
             <version>${mybatis-plus.version}</version>
             <scope>test</scope>
         </dependency>
-
-
     </dependencies>
 
     <build>

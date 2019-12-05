@@ -5,7 +5,7 @@ import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.NotFound;
 import com.lin.cms.exception.Parameter;
 import com.lin.cms.core.result.PageResult;
-import com.lin.cms.demo.bo.GroupWithAuthsBO;
+import com.lin.cms.demo.bo.GroupAuthsBO;
 import com.lin.cms.demo.dto.admin.*;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
@@ -159,7 +159,7 @@ public class AdminServiceImplTest {
         groupDO.setInfo(info);
         groupMapper.insert(groupDO);
 
-        GroupWithAuthsBO authsBO = adminService.getGroup(groupDO.getId());
+        GroupAuthsBO authsBO = adminService.getGroup(groupDO.getId());
         assertEquals(authsBO.getName(), name);
         assertTrue(authsBO.getAuths().size() == 0);
     }

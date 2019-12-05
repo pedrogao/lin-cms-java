@@ -11,7 +11,7 @@ import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.service.AdminService;
-import com.lin.cms.demo.bo.GroupWithAuthsBO;
+import com.lin.cms.demo.bo.GroupAuthsBO;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.demo.model.*;
 import com.lin.cms.demo.dto.admin.*;
@@ -92,10 +92,10 @@ public class AdminServiceImpl implements AdminService {
         IPage<GroupDO> iPage = groupMapper.selectPage(pager, null);
         List<GroupDO> groups = iPage.getRecords();
         long total = iPage.getTotal();
-        List<GroupWithAuthsBO> groupAndAuths = new ArrayList<>();
+        List<GroupAuthsBO> groupAndAuths = new ArrayList<>();
 
         groups.forEach(group -> {
-            GroupWithAuthsBO tmp = new GroupWithAuthsBO();
+            GroupAuthsBO tmp = new GroupAuthsBO();
             BeanUtils.copyProperties(group, tmp);
             List<SimpleAuthDO> auths = authMapper.findByGroupId(group.getId());
             tmp.setAuths(auths);
@@ -105,9 +105,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public GroupWithAuthsBO getGroup(Long id) {
+    public GroupAuthsBO getGroup(Long id) {
         GroupDO group = groupMapper.selectById(id);
-        GroupWithAuthsBO tmp = new GroupWithAuthsBO();
+        GroupAuthsBO tmp = new GroupAuthsBO();
         BeanUtils.copyProperties(group, tmp);
         List<SimpleAuthDO> auths = authMapper.findByGroupId(group.getId());
         List<Map<String, List<Map<String, String>>>> structualAuths = AuthSpliter.splitAuths(auths);

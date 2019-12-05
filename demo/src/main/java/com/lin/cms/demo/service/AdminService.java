@@ -3,7 +3,7 @@ package com.lin.cms.demo.service;
 import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.dto.admin.*;
-import com.lin.cms.demo.bo.GroupWithAuthsBO;
+import com.lin.cms.demo.bo.GroupAuthsBO;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface AdminService {
 
     PageResult getGroups(Long page, Long count);
 
-    GroupWithAuthsBO getGroup(Long id);
+    GroupAuthsBO getGroup(Long id);
 
     void createGroup(NewGroupDTO validator);
 
