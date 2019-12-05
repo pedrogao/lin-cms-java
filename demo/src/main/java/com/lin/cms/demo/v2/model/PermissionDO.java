@@ -1,23 +1,27 @@
 package com.lin.cms.demo.v2.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * <p>
- * 
- * </p>
- *
  * @author pedro
  * @since 2019-11-30
  */
+@Data
+@TableName("lin_permission")
 public class PermissionDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 权限名称，例如：访问首页
@@ -29,34 +33,11 @@ public class PermissionDO implements Serializable {
      */
     private String module;
 
-    public Integer getId() {
-        return id;
-    }
+    private Date createTime;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public String getName() {
-        return name;
-    }
+    private Date updateTime;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getModule() {
-        return module;
-    }
-
-    public void setModule(String module) {
-        this.module = module;
-    }
-
-    @Override
-    public String toString() {
-        return "PermissionDO{" +
-            "id=" + id +
-            ", name=" + name +
-            ", module=" + module +
-        "}";
-    }
+    @JSONField(serialize = false)
+    @TableLogic
+    private Date deleteTime;
 }

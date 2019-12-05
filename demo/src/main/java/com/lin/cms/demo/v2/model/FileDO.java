@@ -1,23 +1,27 @@
 package com.lin.cms.demo.v2.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
- * <p>
- * 
- * </p>
- *
  * @author pedro
  * @since 2019-11-30
  */
+@Data
+@TableName("lin_file")
 public class FileDO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     private String path;
 
@@ -37,66 +41,11 @@ public class FileDO implements Serializable {
      */
     private String md5;
 
-    public Integer getId() {
-        return id;
-    }
+    private Date createTime;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public String getPath() {
-        return path;
-    }
+    private Date updateTime;
 
-    public void setPath(String path) {
-        this.path = path;
-    }
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
-    }
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-    public String getExtension() {
-        return extension;
-    }
-
-    public void setExtension(String extension) {
-        this.extension = extension;
-    }
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
-    public String getMd5() {
-        return md5;
-    }
-
-    public void setMd5(String md5) {
-        this.md5 = md5;
-    }
-
-    @Override
-    public String toString() {
-        return "FileDO{" +
-            "id=" + id +
-            ", path=" + path +
-            ", type=" + type +
-            ", name=" + name +
-            ", extension=" + extension +
-            ", size=" + size +
-            ", md5=" + md5 +
-        "}";
-    }
+    @JSONField(serialize = false)
+    @TableLogic
+    private Date deleteTime;
 }

@@ -1,11 +1,14 @@
 package com.lin.cms.demo.v2.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author pedro
@@ -44,4 +47,12 @@ public class UserIdentityDO implements Serializable {
      * 凭证，例如 密码
      */
     private String credential;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    @JSONField(serialize = false)
+    @TableLogic
+    private Date deleteTime;
 }
