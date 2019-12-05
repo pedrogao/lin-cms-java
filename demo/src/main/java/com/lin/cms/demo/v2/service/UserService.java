@@ -4,6 +4,7 @@ import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.lin.cms.demo.v2.model.GroupDO;
 import com.lin.cms.demo.v2.model.UserDO;
 
 import java.util.List;
@@ -40,6 +41,14 @@ public interface UserService extends IService<UserDO> {
      * @return 被修改密码的用户
      */
     UserDO changeUserPassword(ChangePasswordDTO validator);
+
+    /**
+     * 获得用户的所有分组
+     *
+     * @param userId 用户id
+     * @return 所有分组
+     */
+    List<GroupDO> getUserGroups(Long userId);
 
     /**
      * 获得用户所有权限

@@ -4,9 +4,39 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.v2.model.PermissionDO">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
-        <result column="module" property="module" />
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="module" property="module"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
     </resultMap>
 
+    <select id="selectPermissionsByGroupIDs" parameterType="java.util.List"
+            resultType="com.lin.cms.demo.v2.model.PermissionDO">
+        SELECT p.id, p.name, p.module
+        FROM lin_permission AS p
+        WHERE p.delete_time IS NULL
+        AND p.id IN (
+        SELECT gp.permission_id
+        FROM lin_group_permission AS gp
+        WHERE gp.group_id IN
+        <foreach item="groupID" index="index" collection="groupIDs"
+                 open="(" separator="," close=")">
+            #{groupID}
+        </foreach>
+        )
+    </select>
+
+    <select id="selectPermissionsByGroupID" parameterType="java.lang.Long"
+            resultType="com.lin.cms.demo.v2.model.PermissionDO">
+        SELECT p.id, p.name, p.module
+        FROM lin_permission AS p
+        WHERE p.delete_time IS NULL
+        AND p.id IN (
+        SELECT gp.permission_id
+        FROM lin_group_permission AS gp
+        WHERE gp.group_id = #{groupID}
+        )
+    </select>
 </mapper>

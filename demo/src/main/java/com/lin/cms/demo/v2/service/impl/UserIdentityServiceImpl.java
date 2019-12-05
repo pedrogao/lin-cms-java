@@ -17,8 +17,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserIdentityServiceImpl extends ServiceImpl<UserIdentityMapper, UserIdentityDO> implements UserIdentityService {
 
-    @Autowired
-    private UserIdentityMapper userIdentityMapper;
 
     @Override
     public UserIdentityDO createIdentity(Long userId, String identityType, String identifier, String credential) {
@@ -32,7 +30,7 @@ public class UserIdentityServiceImpl extends ServiceImpl<UserIdentityMapper, Use
 
     @Override
     public UserIdentityDO createIdentity(UserIdentityDO userIdentity) {
-        userIdentityMapper.insert(userIdentity);
+        this.baseMapper.insert(userIdentity);
         return userIdentity;
     }
 
@@ -49,7 +47,7 @@ public class UserIdentityServiceImpl extends ServiceImpl<UserIdentityMapper, Use
         wrapper.lambda().eq(UserIdentityDO::getUserId, userId)
                 .eq(UserIdentityDO::getIdentityType, IdentityConsts.USERNAME_PASSWORD_IDENTITY)
                 .eq(UserIdentityDO::getIdentifier, username);
-        UserIdentityDO userIdentity = userIdentityMapper.selectOne(wrapper);
+        UserIdentityDO userIdentity = this.baseMapper.selectOne(wrapper);
         return EncryptUtil.verify(userIdentity.getCredential(), password);
     }
 
@@ -59,7 +57,7 @@ public class UserIdentityServiceImpl extends ServiceImpl<UserIdentityMapper, Use
         UserIdentityDO userIdentity = UserIdentityDO.builder().credential(encrypted).build();
         QueryWrapper<UserIdentityDO> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(UserIdentityDO::getUserId, userId);
-        return userIdentityMapper.update(userIdentity, wrapper) > 0;
+        return this.baseMapper.update(userIdentity, wrapper) > 0;
     }
 
     @Override
@@ -67,7 +65,7 @@ public class UserIdentityServiceImpl extends ServiceImpl<UserIdentityMapper, Use
         UserIdentityDO userIdentity = UserIdentityDO.builder().identifier(username).build();
         QueryWrapper<UserIdentityDO> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(UserIdentityDO::getUserId, userId);
-        return userIdentityMapper.update(userIdentity, wrapper) > 0;
+        return this.baseMapper.update(userIdentity, wrapper) > 0;
     }
 
     @Override
@@ -75,6 +73,6 @@ public class UserIdentityServiceImpl extends ServiceImpl<UserIdentityMapper, Use
         UserIdentityDO userIdentity = UserIdentityDO.builder().identifier(username).credential(password).build();
         QueryWrapper<UserIdentityDO> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(UserIdentityDO::getUserId, userId);
-        return userIdentityMapper.update(userIdentity, wrapper) > 0;
+        return this.baseMapper.update(userIdentity, wrapper) > 0;
     }
 }

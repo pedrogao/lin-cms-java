@@ -19,7 +19,7 @@
         <fastjson.version>1.2.47</fastjson.version>
         <druid.version>1.1.10</druid.version>
         <guava.version>23.0</guava.version>
-        <mybatis-plus.version>3.1.2</mybatis-plus.version>
+        <mybatis-plus.version>3.2.0</mybatis-plus.version>
         <hutool.version>5.0.6</hutool.version>
     </properties>
 
@@ -119,7 +119,7 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-generator</artifactId>
-            <version>3.1.2</version>
+            <version>${mybatis-plus.version}</version>
             <scope>test</scope>
         </dependency>
 
