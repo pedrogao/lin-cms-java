@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import java.io.Serializable;
@@ -46,10 +47,15 @@ public class UserDO implements Serializable {
      */
     private String email;
 
+    @JsonIgnore
+    @JSONField(serialize = false)
     private Date createTime;
 
+    @JsonIgnore
+    @JSONField(serialize = false)
     private Date updateTime;
 
+    @JsonIgnore
     @JSONField(serialize = false)
     @TableLogic
     private Date deleteTime;

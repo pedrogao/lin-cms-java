@@ -19,7 +19,7 @@ public interface PermissionMapper extends BaseMapper<PermissionDO> {
      * @param groupIDs 分组ids
      * @return 权限
      */
-    List<PermissionDO> selectPermissionsByGroupIDs(List<Long> groupIDs);
+    List<PermissionDO> selectPermissionsByGroupIds(List<Long> groupIDs);
 
     /**
      * 通过分组id得到所有分组下的权限
@@ -27,5 +27,5 @@ public interface PermissionMapper extends BaseMapper<PermissionDO> {
      * @param groupID 分组id
      * @return 权限
      */
-    List<PermissionDO> selectPermissionsByGroupID(Long groupID);
+    List<PermissionDO> selectPermissionsByGroupId(Long groupID);
 }

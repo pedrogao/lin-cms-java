@@ -2,6 +2,9 @@ package com.lin.cms.demo.extensions.file;
 
 /**
  * 文件相关常量值
+ *
+ * @author pedro
+ * @since 2019-11-30
  */
 public class FileConsts {
 

@@ -13,7 +13,6 @@ import java.util.List;
 @Service("groupMapper2")
 public interface GroupMapper extends BaseMapper<GroupDO> {
 
-
     /**
      * 获得用户的所有分组
      *

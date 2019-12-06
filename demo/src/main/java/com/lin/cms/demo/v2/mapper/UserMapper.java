@@ -1,5 +1,7 @@
 package com.lin.cms.demo.v2.mapper;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.v2.model.UserDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.springframework.stereotype.Service;
@@ -27,4 +29,13 @@ public interface UserMapper extends BaseMapper<UserDO> {
      * @return 人数
      */
     int selectCountById(Long id);
+
+    /**
+     * 通过分组id分页获取用户数据
+     *
+     * @param pager   分页
+     * @param groupId 分组id
+     * @return 分页数据
+     */
+    IPage<UserDO> selectPageByGroupId(Page pager, Long groupId);
 }

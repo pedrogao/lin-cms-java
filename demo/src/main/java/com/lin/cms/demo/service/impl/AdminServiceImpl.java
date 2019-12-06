@@ -127,16 +127,16 @@ public class AdminServiceImpl implements AdminService {
         group.setInfo(validator.getInfo());
         groupMapper.insert(group);
         Long groupId = group.getId();
-        validator.getAuths().forEach(item -> {
-            AuthDO auth = new AuthDO();
-            RouteMeta meta = postProcessor.findMetaByAuth(item);
-            if (meta != null) {
-                auth.setGroupId(groupId);
-                auth.setAuth(meta.auth());
-                auth.setModule(meta.module());
-                authMapper.insert(auth);
-            }
-        });
+        // validator.getAuths().forEach(item -> {
+        //     AuthDO auth = new AuthDO();
+        //     RouteMeta meta = postProcessor.findMetaByAuth(item);
+        //     if (meta != null) {
+        //         auth.setGroupId(groupId);
+        //         auth.setAuth(meta.auth());
+        //         auth.setModule(meta.module());
+        //         authMapper.insert(auth);
+        //     }
+        // });
     }
 
     @Override

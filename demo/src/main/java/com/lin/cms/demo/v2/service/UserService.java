@@ -1,5 +1,7 @@
 package com.lin.cms.demo.v2.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
@@ -82,4 +84,13 @@ public interface UserService extends IService<UserDO> {
      * @return true代表存在
      */
     boolean checkUserExistById(Long id);
+
+    /**
+     * 根据分组id分页获取用户数据
+     *
+     * @param pager   分页
+     * @param groupId 分组id
+     * @return 数据页
+     */
+    IPage<UserDO> findUsersByPage(Page pager, Long groupId);
 }

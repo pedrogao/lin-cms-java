@@ -22,4 +22,17 @@
         SELECT COUNT(*) FROM lin_user as u WHERE u.id = #{id}
     </select>
 
+    <select id="selectPageByGroupId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT u.username, u.nickname,
+        u.avatar, u.email, u.create_time,
+        u.update_time, u.delete_time
+        FROM lin_user AS u
+        WHERE u.id IN
+        (
+        SELECT ug.user_id
+        FROM lin_user_group AS ug
+        WHERE ug.group_id = #{groupId}
+        )
+    </select>
+
 </mapper>

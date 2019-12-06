@@ -15,18 +15,26 @@ public interface PermissionService extends IService<PermissionDO> {
     /**
      * 通过分组id得到分组的权限
      *
-     * @param groupIDs 分组id
+     * @param groupId 分组id
      * @return 权限
      */
-    List<PermissionDO> getPermissionByGroupIDs(List<Long> groupIDs);
+    List<PermissionDO> getPermissionByGroupId(Long groupId);
+
+    /**
+     * 通过分组id得到分组的权限
+     *
+     * @param groupIds 分组id
+     * @return 权限
+     */
+    List<PermissionDO> getPermissionByGroupIds(List<Long> groupIds);
 
     /**
      * 通过分组id得到分组的权限与分组id的映射
      *
-     * @param groupIDs 分组id
+     * @param groupIds 分组id
      * @return 权限map
      */
-    Map<List<PermissionDO>, Long> getPermissionMapByGroupIDs(List<Long> groupIDs);
+    Map<List<PermissionDO>, Long> getPermissionMapByGroupIds(List<Long> groupIds);
 
     /**
      * 将权限结构化

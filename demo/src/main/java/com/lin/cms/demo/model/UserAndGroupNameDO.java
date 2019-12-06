@@ -20,7 +20,6 @@ public class UserAndGroupNameDO {
     /**
      * 分组名
      */
-
     private String groupName;
 
     /**

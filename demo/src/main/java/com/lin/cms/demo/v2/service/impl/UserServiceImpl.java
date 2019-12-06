@@ -1,7 +1,9 @@
 package com.lin.cms.demo.v2.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.common.LocalUser;
+import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
@@ -98,8 +100,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Override
     public List<Map<String, List<Map<String, String>>>> getUserPermissions(Long userId) {
         // 查找用户搜索分组，查找分组下的所有权限
-        List<Long> groupIDs = groupService.getUserGroupIDsByUserId(userId);
-        List<PermissionDO> permissions = permissionService.getPermissionByGroupIDs(groupIDs);
+        List<Long> groupIds = groupService.getUserGroupIdsByUserId(userId);
+        List<PermissionDO> permissions = permissionService.getPermissionByGroupIds(groupIds);
         return permissionService.structuringPermissions(permissions);
     }
 
@@ -107,8 +109,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     public UserDO findByUsername(String username) {
         QueryWrapper<UserDO> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(UserDO::getUsername, username);
-        UserDO user = this.getOne(wrapper);
-        return user;
+        return this.getOne(wrapper);
     }
 
     @Override
@@ -121,5 +122,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     public boolean checkUserExistById(Long id) {
         int rows = this.baseMapper.selectCountById(id);
         return rows > 0;
+    }
+
+    @Override
+    public IPage<UserDO> findUsersByPage(Page pager, Long groupId) {
+        return this.baseMapper.selectPageByGroupId(pager, groupId);
     }
 }

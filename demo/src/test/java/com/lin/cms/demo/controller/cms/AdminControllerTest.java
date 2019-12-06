@@ -235,7 +235,7 @@ public class AdminControllerTest {
         auths.add("查询所有日志");
         auths.add("搜索日志");
         auths.add("查询日志记录的用户");
-        validator.setAuths(auths);
+        // validator.setAuths(auths);
 
         mvc.perform(post("/cms/admin/group/")
                 .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(validator)))
