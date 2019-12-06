@@ -167,50 +167,50 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public void dispatchAuth(DispatchAuthDTO validator) {
+    public void dispatchAuth(DispatchPermissionDTO validator) {
         GroupDO group = groupMapper.selectById(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
         }
-        AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), validator.getAuth());
-        if (one != null) {
-            throw new Forbidden("已有权限，不可重复添加");
-        }
-        AuthDO auth = new AuthDO();
-        RouteMeta meta = postProcessor.findMetaByAuth(validator.getAuth());
-        auth.setModule(meta.module());
-        auth.setAuth(meta.auth());
-        auth.setGroupId(validator.getGroupId());
-        authMapper.insert(auth);
+        // AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), validator.getAuth());
+        // if (one != null) {
+        //     throw new Forbidden("已有权限，不可重复添加");
+        // }
+        // AuthDO auth = new AuthDO();
+        // RouteMeta meta = postProcessor.findMetaByAuth(validator.getAuth());
+        // auth.setModule(meta.module());
+        // auth.setAuth(meta.auth());
+        // auth.setGroupId(validator.getGroupId());
+        // authMapper.insert(auth);
     }
 
     @Override
-    public void dispatchAuths(DispatchAuthsDTO validator) {
+    public void dispatchAuths(DispatchPermissionsDTO validator) {
         GroupDO group = groupMapper.selectById(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
         }
-        validator.getAuths().forEach(item -> {
-            AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), item);
-            if (one == null) {
-                AuthDO auth = new AuthDO();
-                RouteMeta meta = postProcessor.findMetaByAuth(item);
-                auth.setAuth(meta.auth());
-                auth.setModule(meta.module());
-                auth.setGroupId(validator.getGroupId());
-                authMapper.insert(auth);
-            }
-        });
+        // validator.getAuths().forEach(item -> {
+        //     AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), item);
+        //     if (one == null) {
+        //         AuthDO auth = new AuthDO();
+        //         RouteMeta meta = postProcessor.findMetaByAuth(item);
+        //         auth.setAuth(meta.auth());
+        //         auth.setModule(meta.module());
+        //         auth.setGroupId(validator.getGroupId());
+        //         authMapper.insert(auth);
+        //     }
+        // });
     }
 
     @Override
     @Transactional
-    public void removeAuths(RemoveAuthsDTO validator) {
+    public void removeAuths(RemovePermissionsDTO validator) {
         GroupDO group = groupMapper.selectById(validator.getGroupId());
         if (group == null) {
             throw new NotFound("分组不存在");
         }
-        authMapper.deleteByGroupIdAndInAuths(validator.getGroupId(), validator.getAuths());
+        // authMapper.deleteByGroupIdAndInAuths(validator.getGroupId(), validator.getAuths());
     }
 
     @Override

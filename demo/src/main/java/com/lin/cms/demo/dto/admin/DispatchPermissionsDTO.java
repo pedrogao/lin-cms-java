@@ -1,22 +1,18 @@
 package com.lin.cms.demo.dto.admin;
 
 import com.lin.cms.demo.common.validator.NotEmptyFields;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-@Setter
-@Getter
-@NoArgsConstructor
-public class DispatchAuthsDTO {
+@Data
+public class DispatchPermissionsDTO {
     @Min(value = 1, message = "分组id必须正整数")
     @NotNull(message = "分组id不可为空")
     private Long groupId;
 
-    @NotEmptyFields(message = "请输入auths字段，且每一项不可为空")
-    private List<String> auths;
+    @NotEmptyFields(message = "请输入权限id字段，且每一项不可为空")
+    private List<Long> permissionIds;
 }

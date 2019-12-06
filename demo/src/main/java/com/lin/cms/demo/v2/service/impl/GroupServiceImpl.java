@@ -53,4 +53,11 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
         List<PermissionDO> permissions = permissionService.getPermissionByGroupId(id);
         return new GroupPermissionsBO(group, permissions);
     }
+
+    @Override
+    public boolean checkGroupExistByName(String name) {
+        QueryWrapper<GroupDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(GroupDO::getName, name);
+        return this.baseMapper.selectCount(wrapper) > 0;
+    }
 }

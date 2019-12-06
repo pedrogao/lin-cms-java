@@ -11,27 +11,27 @@ public interface AdminService {
 
     PageResult getUsers(Long groupId, Long count, Long page);
 
-    boolean changeUserPassword(Long id, ResetPasswordDTO validator);
+    boolean changeUserPassword(Long id, ResetPasswordDTO dto);
 
     boolean deleteUser(Long id);
 
-    boolean updateUserInfo(Long id, UpdateUserInfoDTO validator);
+    boolean updateUserInfo(Long id, UpdateUserInfoDTO dto);
 
     PageResult getGroups(Long page, Long count);
 
     GroupPermissionsBO getGroup(Long id);
 
-    boolean createGroup(NewGroupDTO validator);
+    boolean createGroup(NewGroupDTO dto);
 
-    boolean updateGroup(Long id, UpdateGroupDTO validator);
+    boolean updateGroup(Long id, UpdateGroupDTO dto);
 
     boolean deleteGroup(Long id);
 
-    boolean dispatchAuth(DispatchAuthDTO validator);
+    boolean dispatchPermission(DispatchPermissionDTO dto);
 
-    boolean dispatchAuths(DispatchAuthsDTO validator);
+    boolean dispatchPermissions(DispatchPermissionsDTO dto);
 
-    boolean removeAuths(RemoveAuthsDTO validator);
+    boolean removePermissions(RemovePermissionsDTO dto);
 
     List<GroupDO> getAllGroups();
 }

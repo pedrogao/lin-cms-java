@@ -222,9 +222,9 @@ public class AdminServiceImplTest {
         groupDO.setInfo(info);
         groupMapper.insert(groupDO);
 
-        DispatchAuthDTO dto = new DispatchAuthDTO();
+        DispatchPermissionDTO dto = new DispatchPermissionDTO();
         dto.setGroupId(groupDO.getId());
-        dto.setAuth("查询自己信息");
+        // dto.setAuth("查询自己信息");
 
         adminService.dispatchAuth(dto);
 
@@ -239,7 +239,7 @@ public class AdminServiceImplTest {
         groupDO.setInfo(info);
         groupMapper.insert(groupDO);
 
-        DispatchAuthsDTO dto = new DispatchAuthsDTO();
+        DispatchPermissionsDTO dto = new DispatchPermissionsDTO();
         dto.setGroupId(groupDO.getId());
 
         List<String> auths = new ArrayList<>();
@@ -247,7 +247,7 @@ public class AdminServiceImplTest {
         auths.add("查询所有日志");
         auths.add("搜索日志");
         auths.add("查询日志记录的用户");
-        dto.setAuths(auths);
+        // dto.setAuths(auths);
 
         adminService.dispatchAuths(dto);
 
@@ -262,18 +262,18 @@ public class AdminServiceImplTest {
         groupDO.setInfo(info);
         groupMapper.insert(groupDO);
 
-        DispatchAuthDTO dto = new DispatchAuthDTO();
+        DispatchPermissionDTO dto = new DispatchPermissionDTO();
         dto.setGroupId(groupDO.getId());
-        dto.setAuth("查询自己信息");
+        // dto.setAuth("查询自己信息");
 
         adminService.dispatchAuth(dto);
 
-        RemoveAuthsDTO validator = new RemoveAuthsDTO();
+        RemovePermissionsDTO validator = new RemovePermissionsDTO();
         validator.setGroupId(groupDO.getId());
 
         List<String> auths = new ArrayList<>();
         auths.add("查询自己信息");
-        validator.setAuths(auths);
+        // validator.setAuths(auths);
 
         adminService.removeAuths(validator);
 

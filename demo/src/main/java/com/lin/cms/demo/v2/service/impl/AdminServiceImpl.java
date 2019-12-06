@@ -6,19 +6,23 @@ import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.dto.admin.*;
+import com.lin.cms.demo.v2.mapper.GroupPermissionMapper;
 import com.lin.cms.demo.v2.model.GroupDO;
+import com.lin.cms.demo.v2.model.GroupPermissionDO;
 import com.lin.cms.demo.v2.model.UserDO;
 import com.lin.cms.demo.v2.model.UserIdentityDO;
 import com.lin.cms.demo.v2.service.AdminService;
 import com.lin.cms.demo.v2.service.GroupService;
 import com.lin.cms.demo.v2.service.UserIdentityService;
 import com.lin.cms.demo.v2.service.UserService;
+import com.lin.cms.exception.Forbidden;
 import com.lin.cms.exception.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service("adminServiceImpl-v2")
 public class AdminServiceImpl implements AdminService {
@@ -31,6 +35,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Autowired
     private GroupService groupService;
+
+    @Autowired
+    private GroupPermissionMapper groupPermissionMapper;
 
     @Override
     public PageResult getUsers(Long groupId, Long count, Long page) {
@@ -73,15 +80,24 @@ public class AdminServiceImpl implements AdminService {
         return groupService.getGroupAndPermissions(id);
     }
 
+    @Transactional
     @Override
-    public boolean createGroup(NewGroupDTO validator) {
-
-        return false;
+    public boolean createGroup(NewGroupDTO dto) {
+        throwGroupNameExist(dto.getName());
+        GroupDO group = GroupDO.builder().name(dto.getName()).info(dto.getInfo()).build();
+        groupService.save(group);
+        List<GroupPermissionDO> relations = dto.getPermissionIds().stream()
+                .map(id -> new GroupPermissionDO(group.getId(), id))
+                .collect(Collectors.toList());
+        return groupPermissionMapper.insertBatch(relations) > 0;
     }
 
     @Override
-    public boolean updateGroup(Long id, UpdateGroupDTO validator) {
-        return false;
+    public boolean updateGroup(Long id, UpdateGroupDTO dto) {
+        throwGroupNotExistById(id);
+        throwGroupNameExist(dto.getName());
+        GroupDO group = GroupDO.builder().id(id).name(dto.getName()).info(dto.getInfo()).build();
+        return groupService.updateById(group);
     }
 
     @Override
@@ -91,18 +107,22 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public boolean dispatchAuth(DispatchAuthDTO validator) {
-        return false;
+    public boolean dispatchPermission(DispatchPermissionDTO dto) {
+        GroupPermissionDO groupPermission = new GroupPermissionDO(dto.getGroupId(), dto.getPermissionId());
+        return groupPermissionMapper.insert(groupPermission) > 0;
     }
 
     @Override
-    public boolean dispatchAuths(DispatchAuthsDTO validator) {
-        return false;
+    public boolean dispatchPermissions(DispatchPermissionsDTO dto) {
+        List<GroupPermissionDO> relations = dto.getPermissionIds().stream()
+                .map(id -> new GroupPermissionDO(dto.getGroupId(), id))
+                .collect(Collectors.toList());
+        return groupPermissionMapper.insertBatch(relations) > 0;
     }
 
     @Override
-    public boolean removeAuths(RemoveAuthsDTO validator) {
-        return false;
+    public boolean removePermissions(RemovePermissionsDTO dto) {
+        return groupPermissionMapper.deleteBatchByGroupIdAndPermissionId(dto.getGroupId(), dto.getPermissionIds()) > 0;
     }
 
     @Override
@@ -121,6 +141,13 @@ public class AdminServiceImpl implements AdminService {
         boolean exist = groupService.checkGroupExistById(id);
         if (!exist) {
             throw new NotFound("未找到分组");
+        }
+    }
+
+    private void throwGroupNameExist(String name) {
+        boolean exist = groupService.checkGroupExistByName(name);
+        if (exist) {
+            throw new Forbidden("分组名已被使用，请重新填入新的分组名");
         }
     }
 }

@@ -297,9 +297,9 @@ public class AdminControllerTest {
         authDO.setAuth(auth);
         authMapper.insert(authDO);
 
-        DispatchAuthDTO dto = new DispatchAuthDTO();
+        DispatchPermissionDTO dto = new DispatchPermissionDTO();
         dto.setGroupId(groupId);
-        dto.setAuth("查询日志记录的用户");
+        // dto.setAuth("查询日志记录的用户");
 
         // 查询日志记录的用户
         mvc.perform(post("/cms/admin/dispatch")
@@ -325,11 +325,11 @@ public class AdminControllerTest {
         authDO.setAuth(auth);
         authMapper.insert(authDO);
 
-        DispatchAuthsDTO dto = new DispatchAuthsDTO();
+        DispatchPermissionsDTO dto = new DispatchPermissionsDTO();
         dto.setGroupId(groupId);
         List<String> auths = new ArrayList<>();
         auths.add("查询日志记录的用户");
-        dto.setAuths(auths);
+        // dto.setAuths(auths);
 
         // 查询日志记录的用户
         mvc.perform(post("/cms/admin/dispatch/patch")
@@ -355,11 +355,11 @@ public class AdminControllerTest {
         authDO.setAuth(auth);
         authMapper.insert(authDO);
 
-        RemoveAuthsDTO dto = new RemoveAuthsDTO();
+        RemovePermissionsDTO dto = new RemovePermissionsDTO();
         dto.setGroupId(groupId);
         List<String> auths = new ArrayList<>();
         auths.add("查看lin的信息");
-        dto.setAuths(auths);
+        // dto.setAuths(auths);
 
         // 查询日志记录的用户
         mvc.perform(post("/cms/admin/remove")

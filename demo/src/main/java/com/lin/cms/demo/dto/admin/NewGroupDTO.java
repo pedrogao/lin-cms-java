@@ -17,6 +17,6 @@ public class NewGroupDTO {
 
     private String info;
 
-    @NotEmptyFields(message = "请输入权限字段，且每一项不可为空")
-    private List<String> permissions;
+    @NotEmptyFields(message = "请输入权限id，且每一项不可为空")
+    private List<Long> permissionIds;
 }

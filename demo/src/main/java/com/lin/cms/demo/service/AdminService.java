@@ -27,11 +27,11 @@ public interface AdminService {
 
     void deleteGroup(Long id);
 
-    void dispatchAuth(DispatchAuthDTO validator);
+    void dispatchAuth(DispatchPermissionDTO validator);
 
-    void dispatchAuths(DispatchAuthsDTO validator);
+    void dispatchAuths(DispatchPermissionsDTO validator);
 
-    void removeAuths(RemoveAuthsDTO validator);
+    void removeAuths(RemovePermissionsDTO validator);
 
     List<GroupDO> getAllGroups();
 }

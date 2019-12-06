@@ -142,7 +142,7 @@ public class AdminController {
     @PostMapping("/dispatch")
     @AdminRequired
     @RouteMeta(auth = "分配单个权限", module = "管理员")
-    public Result dispatchAuth(@RequestBody @Validated DispatchAuthDTO validator) {
+    public Result dispatchAuth(@RequestBody @Validated DispatchPermissionDTO validator) {
         adminService.dispatchAuth(validator);
         return ResultGenerator.genSuccessResult("添加权限成功!");
     }
@@ -150,7 +150,7 @@ public class AdminController {
     @PostMapping("/dispatch/patch")
     @AdminRequired
     @RouteMeta(auth = "分配多个权限", module = "管理员")
-    public Result dispatchAuths(@RequestBody @Validated DispatchAuthsDTO validator) {
+    public Result dispatchAuths(@RequestBody @Validated DispatchPermissionsDTO validator) {
         adminService.dispatchAuths(validator);
         return ResultGenerator.genSuccessResult("添加权限成功!");
     }
@@ -158,7 +158,7 @@ public class AdminController {
     @PostMapping("/remove")
     @AdminRequired
     @RouteMeta(auth = "删除多个权限", module = "管理员")
-    public Result removeAuths(@RequestBody @Validated RemoveAuthsDTO validator) {
+    public Result removeAuths(@RequestBody @Validated RemovePermissionsDTO validator) {
         adminService.removeAuths(validator);
         return ResultGenerator.genSuccessResult("删除权限成功!");
     }

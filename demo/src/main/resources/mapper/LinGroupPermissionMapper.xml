@@ -4,9 +4,27 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.v2.model.GroupPermissionDO">
-        <id column="id" property="id" />
-        <result column="group_id" property="groupId" />
-        <result column="permission_id" property="permissionId" />
+        <id column="id" property="id"/>
+        <result column="group_id" property="groupId"/>
+        <result column="permission_id" property="permissionId"/>
     </resultMap>
+
+
+    <insert id="batchInsert">
+        INSERT INTO lin_group_permission(group_id, permission_id)
+        VALUES
+        <foreach collection="relations" item="relation" separator=",">
+            (#{relation.groupId}, #{relation.permissionId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteBatchByGroupIdAndPermissionId">
+        DELETE FROM lin_group_permission AS gp
+        WHERE gp.group_id = #{groupId}
+        AND gp.permission_id IN
+        <foreach collection="permissionIds" item="permissionId" index="index" open="(" close=")" separator=",">
+            #{permissionId}
+        </foreach>
+    </delete>
 
 </mapper>
