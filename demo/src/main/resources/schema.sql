@@ -9,7 +9,7 @@ CREATE TABLE lin_file
 (
     id          int(10) unsigned NOT NULL AUTO_INCREMENT,
     path        varchar(500)     NOT NULL,
-    type        tinyint(4)       NOT NULL DEFAULT '1' COMMENT '1 local，其他表示其他地方',
+    type        varchar(10)      NOT NULL DEFAULT 'LOCAL' COMMENT 'LOCAL 本地，REMOTE 远程',
     name        varchar(100)     NOT NULL,
     extension   varchar(50)               DEFAULT NULL,
     size        int(11)                   DEFAULT NULL,

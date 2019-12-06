@@ -26,9 +26,9 @@ public class FileDO implements Serializable {
     private String path;
 
     /**
-     * 1 local，其他表示其他地方
+     * LOCAL REMOTE
      */
-    private Integer type;
+    private String type;
 
     private String name;
 

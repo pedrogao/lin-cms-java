@@ -1,8 +1,17 @@
 package com.lin.cms.demo.extensions.file;
 
+/**
+ * 文件相关常量值
+ */
 public class FileConsts {
 
-    public static final int LOCAL = 1;
+    /**
+     * 本地文件
+     */
+    public static final String LOCAL = "LOCAL";
 
-    public static final int REMOTE = 2;
+    /**
+     * 远程文件，例如OSS
+     */
+    public static final String REMOTE = "REMOTE";
 }

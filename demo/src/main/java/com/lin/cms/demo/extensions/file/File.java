@@ -25,9 +25,9 @@ public class File {
     private String path;
 
     /**
-     * 1 local，2 remote
+     * LOCAL REMOTE
      */
-    private Integer type;
+    private String type;
 
     /**
      * 文件名称
