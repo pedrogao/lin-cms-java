@@ -1,4 +1,4 @@
-package com.lin.cms.demo.api.cms;
+package com.lin.cms.demo.controller.cms;
 
 import com.alibaba.fastjson.JSON;
 import com.lin.cms.demo.dto.user.*;

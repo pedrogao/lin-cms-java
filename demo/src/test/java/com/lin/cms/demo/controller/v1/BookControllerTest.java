@@ -1,4 +1,4 @@
-package com.lin.cms.demo.api.v1;
+package com.lin.cms.demo.controller.v1;
 
 import com.alibaba.fastjson.JSON;
 import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

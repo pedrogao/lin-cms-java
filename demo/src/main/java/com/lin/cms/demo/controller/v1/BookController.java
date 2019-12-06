@@ -1,4 +1,4 @@
-package com.lin.cms.demo.api.v1;
+package com.lin.cms.demo.controller.v1;
 
 import com.lin.cms.demo.model.BookDO;
 import com.lin.cms.demo.service.BookService;

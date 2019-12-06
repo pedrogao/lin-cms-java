@@ -1,4 +1,4 @@
-package com.lin.cms.demo.api.cms;
+package com.lin.cms.demo.controller.cms;
 
 import com.alibaba.fastjson.JSON;
 import com.lin.cms.demo.dto.admin.*;
@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;

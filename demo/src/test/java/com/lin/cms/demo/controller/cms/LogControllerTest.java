@@ -1,4 +1,4 @@
-package com.lin.cms.demo.api.cms;
+package com.lin.cms.demo.controller.cms;
 
 import com.lin.cms.demo.mapper.LogMapper;
 import com.lin.cms.demo.model.LogDO;
@@ -18,9 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
-
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.put;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

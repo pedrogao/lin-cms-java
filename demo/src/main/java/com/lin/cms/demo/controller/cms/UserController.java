@@ -1,4 +1,4 @@
-package com.lin.cms.demo.api.cms;
+package com.lin.cms.demo.controller.cms;
 
 import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.LoginRequired;
