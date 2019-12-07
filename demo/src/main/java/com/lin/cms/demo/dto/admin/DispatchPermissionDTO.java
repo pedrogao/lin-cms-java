@@ -13,6 +13,7 @@ public class DispatchPermissionDTO {
     @NotNull(message = "分组id不可为空")
     private Long groupId;
 
-    @NotBlank
+    @Min(value = 1, message = "权限id必须正整数")
+    @NotNull(message = "权限id不可为空")
     private Long permissionId;
 }

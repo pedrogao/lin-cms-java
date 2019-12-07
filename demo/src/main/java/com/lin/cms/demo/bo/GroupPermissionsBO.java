@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GroupPermissionsBO {
-    private Integer id;
+    private Long id;
 
     private String name;
 

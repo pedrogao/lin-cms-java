@@ -35,7 +35,7 @@ public class AdminController {
     @Autowired
     private CollectMetaPostBeanProcessor postBeanProcessor;
 
-    @GetMapping("/authority")
+    @GetMapping("/permission")
     @AdminRequired
     @RouteMeta(auth = "查询所有可分配的权限", module = "管理员")
     public Map getAuthority() {
@@ -147,7 +147,7 @@ public class AdminController {
         return ResultGenerator.genSuccessResult("添加权限成功!");
     }
 
-    @PostMapping("/dispatch/patch")
+    @PostMapping("/dispatch/batch")
     @AdminRequired
     @RouteMeta(auth = "分配多个权限", module = "管理员")
     public Result dispatchAuths(@RequestBody @Validated DispatchPermissionsDTO validator) {

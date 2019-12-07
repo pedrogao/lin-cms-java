@@ -33,10 +33,11 @@ public interface GroupService extends IService<GroupDO> {
     /**
      * 分页获取分组数据
      *
-     * @param pager 分页
-     * @return 分组
+     * @param count 分页数量
+     * @param page  那一页
+     * @return 分组页
      */
-    IPage<GroupDO> findGroupsByPage(Page pager);
+    IPage<GroupDO> getGroupPage(long page, long count);
 
     /**
      * 通过id检查分组是否存在
@@ -56,6 +57,7 @@ public interface GroupService extends IService<GroupDO> {
 
     /**
      * 通过名称检查分组是否存在
+     *
      * @param name 分组名
      * @return 是否存在
      */

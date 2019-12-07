@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,8 +44,12 @@ public class LogDO implements Serializable {
 
     private String permission;
 
+    @JsonIgnore
+    @JSONField(serialize = false)
     private Date createTime;
 
+    @JsonIgnore
+    @JSONField(serialize = false)
     private Date updateTime;
 
     @JSONField(serialize = false)

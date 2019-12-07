@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -41,8 +42,12 @@ public class FileDO implements Serializable {
      */
     private String md5;
 
+    @JsonIgnore
+    @JSONField(serialize = false)
     private Date createTime;
 
+    @JsonIgnore
+    @JSONField(serialize = false)
     private Date updateTime;
 
     @JSONField(serialize = false)

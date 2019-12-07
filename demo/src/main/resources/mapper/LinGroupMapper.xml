@@ -13,8 +13,9 @@
     </resultMap>
 
 
-    <select id="selectUserGroups" parameterType="java.lang.Long" resultType="com.lin.cms.demo.v2.model.GroupDO">
-        SELECT g.id, g.name, g.info
+    <select id="selectUserGroups" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        SELECT g.id, g.name, g.info,
+        g.create_time,g.update_time,g.delete_time
         from lin_group AS g
         WHERE
         g.delete_time IS NULL
@@ -43,6 +44,10 @@
         ON ug.user_id = u.id
         WHERE u.id = #{userId}
         )
+    </select>
+
+    <select id="selectCountById" parameterType="java.lang.Long" resultType="java.lang.Integer">
+        SELECT COUNT(*) AS count FROM lin_group WHERE delete_time IS NULL AND id = #{id}
     </select>
 
 </mapper>

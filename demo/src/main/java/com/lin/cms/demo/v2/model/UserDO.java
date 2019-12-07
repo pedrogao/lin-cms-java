@@ -15,10 +15,10 @@ import java.util.Date;
  * @author pedro
  * @since 2019-12-02
  */
-@Setter
-@Getter
-@ToString
+@Data
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @TableName("lin_user")
 public class UserDO implements Serializable {
 

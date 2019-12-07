@@ -46,6 +46,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Transactional
     @Override
     public UserDO createUser(RegisterDTO dto) {
+        // TODO groupId
         boolean exist = this.checkUserExistByUsername(dto.getUsername());
         if (exist) {
             throw new Forbidden("已经有用户使用了该名称，请重新输入新的用户名");

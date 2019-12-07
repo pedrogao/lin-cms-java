@@ -37,7 +37,7 @@ public class PermissionServiceImpl extends ServiceImpl<PermissionMapper, Permiss
      * 4. 用户的分组一般都比较少，一般情况下都在2个一下
      */
     @Override
-    public Map<List<PermissionDO>, Long> getPermissionMapByGroupIds(List<Long> groupIds) {
+    public Map<Long, List<PermissionDO>> getPermissionMapByGroupIds(List<Long> groupIds) {
         HashMap map = new HashMap(groupIds.size());
         groupIds.stream().forEach(groupId -> {
             List<PermissionDO> permissions = this.baseMapper.selectPermissionsByGroupId(groupId);

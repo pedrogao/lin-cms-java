@@ -29,4 +29,9 @@ public class UserGroupDO implements Serializable {
      * 分组id
      */
     private Long groupId;
+
+    public UserGroupDO(Long userId, Long groupId) {
+        this.userId = userId;
+        this.groupId = groupId;
+    }
 }

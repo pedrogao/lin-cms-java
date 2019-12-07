@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createUser(RegisterDTO validator) {
+        // TODO
         // UserDO exist = this.findByNickname(validator.getNickname());
         // if (exist != null) {
         //     throw new Forbidden("用户已经存在");

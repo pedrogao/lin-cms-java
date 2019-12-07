@@ -10,7 +10,7 @@
     </resultMap>
 
 
-    <insert id="batchInsert">
+    <insert id="insertBatch">
         INSERT INTO lin_group_permission(group_id, permission_id)
         VALUES
         <foreach collection="relations" item="relation" separator=",">

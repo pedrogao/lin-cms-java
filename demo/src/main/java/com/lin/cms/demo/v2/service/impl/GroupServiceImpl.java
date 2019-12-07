@@ -36,15 +36,14 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     }
 
     @Override
-    public IPage<GroupDO> findGroupsByPage(Page pager) {
+    public IPage<GroupDO> getGroupPage(long page, long count) {
+        Page pager = new Page(page, count);
         return this.baseMapper.selectPage(pager, null);
     }
 
     @Override
     public boolean checkGroupExistById(Long id) {
-        QueryWrapper<GroupDO> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(GroupDO::getId, id);
-        return this.baseMapper.selectCount(wrapper) > 0;
+        return this.baseMapper.selectCountById(id) > 0;
     }
 
     @Override

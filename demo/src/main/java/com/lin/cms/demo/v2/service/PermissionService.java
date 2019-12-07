@@ -34,7 +34,7 @@ public interface PermissionService extends IService<PermissionDO> {
      * @param groupIds 分组id
      * @return 权限map
      */
-    Map<List<PermissionDO>, Long> getPermissionMapByGroupIds(List<Long> groupIds);
+    Map<Long, List<PermissionDO>> getPermissionMapByGroupIds(List<Long> groupIds);
 
     /**
      * 将权限结构化

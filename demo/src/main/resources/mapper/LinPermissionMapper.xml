@@ -12,31 +12,33 @@
         <result column="delete_time" property="deleteTime"/>
     </resultMap>
 
-    <select id="selectPermissionsByGroupIDs" parameterType="java.util.List"
-            resultType="com.lin.cms.demo.v2.model.PermissionDO">
-        SELECT p.id, p.name, p.module
+    <select id="selectPermissionsByGroupIds" parameterType="java.util.List"
+            resultMap="BaseResultMap">
+        SELECT p.id, p.name, p.module,
+        p.create_time, p.update_time, p.delete_time
         FROM lin_permission AS p
         WHERE p.delete_time IS NULL
         AND p.id IN (
         SELECT gp.permission_id
         FROM lin_group_permission AS gp
         WHERE gp.group_id IN
-        <foreach item="groupID" index="index" collection="groupIDs"
+        <foreach item="groupId" index="index" collection="groupIds"
                  open="(" separator="," close=")">
-            #{groupID}
+            #{groupId}
         </foreach>
         )
     </select>
 
-    <select id="selectPermissionsByGroupID" parameterType="java.lang.Long"
-            resultType="com.lin.cms.demo.v2.model.PermissionDO">
-        SELECT p.id, p.name, p.module
+    <select id="selectPermissionsByGroupId" parameterType="java.lang.Long"
+            resultMap="BaseResultMap">
+        SELECT p.id, p.name, p.module,
+        p.create_time, p.update_time, p.delete_time
         FROM lin_permission AS p
         WHERE p.delete_time IS NULL
         AND p.id IN (
         SELECT gp.permission_id
         FROM lin_group_permission AS gp
-        WHERE gp.group_id = #{groupID}
+        WHERE gp.group_id = #{groupId}
         )
     </select>
 </mapper>

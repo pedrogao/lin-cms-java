@@ -4,9 +4,17 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.v2.model.UserGroupDO">
-        <id column="id" property="id" />
-        <result column="user_id" property="userId" />
-        <result column="group_id" property="groupId" />
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="group_id" property="groupId"/>
     </resultMap>
+
+    <insert id="insertBatch">
+        INSERT INTO lin_user_group(user_id, group_id)
+        VALUES
+        <foreach collection="relations" item="relation" separator=",">
+            (#{relation.userId}, #{relation.groupId})
+        </foreach>
+    </insert>
 
 </mapper>

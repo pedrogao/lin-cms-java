@@ -40,7 +40,7 @@ public class AdminServiceImpl implements AdminService {
     private GroupPermissionMapper groupPermissionMapper;
 
     @Override
-    public PageResult getUsers(Long groupId, Long count, Long page) {
+    public PageResult getUserPageByGroupId(Long groupId, Long count, Long page) {
         Page pager = new Page(page, count);
         IPage<UserDO> iPage = userService.findUsersByPage(pager, groupId);
         return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
@@ -64,13 +64,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean updateUserInfo(Long id, UpdateUserInfoDTO validator) {
+        // TODO
         return false;
     }
 
     @Override
-    public PageResult getGroups(Long page, Long count) {
-        Page pager = new Page(page, count);
-        IPage<GroupDO> iPage = groupService.findGroupsByPage(pager);
+    public PageResult getGroupPage(Long page, Long count) {
+        IPage<GroupDO> iPage = groupService.getGroupPage(page, count);
         return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 

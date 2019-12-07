@@ -14,7 +14,7 @@ import java.util.List;
 @Service("groupPermissionMapper2")
 public interface GroupPermissionMapper extends BaseMapper<GroupPermissionDO> {
 
-    int insertBatch(List<GroupPermissionDO> relations);
+    int insertBatch(@Param("relations") List<GroupPermissionDO> relations);
 
     int deleteBatchByGroupIdAndPermissionId(@Param("groupId") Long groupId, @Param("permissionIds") List<Long> permissionIds);
 }
