@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -102,6 +103,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     public List<Map<String, List<Map<String, String>>>> getUserPermissions(Long userId) {
         // 查找用户搜索分组，查找分组下的所有权限
         List<Long> groupIds = groupService.getUserGroupIdsByUserId(userId);
+        if (groupIds == null || groupIds.size() == 0) {
+            return new ArrayList<>();
+        }
         List<PermissionDO> permissions = permissionService.getPermissionByGroupIds(groupIds);
         return permissionService.structuringPermissions(permissions);
     }

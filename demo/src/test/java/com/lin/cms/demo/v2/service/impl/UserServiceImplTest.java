@@ -4,7 +4,8 @@ import com.lin.cms.demo.common.LocalUser;
 import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
-import com.lin.cms.demo.v2.model.UserDO;
+import com.lin.cms.demo.v2.mapper.*;
+import com.lin.cms.demo.v2.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
@@ -29,6 +35,41 @@ public class UserServiceImplTest {
 
     @Autowired
     private UserIdentityServiceImpl userIdentityService;
+
+    @Autowired
+    private GroupMapper groupMapper;
+
+    @Autowired
+    private UserGroupMapper userGroupMapper;
+
+    @Autowired
+    private PermissionMapper permissionMapper;
+
+    @Autowired
+    private GroupPermissionMapper groupPermissionMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    public Long mockData() {
+        UserDO user = UserDO.builder().username("pedro大大咧咧").nickname("pedro大大咧咧").build();
+        GroupDO group = GroupDO.builder().name("测试分组1").info("just for test").build();
+        PermissionDO permission1 = PermissionDO.builder().name("权限1").module("炉石传说").build();
+        PermissionDO permission2 = PermissionDO.builder().name("权限2").module("炉石传说").build();
+        userMapper.insert(user);
+        groupMapper.insert(group);
+        permissionMapper.insert(permission1);
+        permissionMapper.insert(permission2);
+        List<GroupPermissionDO> relations = new ArrayList<>();
+        GroupPermissionDO relation1 = new GroupPermissionDO(group.getId(), permission1.getId());
+        GroupPermissionDO relation2 = new GroupPermissionDO(group.getId(), permission2.getId());
+        relations.add(relation1);
+        relations.add(relation2);
+        groupPermissionMapper.insertBatch(relations);
+        UserGroupDO userGroup = new UserGroupDO(user.getId(), group.getId());
+        userGroupMapper.insert(userGroup);
+        return user.getId();
+    }
 
     @Before
     public void setUp() {
@@ -100,6 +141,12 @@ public class UserServiceImplTest {
 
     @Test
     public void getUserPermissions() {
+        Long id = mockData();
+        List<Map<String, List<Map<String, String>>>> structuringPermissions = userService.getUserPermissions(id);
+        assertTrue(structuringPermissions.size() > 0);
+        log.info("structuringPermissions: {}", structuringPermissions);
+        boolean anyMatch = structuringPermissions.stream().anyMatch(it -> it.containsKey("炉石传说"));
+        assertTrue(anyMatch);
     }
 
     @Test
