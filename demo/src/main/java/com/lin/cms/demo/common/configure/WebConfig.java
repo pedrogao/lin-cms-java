@@ -7,7 +7,7 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.lin.cms.demo.common.interceptor.RequestLogInterceptor;
 import com.lin.cms.exception.ExceptionHandler;
-import com.lin.cms.interceptor.AuthInterceptor;
+import com.lin.cms.interceptor.AuthorizeInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +41,7 @@ public class WebConfig implements WebMvcConfigurer {
     private boolean requestLogEnabled;
 
     @Autowired
-    private AuthInterceptor authInterceptor;
+    private AuthorizeInterceptor authorizeInterceptor;
 
     @Autowired
     private LogInterceptor logInterceptor;
@@ -104,7 +104,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         if (authEnabled) {
             //开发环境忽略签名认证
-            registry.addInterceptor(authInterceptor).excludePathPatterns("/assets/**");
+            registry.addInterceptor(authorizeInterceptor).excludePathPatterns("/assets/**");
         }
         if (requestLogEnabled) {
             registry.addInterceptor(requestLogInterceptor);

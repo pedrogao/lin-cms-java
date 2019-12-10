@@ -40,16 +40,16 @@ public class CollectMetaPostBeanProcessor implements BeanPostProcessor {
 
     private void putMetaIntoStructuralMeta(String identity, RouteMeta meta) {
         String module = meta.module();
-        String auth = meta.auth();
+        String auth = meta.permission();
         // 如果已经存在了该 module，直接向里面增加
         if (structuralMeta.containsKey(module)) {
             Map<String, Set<String>> moduleMap = structuralMeta.get(module);
-            // 如果 auth 已经存在
+            // 如果 permission 已经存在
             this.putIntoModuleMap(moduleMap, identity, auth);
         } else {
             // 不存在 该 module，创建该 module
             Map<String, Set<String>> moduleMap = new HashMap<>();
-            // 如果 auth 已经存在
+            // 如果 permission 已经存在
             this.putIntoModuleMap(moduleMap, identity, auth);
             structuralMeta.put(module, moduleMap);
         }
@@ -77,7 +77,7 @@ public class CollectMetaPostBeanProcessor implements BeanPostProcessor {
         Collection<RouteMeta> values = metaMap.values();
         RouteMeta[] objects = values.toArray(new RouteMeta[0]);
         for (int i = 0; i < objects.length; i++) {
-            if (objects[i].auth().equals(auth)) {
+            if (objects[i].permission().equals(auth)) {
                 return objects[i];
             }
         }

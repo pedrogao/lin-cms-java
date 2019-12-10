@@ -95,7 +95,7 @@ public class UserController {
      */
     @GetMapping("/auths")
     @LoginRequired
-    @RouteMeta(auth = "查询自己拥有的权限", module = "用户", mount = true)
+    @RouteMeta(permission = "查询自己拥有的权限", module = "用户", mount = true)
     public UserAuthsVO getAuths() {
         UserDO user = LocalUserLegacy.getLocalUser();
         if (user.checkAdmin()) {
@@ -109,7 +109,7 @@ public class UserController {
      * 查询自己信息
      */
     @LoginRequired
-    @RouteMeta(auth = "查询自己信息", module = "用户", mount = true)
+    @RouteMeta(permission = "查询自己信息", module = "用户", mount = true)
     @GetMapping("/information")
     public UserDO getInformation() {
         UserDO user = LocalUserLegacy.getLocalUser();

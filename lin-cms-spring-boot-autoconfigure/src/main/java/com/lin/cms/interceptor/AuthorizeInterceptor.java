@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
-public class AuthInterceptor extends HandlerInterceptorAdapter {
+public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     private CollectMetaPostBeanProcessor postProcessor;

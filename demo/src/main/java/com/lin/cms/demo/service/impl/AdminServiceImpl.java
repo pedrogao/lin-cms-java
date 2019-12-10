@@ -128,13 +128,13 @@ public class AdminServiceImpl implements AdminService {
         groupMapper.insert(group);
         Long groupId = group.getId();
         // validator.getAuths().forEach(item -> {
-        //     AuthDO auth = new AuthDO();
+        //     AuthDO permission = new AuthDO();
         //     RouteMeta meta = postProcessor.findMetaByAuth(item);
         //     if (meta != null) {
-        //         auth.setGroupId(groupId);
-        //         auth.setAuth(meta.auth());
-        //         auth.setModule(meta.module());
-        //         authMapper.insert(auth);
+        //         permission.setGroupId(groupId);
+        //         permission.setAuth(meta.permission());
+        //         permission.setModule(meta.module());
+        //         authMapper.insert(permission);
         //     }
         // });
     }
@@ -176,12 +176,12 @@ public class AdminServiceImpl implements AdminService {
         // if (one != null) {
         //     throw new Forbidden("已有权限，不可重复添加");
         // }
-        // AuthDO auth = new AuthDO();
+        // AuthDO permission = new AuthDO();
         // RouteMeta meta = postProcessor.findMetaByAuth(validator.getAuth());
-        // auth.setModule(meta.module());
-        // auth.setAuth(meta.auth());
-        // auth.setGroupId(validator.getGroupId());
-        // authMapper.insert(auth);
+        // permission.setModule(meta.module());
+        // permission.setAuth(meta.permission());
+        // permission.setGroupId(validator.getGroupId());
+        // authMapper.insert(permission);
     }
 
     @Override
@@ -193,12 +193,12 @@ public class AdminServiceImpl implements AdminService {
         // validator.getAuths().forEach(item -> {
         //     AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), item);
         //     if (one == null) {
-        //         AuthDO auth = new AuthDO();
+        //         AuthDO permission = new AuthDO();
         //         RouteMeta meta = postProcessor.findMetaByAuth(item);
-        //         auth.setAuth(meta.auth());
-        //         auth.setModule(meta.module());
-        //         auth.setGroupId(validator.getGroupId());
-        //         authMapper.insert(auth);
+        //         permission.setAuth(meta.permission());
+        //         permission.setModule(meta.module());
+        //         permission.setGroupId(validator.getGroupId());
+        //         authMapper.insert(permission);
         //     }
         // });
     }

@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface RouteMeta {
 
-    String auth() default "";
+    String permission() default "";
 
     String module() default "";
 

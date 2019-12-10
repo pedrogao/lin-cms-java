@@ -1,6 +1,5 @@
 package com.lin.cms.utils;
 
-import com.alibaba.fastjson.JSON;
 import com.lin.cms.exception.HttpException;
 import com.lin.cms.exception.Success;
 import com.lin.cms.beans.ErrorCode;
@@ -9,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 
 /**
  * 响应结果生成工具
@@ -56,7 +56,8 @@ public class ResultGenerator {
         response.setHeader("Content-type", "application/json;charset=UTF-8");
         response.setStatus(result.getHttpCode());
         try {
-            response.getWriter().write(JSON.toJSONString(result));
+            //TODO  response.getWriter().write(JSON.toJSONString(result));
+            response.getWriter().write("");
         } catch (IOException ex) {
             log.error(ex.getMessage());
         }

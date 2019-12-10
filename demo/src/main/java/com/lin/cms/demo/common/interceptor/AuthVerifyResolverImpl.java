@@ -108,7 +108,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
-        AuthDO auth = authMapper.selectOneByGroupIdAndAuthAndModule(groupId, meta.auth(), meta.module());
+        AuthDO auth = authMapper.selectOneByGroupIdAndAuthAndModule(groupId, meta.permission(), meta.module());
         if (auth == null) {
             // 权限不够，请联系超级管理员获得权限
             AuthFailed failed = new AuthFailed("权限不够，请联系超级管理员获得权限");

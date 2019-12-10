@@ -24,7 +24,7 @@ public class TestController {
     }
 
     @RequestMapping("/json")
-    @RouteMeta(auth = "测试日志记录", module = "信息", mount = true)
+    @RouteMeta(permission = "测试日志记录", module = "信息", mount = true)
     @LoginRequired
     @Logger(template = "{user.nickname}又皮了一波")
     public Map getTestMsg() {
@@ -34,7 +34,7 @@ public class TestController {
     }
 
     @RequestMapping("/info")
-    @RouteMeta(auth = "查看lin的信息", module = "信息", mount = true)
+    @RouteMeta(permission = "查看lin的信息", module = "信息", mount = true)
     @GroupRequired
     public Map getTestInfo() {
         Map res = new HashMap();

@@ -10,7 +10,7 @@ import java.util.List;
 public interface AuthMapper extends BaseMapper<AuthDO> {
 
     AuthDO selectOneByGroupIdAndAuthAndModule(@Param("groupId") Long groupId,
-                                              @Param("auth") String auth,
+                                              @Param("permission") String auth,
                                               @Param("module") String module);
 
     List<SimpleAuthDO> findByGroupId(@Param("groupId") Long groupId);
@@ -19,5 +19,5 @@ public interface AuthMapper extends BaseMapper<AuthDO> {
 
     void deleteByGroupIdAndInAuths(@Param("groupId") Long groupId, @Param("auths") List<String> auths);
 
-    AuthDO findOneByGroupIdAndAuth(@Param("groupId") Long groupId, @Param("auth") String auth);
+    AuthDO findOneByGroupIdAndAuth(@Param("groupId") Long groupId, @Param("permission") String auth);
 }

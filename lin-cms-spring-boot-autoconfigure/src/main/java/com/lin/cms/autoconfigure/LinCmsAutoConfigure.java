@@ -3,7 +3,7 @@ package com.lin.cms.autoconfigure;
 import com.lin.cms.beans.ExceptionResultImpl;
 import com.lin.cms.beans.Manager;
 import com.lin.cms.exception.ExceptionHandler;
-import com.lin.cms.interceptor.AuthInterceptor;
+import com.lin.cms.interceptor.AuthorizeInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
 import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.interfaces.ExceptionResultResolver;
@@ -60,8 +60,8 @@ public class LinCmsAutoConfigure {
     }
 
     @Bean
-    public AuthInterceptor authInterceptor() {
-        return new AuthInterceptor();
+    public AuthorizeInterceptor authInterceptor() {
+        return new AuthorizeInterceptor();
     }
 
     @Bean

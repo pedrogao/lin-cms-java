@@ -25,7 +25,7 @@ public class LogController {
     private LogService logService;
 
     @GetMapping("")
-    @RouteMeta(auth = "查询所有日志", module = "日志", mount = true)
+    @RouteMeta(permission = "查询所有日志", module = "日志", mount = true)
     @GroupRequired
     public PageResult getLogs(
             @RequestParam(required = false) @DateTimeFormat(pattern = "YYYY-MM-DD HH:mm:ss") Date start,
@@ -40,7 +40,7 @@ public class LogController {
     }
 
     @GetMapping("/search")
-    @RouteMeta(auth = "搜索日志", module = "日志", mount = true)
+    @RouteMeta(permission = "搜索日志", module = "日志", mount = true)
     @GroupRequired
     public PageResult searchLogs(
             @RequestParam(name = "start", required = false) @DateTimeFormat(pattern = "YYYY-MM-DD HH:mm:ss") Date start,
@@ -56,7 +56,7 @@ public class LogController {
     }
 
     @GetMapping("/users")
-    @RouteMeta(auth = "查询日志记录的用户", module = "日志", mount = true)
+    @RouteMeta(permission = "查询日志记录的用户", module = "日志", mount = true)
     @GroupRequired
     public List<String> getUsers(
             @RequestParam(name = "count", required = false, defaultValue = "10")

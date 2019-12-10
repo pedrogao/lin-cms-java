@@ -46,7 +46,7 @@ public class LogServiceImpl implements LogService {
     public void createOneLog(String message, String authority, Long userId,
                              String userNickname, String method, String path,
                              Integer status) {
-        //authority: auth
+        //authority: permission
         LogDO record = new LogDO();
         record.setMessage(message);
         record.setUserId(userId);

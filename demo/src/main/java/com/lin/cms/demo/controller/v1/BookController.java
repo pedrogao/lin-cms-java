@@ -68,7 +68,7 @@ public class BookController {
 
 
     @DeleteMapping("/{id}")
-    @RouteMeta(auth = "删除图书", module = "图书", mount = true)
+    @RouteMeta(permission = "删除图书", module = "图书", mount = true)
     @GroupRequired
     public Result deleteBook(@PathVariable("id") @Positive(message = "id必须为正整数") Long id) {
         BookDO book = bookService.findOneByIdAndDeleteTime(id);

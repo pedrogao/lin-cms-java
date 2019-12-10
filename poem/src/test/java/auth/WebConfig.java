@@ -2,7 +2,7 @@ package auth;
 
 import com.lin.cms.beans.Manager;
 import com.lin.cms.exception.ExceptionHandler;
-import com.lin.cms.interceptor.AuthInterceptor;
+import com.lin.cms.interceptor.AuthorizeInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,7 @@ import java.util.List;
 public class WebConfig implements WebMvcConfigurer {
 
     @Autowired
-    private AuthInterceptor authInterceptor;
+    private AuthorizeInterceptor authorizeInterceptor;
 
     @Autowired
     private LogInterceptor logInterceptor;
@@ -49,7 +49,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //接口签名认证拦截器，dev(生产环境)下不启用，方便测试
-        registry.addInterceptor(authInterceptor);
+        registry.addInterceptor(authorizeInterceptor);
         registry.addInterceptor(logInterceptor);
     }
 }

@@ -28,7 +28,7 @@ public enum ErrorCode {
 
     METHOD_NOT_ALLOWED(10080, "请求方法不允许"),
 
-    REFRESH_FAILED(10100, "refresh token 获取失败"),
+    REFRESH_FAILED(10100, "刷新令牌获取失败"),
 
     FILE_TOO_LARGE(10110, "文件体积过大"),
 
