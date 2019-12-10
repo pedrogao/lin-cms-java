@@ -71,6 +71,7 @@ CREATE TABLE lin_group
     id          int(10) unsigned NOT NULL AUTO_INCREMENT,
     name        varchar(60)      NOT NULL COMMENT '分组名称，例如：搬砖者',
     info        varchar(255)              DEFAULT NULL COMMENT '分组信息：例如：搬砖的人',
+    admin       tinyint(3)       NOT NULL DEFAULT 1 COMMENT '是否为超级管理员'
     create_time datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     update_time datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
     delete_time datetime(3)               DEFAULT NULL,
@@ -146,14 +147,14 @@ CREATE TABLE lin_user_identity
 -- ----------------------------
 BEGIN;
 INSERT INTO lin_user(id, username, nickname)
-VALUES (1, 'super', 'super');
+VALUES (1, 'root', 'root');
 
 INSERT INTO lin_user_identity (id, user_id, identity_type, identifier, credential)
-VALUES (1, 1, 'username', 'super',
+VALUES (1, 1, 'username', 'root',
         'pbkdf2sha256:64000:18:24:n:yUnDokcNRbwILZllmUOItIyo9MnI00QW:6ZcPf+sfzyoygOU8h/GSoirF');
 
-INSERT INTO lin_group(id, name, info)
-VALUES (1, 'super', '超级用户组');
+INSERT INTO lin_group(id, name, info, admin)
+VALUES (1, 'root', '超级用户组', 2);
 
 INSERT INTO lin_group(id, name, info)
 VALUES (2, 'guest', '游客组');
