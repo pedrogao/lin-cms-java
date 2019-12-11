@@ -9,7 +9,7 @@ import org.springframework.util.ReflectionUtils;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class CollectMetaPostBeanProcessor implements BeanPostProcessor {
+public class RouteMetaCollector implements BeanPostProcessor {
 
     private Map<String, RouteMeta> metaMap = new HashMap<>();
 
@@ -40,17 +40,17 @@ public class CollectMetaPostBeanProcessor implements BeanPostProcessor {
 
     private void putMetaIntoStructuralMeta(String identity, RouteMeta meta) {
         String module = meta.module();
-        String auth = meta.permission();
+        String permission = meta.permission();
         // 如果已经存在了该 module，直接向里面增加
         if (structuralMeta.containsKey(module)) {
             Map<String, Set<String>> moduleMap = structuralMeta.get(module);
             // 如果 permission 已经存在
-            this.putIntoModuleMap(moduleMap, identity, auth);
+            this.putIntoModuleMap(moduleMap, identity, permission);
         } else {
             // 不存在 该 module，创建该 module
             Map<String, Set<String>> moduleMap = new HashMap<>();
             // 如果 permission 已经存在
-            this.putIntoModuleMap(moduleMap, identity, auth);
+            this.putIntoModuleMap(moduleMap, identity, permission);
             structuralMeta.put(module, moduleMap);
         }
     }
@@ -73,11 +73,11 @@ public class CollectMetaPostBeanProcessor implements BeanPostProcessor {
         return metaMap.get(key);
     }
 
-    public RouteMeta findMetaByAuth(String auth) {
+    public RouteMeta findMetaByPermission(String permission) {
         Collection<RouteMeta> values = metaMap.values();
         RouteMeta[] objects = values.toArray(new RouteMeta[0]);
         for (int i = 0; i < objects.length; i++) {
-            if (objects[i].permission().equals(auth)) {
+            if (objects[i].permission().equals(permission)) {
                 return objects[i];
             }
         }

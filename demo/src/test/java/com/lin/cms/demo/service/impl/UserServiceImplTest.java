@@ -1,8 +1,7 @@
 package com.lin.cms.demo.service.impl;
 
 import com.lin.cms.demo.service.UserService;
-import com.lin.cms.exception.Forbidden;
-import com.lin.cms.exception.Parameter;
+import com.lin.cms.exception.ForbiddenException;
 import com.lin.cms.demo.dto.user.AvatarUpdateDTO;
 import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import com.lin.cms.demo.dto.user.RegisterDTO;
@@ -10,6 +9,7 @@ import com.lin.cms.demo.dto.user.UpdateInfoDTO;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.common.LocalUserLegacy;
+import com.lin.cms.exception.ParameterException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +50,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void createUser() throws Forbidden {
+    public void createUser() throws ForbiddenException {
         RegisterDTO validator = new RegisterDTO();
         // validator.setNickname(nickname);
         validator.setPassword(password);
@@ -65,7 +65,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void updateUser() throws Forbidden, Parameter {
+    public void updateUser() {
         RegisterDTO validator = new RegisterDTO();
         // validator.setNickname(nickname);
         validator.setPassword(password);
@@ -85,7 +85,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void changePassword() throws Forbidden, Parameter {
+    public void changePassword() {
         RegisterDTO validator = new RegisterDTO();
         // validator.setNickname(nickname);
         validator.setPassword(password);
@@ -107,7 +107,7 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void updateAvatar() throws Forbidden {
+    public void updateAvatar() throws ForbiddenException {
         RegisterDTO validator = new RegisterDTO();
         // validator.setNickname(nickname);
         validator.setPassword(password);

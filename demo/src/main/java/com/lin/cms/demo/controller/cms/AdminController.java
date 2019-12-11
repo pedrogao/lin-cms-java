@@ -7,7 +7,7 @@ import com.lin.cms.core.result.PageResult;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.bo.GroupAuthsBO;
-import com.lin.cms.beans.CollectMetaPostBeanProcessor;
+import com.lin.cms.beans.RouteMetaCollector;
 import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.demo.dto.admin.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ public class AdminController {
     private AdminService adminService;
 
     @Autowired
-    private CollectMetaPostBeanProcessor postBeanProcessor;
+    private RouteMetaCollector postBeanProcessor;
 
     @GetMapping("/permission")
     @AdminRequired

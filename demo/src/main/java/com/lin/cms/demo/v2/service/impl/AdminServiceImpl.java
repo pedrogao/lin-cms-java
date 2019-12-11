@@ -15,8 +15,8 @@ import com.lin.cms.demo.v2.service.AdminService;
 import com.lin.cms.demo.v2.service.GroupService;
 import com.lin.cms.demo.v2.service.UserIdentityService;
 import com.lin.cms.demo.v2.service.UserService;
-import com.lin.cms.exception.Forbidden;
-import com.lin.cms.exception.NotFound;
+import com.lin.cms.exception.ForbiddenException;
+import com.lin.cms.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -133,21 +133,21 @@ public class AdminServiceImpl implements AdminService {
     private void throwUserNotExistById(Long id) {
         boolean exist = userService.checkUserExistById(id);
         if (!exist) {
-            throw new NotFound("未找到用户");
+            throw new NotFoundException("未找到用户");
         }
     }
 
     private void throwGroupNotExistById(Long id) {
         boolean exist = groupService.checkGroupExistById(id);
         if (!exist) {
-            throw new NotFound("未找到分组");
+            throw new NotFoundException("未找到分组");
         }
     }
 
     private void throwGroupNameExist(String name) {
         boolean exist = groupService.checkGroupExistByName(name);
         if (exist) {
-            throw new Forbidden("分组名已被使用，请重新填入新的分组名");
+            throw new ForbiddenException("分组名已被使用，请重新填入新的分组名");
         }
     }
 }

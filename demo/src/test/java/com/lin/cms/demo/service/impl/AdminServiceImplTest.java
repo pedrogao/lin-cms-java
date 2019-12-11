@@ -1,9 +1,8 @@
 package com.lin.cms.demo.service.impl;
 
 import com.lin.cms.demo.service.AdminService;
-import com.lin.cms.exception.Forbidden;
-import com.lin.cms.exception.NotFound;
-import com.lin.cms.exception.Parameter;
+import com.lin.cms.exception.ForbiddenException;
+import com.lin.cms.exception.NotFoundException;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.bo.GroupAuthsBO;
 import com.lin.cms.demo.dto.admin.*;
@@ -13,6 +12,7 @@ import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.model.SimpleAuthDO;
 import com.lin.cms.demo.model.UserDO;
+import com.lin.cms.exception.ParameterException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -85,7 +85,7 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void changeUserPassword() throws NotFound {
+    public void changeUserPassword() throws NotFoundException {
         UserDO userDO = new UserDO();
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
@@ -106,7 +106,7 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void deleteUser() throws NotFound {
+    public void deleteUser() throws NotFoundException {
         UserDO userDO = new UserDO();
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
@@ -121,7 +121,7 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void updateUserInfo() throws NotFound, Parameter {
+    public void updateUserInfo() throws NotFoundException, ParameterException {
         UserDO userDO = new UserDO();
         userDO.setNickname(nickname);
         userDO.setPasswordEncrypt(password);
@@ -165,7 +165,7 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void createGroup() throws Forbidden {
+    public void createGroup() throws ForbiddenException {
         NewGroupDTO validator = new NewGroupDTO();
 
         validator.setName("logger");
@@ -187,7 +187,7 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void updateGroup() throws NotFound {
+    public void updateGroup() throws NotFoundException {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
@@ -203,7 +203,7 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void deleteGroup() throws NotFound, Forbidden {
+    public void deleteGroup() throws NotFoundException, ForbiddenException {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
@@ -216,7 +216,7 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void dispatchAuth() throws NotFound, Forbidden {
+    public void dispatchAuth() throws NotFoundException, ForbiddenException {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
@@ -233,7 +233,7 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void dispatchAuths() throws NotFound {
+    public void dispatchAuths() throws NotFoundException {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);
@@ -256,7 +256,7 @@ public class AdminServiceImplTest {
     }
 
     @Test
-    public void removeAuths() throws NotFound, Forbidden {
+    public void removeAuths() throws NotFoundException, ForbiddenException {
         GroupDO groupDO = new GroupDO();
         groupDO.setName(name);
         groupDO.setInfo(info);

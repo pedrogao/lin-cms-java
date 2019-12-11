@@ -5,7 +5,7 @@ import com.lin.cms.demo.service.BookService;
 import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
 import com.lin.cms.core.annotation.GroupRequired;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.exception.NotFound;
+import com.lin.cms.exception.NotFoundException;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ public class BookController {
     public BookDO getBook(@PathVariable(value = "id") @Positive(message = "id必须为正整数") Long id) {
         BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
-            throw new NotFound("未找到相关书籍");
+            throw new NotFoundException("未找到相关书籍");
         }
         return book;
     }
@@ -43,7 +43,7 @@ public class BookController {
     public BookDO searchBook(@RequestParam("q") String q) {
         BookDO book = bookService.getBookByKeyword("%" + q + "%");
         if (book == null) {
-            throw new NotFound("未找到相关书籍");
+            throw new NotFoundException("未找到相关书籍");
         }
         return book;
     }
@@ -60,7 +60,7 @@ public class BookController {
     public Result updateBook(@PathVariable("id") @Positive(message = "id必须为正整数") Long id, @RequestBody @Validated CreateOrUpdateBookDTO validator) {
         BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
-            throw new NotFound("未找到相关书籍");
+            throw new NotFoundException("未找到相关书籍");
         }
         bookService.updateBook(book, validator);
         return ResultGenerator.genSuccessResult("更新图书成功");
@@ -73,7 +73,7 @@ public class BookController {
     public Result deleteBook(@PathVariable("id") @Positive(message = "id必须为正整数") Long id) {
         BookDO book = bookService.findOneByIdAndDeleteTime(id);
         if (book == null) {
-            throw new NotFound("未找到相关书籍");
+            throw new NotFoundException("未找到相关书籍");
         }
         bookService.deleteById(book.getId());
         return ResultGenerator.genSuccessResult("删除图书成功");

@@ -5,6 +5,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.exception.*;
 import com.lin.cms.core.result.Result;
+import com.lin.cms.exception.TokenExpiredException;
 import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
@@ -51,17 +52,17 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         Map<String, Claim> claims = null;
         try {
             claims = jwt.verifyAccess(tokenStr);
-        } catch (TokenExpiredException e) {
-            TokenExpired expired = new TokenExpired("令牌过期，请重新申请令牌");
+        } catch (com.auth0.jwt.exceptions.TokenExpiredException e) {
+            TokenExpiredException expired = new TokenExpiredException("令牌过期，请重新申请令牌");
             ResultGenerator.genAndWriteResult(response, expired);
             return false;
         } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
-            TokenInvalid invalid = new TokenInvalid("令牌损坏，请检查令牌");
+            TokenInvalidException invalid = new TokenInvalidException("令牌损坏，请检查令牌");
             ResultGenerator.genAndWriteResult(response, invalid);
             return false;
         }
         if (claims == null) {
-            TokenInvalid invalid = new TokenInvalid("令牌损坏，解析错误，请重新申请正确的令牌");
+            TokenInvalidException invalid = new TokenInvalidException("令牌损坏，解析错误，请重新申请正确的令牌");
             ResultGenerator.genAndWriteResult(response, invalid);
             return false;
         }
@@ -78,15 +79,15 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
             }
             UserDO user = userMapper.selectById(identity);
             if (user == null) {
-                NotFound notFound = new NotFound("用户不存在");
-                ResultGenerator.genResult(notFound);
+                NotFoundException notFoundException = new NotFoundException("用户不存在");
+                ResultGenerator.genResult(notFoundException);
                 return false;
             }
             LocalUserLegacy.setLocalUser(user);
             return true;
         } else {
             // 其它作用域 暂时返回 false，即其它作用域下均校验失败
-            TokenInvalid invalid = new TokenInvalid("您的令牌领域(scope)错误");
+            TokenInvalidException invalid = new TokenInvalidException("您的令牌领域(scope)错误");
             ResultGenerator.genAndWriteResult(response, invalid);
             return false;
         }
@@ -104,15 +105,15 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         Long groupId = user.getGroupId();
         if (groupId == null) {
             // 您还不属于任何权限组，请联系超级管理员获得权限
-            AuthFailed failed = new AuthFailed("您还不属于任何权限组，请联系超级管理员获得权限");
-            ResultGenerator.genAndWriteResult(response, failed);
+            AuthenticationException exception = new AuthenticationException("您还不属于任何权限组，请联系超级管理员获得权限");
+            ResultGenerator.genAndWriteResult(response, exception);
             return false;
         }
         AuthDO auth = authMapper.selectOneByGroupIdAndAuthAndModule(groupId, meta.permission(), meta.module());
         if (auth == null) {
             // 权限不够，请联系超级管理员获得权限
-            AuthFailed failed = new AuthFailed("权限不够，请联系超级管理员获得权限");
-            ResultGenerator.genAndWriteResult(response, failed);
+            AuthenticationException exception = new AuthenticationException("权限不够，请联系超级管理员获得权限");
+            ResultGenerator.genAndWriteResult(response, exception);
             return false;
         }
         return true;
@@ -130,7 +131,7 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
     private boolean verifyLinAccess(HttpServletResponse response, String type) {
         // 先判断token类型，login校验必须为access
         if (!type.equals(JWT.ACCESS_TYPE)) {
-            TokenInvalid invalid = new TokenInvalid("您的令牌类型错误");
+            TokenInvalidException invalid = new TokenInvalidException("您的令牌类型错误");
             ResultGenerator.genAndWriteResult(response, invalid);
             return false;
         }
@@ -174,17 +175,17 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         Map<String, Claim> claims = null;
         try {
             claims = jwt.verifyRefresh(tokenStr);
-        } catch (TokenExpiredException e) {
-            RefreshFailed failed = new RefreshFailed("令牌过期，请重新申请令牌");
+        } catch (com.auth0.jwt.exceptions.TokenExpiredException e) {
+            RefreshFailedException failed = new RefreshFailedException("令牌过期，请重新申请令牌");
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
-            RefreshFailed failed = new RefreshFailed("令牌损坏，请检查令牌");
+            RefreshFailedException failed = new RefreshFailedException("令牌损坏，请检查令牌");
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
         if (claims == null) {
-            RefreshFailed failed = new RefreshFailed("令牌损坏，请重新申请正确的令牌");
+            RefreshFailedException failed = new RefreshFailedException("令牌损坏，请重新申请正确的令牌");
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
@@ -193,20 +194,20 @@ public class AuthVerifyResolverImpl implements AuthVerifyResolver {
         String type = claims.get("type").asString();
         // 先判断scope，scope不对直接false
         if (!scope.equals(JWT.LIN_SCOPE)) {
-            RefreshFailed failed = new RefreshFailed("您的令牌领域(scope)错误");
+            RefreshFailedException failed = new RefreshFailedException("您的令牌领域(scope)错误");
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
         // 先判断token类型，login校验必须为access
         if (!type.equals(JWT.REFRESH_TYPE)) {
-            RefreshFailed failed = new RefreshFailed("您的令牌类型错误");
+            RefreshFailedException failed = new RefreshFailedException("您的令牌类型错误");
             ResultGenerator.genAndWriteResult(response, failed);
             return false;
         }
         UserDO user = userMapper.selectById(identity);
         if (user == null) {
-            NotFound notFound = new NotFound("用户不存在");
-            ResultGenerator.genAndWriteResult(response, notFound);
+            NotFoundException notFoundException = new NotFoundException("用户不存在");
+            ResultGenerator.genAndWriteResult(response, notFoundException);
             return false;
         }
         LocalUserLegacy.setLocalUser(user);

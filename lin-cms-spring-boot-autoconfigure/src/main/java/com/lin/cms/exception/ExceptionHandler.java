@@ -51,10 +51,10 @@ public class ExceptionHandler implements HandlerExceptionResolver {
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception e) {
         // dev 环境下，原始异常
         Result result = new Result();
-        if (e instanceof HttpException) {
+        if (e instanceof ApiException) {
             // log.info(e.getMessage());
-            result = ResultGenerator.genResult((HttpException) e);
-            Integer errorCode = ((HttpException) e).getErrorCode();
+            result = ResultGenerator.genResult((ApiException) e);
+            Integer errorCode = ((ApiException) e).getErrorCode();
             String s = linCmsProperties.getCodeMsg().get(errorCode);
             if (s != null) {
                 result.setMsg(s);
@@ -67,14 +67,12 @@ public class ExceptionHandler implements HandlerExceptionResolver {
                     .setUrl(request.getServletPath())
                     .setMsg("未找到请求的接口");
         } else if (e instanceof MissingServletRequestParameterException) {
-            Parameter parameter = new Parameter();
             MissingServletRequestParameterException ex = (MissingServletRequestParameterException) e;
-            parameter.setMsg("丢失" + ex.getParameterName() + "参数");
+            ParameterException parameter = new ParameterException("丢失" + ex.getParameterName() + "参数");
             result = ResultGenerator.genResult(parameter);
         } else if (e instanceof MethodArgumentTypeMismatchException) {
-            Parameter parameter = new Parameter();
             MethodArgumentTypeMismatchException ex = (MethodArgumentTypeMismatchException) e;
-            parameter.setMsg(ex.getValue() + "类型错误");
+            ParameterException parameter = new ParameterException(ex.getValue() + "类型错误");
             result = ResultGenerator.genResult(parameter);
         } else if (e instanceof ServletException) {
             // method not support
@@ -86,20 +84,17 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             result = this.handleMethodArgumentNotValidException(e);
         } else if (e instanceof HttpMessageNotReadableException) {
             // org.springframework.http.converter.HttpMessageNotReadableException
-            Parameter parameter = new Parameter();
-            parameter.setMsg("请求体不可为空");
+            ParameterException parameter = new ParameterException("请求体不可为空");
             result = ResultGenerator.genResult(parameter);
         } else if (e instanceof TypeMismatchException) {
             // org.springframework.beans.TypeMismatchException
-            Parameter parameter = new Parameter();
-            parameter.setMsg(e.getMessage());
+            ParameterException parameter = new ParameterException(e.getMessage());
             result = ResultGenerator.genResult(parameter);
         } else if (e instanceof MaxUploadSizeExceededException) {
             // 记录错误信息
             // 文件太大
-            FileTooLarge fileTooLarge = new FileTooLarge();
-            fileTooLarge.setMsg("总体文件大小不能超过" + maxFileSize);
-            result = ResultGenerator.genResult(fileTooLarge);
+            FileTooLargeException fileTooLargeException = new FileTooLargeException("总体文件大小不能超过" + maxFileSize);
+            result = ResultGenerator.genResult(fileTooLargeException);
         } else {
             this.handleUnknownException(result, e, request, handler);
         }
@@ -118,8 +113,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             String path = constraintViolation.getPropertyPath().toString();
             msg.put(path, template);
         });
-        Parameter parameter = new Parameter();
-        parameter.setMsg(msg);
+        ParameterException parameter = new ParameterException(msg);
         return ResultGenerator.genResult(parameter);
     }
 
@@ -136,8 +130,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
                 msg.put(error.getObjectName(), error.getDefaultMessage());
             }
         });
-        Parameter parameter = new Parameter();
-        parameter.setMsg(msg);
+        ParameterException parameter = new ParameterException(msg);
         return ResultGenerator.genResult(parameter);
     }
 

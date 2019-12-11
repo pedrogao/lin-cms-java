@@ -1,7 +1,7 @@
 package com.lin.cms.utils;
 
-import com.lin.cms.exception.HttpException;
-import com.lin.cms.exception.Success;
+import com.lin.cms.exception.ApiException;
+import com.lin.cms.response.Success;
 import com.lin.cms.beans.ErrorCode;
 import com.lin.cms.core.result.Result;
 import lombok.extern.slf4j.Slf4j;
@@ -16,10 +16,10 @@ import java.io.IOException;
 @Slf4j
 public class ResultGenerator {
 
-    public static Result genResult(HttpException e) {
+    public static Result genResult(ApiException e) {
         String url = RequestHelper.getRequestUrl();
         return new Result()
-                .setMsg(e.getMsg())
+                .setMsg(e.getMessage())
                 .setErrorCode(e.getErrorCode())
                 .setUrl(url)
                 .setHttpCode(e.getHttpCode());
@@ -63,7 +63,7 @@ public class ResultGenerator {
         }
     }
 
-    public static void genAndWriteResult(HttpServletResponse response, HttpException e) {
+    public static void genAndWriteResult(HttpServletResponse response, ApiException e) {
         Result result = genResult(e);
         writeResult(response, result);
     }

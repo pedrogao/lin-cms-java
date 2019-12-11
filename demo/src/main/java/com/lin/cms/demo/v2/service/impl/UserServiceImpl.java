@@ -16,9 +16,9 @@ import com.lin.cms.demo.v2.service.PermissionService;
 import com.lin.cms.demo.v2.service.UserIdentityService;
 import com.lin.cms.demo.v2.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lin.cms.exception.Failed;
-import com.lin.cms.exception.Forbidden;
-import com.lin.cms.exception.Parameter;
+import com.lin.cms.exception.FailedException;
+import com.lin.cms.exception.ForbiddenException;
+import com.lin.cms.exception.ParameterException;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -50,7 +50,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         // TODO groupId
         boolean exist = this.checkUserExistByUsername(dto.getUsername());
         if (exist) {
-            throw new Forbidden("已经有用户使用了该名称，请重新输入新的用户名");
+            throw new ForbiddenException("已经有用户使用了该名称，请重新输入新的用户名");
         }
         UserDO user = new UserDO();
         user.setUsername(dto.getUsername());
@@ -69,7 +69,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if (dto.getUsername() != null && Strings.isNotBlank(dto.getUsername())) {
             boolean exist = this.checkUserExistByUsername(dto.getUsername());
             if (exist) {
-                throw new Forbidden("已经有用户使用了该名称，请重新输入新的用户名");
+                throw new ForbiddenException("已经有用户使用了该名称，请重新输入新的用户名");
             }
             user.setUsername(dto.getUsername());
             userIdentityService.changeUsername(user.getId(), dto.getUsername());
@@ -85,11 +85,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         UserDO user = LocalUser.getLocalUser();
         boolean valid = userIdentityService.verifyUsernamePassword(user.getId(), user.getUsername(), dto.getOldPassword());
         if (!valid) {
-            throw new Parameter("请输入正确的旧密码");
+            throw new ParameterException("请输入正确的旧密码");
         }
         valid = userIdentityService.changePassword(user.getId(), dto.getNewPassword());
         if (!valid) {
-            throw new Failed("更新密码失败");
+            throw new FailedException("更新密码失败");
         }
         return user;
     }

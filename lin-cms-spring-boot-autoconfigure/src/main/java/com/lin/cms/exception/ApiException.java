@@ -1,58 +1,59 @@
 package com.lin.cms.exception;
 
 import com.lin.cms.beans.ErrorCode;
-import com.lin.cms.core.enums.HttpStatus;
-import lombok.Getter;
+import com.lin.cms.interfaces.BaseResponse;
+import org.springframework.http.HttpStatus;
 
-public class HttpException1 extends RuntimeException {
+public class ApiException extends RuntimeException implements BaseResponse {
 
     private static final long serialVersionUID = 2359767895161832954L;
 
-    @Getter
-    private int httpCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
+    protected int httpCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
 
-    @Getter
-    private int errorCode = ErrorCode.INTERNAL_SERVER_ERROR.getCode();
+    protected int errorCode = ErrorCode.INTERNAL_SERVER_ERROR.getCode();
 
+    public ApiException() {
+        super(ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
+    }
 
-    public HttpException1(String message) {
+    public ApiException(String message) {
         super(message);
     }
 
-    public HttpException1(int errorCode) {
+    public ApiException(int errorCode) {
         super(ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
         this.errorCode = errorCode;
     }
 
-    public HttpException1(int errorCode, int httpCode) {
+    public ApiException(int errorCode, int httpCode) {
         super(ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
         this.httpCode = httpCode;
         this.errorCode = errorCode;
     }
 
-    public HttpException1(int errorCode, String message) {
+    public ApiException(String message, int errorCode) {
         super(message);
         this.errorCode = errorCode;
     }
 
-    public HttpException1(int errorCode, int httpCode, String message) {
+    public ApiException(String message, int errorCode, int httpCode) {
         super(message);
         this.httpCode = httpCode;
         this.errorCode = errorCode;
     }
 
-    public HttpException1(int errorCode, Throwable cause) {
+    public ApiException(Throwable cause, int errorCode) {
         super(cause);
         this.errorCode = errorCode;
     }
 
-    public HttpException1(int errorCode, int httpCode, Throwable cause) {
+    public ApiException(Throwable cause, int errorCode, int httpCode) {
         super(cause);
         this.errorCode = errorCode;
         this.httpCode = httpCode;
     }
 
-    public HttpException1(String message, Throwable cause) {
+    public ApiException(String message, Throwable cause) {
         super(message, cause);
     }
 
@@ -68,5 +69,13 @@ public class HttpException1 extends RuntimeException {
 
     public Throwable doFillInStackTrace() {
         return super.fillInStackTrace();
+    }
+
+    public int getHttpCode() {
+        return this.httpCode;
+    }
+
+    public int getErrorCode() {
+        return this.errorCode;
     }
 }

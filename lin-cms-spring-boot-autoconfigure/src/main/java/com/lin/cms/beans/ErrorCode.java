@@ -8,9 +8,13 @@ public enum ErrorCode {
 
     SUCCESS(0, "成功"),
 
+    CREATED(1, "创建成功"),
+
     FAIL(9999, "失败"),
 
-    UNAUTHORIZED(10000, "认证失败"),
+    UN_AUTHORIZATION(10000, "认证失败"),
+
+    UN_AUTHENTICATION(10010, "授权失败"),
 
     NOT_FOUND(10020, "资源不存在"),
 
@@ -36,13 +40,13 @@ public enum ErrorCode {
 
     File_Extension(10130, "文件扩展名不符合规范"),
 
-    LIMIT(10140, "请求过于频繁，请稍后重试");
+    REQUEST_LIMIT(10140, "请求过于频繁，请稍后重试");
 
     private int code;
+
     private String description;
 
     ErrorCode(int code, String description) {
-        // HttpStatus
         this.code = code;
         this.description = description;
     }

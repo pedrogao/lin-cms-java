@@ -4,7 +4,7 @@ import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.LoginRequired;
 import com.lin.cms.core.annotation.RefreshRequired;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.exception.NotFound;
+import com.lin.cms.exception.NotFoundException;
 import com.lin.cms.core.result.Result;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.common.LocalUserLegacy;
@@ -53,7 +53,7 @@ public class UserController {
     public Map login(@RequestBody @Validated LoginDTO validator) {
         UserDO user = userService.findByNickname(validator.getNickname());
         if (user == null) {
-            throw new NotFound("未找到相关用户");
+            throw new NotFoundException("未找到相关用户");
         }
         Map res = jwt.generateTokens(user.getId());
         return res;

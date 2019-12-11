@@ -5,6 +5,7 @@ package com.lin.cms.core.result;
  * 统一API响应结果封装
  */
 public class Result<T> {
+
     private int errorCode;
 
     private String url;

@@ -42,10 +42,10 @@ public class LocalUploader implements Uploader {
 
     public List<File> upload(MultiValueMap<String, MultipartFile> fileMap) {
         if (fileMap.isEmpty()) {
-            throw new NotFound("未找到文件");
+            throw new NotFoundException("未找到文件");
         }
         if (fileMap.size() > this.nums) {
-            throw new FileTooMany("文件太多，文件总数不可超过" + this.nums);
+            throw new FileTooManyException("文件太多，文件总数不可超过" + this.nums);
         }
         // 得到单个文件的大小限制
         long singleFileLimit = FileUtil.parseSize(this.singleLimit);
@@ -98,7 +98,7 @@ public class LocalUploader implements Uploader {
         try {
             bytes = file.getBytes();
         } catch (Exception e) {
-            throw new Failed("读取文件数据失败");
+            throw new FailedException("读取文件数据失败");
         }
         return bytes;
     }
@@ -117,7 +117,7 @@ public class LocalUploader implements Uploader {
             stream.write(bytes);
             stream.close();
         } catch (Exception e) {
-            throw new Failed("读取文件数据失败");
+            throw new FailedException("读取文件数据失败");
         }
     }
 
@@ -134,11 +134,11 @@ public class LocalUploader implements Uploader {
         String ext = FileUtil.getFileExt(originName);
         // 检测扩展
         if (!this.checkExt(ext)) {
-            throw new FileExtension(ext + "文件类型不支持");
+            throw new FileExtensionException(ext + "文件类型不支持");
         }
         // 检测单个大小
         if (length > singleFileLimit) {
-            throw new FileTooLarge(originName + "文件不能超过" + this.singleLimit);
+            throw new FileTooLargeException(originName + "文件不能超过" + this.singleLimit);
         }
         return ext;
     }

@@ -1,21 +1,20 @@
 package com.lin.cms.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lin.cms.core.annotation.RouteMeta;
+import com.lin.cms.beans.RouteMetaCollector;
 import com.lin.cms.demo.common.mybatis.Page;
-import com.lin.cms.exception.Forbidden;
-import com.lin.cms.exception.NotFound;
-import com.lin.cms.exception.Parameter;
+import com.lin.cms.exception.ForbiddenException;
+import com.lin.cms.exception.NotFoundException;
 import com.lin.cms.core.result.PageResult;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.mapper.UserMapper;
 import com.lin.cms.demo.service.AdminService;
 import com.lin.cms.demo.bo.GroupAuthsBO;
-import com.lin.cms.beans.CollectMetaPostBeanProcessor;
 import com.lin.cms.demo.model.*;
 import com.lin.cms.demo.dto.admin.*;
 import com.lin.cms.demo.common.AuthSpliter;
+import com.lin.cms.exception.ParameterException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,7 @@ public class AdminServiceImpl implements AdminService {
     private AuthMapper authMapper;
 
     @Autowired
-    private CollectMetaPostBeanProcessor postProcessor;
+    private RouteMetaCollector postProcessor;
 
     @Override
     public PageResult getUsers(Long groupId, Long count, Long page) {
@@ -53,7 +52,7 @@ public class AdminServiceImpl implements AdminService {
     public void changeUserPassword(Long id, ResetPasswordDTO validator) {
         UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
-            throw new NotFound("用户不存在");
+            throw new NotFoundException("用户不存在");
         }
         user.setPasswordEncrypt(validator.getNewPassword());
         userMapper.updateById(user);
@@ -63,7 +62,7 @@ public class AdminServiceImpl implements AdminService {
     public void deleteUser(Long id) {
         UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
-            throw new NotFound("用户不存在");
+            throw new NotFoundException("用户不存在");
         }
         // 软删除
         userMapper.softDeleteById(user.getId());
@@ -73,12 +72,12 @@ public class AdminServiceImpl implements AdminService {
     public void updateUserInfo(Long id, UpdateUserInfoDTO validator) {
         UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
         if (user == null) {
-            throw new NotFound("用户不存在");
+            throw new NotFoundException("用户不存在");
         }
         if (!user.getEmail().equals(validator.getEmail())) {
             UserDO exist = userMapper.findOneUserByEmailAndDeleteTime(validator.getEmail());
             if (exist != null) {
-                throw new Parameter("邮箱已被注册，请重新输入邮箱");
+                throw new ParameterException("邮箱已被注册，请重新输入邮箱");
             }
         }
         user.setGroupId(validator.getGroupId());
@@ -120,7 +119,7 @@ public class AdminServiceImpl implements AdminService {
     public void createGroup(NewGroupDTO validator) {
         GroupDO exist = groupMapper.findOneByName(validator.getName());
         if (exist != null) {
-            throw new Forbidden("分组已存在，不可创建同名分组");
+            throw new ForbiddenException("分组已存在，不可创建同名分组");
         }
         GroupDO group = new GroupDO();
         group.setName(validator.getName());
@@ -129,7 +128,7 @@ public class AdminServiceImpl implements AdminService {
         Long groupId = group.getId();
         // validator.getAuths().forEach(item -> {
         //     AuthDO permission = new AuthDO();
-        //     RouteMeta meta = postProcessor.findMetaByAuth(item);
+        //     RouteMeta meta = postProcessor.findMetaByPermission(item);
         //     if (meta != null) {
         //         permission.setGroupId(groupId);
         //         permission.setAuth(meta.permission());
@@ -143,7 +142,7 @@ public class AdminServiceImpl implements AdminService {
     public void updateGroup(Long id, UpdateGroupDTO validator) {
         GroupDO group = groupMapper.selectById(id);
         if (group == null) {
-            throw new NotFound("分组不存在，更新失败");
+            throw new NotFoundException("分组不存在，更新失败");
         }
         group.setName(validator.getName());
         group.setInfo(validator.getInfo());
@@ -154,11 +153,11 @@ public class AdminServiceImpl implements AdminService {
     public void deleteGroup(Long id) {
         GroupDO group = groupMapper.selectById(id);
         if (group == null) {
-            throw new NotFound("分组不存在，删除失败");
+            throw new NotFoundException("分组不存在，删除失败");
         }
         UserDO userByGroupId = userMapper.findOneUserByGroupId(id);
         if (userByGroupId != null) {
-            throw new Forbidden("分组下存在用户，不可删除");
+            throw new ForbiddenException("分组下存在用户，不可删除");
         }
         // 删除 auths
         authMapper.deleteByGroupId(id);
@@ -170,14 +169,14 @@ public class AdminServiceImpl implements AdminService {
     public void dispatchAuth(DispatchPermissionDTO validator) {
         GroupDO group = groupMapper.selectById(validator.getGroupId());
         if (group == null) {
-            throw new NotFound("分组不存在");
+            throw new NotFoundException("分组不存在");
         }
         // AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), validator.getAuth());
         // if (one != null) {
-        //     throw new Forbidden("已有权限，不可重复添加");
+        //     throw new ForbiddenException("已有权限，不可重复添加");
         // }
         // AuthDO permission = new AuthDO();
-        // RouteMeta meta = postProcessor.findMetaByAuth(validator.getAuth());
+        // RouteMeta meta = postProcessor.findMetaByPermission(validator.getAuth());
         // permission.setModule(meta.module());
         // permission.setAuth(meta.permission());
         // permission.setGroupId(validator.getGroupId());
@@ -188,13 +187,13 @@ public class AdminServiceImpl implements AdminService {
     public void dispatchAuths(DispatchPermissionsDTO validator) {
         GroupDO group = groupMapper.selectById(validator.getGroupId());
         if (group == null) {
-            throw new NotFound("分组不存在");
+            throw new NotFoundException("分组不存在");
         }
         // validator.getAuths().forEach(item -> {
         //     AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), item);
         //     if (one == null) {
         //         AuthDO permission = new AuthDO();
-        //         RouteMeta meta = postProcessor.findMetaByAuth(item);
+        //         RouteMeta meta = postProcessor.findMetaByPermission(item);
         //         permission.setAuth(meta.permission());
         //         permission.setModule(meta.module());
         //         permission.setGroupId(validator.getGroupId());
@@ -208,7 +207,7 @@ public class AdminServiceImpl implements AdminService {
     public void removeAuths(RemovePermissionsDTO validator) {
         GroupDO group = groupMapper.selectById(validator.getGroupId());
         if (group == null) {
-            throw new NotFound("分组不存在");
+            throw new NotFoundException("分组不存在");
         }
         // authMapper.deleteByGroupIdAndInAuths(validator.getGroupId(), validator.getAuths());
     }

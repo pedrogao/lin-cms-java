@@ -1,6 +1,6 @@
 package com.lin.cms.utils;
 
-import com.lin.cms.exception.HttpException;
+import com.lin.cms.exception.ApiException;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.ReflectionUtils;
 
@@ -25,9 +25,9 @@ public class Transformer {
             res.put("msg", msg1);
             res.put("url", request.getServletPath());
         } catch (IllegalAccessException e) {
-            HttpException defaultEx = new HttpException();
+            ApiException defaultEx = new ApiException();
             res.put("error_code", defaultEx.getErrorCode());
-            res.put("msg", defaultEx.getMsg());
+            res.put("msg", defaultEx.getMessage());
             res.put("url", request.getServletPath());
         }
         return res;

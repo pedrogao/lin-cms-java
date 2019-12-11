@@ -5,7 +5,7 @@ import com.lin.cms.beans.Manager;
 import com.lin.cms.exception.ExceptionHandler;
 import com.lin.cms.interceptor.AuthorizeInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
-import com.lin.cms.beans.CollectMetaPostBeanProcessor;
+import com.lin.cms.beans.RouteMetaCollector;
 import com.lin.cms.interfaces.ExceptionResultResolver;
 import com.lin.cms.token.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,11 +32,11 @@ public class LinCmsAutoConfigure {
     /**
      * 记录每个被 @RouteMeta 记录的信息，在beans的后置调用
      *
-     * @return CollectMetaPostBeanProcessor
+     * @return RouteMetaCollector
      */
     @Bean
-    public CollectMetaPostBeanProcessor postProcessBeans() {
-        return new CollectMetaPostBeanProcessor();
+    public RouteMetaCollector postProcessBeans() {
+        return new RouteMetaCollector();
     }
 
     @Bean
@@ -68,11 +68,6 @@ public class LinCmsAutoConfigure {
     @ConditionalOnProperty(prefix = "lin.cms", value = "logger-enabled", havingValue = "true")
     public LogInterceptor logInterceptor() {
         return new LogInterceptor();
-    }
-
-    @Bean
-    public ExceptionHandler exceptionHandler() {
-        return new ExceptionHandler();
     }
 
 }
