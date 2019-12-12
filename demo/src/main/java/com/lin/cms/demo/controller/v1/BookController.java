@@ -6,7 +6,7 @@ import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
 import com.lin.cms.core.annotation.GroupRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.exception.NotFoundException;
-import com.lin.cms.core.result.Result;
+import com.lin.cms.response.Result;
 import com.lin.cms.utils.ResultGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -33,9 +33,9 @@ public class BookController {
     }
 
     @GetMapping("")
-    public List<BookDO> getBooks() {
-        List<BookDO> books = bookService.findAll();
-        return books;
+    public Result<String> getBooks() {
+        // List<BookDO> books = bookService.findAll();
+        return ResultGenerator.generateSuccessResult("请求成功");
     }
 
 
@@ -52,7 +52,7 @@ public class BookController {
     @PostMapping("")
     public Result createBook(@RequestBody @Validated CreateOrUpdateBookDTO validator) {
         bookService.createBook(validator);
-        return ResultGenerator.genSuccessResult("新建图书成功");
+        return ResultGenerator.generateSuccessResult("新建图书成功");
     }
 
 
@@ -63,7 +63,7 @@ public class BookController {
             throw new NotFoundException("未找到相关书籍");
         }
         bookService.updateBook(book, validator);
-        return ResultGenerator.genSuccessResult("更新图书成功");
+        return ResultGenerator.generateSuccessResult("更新图书成功");
     }
 
 
@@ -76,7 +76,7 @@ public class BookController {
             throw new NotFoundException("未找到相关书籍");
         }
         bookService.deleteById(book.getId());
-        return ResultGenerator.genSuccessResult("删除图书成功");
+        return ResultGenerator.generateSuccessResult("删除图书成功");
     }
 
 

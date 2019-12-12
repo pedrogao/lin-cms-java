@@ -5,7 +5,7 @@ import com.lin.cms.beans.RouteMetaCollector;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.exception.ForbiddenException;
 import com.lin.cms.exception.NotFoundException;
-import com.lin.cms.core.result.PageResult;
+import com.lin.cms.response.PageResult;
 import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.mapper.GroupMapper;
 import com.lin.cms.demo.mapper.UserMapper;

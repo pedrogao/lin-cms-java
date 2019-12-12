@@ -33,10 +33,10 @@ public class CommonConfig {
         return new PaginationInterceptor();
     }
 
-    @Bean
-    public LogicInterceptor logicInterceptor() {
-        return new LogicInterceptor();
-    }
+    // @Bean
+    // public LogicInterceptor logicInterceptor() {
+    //     return new LogicInterceptor();
+    // }
 
     @Bean
     public ISqlInjector sqlInjector() {

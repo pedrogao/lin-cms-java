@@ -7,10 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 public class RequestHelper {
 
-
     public static HttpServletRequest getRequest() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        return request;
+        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
 
     public static String getRequestUrl() {

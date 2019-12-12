@@ -1,15 +1,13 @@
 package com.lin.cms.exception;
 
 import com.lin.cms.autoconfigure.LinCmsProperties;
-import com.lin.cms.beans.ErrorCode;
-import com.lin.cms.core.result.Result;
+import com.lin.cms.response.Result;
 import com.lin.cms.interfaces.ExceptionResultResolver;
 import com.lin.cms.utils.ResultGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -53,7 +51,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
         Result result = new Result();
         if (e instanceof ApiException) {
             // log.info(e.getMessage());
-            result = ResultGenerator.genResult((ApiException) e);
+            result = ResultGenerator.generateResult((ApiException) e);
             Integer errorCode = ((ApiException) e).getErrorCode();
             String s = linCmsProperties.getCodeMsg().get(errorCode);
             if (s != null) {
@@ -62,39 +60,39 @@ public class ExceptionHandler implements HandlerExceptionResolver {
         } else if (e instanceof ConstraintViolationException) {
             result = this.handleMethodConstraintViolationException(e);
         } else if (e instanceof NoHandlerFoundException) {
-            result.setHttpCode(HttpStatus.NOT_FOUND.value())
-                    .setErrorCode(ErrorCode.NOT_FOUND.getCode())
-                    .setUrl(request.getServletPath())
-                    .setMsg("未找到请求的接口");
+            //result /*.setHttpCode(HttpStatus.NOT_FOUND.value())*/
+            //        .setErrorCode(ErrorCode.NOT_FOUND.getCode())
+            //        .setUrl(request.getServletPath())
+            //        .setMsg("未找到请求的接口");
         } else if (e instanceof MissingServletRequestParameterException) {
             MissingServletRequestParameterException ex = (MissingServletRequestParameterException) e;
             ParameterException parameter = new ParameterException("丢失" + ex.getParameterName() + "参数");
-            result = ResultGenerator.genResult(parameter);
+            result = ResultGenerator.generateResult(parameter);
         } else if (e instanceof MethodArgumentTypeMismatchException) {
             MethodArgumentTypeMismatchException ex = (MethodArgumentTypeMismatchException) e;
             ParameterException parameter = new ParameterException(ex.getValue() + "类型错误");
-            result = ResultGenerator.genResult(parameter);
+            result = ResultGenerator.generateResult(parameter);
         } else if (e instanceof ServletException) {
             // method not support
-            result.setHttpCode(HttpStatus.BAD_REQUEST.value())
-                    .setErrorCode(ErrorCode.FAIL.getCode())
-                    .setUrl(request.getServletPath())
-                    .setMsg(e.getMessage());
+            //result.setHttpCode(HttpStatus.BAD_REQUEST.value())
+            //        .setErrorCode(ErrorCode.FAIL.getCode())
+            //        .setUrl(request.getServletPath())
+            //        .setMsg(e.getMessage());
         } else if (e instanceof MethodArgumentNotValidException) {
             result = this.handleMethodArgumentNotValidException(e);
         } else if (e instanceof HttpMessageNotReadableException) {
             // org.springframework.http.converter.HttpMessageNotReadableException
             ParameterException parameter = new ParameterException("请求体不可为空");
-            result = ResultGenerator.genResult(parameter);
+            result = ResultGenerator.generateResult(parameter);
         } else if (e instanceof TypeMismatchException) {
             // org.springframework.beans.TypeMismatchException
             ParameterException parameter = new ParameterException(e.getMessage());
-            result = ResultGenerator.genResult(parameter);
+            result = ResultGenerator.generateResult(parameter);
         } else if (e instanceof MaxUploadSizeExceededException) {
             // 记录错误信息
             // 文件太大
             FileTooLargeException fileTooLargeException = new FileTooLargeException("总体文件大小不能超过" + maxFileSize);
-            result = ResultGenerator.genResult(fileTooLargeException);
+            result = ResultGenerator.generateResult(fileTooLargeException);
         } else {
             this.handleUnknownException(result, e, request, handler);
         }
@@ -114,7 +112,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             msg.put(path, template);
         });
         ParameterException parameter = new ParameterException(msg);
-        return ResultGenerator.genResult(parameter);
+        return ResultGenerator.generateResult(parameter);
     }
 
     private Result handleMethodArgumentNotValidException(Exception e) {
@@ -131,7 +129,7 @@ public class ExceptionHandler implements HandlerExceptionResolver {
             }
         });
         ParameterException parameter = new ParameterException(msg);
-        return ResultGenerator.genResult(parameter);
+        return ResultGenerator.generateResult(parameter);
     }
 
     private void handleUnknownException(Result result, Exception e, HttpServletRequest request, Object handler) {
@@ -148,15 +146,15 @@ public class ExceptionHandler implements HandlerExceptionResolver {
         }
         log.error(message, e);
         if (env != null && env.equals("dev")) {
-            result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .setErrorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode())
-                    .setUrl(request.getServletPath())
-                    .setMsg(message);
+            //result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            //        .setErrorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode())
+            //        .setUrl(request.getServletPath())
+            //        .setMsg(message);
         } else {
-            result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .setErrorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode())
-                    .setUrl(request.getServletPath())
-                    .setMsg("服务器内部错误，正在抓紧排查");
+            // result.setHttpCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            //         .setErrorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode())
+            //         .setUrl(request.getServletPath())
+            //         .setMsg("服务器内部错误，正在抓紧排查");
         }
     }
 }

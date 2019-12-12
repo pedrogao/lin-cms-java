@@ -1,7 +1,7 @@
 package auth;
 
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.core.result.Result;
+import com.lin.cms.response.Result;
 import com.lin.cms.interfaces.AuthVerifyResolver;
 import org.springframework.stereotype.Component;
 

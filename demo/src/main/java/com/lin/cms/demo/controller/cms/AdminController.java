@@ -3,8 +3,8 @@ package com.lin.cms.demo.controller.cms;
 import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.demo.service.AdminService;
-import com.lin.cms.core.result.PageResult;
-import com.lin.cms.core.result.Result;
+import com.lin.cms.response.PageResult;
+import com.lin.cms.response.Result;
 import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.bo.GroupAuthsBO;
 import com.lin.cms.beans.RouteMetaCollector;
@@ -62,7 +62,7 @@ public class AdminController {
     @RouteMeta(permission = "修改用户密码", module = "管理员")
     public Result changeUserPassword(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id, @RequestBody @Validated ResetPasswordDTO validator) {
         adminService.changeUserPassword(id, validator);
-        return ResultGenerator.genSuccessResult("密码修改成功");
+        return ResultGenerator.generateSuccessResult("密码修改成功");
     }
 
     @DeleteMapping("/{id}")
@@ -70,7 +70,7 @@ public class AdminController {
     @RouteMeta(permission = "删除用户", module = "管理员")
     public Result deleteUser(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id) {
         adminService.deleteUser(id);
-        return ResultGenerator.genSuccessResult("删除用户成功");
+        return ResultGenerator.generateSuccessResult("删除用户成功");
     }
 
 
@@ -79,7 +79,7 @@ public class AdminController {
     @RouteMeta(permission = "管理员更新用户信息", module = "管理员")
     public Result updateUser(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id, @RequestBody @Validated UpdateUserInfoDTO validator) {
         adminService.updateUserInfo(id, validator);
-        return ResultGenerator.genSuccessResult("更新用户成功");
+        return ResultGenerator.generateSuccessResult("更新用户成功");
     }
 
     @GetMapping("/groups")
@@ -118,7 +118,7 @@ public class AdminController {
     @RouteMeta(permission = "新建权限组", module = "管理员")
     public Result createGroup(@RequestBody @Validated NewGroupDTO validator) {
         adminService.createGroup(validator);
-        return ResultGenerator.genSuccessResult("新建分组成功！");
+        return ResultGenerator.generateSuccessResult("新建分组成功！");
     }
 
 
@@ -128,7 +128,7 @@ public class AdminController {
     public Result updateGroup(@PathVariable @PositiveOrZero Long id,
                               @RequestBody @Validated UpdateGroupDTO validator) {
         adminService.updateGroup(id, validator);
-        return ResultGenerator.genSuccessResult("更新分组成功!");
+        return ResultGenerator.generateSuccessResult("更新分组成功!");
     }
 
     @DeleteMapping("/group/{id}")
@@ -136,7 +136,7 @@ public class AdminController {
     @RouteMeta(permission = "删除一个权限组", module = "管理员")
     public Result deleteGroup(@PathVariable @PositiveOrZero Long id) {
         adminService.deleteGroup(id);
-        return ResultGenerator.genSuccessResult("删除分组成功!");
+        return ResultGenerator.generateSuccessResult("删除分组成功!");
     }
 
     @PostMapping("/dispatch")
@@ -144,7 +144,7 @@ public class AdminController {
     @RouteMeta(permission = "分配单个权限", module = "管理员")
     public Result dispatchAuth(@RequestBody @Validated DispatchPermissionDTO validator) {
         adminService.dispatchAuth(validator);
-        return ResultGenerator.genSuccessResult("添加权限成功!");
+        return ResultGenerator.generateSuccessResult("添加权限成功!");
     }
 
     @PostMapping("/dispatch/batch")
@@ -152,7 +152,7 @@ public class AdminController {
     @RouteMeta(permission = "分配多个权限", module = "管理员")
     public Result dispatchAuths(@RequestBody @Validated DispatchPermissionsDTO validator) {
         adminService.dispatchAuths(validator);
-        return ResultGenerator.genSuccessResult("添加权限成功!");
+        return ResultGenerator.generateSuccessResult("添加权限成功!");
     }
 
     @PostMapping("/remove")
@@ -160,7 +160,7 @@ public class AdminController {
     @RouteMeta(permission = "删除多个权限", module = "管理员")
     public Result removeAuths(@RequestBody @Validated RemovePermissionsDTO validator) {
         adminService.removeAuths(validator);
-        return ResultGenerator.genSuccessResult("删除权限成功!");
+        return ResultGenerator.generateSuccessResult("删除权限成功!");
     }
 
 }

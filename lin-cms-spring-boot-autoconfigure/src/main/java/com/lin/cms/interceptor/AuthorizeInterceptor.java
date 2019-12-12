@@ -5,7 +5,7 @@ import com.lin.cms.beans.RouteMetaCollector;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.enums.UserLevel;
 import com.lin.cms.beans.ErrorCode;
-import com.lin.cms.core.result.Result;
+import com.lin.cms.response.Result;
 import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.core.utils.AnnotationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
             // 如果没有实现 AuthVerifyResolver 接口的类，则规定一切为true
             return true;
         }
-        Result result = ResultGenerator.genResult(ErrorCode.UN_AUTHORIZATION, HttpStatus.UNAUTHORIZED.value());
+        Result result = ResultGenerator.generateResult(ErrorCode.UN_AUTHORIZATION, HttpStatus.UNAUTHORIZED.value());
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             Method method = handlerMethod.getMethod();
@@ -47,7 +47,7 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
             }
         } else {
             // 不是视图函数，则当做失败处理
-            ResultGenerator.writeResult(response, result);
+            // ResultGenerator.writeResult(response, result);
             return false;
         }
     }
@@ -100,11 +100,11 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
                     boolean valid3 = authInterceptorResolver.verifyRefresh(request, response, result, meta);
                     return valid3;
                 default:
-                    ResultGenerator.writeResult(response, result);
+                    // ResultGenerator.writeResult(response, result);
                     return false;
             }
         } else {
-            ResultGenerator.writeResult(response, result);
+            // ResultGenerator.writeResult(response, result);
             return false;
         }
     }

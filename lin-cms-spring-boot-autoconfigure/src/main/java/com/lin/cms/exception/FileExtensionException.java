@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 public class FileExtensionException extends ApiException {
 
     @Getter
-    protected int errorCode = ErrorCode.File_Extension.getCode();
+    protected int errorCode = ErrorCode.FILE_EXTENSION.getCode();
 
     @Getter
     protected int httpCode = HttpStatus.NOT_ACCEPTABLE.value();
@@ -17,6 +17,6 @@ public class FileExtensionException extends ApiException {
     }
 
     public FileExtensionException() {
-        super(ErrorCode.File_Extension.getDescription());
+        super(ErrorCode.FILE_EXTENSION.getDescription());
     }
 }

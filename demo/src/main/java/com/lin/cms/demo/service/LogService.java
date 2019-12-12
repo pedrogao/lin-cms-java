@@ -1,6 +1,6 @@
 package com.lin.cms.demo.service;
 
-import com.lin.cms.core.result.PageResult;
+import com.lin.cms.response.PageResult;
 
 import java.util.Date;
 import java.util.List;

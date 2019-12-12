@@ -1,7 +1,6 @@
 package com.lin.cms.beans;
 
 import com.lin.cms.core.annotation.RouteMeta;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ReflectionUtils;
@@ -16,12 +15,15 @@ public class RouteMetaCollector implements BeanPostProcessor {
     private Map<String, Map<String, Set<String>>> structuralMeta = new HashMap<>();
 
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessBeforeInitialization(Object bean, String beanName) {
         return bean;
     }
 
+    /**
+     * 扫描注解
+     */
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    public Object postProcessAfterInitialization(Object bean, String beanName) {
         Method[] methods = ReflectionUtils.getAllDeclaredMethods(bean.getClass());
         for (Method method : methods) {
             RouteMeta meta = AnnotationUtils.findAnnotation(method, RouteMeta.class);

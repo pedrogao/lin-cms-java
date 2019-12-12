@@ -1,7 +1,7 @@
 package com.lin.cms.interfaces;
 
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.core.result.Result;
+import com.lin.cms.response.Result;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

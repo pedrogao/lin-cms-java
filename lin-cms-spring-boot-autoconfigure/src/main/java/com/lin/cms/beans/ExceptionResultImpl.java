@@ -1,6 +1,6 @@
 package com.lin.cms.beans;
 
-import com.lin.cms.core.result.Result;
+import com.lin.cms.response.Result;
 import com.lin.cms.interfaces.ExceptionResultResolver;
 import com.lin.cms.utils.ResultGenerator;
 
@@ -10,6 +10,6 @@ public class ExceptionResultImpl implements ExceptionResultResolver {
 
     @Override
     public void rewrite(HttpServletResponse response, Result result, Exception e) {
-        ResultGenerator.writeResult(response, result);
+        // ResultGenerator.writeResult(response, result);
     }
 }

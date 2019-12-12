@@ -4,6 +4,7 @@ import com.lin.cms.beans.ErrorCode;
 import com.lin.cms.interfaces.BaseResponse;
 import org.springframework.http.HttpStatus;
 
+
 public class ApiException extends RuntimeException implements BaseResponse {
 
     private static final long serialVersionUID = 2359767895161832954L;

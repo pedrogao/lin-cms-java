@@ -57,25 +57,25 @@ public class WebConfig implements WebMvcConfigurer {
     // 替换json序列化
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
+        // FastJsonHttpMessageConverter converter = new FastJsonHttpMessageConverter();
 
         //驼峰转下划线
-        SerializeConfig serializeConfig = new SerializeConfig();
-        serializeConfig.setPropertyNamingStrategy(PropertyNamingStrategy.SnakeCase);
+        //SerializeConfig serializeConfig = new SerializeConfig();
+        //serializeConfig.setPropertyNamingStrategy(PropertyNamingStrategy.SnakeCase);
 
-        FastJsonConfig config = new FastJsonConfig();
-        config.setSerializerFeatures(SerializerFeature.WriteMapNullValue);//保留空的字段
-        config.setSerializeConfig(serializeConfig);
+        //FastJsonConfig config = new FastJsonConfig();
+        //config.setSerializerFeatures(SerializerFeature.WriteMapNullValue);//保留空的字段
+        //config.setSerializeConfig(serializeConfig);
 
         //SerializerFeature.WriteNullStringAsEmpty,//String null -> ""
         //SerializerFeature.WriteNullNumberAsZero//Number null -> 0
         // 按需配置，更多参考FastJson文档哈
 
-        converter.setFastJsonConfig(config);
-        converter.setDefaultCharset(Charset.forName("UTF-8"));
-        converter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
+        //converter.setFastJsonConfig(config);
+        //converter.setDefaultCharset(Charset.forName("UTF-8"));
+        //converter.setSupportedMediaTypes(Collections.singletonList(MediaType.APPLICATION_JSON_UTF8));
         // 添加至首位，否则会被jackjson覆盖
-        converters.add(0, converter);
+        //converters.add(0, converter);
     }
 
 

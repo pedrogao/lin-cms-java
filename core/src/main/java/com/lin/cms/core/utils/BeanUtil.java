@@ -76,10 +76,6 @@ public class BeanUtil {
 
     /**
      * 获得属性，String类型
-     *
-     * @param obj
-     * @param propName
-     * @return
      */
     public static String getValueByPropName(Object obj, String propName) {
         Class<?> clazz = obj.getClass();// 获取对象的类型
@@ -96,7 +92,6 @@ public class BeanUtil {
         return value;
     }
 
-    //首字母转大写
     public static String toUpperCaseFirstOne(String s) {
         if (Character.isUpperCase(s.charAt(0)))
             return s;

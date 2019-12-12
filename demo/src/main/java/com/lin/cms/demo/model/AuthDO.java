@@ -10,6 +10,7 @@ import lombok.Data;
 @TableName("lin_auth")
 @Data
 public class AuthDO {
+
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 

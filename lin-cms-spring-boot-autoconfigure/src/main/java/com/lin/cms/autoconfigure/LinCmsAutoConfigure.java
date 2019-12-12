@@ -2,12 +2,11 @@ package com.lin.cms.autoconfigure;
 
 import com.lin.cms.beans.ExceptionResultImpl;
 import com.lin.cms.beans.Manager;
-import com.lin.cms.exception.ExceptionHandler;
 import com.lin.cms.interceptor.AuthorizeInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
 import com.lin.cms.beans.RouteMetaCollector;
 import com.lin.cms.interfaces.ExceptionResultResolver;
-import com.lin.cms.token.JWT;
+import com.lin.cms.token.DoubleJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -40,7 +39,7 @@ public class LinCmsAutoConfigure {
     }
 
     @Bean
-    public JWT jwter() {
+    public DoubleJWT jwter() {
         String secret = properties.getTokenSecret();
         Long accessExpire = properties.getTokenAccessExpire();
         Long refreshExpire = properties.getTokenRefreshExpire();
@@ -50,7 +49,7 @@ public class LinCmsAutoConfigure {
         if (refreshExpire == null) {
             refreshExpire = 60 * 60 * 24 * 30L;
         }
-        return new JWT(secret, accessExpire, refreshExpire);
+        return new DoubleJWT(secret, accessExpire, refreshExpire);
     }
 
     @Bean

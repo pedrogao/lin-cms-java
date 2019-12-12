@@ -5,13 +5,13 @@ import com.lin.cms.core.annotation.LoginRequired;
 import com.lin.cms.core.annotation.RefreshRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.exception.NotFoundException;
-import com.lin.cms.core.result.Result;
+import com.lin.cms.response.Result;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.common.LocalUserLegacy;
 import com.lin.cms.demo.vo.UserAuthsVO;
 import com.lin.cms.utils.ResultGenerator;
 import com.lin.cms.demo.service.UserService;
-import com.lin.cms.token.JWT;
+import com.lin.cms.token.DoubleJWT;
 import com.lin.cms.demo.dto.user.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +34,7 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private JWT jwt;
+    private DoubleJWT jwt;
 
     /**
      * 用户注册
@@ -43,7 +43,7 @@ public class UserController {
     @AdminRequired
     public Result<String> register(@RequestBody @Validated RegisterDTO validator) {
         userService.createUser(validator);
-        return ResultGenerator.genSuccessResult("添加用户成功！");
+        return ResultGenerator.generateSuccessResult("添加用户成功！");
     }
 
     /**
@@ -66,7 +66,7 @@ public class UserController {
     @LoginRequired
     public Result update(@RequestBody @Validated UpdateInfoDTO validator) {
         userService.updateUser(validator);
-        return ResultGenerator.genSuccessResult("更新成功！");
+        return ResultGenerator.generateSuccessResult("更新成功！");
     }
 
     /**
@@ -76,7 +76,7 @@ public class UserController {
     @LoginRequired
     public Result updatePassword(@RequestBody @Validated ChangePasswordDTO validator) {
         userService.changePassword(validator);
-        return ResultGenerator.genSuccessResult("密码修改成功！");
+        return ResultGenerator.generateSuccessResult("密码修改成功！");
     }
 
     /**
@@ -123,6 +123,6 @@ public class UserController {
     @PutMapping("/avatar")
     public Result updateAvatar(@RequestBody @Validated AvatarUpdateDTO validator) {
         userService.updateAvatar(validator);
-        return ResultGenerator.genSuccessResult("头像更新成功！");
+        return ResultGenerator.generateSuccessResult("头像更新成功！");
     }
 }

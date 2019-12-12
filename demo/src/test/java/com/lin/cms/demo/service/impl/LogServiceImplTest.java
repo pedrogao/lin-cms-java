@@ -1,7 +1,7 @@
 package com.lin.cms.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lin.cms.core.result.PageResult;
+import com.lin.cms.response.PageResult;
 import com.lin.cms.demo.mapper.LogMapper;
 import com.lin.cms.demo.model.LogDO;
 import com.lin.cms.demo.service.LogService;

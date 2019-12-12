@@ -146,14 +146,14 @@ CREATE TABLE lin_user_identity
 -- ----------------------------
 BEGIN;
 INSERT INTO lin_user(id, username, nickname)
-VALUES (1, 'super', 'super');
+VALUES (1, 'root', 'root');
 
 INSERT INTO lin_user_identity (id, user_id, identity_type, identifier, credential)
-VALUES (1, 1, 'username', 'super',
+VALUES (1, 1, 'username', 'root',
         'pbkdf2sha256:64000:18:24:n:yUnDokcNRbwILZllmUOItIyo9MnI00QW:6ZcPf+sfzyoygOU8h/GSoirF');
 
 INSERT INTO lin_group(id, name, info)
-VALUES (1, 'super', '超级用户组');
+VALUES (1, 'root', '超级用户组');
 
 INSERT INTO lin_group(id, name, info)
 VALUES (2, 'guest', '游客组');

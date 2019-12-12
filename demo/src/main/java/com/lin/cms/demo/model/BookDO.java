@@ -10,6 +10,7 @@ import java.util.Date;
 @TableName("book")
 @Data
 public class BookDO {
+
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 

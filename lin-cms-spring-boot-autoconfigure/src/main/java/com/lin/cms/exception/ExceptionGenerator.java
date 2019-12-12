@@ -44,7 +44,7 @@ public final class ExceptionGenerator {
     }
 
     public static ApiException createFileExtensionException() {
-        return createApiException(ErrorCode.File_Extension, HttpStatus.NOT_ACCEPTABLE.value());
+        return createApiException(ErrorCode.FILE_EXTENSION, HttpStatus.NOT_ACCEPTABLE.value());
     }
 
     public static ApiException createFileTooLargeException() {
