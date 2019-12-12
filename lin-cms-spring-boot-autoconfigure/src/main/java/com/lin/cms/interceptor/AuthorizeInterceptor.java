@@ -7,7 +7,7 @@ import com.lin.cms.core.enums.UserLevel;
 import com.lin.cms.beans.ErrorCode;
 import com.lin.cms.response.Result;
 import com.lin.cms.utils.ResultGenerator;
-import com.lin.cms.core.utils.AnnotationHelper;
+import com.lin.cms.core.utils.AnnotationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.method.HandlerMethod;
@@ -54,7 +54,7 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
 
     private boolean handleNoMeta(HttpServletRequest request, HttpServletResponse response, Result result, Method method) {
         Annotation[] annotations = method.getAnnotations();
-        UserLevel level = AnnotationHelper.findRequired(annotations);
+        UserLevel level = AnnotationUtil.findRequired(annotations);
         switch (level) {
             case TOURIST:
                 return true;
@@ -80,7 +80,7 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
         // 如果已经挂载，且二者相同
         if (meta == meta1) {
             Annotation[] annotations = method.getAnnotations();
-            UserLevel level = AnnotationHelper.findRequired(annotations);
+            UserLevel level = AnnotationUtil.findRequired(annotations);
             switch (level) {
                 case TOURIST:
                     // 如果，当前视图函数是游客权限，则直接返回true

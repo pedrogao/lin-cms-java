@@ -8,8 +8,6 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.lin.cms.core.enums.UserActive;
-import com.lin.cms.core.enums.UserAdmin;
 import lombok.Data;
 
 import java.util.Date;
@@ -27,10 +25,6 @@ public class UserDO {
      */
     private String avatar;
 
-    private Byte admin;
-
-    private Byte active;
-
     private String email;
 
     private Long groupId;
@@ -45,15 +39,6 @@ public class UserDO {
     @JSONField(serialize = false)
     @TableLogic
     private Date deleteTime;
-
-
-    public boolean checkAdmin() {
-        return this.admin.intValue() == UserAdmin.ADMIN.getValue();
-    }
-
-    public boolean checkActive() {
-        return this.active.intValue() == UserActive.ACTIVE.getValue();
-    }
 
     /**
      * 设置密文密码

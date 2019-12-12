@@ -5,7 +5,7 @@ import com.lin.cms.core.enums.UserLevel;
 
 import java.lang.annotation.Annotation;
 
-public class AnnotationHelper {
+public class AnnotationUtil {
 
     public static UserLevel findRequired(Annotation[] annotations) {
         for (Annotation annotation : annotations) {
