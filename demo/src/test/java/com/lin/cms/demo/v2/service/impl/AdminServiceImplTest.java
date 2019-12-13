@@ -1,7 +1,7 @@
 package com.lin.cms.demo.v2.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lin.cms.response.PageResult;
+import com.lin.cms.demo.vo.PageResult;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.dto.admin.*;
 import com.lin.cms.demo.dto.user.RegisterDTO;

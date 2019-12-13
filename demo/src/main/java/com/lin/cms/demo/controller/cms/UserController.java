@@ -5,11 +5,11 @@ import com.lin.cms.core.annotation.LoginRequired;
 import com.lin.cms.core.annotation.RefreshRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.exception.NotFoundException;
-import com.lin.cms.response.Result;
+import com.lin.cms.demo.vo.CommonResult;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.common.LocalUserLegacy;
 import com.lin.cms.demo.vo.UserAuthsVO;
-import com.lin.cms.utils.ResultUtil;
+import com.lin.cms.demo.common.utils.ResultUtil;
 import com.lin.cms.demo.service.UserService;
 import com.lin.cms.token.DoubleJWT;
 import com.lin.cms.demo.dto.user.*;
@@ -41,7 +41,7 @@ public class UserController {
      */
     @PostMapping("/register")
     @AdminRequired
-    public Result<String> register(@RequestBody @Validated RegisterDTO validator) {
+    public CommonResult<String> register(@RequestBody @Validated RegisterDTO validator) {
         userService.createUser(validator);
         return ResultUtil.generateSuccessResult("添加用户成功！");
     }
@@ -64,7 +64,7 @@ public class UserController {
      */
     @PutMapping
     @LoginRequired
-    public Result update(@RequestBody @Validated UpdateInfoDTO validator) {
+    public CommonResult update(@RequestBody @Validated UpdateInfoDTO validator) {
         userService.updateUser(validator);
         return ResultUtil.generateSuccessResult("更新成功！");
     }
@@ -74,7 +74,7 @@ public class UserController {
      */
     @PutMapping("/change_password")
     @LoginRequired
-    public Result updatePassword(@RequestBody @Validated ChangePasswordDTO validator) {
+    public CommonResult updatePassword(@RequestBody @Validated ChangePasswordDTO validator) {
         userService.changePassword(validator);
         return ResultUtil.generateSuccessResult("密码修改成功！");
     }
@@ -121,7 +121,7 @@ public class UserController {
      */
     @LoginRequired
     @PutMapping("/avatar")
-    public Result updateAvatar(@RequestBody @Validated AvatarUpdateDTO validator) {
+    public CommonResult updateAvatar(@RequestBody @Validated AvatarUpdateDTO validator) {
         userService.updateAvatar(validator);
         return ResultUtil.generateSuccessResult("头像更新成功！");
     }

@@ -3,7 +3,7 @@ package com.lin.cms.demo.service.impl;
 import com.lin.cms.demo.service.AdminService;
 import com.lin.cms.exception.ForbiddenException;
 import com.lin.cms.exception.NotFoundException;
-import com.lin.cms.response.PageResult;
+import com.lin.cms.demo.vo.PageResult;
 import com.lin.cms.demo.bo.GroupAuthsBO;
 import com.lin.cms.demo.dto.admin.*;
 import com.lin.cms.demo.mapper.AuthMapper;

@@ -1,6 +1,6 @@
 package com.lin.cms.demo.v2.service;
 
-import com.lin.cms.response.PageResult;
+import com.lin.cms.demo.vo.PageResult;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.dto.admin.*;
 import com.lin.cms.demo.v2.model.GroupDO;

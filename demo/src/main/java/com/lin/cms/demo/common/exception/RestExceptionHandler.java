@@ -1,12 +1,11 @@
 package com.lin.cms.demo.common.exception;
 
 import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.demo.vo.CommonResult;
 import com.lin.cms.exception.HttpException;
-import com.lin.cms.response.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -29,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order
 @RestControllerAdvice
 @Slf4j
 public class RestExceptionHandler {
@@ -41,8 +40,8 @@ public class RestExceptionHandler {
      * HttpException
      */
     @ExceptionHandler({HttpException.class})
-    public Result processException(HttpException exception, HttpServletRequest request, HttpServletResponse response) {
-        Result result = new Result();
+    public CommonResult processException(HttpException exception, HttpServletRequest request, HttpServletResponse response) {
+        CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg(exception.getMessage());
         result.setErrorCode(exception.getErrorCode());
@@ -54,14 +53,14 @@ public class RestExceptionHandler {
      * ConstraintViolationException
      */
     @ExceptionHandler({ConstraintViolationException.class})
-    public Result processException(ConstraintViolationException exception, HttpServletRequest request, HttpServletResponse response) {
+    public CommonResult processException(ConstraintViolationException exception, HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> msg = new HashMap<>();
         exception.getConstraintViolations().forEach(constraintViolation -> {
             String template = constraintViolation.getMessageTemplate();
             String path = constraintViolation.getPropertyPath().toString();
             msg.put(path, template);
         });
-        Result result = new Result();
+        CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg(msg);
         result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
@@ -73,8 +72,8 @@ public class RestExceptionHandler {
      * NoHandlerFoundException
      */
     @ExceptionHandler({NoHandlerFoundException.class})
-    public Result processException(NoHandlerFoundException exception, HttpServletRequest request, HttpServletResponse response) {
-        Result result = new Result();
+    public CommonResult processException(NoHandlerFoundException exception, HttpServletRequest request, HttpServletResponse response) {
+        CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg(ErrorCode.NOT_FOUND.getDescription());
         result.setErrorCode(ErrorCode.NOT_FOUND.getCode());
@@ -86,8 +85,8 @@ public class RestExceptionHandler {
      * MissingServletRequestParameterException
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
-    public Result processException(MissingServletRequestParameterException exception, HttpServletRequest request, HttpServletResponse response) {
-        Result result = new Result();
+    public CommonResult processException(MissingServletRequestParameterException exception, HttpServletRequest request, HttpServletResponse response) {
+        CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg("丢失" + exception.getParameterName() + "参数");
         result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
@@ -99,8 +98,8 @@ public class RestExceptionHandler {
      * MethodArgumentTypeMismatchException
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    public Result processException(MethodArgumentTypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
-        Result result = new Result();
+    public CommonResult processException(MethodArgumentTypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
+        CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg(exception.getValue() + "类型错误");
         result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
@@ -112,8 +111,8 @@ public class RestExceptionHandler {
      * ServletException
      */
     @ExceptionHandler({ServletException.class})
-    public Result processException(ServletException exception, HttpServletRequest request, HttpServletResponse response) {
-        Result result = new Result();
+    public CommonResult processException(ServletException exception, HttpServletRequest request, HttpServletResponse response) {
+        CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg(exception.getMessage());
         result.setErrorCode(ErrorCode.FAIL.getCode());
@@ -125,7 +124,7 @@ public class RestExceptionHandler {
      * MethodArgumentNotValidException
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public Result processException(MethodArgumentNotValidException exception, HttpServletRequest request, HttpServletResponse response) {
+    public CommonResult processException(MethodArgumentNotValidException exception, HttpServletRequest request, HttpServletResponse response) {
         BindingResult bindingResult = exception.getBindingResult();
         List<ObjectError> errors = bindingResult.getAllErrors();
         Map<String, Object> msg = new HashMap<>();
@@ -137,7 +136,7 @@ public class RestExceptionHandler {
                 msg.put(error.getObjectName(), error.getDefaultMessage());
             }
         });
-        Result result = new Result();
+        CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg(msg);
         result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
@@ -149,8 +148,8 @@ public class RestExceptionHandler {
      * HttpMessageNotReadableException
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    public Result processException(HttpMessageNotReadableException exception, HttpServletRequest request, HttpServletResponse response) {
-        Result result = new Result();
+    public CommonResult processException(HttpMessageNotReadableException exception, HttpServletRequest request, HttpServletResponse response) {
+        CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg("请求体不可为空");
         result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
@@ -162,8 +161,8 @@ public class RestExceptionHandler {
      * TypeMismatchException
      */
     @ExceptionHandler({TypeMismatchException.class})
-    public Result processException(TypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
-        Result result = new Result();
+    public CommonResult processException(TypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
+        CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg(exception.getMessage());
         result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
@@ -175,8 +174,8 @@ public class RestExceptionHandler {
      * MaxUploadSizeExceededException
      */
     @ExceptionHandler({MaxUploadSizeExceededException.class})
-    public Result processException(MaxUploadSizeExceededException exception, HttpServletRequest request, HttpServletResponse response) {
-        Result result = new Result();
+    public CommonResult processException(MaxUploadSizeExceededException exception, HttpServletRequest request, HttpServletResponse response) {
+        CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg("总体文件大小不能超过" + maxFileSize);
         result.setErrorCode(ErrorCode.FILE_TOO_LARGE.getCode());
@@ -188,8 +187,8 @@ public class RestExceptionHandler {
      * Exception
      */
     @ExceptionHandler({Exception.class})
-    public Result processException(Exception exception, HttpServletRequest request, HttpServletResponse response) {
-        Result result = new Result();
+    public CommonResult processException(Exception exception, HttpServletRequest request, HttpServletResponse response) {
+        CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg(ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
         result.setErrorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode());
