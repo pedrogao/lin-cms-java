@@ -4,7 +4,7 @@ import com.lin.cms.beans.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-public class MethodNotAllowedException extends ApiException {
+public class MethodNotAllowedException extends HttpException {
 
     @Getter
     protected int errorCode = ErrorCode.METHOD_NOT_ALLOWED.getCode();

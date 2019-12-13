@@ -5,7 +5,7 @@ import com.lin.cms.interfaces.BaseResponse;
 import org.springframework.http.HttpStatus;
 
 
-public class ApiException extends RuntimeException implements BaseResponse {
+public class HttpException extends RuntimeException implements BaseResponse {
 
     private static final long serialVersionUID = 2359767895161832954L;
 
@@ -13,48 +13,48 @@ public class ApiException extends RuntimeException implements BaseResponse {
 
     protected int errorCode = ErrorCode.INTERNAL_SERVER_ERROR.getCode();
 
-    public ApiException() {
+    public HttpException() {
         super(ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
     }
 
-    public ApiException(String message) {
+    public HttpException(String message) {
         super(message);
     }
 
-    public ApiException(int errorCode) {
+    public HttpException(int errorCode) {
         super(ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
         this.errorCode = errorCode;
     }
 
-    public ApiException(int errorCode, int httpCode) {
+    public HttpException(int errorCode, int httpCode) {
         super(ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
         this.httpCode = httpCode;
         this.errorCode = errorCode;
     }
 
-    public ApiException(String message, int errorCode) {
+    public HttpException(String message, int errorCode) {
         super(message);
         this.errorCode = errorCode;
     }
 
-    public ApiException(String message, int errorCode, int httpCode) {
+    public HttpException(String message, int errorCode, int httpCode) {
         super(message);
         this.httpCode = httpCode;
         this.errorCode = errorCode;
     }
 
-    public ApiException(Throwable cause, int errorCode) {
+    public HttpException(Throwable cause, int errorCode) {
         super(cause);
         this.errorCode = errorCode;
     }
 
-    public ApiException(Throwable cause, int errorCode, int httpCode) {
+    public HttpException(Throwable cause, int errorCode, int httpCode) {
         super(cause);
         this.errorCode = errorCode;
         this.httpCode = httpCode;
     }
 
-    public ApiException(String message, Throwable cause) {
+    public HttpException(String message, Throwable cause) {
         super(message, cause);
     }
 

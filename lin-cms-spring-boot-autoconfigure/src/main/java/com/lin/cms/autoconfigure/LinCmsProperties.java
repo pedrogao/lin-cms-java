@@ -10,6 +10,8 @@ public class LinCmsProperties {
 
     private String tokenSecret = "";
 
+    private String[] excludeMethods = new String[]{"OPTIONS"};
+
     private Long tokenAccessExpire = 3600L;
 
     private Long tokenRefreshExpire = 2592000L;
@@ -56,5 +58,13 @@ public class LinCmsProperties {
 
     public void setCodeMsg(Map<Integer, String> codeMsg) {
         this.codeMsg = codeMsg;
+    }
+
+    public String[] getExcludeMethods() {
+        return excludeMethods;
+    }
+
+    public void setExcludeMethods(String[] excludeMethods) {
+        this.excludeMethods = excludeMethods;
     }
 }

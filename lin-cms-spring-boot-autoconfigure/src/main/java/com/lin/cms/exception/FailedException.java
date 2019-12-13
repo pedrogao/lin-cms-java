@@ -4,7 +4,7 @@ import com.lin.cms.beans.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-public class FailedException extends ApiException {
+public class FailedException extends HttpException {
 
     @Getter
     protected int errorCode = ErrorCode.FAIL.getCode();

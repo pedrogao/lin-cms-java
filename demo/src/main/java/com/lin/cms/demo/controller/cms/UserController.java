@@ -9,7 +9,7 @@ import com.lin.cms.response.Result;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.common.LocalUserLegacy;
 import com.lin.cms.demo.vo.UserAuthsVO;
-import com.lin.cms.utils.ResultGenerator;
+import com.lin.cms.utils.ResultUtil;
 import com.lin.cms.demo.service.UserService;
 import com.lin.cms.token.DoubleJWT;
 import com.lin.cms.demo.dto.user.*;
@@ -43,7 +43,7 @@ public class UserController {
     @AdminRequired
     public Result<String> register(@RequestBody @Validated RegisterDTO validator) {
         userService.createUser(validator);
-        return ResultGenerator.generateSuccessResult("添加用户成功！");
+        return ResultUtil.generateSuccessResult("添加用户成功！");
     }
 
     /**
@@ -66,7 +66,7 @@ public class UserController {
     @LoginRequired
     public Result update(@RequestBody @Validated UpdateInfoDTO validator) {
         userService.updateUser(validator);
-        return ResultGenerator.generateSuccessResult("更新成功！");
+        return ResultUtil.generateSuccessResult("更新成功！");
     }
 
     /**
@@ -76,7 +76,7 @@ public class UserController {
     @LoginRequired
     public Result updatePassword(@RequestBody @Validated ChangePasswordDTO validator) {
         userService.changePassword(validator);
-        return ResultGenerator.generateSuccessResult("密码修改成功！");
+        return ResultUtil.generateSuccessResult("密码修改成功！");
     }
 
     /**
@@ -98,9 +98,9 @@ public class UserController {
     @RouteMeta(permission = "查询自己拥有的权限", module = "用户", mount = true)
     public UserAuthsVO getAuths() {
         UserDO user = LocalUserLegacy.getLocalUser();
-        if (user.checkAdmin()) {
-            return new UserAuthsVO(user);
-        }
+        // if (user.checkAdmin()) {
+        //     return new UserAuthsVO(user);
+        // }
         List<Map<String, List<Map<String, String>>>> auths = userService.getAuths(user.getGroupId());
         return new UserAuthsVO(user, auths);
     }
@@ -123,6 +123,6 @@ public class UserController {
     @PutMapping("/avatar")
     public Result updateAvatar(@RequestBody @Validated AvatarUpdateDTO validator) {
         userService.updateAvatar(validator);
-        return ResultGenerator.generateSuccessResult("头像更新成功！");
+        return ResultUtil.generateSuccessResult("头像更新成功！");
     }
 }

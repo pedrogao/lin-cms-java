@@ -4,7 +4,7 @@ import com.lin.cms.beans.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-public class ForbiddenException extends ApiException {
+public class ForbiddenException extends HttpException {
 
     @Getter
     protected int errorCode = ErrorCode.FORBIDDEN.getCode();

@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 /**
  * 授权异常
  */
-public class AuthorizationException extends ApiException {
+public class AuthorizationException extends HttpException {
 
     @Getter
     protected int httpCode = HttpStatus.UNAUTHORIZED.value();

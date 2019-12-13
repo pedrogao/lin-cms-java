@@ -4,7 +4,7 @@ import com.lin.cms.beans.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-public class FileExtensionException extends ApiException {
+public class FileExtensionException extends HttpException {
 
     @Getter
     protected int errorCode = ErrorCode.FILE_EXTENSION.getCode();

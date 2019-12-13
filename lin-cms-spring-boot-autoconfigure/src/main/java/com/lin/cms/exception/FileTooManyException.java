@@ -4,7 +4,7 @@ import com.lin.cms.beans.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-public class FileTooManyException extends ApiException {
+public class FileTooManyException extends HttpException {
 
     @Getter
     protected int errorCode = ErrorCode.FILE_TOO_MANY.getCode();

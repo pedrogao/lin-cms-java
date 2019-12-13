@@ -1,6 +1,6 @@
 package com.lin.cms.utils;
 
-import com.lin.cms.exception.ApiException;
+import com.lin.cms.exception.HttpException;
 import com.lin.cms.response.Created;
 import com.lin.cms.response.Success;
 import com.lin.cms.beans.ErrorCode;
@@ -12,13 +12,13 @@ import lombok.extern.slf4j.Slf4j;
  * 响应结果生成工具
  */
 @Slf4j
-public class ResultGenerator {
+public class ResultUtil {
 
-    public static Result generateResult(ApiException e) {
+    public static Result generateResult(HttpException e) {
         return Result.builder()
                 .msg(e.getMessage())
                 .errorCode(e.getErrorCode())
-                .url(RequestHelper.getRequestUrl())
+                .url(RequestUtil.getRequestUrl())
                 .build();
     }
 
@@ -27,7 +27,7 @@ public class ResultGenerator {
         return (Result<T>) Result.builder()
                 .msg(data)
                 .errorCode(success.getErrorCode())
-                .url(RequestHelper.getRequestUrl())
+                .url(RequestUtil.getRequestUrl())
                 .build();
     }
 
@@ -36,7 +36,7 @@ public class ResultGenerator {
         return (Result<T>) Result.builder()
                 .msg(data)
                 .errorCode(created.getErrorCode())
-                .url(RequestHelper.getRequestUrl())
+                .url(RequestUtil.getRequestUrl())
                 .build();
     }
 
@@ -44,7 +44,7 @@ public class ResultGenerator {
         return (Result<T>) Result.builder()
                 .errorCode(errorCode.getCode())
                 .msg(errorCode.getDescription())
-                .url(RequestHelper.getRequestUrl())
+                .url(RequestUtil.getRequestUrl())
                 .build();
     }
 }

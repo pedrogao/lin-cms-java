@@ -1,7 +1,7 @@
 # lin-cms-java
 
 
-**正在大规模重构中，请勿使用！！！**
+**正在大规模重构中，业务和结构都发生了大量变化，前端还无适用版本，请勿使用！！！**
 
 > lin-cms 的 java 版实现基于 spring boot 和 mybatis-plus
 

@@ -4,7 +4,7 @@ import com.lin.cms.beans.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-public class RepeatException extends ApiException {
+public class RepeatException extends HttpException {
 
     @Getter
     protected int errorCode = ErrorCode.REPEAT.getCode();

@@ -324,7 +324,6 @@ public class Page<T> implements IPage<T> {
      */
     @Override
     public long offset() {
-        long offset = getCurrent() * getSize();
-        return offset;
+        return getCurrent() * getSize();
     }
 }

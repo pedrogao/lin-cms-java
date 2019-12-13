@@ -3,7 +3,6 @@ package com.lin.cms.interceptor;
 import com.lin.cms.core.annotation.Logger;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.interfaces.LoggerResolver;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,7 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 
-@Slf4j
 public class LogInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired

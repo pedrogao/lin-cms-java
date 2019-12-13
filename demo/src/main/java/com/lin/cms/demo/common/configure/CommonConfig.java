@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.lin.cms.beans.Manager;
-import com.lin.cms.demo.common.mybatis.LogicInterceptor;
 import com.lin.cms.demo.extensions.file.FileProperties;
 import com.lin.cms.demo.common.interceptor.RequestLogInterceptor;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
@@ -17,11 +15,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(FileProperties.class)
 public class CommonConfig {
-
-    @Bean
-    public Manager manager() {
-        return new Manager();
-    }
 
     @Bean
     public RequestLogInterceptor requestLogInterceptor() {

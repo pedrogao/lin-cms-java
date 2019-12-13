@@ -4,7 +4,7 @@ import com.lin.cms.beans.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-public class RequestLimitException extends ApiException {
+public class RequestLimitException extends HttpException {
 
     @Getter
     protected int errorCode = ErrorCode.REQUEST_LIMIT.getCode();

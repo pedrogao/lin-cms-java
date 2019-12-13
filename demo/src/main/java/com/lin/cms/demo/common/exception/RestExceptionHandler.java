@@ -1,8 +1,8 @@
 package com.lin.cms.demo.common.exception;
 
 import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.exception.HttpException;
 import com.lin.cms.response.Result;
-import com.lin.cms.exception.ApiException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,10 +38,10 @@ public class RestExceptionHandler {
     private String maxFileSize;
 
     /**
-     * ApiException
+     * HttpException
      */
-    @ExceptionHandler({ApiException.class})
-    public Result processException(ApiException exception, HttpServletRequest request, HttpServletResponse response) {
+    @ExceptionHandler({HttpException.class})
+    public Result processException(HttpException exception, HttpServletRequest request, HttpServletResponse response) {
         Result result = new Result();
         result.setUrl(request.getServletPath());
         result.setMsg(exception.getMessage());

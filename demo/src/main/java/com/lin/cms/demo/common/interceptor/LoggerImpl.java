@@ -62,14 +62,11 @@ public class LoggerImpl implements LoggerResolver {
                 if (user == null) {
                     return "";
                 }
-                String val = BeanUtil.getValueByPropName(user, prop);
-                return val;
+                return BeanUtil.getValueByPropName(user, prop);
             case "request":
-                String val1 = BeanUtil.getValueByPropName(request, prop);
-                return val1;
+                return BeanUtil.getValueByPropName(request, prop);
             case "response":
-                String val2 = BeanUtil.getValueByPropName(response, prop);
-                return val2;
+                return BeanUtil.getValueByPropName(response, prop);
             default:
                 return "";
         }

@@ -5,7 +5,7 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 
-public class FileTooLargeException extends ApiException {
+public class FileTooLargeException extends HttpException {
 
     @Getter
     protected int errorCode = ErrorCode.FILE_TOO_LARGE.getCode();

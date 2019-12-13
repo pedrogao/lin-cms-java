@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ParameterException extends ApiException {
+public class ParameterException extends HttpException {
 
     @Getter
     protected int httpCode = HttpStatus.BAD_REQUEST.value();

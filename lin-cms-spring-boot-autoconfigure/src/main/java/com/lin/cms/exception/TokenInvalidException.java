@@ -4,7 +4,7 @@ import com.lin.cms.beans.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-public class TokenInvalidException extends ApiException {
+public class TokenInvalidException extends HttpException {
 
     @Getter
     protected int errorCode = ErrorCode.TOKEN_INVALID.getCode();

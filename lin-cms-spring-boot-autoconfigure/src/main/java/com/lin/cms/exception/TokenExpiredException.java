@@ -4,7 +4,7 @@ import com.lin.cms.beans.ErrorCode;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-public class TokenExpiredException extends ApiException {
+public class TokenExpiredException extends HttpException {
 
     @Getter
     protected int errorCode = ErrorCode.TOKEN_EXPIRED.getCode();

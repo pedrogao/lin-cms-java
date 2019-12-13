@@ -1,11 +1,8 @@
 package auth;
 
-import com.lin.cms.beans.Manager;
-import com.lin.cms.exception.ExceptionHandler;
 import com.lin.cms.interceptor.AuthorizeInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -23,19 +20,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private LogInterceptor logInterceptor;
 
-    @Autowired
-    private ExceptionHandler exceptionHandler;
-
-
-    @Bean
-    public Manager manager() {
-        return new Manager();
-    }
-
     //统一异常处理
     @Override
     public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-        exceptionResolvers.add(exceptionHandler);
     }
 
     //解决跨域问题
