@@ -3,7 +3,7 @@ package com.lin.cms.token;
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.auth0.jwt.exceptions.InvalidClaimException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -74,21 +74,31 @@ public class DoubleJWT {
     }
 
     public Map<String, Claim> decodeAccessToken(String token) {
-        return checkTokenTypeAndExpired(token, accessVerifier, ACCESS_TYPE);
+        DecodedJWT jwt = accessVerifier.verify(token);
+        checkTokenExpired(jwt.getExpiresAt());
+        checkTokenType(jwt.getClaim("type").toString(), ACCESS_TYPE);
+        checkTokenScope(jwt.getClaim("scope").toString());
+        return jwt.getClaims();
     }
 
     public Map<String, Claim> decodeRefreshToken(String token) {
-        return checkTokenTypeAndExpired(token, refreshVerifier, REFRESH_TYPE);
+        DecodedJWT jwt = refreshVerifier.verify(token);
+        checkTokenExpired(jwt.getExpiresAt());
+        checkTokenType(jwt.getClaim("type").toString(), REFRESH_TYPE);
+        checkTokenScope(jwt.getClaim("scope").toString());
+        return jwt.getClaims();
     }
 
-    private Map<String, Claim> checkTokenTypeAndExpired(String token, JWTVerifier accessVerifier, String accessType) {
-        DecodedJWT jwt = accessVerifier.verify(token);
-        checkTokenExpired(jwt.getExpiresAt());
-        String type = jwt.getClaim("type").toString();
-        if (type == null || !type.equals(accessType)) {
-            throw new JWTDecodeException("token type is invalid");
+    private void checkTokenScope(String scope) {
+        if (scope == null || !scope.equals(LIN_SCOPE)) {
+            throw new InvalidClaimException("token scope is invalid");
         }
-        return jwt.getClaims();
+    }
+
+    private void checkTokenType(String type, String accessType) {
+        if (type == null || !type.equals(accessType)) {
+            throw new InvalidClaimException("token type is invalid");
+        }
     }
 
     private void checkTokenExpired(Date expiresAt) {

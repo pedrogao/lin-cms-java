@@ -50,4 +50,14 @@
         SELECT COUNT(*) AS count FROM lin_group WHERE delete_time IS NULL AND id = #{id}
     </select>
 
+    <select id="checkUserInGroupByUserIdAndGroupName" resultType="java.lang.Integer">
+        SELECT COUNT(*) AS count
+        FROM lin_user_group AS ug
+        WHERE
+        ug.user_id = #{userID}
+        AND
+        ug.group_id =
+        (SELECT g.id FROM lin_group AS g WHERE g.name = #{groupName} )
+    </select>
+
 </mapper>

@@ -7,6 +7,7 @@ import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lin.cms.demo.v2.model.GroupDO;
+import com.lin.cms.demo.v2.model.PermissionDO;
 import com.lin.cms.demo.v2.model.UserDO;
 
 import java.util.List;
@@ -58,7 +59,15 @@ public interface UserService extends IService<UserDO> {
      * @param userId 用户id
      * @return 权限
      */
-    List<Map<String, List<Map<String, String>>>> getUserPermissions(Long userId);
+    List<Map<String, List<Map<String, String>>>> getStructualUserPermissions(Long userId);
+
+    /**
+     * 获得用户所有权限
+     *
+     * @param userId 用户id
+     * @return 权限
+     */
+    List<PermissionDO> getUserPermissions(Long userId);
 
 
     /**

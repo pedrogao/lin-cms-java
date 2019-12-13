@@ -62,4 +62,12 @@ public interface GroupService extends IService<GroupDO> {
      * @return 是否存在
      */
     boolean checkGroupExistByName(String name);
+
+    /**
+     * 检查该用户是否在root分组中
+     *
+     * @param userId 用户id
+     * @return true表示在
+     */
+    boolean checkIsRootByUserId(Long userId);
 }

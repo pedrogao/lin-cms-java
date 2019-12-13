@@ -1,18 +1,16 @@
 package com.lin.cms.demo.common.interceptor;
 
 import com.auth0.jwt.exceptions.*;
+import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.lin.cms.core.annotation.RouteMeta;
+import com.lin.cms.demo.common.LocalUser;
+import com.lin.cms.demo.v2.model.PermissionDO;
+import com.lin.cms.demo.v2.model.UserDO;
+import com.lin.cms.demo.v2.service.GroupService;
+import com.lin.cms.demo.v2.service.UserService;
 import com.lin.cms.exception.*;
 import com.lin.cms.interfaces.AuthorizeVerifyResolver;
-import com.lin.cms.exception.TokenExpiredException;
-import com.lin.cms.utils.ResultUtil;
-import com.lin.cms.demo.mapper.AuthMapper;
-import com.lin.cms.demo.mapper.GroupMapper;
-import com.lin.cms.demo.mapper.UserMapper;
-import com.lin.cms.demo.model.AuthDO;
-import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.common.LocalUserLegacy;
 import com.lin.cms.token.DoubleJWT;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,204 +19,126 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-
-import static com.lin.cms.consts.TokenConst.*;
 
 @Component
 public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
 
     public final static String authorizationHeader = "Authorization";
 
-    public final static String Bearer = "Bearer";
+    public final static String bearerPattern = "^Bearer$";
 
     @Autowired
     private DoubleJWT jwt;
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Autowired
-    private GroupMapper groupMapper;
-
-    @Autowired
-    private AuthMapper authMapper;
+    private GroupService groupService;
 
 
     public boolean handleLogin(HttpServletRequest request, HttpServletResponse response, RouteMeta meta) {
-        String tokenStr = this.verifyTokenInHeader(request, response);
-        // 如果返回的token字符串为空，则表示基础头部认证失败
-        if (tokenStr == null) {
-            return false;
-        }
+        String tokenStr = verifyHeader(request, response);
         Map<String, Claim> claims = null;
         try {
             claims = jwt.decodeAccessToken(tokenStr);
-        } catch (com.auth0.jwt.exceptions.TokenExpiredException e) {
-            TokenExpiredException expired = new TokenExpiredException("令牌过期，请重新申请令牌");
-            // ResultUtil.genAndWriteResult(response, expired);
-            return false;
+        } catch (TokenExpiredException e) {
+            throw new HttpException(e.getMessage());
         } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
-            TokenInvalidException invalid = new TokenInvalidException("令牌损坏，请检查令牌");
-            // ResultUtil.genAndWriteResult(response, invalid);
-            return false;
+            // TODO
+            throw new HttpException(e.getMessage());
         }
-        if (claims == null) {
-            TokenInvalidException invalid = new TokenInvalidException("令牌损坏，解析错误，请重新申请正确的令牌");
-            // ResultUtil.genAndWriteResult(response, invalid);
-            return false;
-        }
-        // 先判断 scope 作用域
-        String scope = claims.get("scope").asString();
-        // 为 lin 作用域下的令牌校验
-        if (scope.equals(LIN_SCOPE)) {
-            Integer identity = claims.get("identity").asInt();
-            String type = claims.get("type").asString();
-
-            boolean verifyLinAccess = this.verifyLinAccess(response, type);
-            if (!verifyLinAccess) {
-                return false;
-            }
-            UserDO user = userMapper.selectById(identity);
-            if (user == null) {
-                NotFoundException notFoundException = new NotFoundException("用户不存在");
-                ResultUtil.generateResult(notFoundException);
-                return false;
-            }
-            LocalUserLegacy.setLocalUser(user);
-            return true;
-        } else {
-            // 其它作用域 暂时返回 false，即其它作用域下均校验失败
-            TokenInvalidException invalid = new TokenInvalidException("您的令牌领域(scope)错误");
-            // ResultUtil.genAndWriteResult(response, invalid);
-            return false;
-        }
+        return getClaim(claims);
     }
 
     @Override
     public boolean handleGroup(HttpServletRequest request, HttpServletResponse response, RouteMeta meta) {
-        boolean stepValid = this.handleLogin(request, response, meta);
-        if (!stepValid) {
-            return false;
-        }
-        UserDO user = LocalUserLegacy.getLocalUser();
-        //if (user.checkAdmin()) {
-        //    return true;
-        //}
-        Long groupId = user.getGroupId();
-        if (groupId == null) {
-            // 您还不属于任何权限组，请联系超级管理员获得权限
-            AuthenticationException exception = new AuthenticationException("您还不属于任何权限组，请联系超级管理员获得权限");
-            // ResultUtil.genAndWriteResult(response, exception);
-            return false;
-        }
-        AuthDO auth = authMapper.selectOneByGroupIdAndAuthAndModule(groupId, meta.permission(), meta.module());
-        if (auth == null) {
-            // 权限不够，请联系超级管理员获得权限
-            AuthenticationException exception = new AuthenticationException("权限不够，请联系超级管理员获得权限");
-            // ResultUtil.genAndWriteResult(response, exception);
-            return false;
-        }
+        handleLogin(request, response, meta);
+        UserDO user = LocalUser.getLocalUser();
+        boolean isAdmin = verifyAdmin(user);
+        if (isAdmin)
+            return true;
+        long userId = user.getId();
+        String permission = meta.permission();
+        String module = meta.module();
+        List<PermissionDO> permissions = userService.getUserPermissions(userId);
+        boolean matched = permissions.stream().anyMatch(it -> it.getModule().equals(module) && it.getName().equals(permission));
+        if (!matched)
+            throw new HttpException("you don't have the permission to access");
         return true;
     }
 
     public boolean handleAdmin(HttpServletRequest request, HttpServletResponse response, RouteMeta meta) {
-        boolean stepValid = this.handleLogin(request, response, meta);
-        if (!stepValid) {
-            return stepValid;
-        }
-        UserDO user = LocalUserLegacy.getLocalUser();
-        // return user.checkAdmin();
-        return false;
-    }
-
-    private boolean verifyLinAccess(HttpServletResponse response, String type) {
-        // 先判断token类型，login校验必须为access
-        if (!type.equals(ACCESS_TYPE)) {
-            TokenInvalidException invalid = new TokenInvalidException("您的令牌类型错误");
-            // ResultUtil.genAndWriteResult(response, invalid);
-            return false;
-        }
+        handleLogin(request, response, meta);
+        UserDO user = LocalUser.getLocalUser();
+        boolean isAdmin = verifyAdmin(user);
+        if (!isAdmin)
+            throw new HttpException("you don't have the permission to access");
         return true;
     }
 
 
-    private String verifyTokenInHeader(HttpServletRequest request, HttpServletResponse response) {
-        // 处理头部header,带有access_token的可以访问
-        String authorization = request.getHeader(authorizationHeader);
-        if (authorization == null || Strings.isBlank(authorization)) {
-            throw new HttpException();
-        }
-        String[] splits = authorization.split(" ");
-        if (splits.length != 2) {
-            // result.setMsg("请输入正确的认证头信息");
-            // ResultUtil.writeResult(response, result);
-            throw new HttpException();
-        } else {
-            // Bearer 字段
-            String scheme = splits[0];
-            // token 字段
-            String tokenStr = splits[1];
-            String pattern = "^Bearer$";
-            if (Pattern.matches(pattern, scheme)) {
-                return tokenStr;
-            }
-        }
-        // result.setMsg("请输入正确的认证头信息");
-        // ResultUtil.writeResult(response, result);
-        return null;
-    }
-
     public boolean handleRefresh(HttpServletRequest request, HttpServletResponse response, RouteMeta meta) {
-        String tokenStr = this.verifyTokenInHeader(request, response);
-        if (tokenStr == null) {
-            return false;
-        }
+        String tokenStr = verifyHeader(request, response);
         Map<String, Claim> claims = null;
         try {
             claims = jwt.decodeRefreshToken(tokenStr);
-        } catch (com.auth0.jwt.exceptions.TokenExpiredException e) {
-            RefreshFailedException failed = new RefreshFailedException("令牌过期，请重新申请令牌");
-            // ResultUtil.genAndWriteResult(response, failed);
-            return false;
+        } catch (TokenExpiredException e) {
+            throw new HttpException(e.getMessage());
         } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
-            RefreshFailedException failed = new RefreshFailedException("令牌损坏，请检查令牌");
-            // ResultUtil.genAndWriteResult(response, failed);
-            return false;
+            // TODO
+            throw new HttpException(e.getMessage());
         }
-        if (claims == null) {
-            RefreshFailedException failed = new RefreshFailedException("令牌损坏，请重新申请正确的令牌");
-            // ResultUtil.genAndWriteResult(response, failed);
-            return false;
-        }
-        String scope = claims.get("scope").asString();
-        Integer identity = claims.get("identity").asInt();
-        String type = claims.get("type").asString();
-        // 先判断scope，scope不对直接false
-        if (!scope.equals(LIN_SCOPE)) {
-            RefreshFailedException failed = new RefreshFailedException("您的令牌领域(scope)错误");
-            // ResultUtil.genAndWriteResult(response, failed);
-            return false;
-        }
-        // 先判断token类型，login校验必须为access
-        if (!type.equals(REFRESH_TYPE)) {
-            RefreshFailedException failed = new RefreshFailedException("您的令牌类型错误");
-            // ResultUtil.genAndWriteResult(response, failed);
-            return false;
-        }
-        UserDO user = userMapper.selectById(identity);
-        if (user == null) {
-            NotFoundException notFoundException = new NotFoundException("用户不存在");
-            // ResultUtil.genAndWriteResult(response, notFoundException);
-            return false;
-        }
-        LocalUserLegacy.setLocalUser(user);
-        return true;
+        return getClaim(claims);
     }
 
     @Override
     public boolean handleNotHandlerMethod(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        return false;
+        return true;
+    }
+
+    private boolean getClaim(Map<String, Claim> claims) {
+        if (claims == null) {
+            throw new HttpException("token is invalid, can't be decode");
+        }
+        int identity = claims.get("identity").asInt();
+        UserDO user = userService.getById(identity);
+        if (user == null) {
+            throw new HttpException("user is not found");
+        }
+        LocalUser.setLocalUser(user);
+        return true;
+    }
+
+    /**
+     * 检查用户是否为管理员
+     *
+     * @param user 用户
+     */
+    private boolean verifyAdmin(UserDO user) {
+        return groupService.checkIsRootByUserId(user.getId());
+    }
+
+    private String verifyHeader(HttpServletRequest request, HttpServletResponse response) {
+        // 处理头部header,带有access_token的可以访问
+        String authorization = request.getHeader(authorizationHeader);
+        if (authorization == null || Strings.isBlank(authorization)) {
+            throw new HttpException("authorization field is required");
+        }
+        String[] splits = authorization.split(" ");
+        if (splits.length != 2) {
+            throw new HttpException("authorization field is invalid");
+        }
+        // Bearer 字段
+        String scheme = splits[0];
+        // token 字段
+        String tokenStr = splits[1];
+        if (!Pattern.matches(bearerPattern, scheme)) {
+            throw new HttpException("authorization field is invalid");
+        }
+        return tokenStr;
     }
 }

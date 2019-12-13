@@ -22,6 +22,8 @@ import java.util.List;
 @Service("groupServiceImpl-v2")
 public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implements GroupService {
 
+    public static final String ROOT_GROUP_NAME = "root";
+
     @Autowired
     private PermissionService permissionService;
 
@@ -58,5 +60,10 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
         QueryWrapper<GroupDO> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(GroupDO::getName, name);
         return this.baseMapper.selectCount(wrapper) > 0;
+    }
+
+    @Override
+    public boolean checkIsRootByUserId(Long userId) {
+        return this.baseMapper.checkUserInGroupByUserIdAndGroupName(userId, ROOT_GROUP_NAME) > 0;
     }
 }

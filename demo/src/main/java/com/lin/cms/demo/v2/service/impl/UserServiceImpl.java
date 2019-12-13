@@ -100,14 +100,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     }
 
     @Override
-    public List<Map<String, List<Map<String, String>>>> getUserPermissions(Long userId) {
+    public List<Map<String, List<Map<String, String>>>> getStructualUserPermissions(Long userId) {
+        List<PermissionDO> permissions = getUserPermissions(userId);
+        return permissionService.structuringPermissions(permissions);
+    }
+
+    @Override
+    public List<PermissionDO> getUserPermissions(Long userId) {
         // 查找用户搜索分组，查找分组下的所有权限
         List<Long> groupIds = groupService.getUserGroupIdsByUserId(userId);
         if (groupIds == null || groupIds.size() == 0) {
             return new ArrayList<>();
         }
-        List<PermissionDO> permissions = permissionService.getPermissionByGroupIds(groupIds);
-        return permissionService.structuringPermissions(permissions);
+        return permissionService.getPermissionByGroupIds(groupIds);
     }
 
     @Override
