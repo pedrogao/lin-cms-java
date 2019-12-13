@@ -8,9 +8,11 @@ import java.util.Map;
 @ConfigurationProperties("lin.cms")
 public class LinCmsProperties {
 
+    private static final String[] DEFAULT_EXCLUDE_METHODS = new String[]{"OPTIONS"};
+
     private String tokenSecret = "";
 
-    private String[] excludeMethods = new String[]{"OPTIONS"};
+    private String[] excludeMethods = DEFAULT_EXCLUDE_METHODS;
 
     private Long tokenAccessExpire = 3600L;
 

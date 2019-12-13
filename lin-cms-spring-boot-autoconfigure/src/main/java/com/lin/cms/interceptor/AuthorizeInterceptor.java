@@ -5,7 +5,6 @@ import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.enums.UserLevel;
 import com.lin.cms.core.utils.AnnotationUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -19,8 +18,14 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private AuthorizeVerifyResolver authorizeVerifyResolver;
 
-    @Value("${lin.cms.excludeMethods}")
-    private String[] excludeMethods;
+    private String[] excludeMethods = new String[]{"OPTIONS"};
+
+    public AuthorizeInterceptor() {
+    }
+
+    public AuthorizeInterceptor(String[] excludeMethods) {
+        this.excludeMethods = excludeMethods;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -72,8 +77,8 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
     }
 
     private boolean checkInExclude(String method) {
-        for (int i = 0; i < excludeMethods.length; i++) {
-            if (method.equals(excludeMethods[i])) {
+        for (String excludeMethod : excludeMethods) {
+            if (method.equals(excludeMethod)) {
                 return true;
             }
         }

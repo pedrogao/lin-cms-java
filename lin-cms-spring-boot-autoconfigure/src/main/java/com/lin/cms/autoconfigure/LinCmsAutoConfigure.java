@@ -9,10 +9,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
 @Configuration
-@Order
+@Order(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties(LinCmsProperties.class) // 很重要，插件的配置必须挂载到此
 public class LinCmsAutoConfigure {
 
@@ -46,7 +47,8 @@ public class LinCmsAutoConfigure {
 
     @Bean
     public AuthorizeInterceptor authInterceptor() {
-        return new AuthorizeInterceptor();
+        String[] excludeMethods = properties.getExcludeMethods();
+        return new AuthorizeInterceptor(excludeMethods);
     }
 
     @Bean
