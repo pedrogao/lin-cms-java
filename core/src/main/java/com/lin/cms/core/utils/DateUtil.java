@@ -1,4 +1,4 @@
-package com.lin.cms.utils;
+package com.lin.cms.core.utils;
 
 import java.util.Date;
 

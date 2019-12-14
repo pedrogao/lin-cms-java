@@ -1,4 +1,4 @@
-package com.lin.cms.token;
+package com.lin.cms.core.token;
 
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
@@ -7,13 +7,12 @@ import com.auth0.jwt.exceptions.InvalidClaimException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.lin.cms.utils.DateUtil;
+import com.lin.cms.core.utils.DateUtil;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
-import static com.lin.cms.consts.TokenConst.*;
+import static com.lin.cms.core.consts.TokenConst.*;
 
 /**
  * 支持双模式
@@ -76,16 +75,16 @@ public class DoubleJWT {
     public Map<String, Claim> decodeAccessToken(String token) {
         DecodedJWT jwt = accessVerifier.verify(token);
         checkTokenExpired(jwt.getExpiresAt());
-        checkTokenType(jwt.getClaim("type").toString(), ACCESS_TYPE);
-        checkTokenScope(jwt.getClaim("scope").toString());
+        checkTokenType(jwt.getClaim("type").asString(), ACCESS_TYPE);
+        checkTokenScope(jwt.getClaim("scope").asString());
         return jwt.getClaims();
     }
 
     public Map<String, Claim> decodeRefreshToken(String token) {
         DecodedJWT jwt = refreshVerifier.verify(token);
         checkTokenExpired(jwt.getExpiresAt());
-        checkTokenType(jwt.getClaim("type").toString(), REFRESH_TYPE);
-        checkTokenScope(jwt.getClaim("scope").toString());
+        checkTokenType(jwt.getClaim("type").asString(), REFRESH_TYPE);
+        checkTokenScope(jwt.getClaim("scope").asString());
         return jwt.getClaims();
     }
 

@@ -3,7 +3,7 @@ package com.lin.cms.autoconfigure;
 import com.lin.cms.interceptor.AuthorizeInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
 import com.lin.cms.beans.RouteMetaCollector;
-import com.lin.cms.token.DoubleJWT;
+import com.lin.cms.core.token.DoubleJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;

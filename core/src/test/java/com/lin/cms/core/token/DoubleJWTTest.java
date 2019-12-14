@@ -1,4 +1,4 @@
-package com.lin.cms.token;
+package com.lin.cms.core.token;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import java.util.Map;
 
-import static com.lin.cms.consts.TokenConst.*;
+import static com.lin.cms.core.consts.TokenConst.*;
 import static org.junit.Assert.*;
 
 @Slf4j
@@ -24,7 +24,7 @@ public class DoubleJWTTest {
 
     @Test
     public void decodeAccessToken() {
-        DoubleJWT jwt = new DoubleJWT("secret", 1000, 2000);
+        DoubleJWT jwt = new DoubleJWT("secret", 10000, 20000);
         String token = jwt.generateAccessToken(1);
         assertNotNull(token);
         log.info(token);
@@ -35,18 +35,18 @@ public class DoubleJWTTest {
 
     @Test
     public void decodeRefreshToken() {
-        DoubleJWT jwt = new DoubleJWT("secret", 1000, 2000);
+        DoubleJWT jwt = new DoubleJWT("secret", 10000, 20000);
         String token = jwt.generateRefreshToken(1);
         assertNotNull(token);
         log.info(token);
-        Map<String, Claim> claimMap = jwt.decodeAccessToken(token);
+        Map<String, Claim> claimMap = jwt.decodeRefreshToken(token);
         assertEquals(LIN_SCOPE, claimMap.get("scope").asString());
         assertEquals(REFRESH_TYPE, claimMap.get("type").asString());
     }
 
     @Test
     public void generateAccessToken() {
-        DoubleJWT jwt = new DoubleJWT("secret", 1000, 2000);
+        DoubleJWT jwt = new DoubleJWT("secret", 10000, 20000);
         String token = jwt.generateAccessToken(1);
         assertNotNull(token);
         log.info(token);
@@ -104,13 +104,13 @@ public class DoubleJWTTest {
 
     @Test
     public void generateTokens() {
-        DoubleJWT jwt = new DoubleJWT("secret", 1000, 2000);
+        DoubleJWT jwt = new DoubleJWT("secret", 10000, 20000);
         Tokens tokens = jwt.generateTokens(1);
         assertNotNull(tokens.getAccessToken());
         assertNotNull(tokens.getRefreshToken());
         log.info("{}", tokens);
 
-        Map<String, Claim> claimMap = jwt.decodeAccessToken(tokens.getAccessToken().toString());
+        Map<String, Claim> claimMap = jwt.decodeAccessToken(tokens.getAccessToken());
         assertEquals(LIN_SCOPE, claimMap.get("scope").asString());
         assertEquals(ACCESS_TYPE, claimMap.get("type").asString());
     }

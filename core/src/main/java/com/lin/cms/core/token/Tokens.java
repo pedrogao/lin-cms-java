@@ -1,4 +1,4 @@
-package com.lin.cms.token;
+package com.lin.cms.core.token;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

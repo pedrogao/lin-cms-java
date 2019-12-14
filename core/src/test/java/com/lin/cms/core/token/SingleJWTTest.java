@@ -1,7 +1,8 @@
-package com.lin.cms.token;
+package com.lin.cms.core.token;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
+import com.lin.cms.core.utils.DateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -27,6 +28,7 @@ public class SingleJWTTest {
                 .withClaim("type", "test")
                 .withClaim("identity", 1)
                 .withClaim("scope", "test")
+                .withExpiresAt(DateUtil.getDurationDate(10000))
                 .sign(jwt.getAlgorithm());
         assertNotNull(token);
         log.info(token);
@@ -34,11 +36,12 @@ public class SingleJWTTest {
 
     @Test
     public void decodeToken() {
-        SingleJWT jwt = new SingleJWT("secret", 1000);
+        SingleJWT jwt = new SingleJWT("secret", 10000);
         String token = jwt.getBuilder()
                 .withClaim("type", "test")
                 .withClaim("identity", 1)
                 .withClaim("scope", "test")
+                .withExpiresAt(DateUtil.getDurationDate(10000))
                 .sign(jwt.getAlgorithm());
         assertNotNull(token);
         log.info(token);

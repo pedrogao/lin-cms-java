@@ -11,7 +11,7 @@ import com.lin.cms.demo.v2.service.GroupService;
 import com.lin.cms.demo.v2.service.UserService;
 import com.lin.cms.exception.*;
 import com.lin.cms.interfaces.AuthorizeVerifyResolver;
-import com.lin.cms.token.DoubleJWT;
+import com.lin.cms.core.token.DoubleJWT;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package com.lin.cms.token;
+package com.lin.cms.core.token;
 
 import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.JWTVerifier;
@@ -6,7 +6,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.lin.cms.utils.DateUtil;
+import com.lin.cms.core.utils.DateUtil;
 
 import java.util.Date;
 import java.util.Map;

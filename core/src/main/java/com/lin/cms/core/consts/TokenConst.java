@@ -1,4 +1,4 @@
-package com.lin.cms.consts;
+package com.lin.cms.core.consts;
 
 /**
  * 令牌相关常量

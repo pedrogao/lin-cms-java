@@ -18,8 +18,8 @@ public class ParameterExceptionTest {
         String localizedMessage = exception.getLocalizedMessage();
         int errorCode = exception.getErrorCode();
         assertEquals(10030, errorCode);
-        assertEquals("参数错误", message);
-        assertEquals("参数错误", localizedMessage);
+        assertEquals("Parameters Error", message);
+        assertEquals("Parameters Error", localizedMessage);
     }
 
     @Test
