@@ -1,4 +1,4 @@
-package com.lin.cms.demo.common.utils;
+package com.lin.cms.utils;
 
 import com.amdelamar.jhash.Hash;
 import com.amdelamar.jhash.algorithms.Type;

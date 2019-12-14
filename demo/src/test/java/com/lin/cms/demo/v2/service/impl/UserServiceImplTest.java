@@ -104,7 +104,7 @@ public class UserServiceImplTest {
         dto.setEmail("1312342604@qq.com");
         userService.updateUserInfo(dto);
 
-        UserDO userDO = userService.findByUsername("pedro-gao");
+        UserDO userDO = userService.getUserByUsername("pedro-gao");
         assertEquals(userDO.getEmail(), "1312342604@qq.com");
 
         boolean b = userIdentityService.verifyUsernamePassword(userDO.getId(), "pedro-gao", "123456");
@@ -118,7 +118,7 @@ public class UserServiceImplTest {
         dto.setEmail("1312342604@qq.com");
         userService.updateUserInfo(dto);
 
-        UserDO userDO = userService.findByUsername("pedro");
+        UserDO userDO = userService.getUserByUsername("pedro");
         assertEquals(userDO.getEmail(), "1312342604@qq.com");
         assertEquals(userDO.getNickname(), "pedro-gao");
 
@@ -150,7 +150,7 @@ public class UserServiceImplTest {
 
     @Test
     public void findByUsername() {
-        UserDO user = userService.findByUsername("pedro");
+        UserDO user = userService.getUserByUsername("pedro");
         log.info("user:{}", user);
         assertEquals(user.getUsername(), "pedro");
     }

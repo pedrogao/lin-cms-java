@@ -44,5 +44,5 @@ public interface GroupMapper extends BaseMapper<GroupDO> {
      * @param userId    用户id
      * @param groupName 分组名
      */
-    int checkUserInGroupByUserIdAndGroupName(@Param("userId") Long userId, @Param("groupName") String groupName);
+    int selectCountUserByUserIdAndGroupName(@Param("userId") Long userId, @Param("groupName") String groupName);
 }

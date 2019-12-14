@@ -180,6 +180,9 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- 测试用户是否有无权限
 -- ----------------------------
 BEGIN;
+
+INSERT INTO lin_user_group(id, user_id, group_id)
+VALUES (1, 1, 1);
 --
 -- 从分组找
 --

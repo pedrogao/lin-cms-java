@@ -4,15 +4,17 @@ import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.LoginRequired;
 import com.lin.cms.core.annotation.RefreshRequired;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.exception.NotFoundException;
+import com.lin.cms.demo.common.LocalUser;
+import com.lin.cms.demo.v2.service.UserIdentityService;
+import com.lin.cms.exception.HttpException;
 import com.lin.cms.demo.vo.CommonResult;
-import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.common.LocalUserLegacy;
-import com.lin.cms.demo.vo.UserAuthsVO;
+import com.lin.cms.demo.v2.model.UserDO;
+import com.lin.cms.demo.vo.UserPermissionsVO;
 import com.lin.cms.demo.common.utils.ResultUtil;
-import com.lin.cms.demo.service.UserService;
+import com.lin.cms.demo.v2.service.UserService;
 import com.lin.cms.token.DoubleJWT;
 import com.lin.cms.demo.dto.user.*;
+import com.lin.cms.token.Tokens;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +36,9 @@ public class UserController {
     private UserService userService;
 
     @Autowired
+    private UserIdentityService userIdentityService;
+
+    @Autowired
     private DoubleJWT jwt;
 
     /**
@@ -50,13 +55,18 @@ public class UserController {
      * 用户登陆
      */
     @PostMapping("/login")
-    public Map login(@RequestBody @Validated LoginDTO validator) {
-        UserDO user = userService.findByNickname(validator.getNickname());
+    public Tokens login(@RequestBody @Validated LoginDTO validator) {
+        UserDO user = userService.getUserByUsername(validator.getUsername());
         if (user == null) {
-            throw new NotFoundException("未找到相关用户");
+            throw new HttpException("user not found");
         }
-        Map res = jwt.generateTokens(user.getId());
-        return res;
+        boolean valid = userIdentityService.verifyUsernamePassword(
+                user.getId(),
+                user.getUsername(),
+                validator.getPassword());
+        if (!valid)
+            throw new HttpException("username or password is fault");
+        return jwt.generateTokens(user.getId());
     }
 
     /**
@@ -65,7 +75,7 @@ public class UserController {
     @PutMapping
     @LoginRequired
     public CommonResult update(@RequestBody @Validated UpdateInfoDTO validator) {
-        userService.updateUser(validator);
+        userService.updateUserInfo(validator);
         return ResultUtil.generateSuccessResult("更新成功！");
     }
 
@@ -75,7 +85,7 @@ public class UserController {
     @PutMapping("/change_password")
     @LoginRequired
     public CommonResult updatePassword(@RequestBody @Validated ChangePasswordDTO validator) {
-        userService.changePassword(validator);
+        userService.changeUserPassword(validator);
         return ResultUtil.generateSuccessResult("密码修改成功！");
     }
 
@@ -84,25 +94,24 @@ public class UserController {
      */
     @GetMapping("/refresh")
     @RefreshRequired
-    public Map refreshToken() {
-        UserDO user = LocalUserLegacy.getLocalUser();
-        Map res = jwt.generateTokens(user.getId());
-        return res;
+    public Tokens refreshToken() {
+        UserDO user = LocalUser.getLocalUser();
+        return jwt.generateTokens(user.getId());
     }
 
     /**
      * 查询拥有权限
      */
-    @GetMapping("/auths")
+    @GetMapping("/permissions")
     @LoginRequired
     @RouteMeta(permission = "查询自己拥有的权限", module = "用户", mount = true)
-    public UserAuthsVO getAuths() {
-        UserDO user = LocalUserLegacy.getLocalUser();
+    public UserPermissionsVO getAuths() {
+        UserDO user = LocalUser.getLocalUser();
         // if (user.checkAdmin()) {
-        //     return new UserAuthsVO(user);
+        //     return new UserPermissionsVO(user);
         // }
-        List<Map<String, List<Map<String, String>>>> auths = userService.getAuths(user.getGroupId());
-        return new UserAuthsVO(user, auths);
+        List<Map<String, List<Map<String, String>>>> permissions = userService.getStructualUserPermissions(user.getId());
+        return new UserPermissionsVO(user, permissions);
     }
 
     /**
@@ -112,17 +121,16 @@ public class UserController {
     @RouteMeta(permission = "查询自己信息", module = "用户", mount = true)
     @GetMapping("/information")
     public UserDO getInformation() {
-        UserDO user = LocalUserLegacy.getLocalUser();
+        UserDO user = LocalUser.getLocalUser();
         return user;
     }
 
     /**
      * 修改头像
      */
-    @LoginRequired
-    @PutMapping("/avatar")
-    public CommonResult updateAvatar(@RequestBody @Validated AvatarUpdateDTO validator) {
-        userService.updateAvatar(validator);
-        return ResultUtil.generateSuccessResult("头像更新成功！");
-    }
+    // @LoginRequired
+    // @PutMapping("/avatar")
+    // public CommonResult updateAvatar(@RequestBody @Validated AvatarUpdateDTO validator) {
+    //     return ResultUtil.generateSuccessResult("头像更新成功！");
+    // }
 }

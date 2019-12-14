@@ -78,7 +78,7 @@ public class UserControllerTest {
         userMapper.insert(userDO);
 
         LoginDTO dto = new LoginDTO();
-        dto.setNickname(nickname);
+        dto.setUsername(nickname);
         dto.setPassword(password);
 
         mvc.perform(post("/cms/user/login")

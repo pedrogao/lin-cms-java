@@ -2,11 +2,11 @@ package com.lin.cms.demo.controller.cms;
 
 import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.demo.service.AdminService;
+import com.lin.cms.demo.bo.GroupPermissionsBO;
+import com.lin.cms.demo.v2.service.AdminService;
 import com.lin.cms.demo.vo.CommonResult;
 import com.lin.cms.demo.vo.PageResult;
-import com.lin.cms.demo.model.GroupDO;
-import com.lin.cms.demo.bo.GroupAuthsBO;
+import com.lin.cms.demo.v2.model.GroupDO;
 import com.lin.cms.beans.RouteMetaCollector;
 import com.lin.cms.demo.common.utils.ResultUtil;
 import com.lin.cms.demo.dto.admin.*;
@@ -54,7 +54,7 @@ public class AdminController {
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "page必须为整数，且大于等于0") Long page
     ) {
-        return adminService.getUsers(groupId, count, page);
+        return adminService.getUserPageByGroupId(groupId, count, page);
     }
 
     @PutMapping("/password/{id}")
@@ -90,8 +90,7 @@ public class AdminController {
             @Min(value = 1, message = "count必须为正整数") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
-
-        PageResult pageResult = adminService.getGroups(page, count);
+        PageResult pageResult = adminService.getGroupPage(page, count);
         return pageResult;
     }
 
@@ -107,9 +106,9 @@ public class AdminController {
     @GetMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(permission = "查询一个权限组及其权限", module = "管理员")
-    public GroupAuthsBO getGroup(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id) {
-        GroupAuthsBO groupWithAuths = adminService.getGroup(id);
-        return groupWithAuths;
+    public GroupPermissionsBO getGroup(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id) {
+        GroupPermissionsBO groupPermissions = adminService.getGroup(id);
+        return groupPermissions;
     }
 
 
@@ -143,7 +142,7 @@ public class AdminController {
     @AdminRequired
     @RouteMeta(permission = "分配单个权限", module = "管理员")
     public CommonResult dispatchAuth(@RequestBody @Validated DispatchPermissionDTO validator) {
-        adminService.dispatchAuth(validator);
+        adminService.dispatchPermission(validator);
         return ResultUtil.generateSuccessResult("添加权限成功!");
     }
 
@@ -151,7 +150,7 @@ public class AdminController {
     @AdminRequired
     @RouteMeta(permission = "分配多个权限", module = "管理员")
     public CommonResult dispatchAuths(@RequestBody @Validated DispatchPermissionsDTO validator) {
-        adminService.dispatchAuths(validator);
+        adminService.dispatchPermissions(validator);
         return ResultUtil.generateSuccessResult("添加权限成功!");
     }
 
@@ -159,7 +158,7 @@ public class AdminController {
     @AdminRequired
     @RouteMeta(permission = "删除多个权限", module = "管理员")
     public CommonResult removeAuths(@RequestBody @Validated RemovePermissionsDTO validator) {
-        adminService.removeAuths(validator);
+        adminService.removePermissions(validator);
         return ResultUtil.generateSuccessResult("删除权限成功!");
     }
 

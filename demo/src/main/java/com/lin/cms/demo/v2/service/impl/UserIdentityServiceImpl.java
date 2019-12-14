@@ -2,7 +2,7 @@ package com.lin.cms.demo.v2.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lin.cms.demo.common.consts.IdentityConsts;
-import com.lin.cms.demo.common.utils.EncryptUtil;
+import com.lin.cms.utils.EncryptUtil;
 import com.lin.cms.demo.v2.model.UserIdentityDO;
 import com.lin.cms.demo.v2.mapper.UserIdentityMapper;
 import com.lin.cms.demo.v2.service.UserIdentityService;

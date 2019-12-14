@@ -97,7 +97,7 @@ public class AdminServiceImpl implements AdminService {
             GroupAuthsBO tmp = new GroupAuthsBO();
             BeanUtils.copyProperties(group, tmp);
             List<SimpleAuthDO> auths = authMapper.findByGroupId(group.getId());
-            tmp.setAuths(auths);
+            tmp.setPermissions(auths);
             groupAndAuths.add(tmp);
         });
         return new PageResult(total, groupAndAuths, page, count);
@@ -110,7 +110,7 @@ public class AdminServiceImpl implements AdminService {
         BeanUtils.copyProperties(group, tmp);
         List<SimpleAuthDO> auths = authMapper.findByGroupId(group.getId());
         List<Map<String, List<Map<String, String>>>> structualAuths = AuthSpliter.splitAuths(auths);
-        tmp.setAuths(structualAuths);
+        tmp.setPermissions(structualAuths);
         return tmp;
     }
 

@@ -76,7 +76,7 @@ public interface UserService extends IService<UserDO> {
      * @param username 用户名
      * @return 用户
      */
-    UserDO findByUsername(String username);
+    UserDO getUserByUsername(String username);
 
     /**
      * 根据用户名检查用户是否存在
@@ -101,5 +101,5 @@ public interface UserService extends IService<UserDO> {
      * @param groupId 分组id
      * @return 数据页
      */
-    IPage<UserDO> findUsersByPage(Page pager, Long groupId);
+    IPage<UserDO> getUserByPage(Page pager, Long groupId);
 }

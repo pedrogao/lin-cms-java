@@ -16,5 +16,5 @@ public class GroupAuthsBO {
 
     private String info;
 
-    private List auths;
+    private List permissions;
 }

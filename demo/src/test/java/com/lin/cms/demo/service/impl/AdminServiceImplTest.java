@@ -161,7 +161,7 @@ public class AdminServiceImplTest {
 
         GroupAuthsBO authsBO = adminService.getGroup(groupDO.getId());
         assertEquals(authsBO.getName(), name);
-        assertTrue(authsBO.getAuths().size() == 0);
+        assertTrue(authsBO.getPermissions().size() == 0);
     }
 
     @Test

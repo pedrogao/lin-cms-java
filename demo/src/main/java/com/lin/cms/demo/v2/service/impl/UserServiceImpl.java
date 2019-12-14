@@ -76,6 +76,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         }
         user.setNickname(dto.getNickname());
         user.setEmail(dto.getEmail());
+        user.setAvatar(dto.getAvatar());
         this.baseMapper.updateById(user);
         return user;
     }
@@ -116,7 +117,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     }
 
     @Override
-    public UserDO findByUsername(String username) {
+    public UserDO getUserByUsername(String username) {
         QueryWrapper<UserDO> wrapper = new QueryWrapper<>();
         wrapper.lambda().eq(UserDO::getUsername, username);
         return this.getOne(wrapper);
@@ -135,7 +136,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     }
 
     @Override
-    public IPage<UserDO> findUsersByPage(Page pager, Long groupId) {
+    public IPage<UserDO> getUserByPage(Page pager, Long groupId) {
         return this.baseMapper.selectPageByGroupId(pager, groupId);
     }
 }

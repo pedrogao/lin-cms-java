@@ -1,5 +1,6 @@
 package com.lin.cms.demo.v2.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.common.mybatis.Page;
@@ -139,6 +140,36 @@ public class GroupServiceImplTest {
     public void checkGroupExistByName() {
         GroupDO group = mockData1();
         boolean exist = groupService.checkGroupExistByName(group.getName());
+        assertTrue(exist);
+    }
+
+    @Test
+    public void checkIsRootByUserId() {
+        long userId = mockData();
+        boolean exist = groupService.checkIsRootByUserId(userId);
+        assertFalse(exist);
+    }
+
+    @Test
+    public void checkIsRootByUserId1() {
+        QueryWrapper<GroupDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(GroupDO::getName, "root");
+        GroupDO root = groupMapper.selectOne(wrapper);
+        if (root == null) {
+            root = GroupDO.builder().name("root").info("测试").build();
+            groupMapper.insert(root);
+            log.info("root group is created!");
+        }
+        Long groupId = root.getId();
+        UserDO user = UserDO.builder().nickname("pedro大大").username("pedro大大").build();
+        userMapper.insert(user);
+        List<UserGroupDO> relations = new ArrayList<>();
+        UserGroupDO relation2 = new UserGroupDO(user.getId(), groupId);
+        relations.add(relation2);
+        userGroupMapper.insertBatch(relations);
+
+        long userId = user.getId();
+        boolean exist = groupService.checkIsRootByUserId(userId);
         assertTrue(exist);
     }
 }

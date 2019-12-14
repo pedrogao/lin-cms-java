@@ -1,7 +1,7 @@
 package com.lin.cms.demo.v2.service.impl;
 
 import com.lin.cms.demo.common.consts.IdentityConsts;
-import com.lin.cms.demo.common.utils.EncryptUtil;
+import com.lin.cms.utils.EncryptUtil;
 import com.lin.cms.demo.v2.model.UserIdentityDO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

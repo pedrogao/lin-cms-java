@@ -64,6 +64,6 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
 
     @Override
     public boolean checkIsRootByUserId(Long userId) {
-        return this.baseMapper.checkUserInGroupByUserIdAndGroupName(userId, ROOT_GROUP_NAME) > 0;
+        return this.baseMapper.selectCountUserByUserIdAndGroupName(userId, ROOT_GROUP_NAME) > 0;
     }
 }

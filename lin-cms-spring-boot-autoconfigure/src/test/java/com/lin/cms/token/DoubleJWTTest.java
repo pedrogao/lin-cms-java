@@ -105,12 +105,12 @@ public class DoubleJWTTest {
     @Test
     public void generateTokens() {
         DoubleJWT jwt = new DoubleJWT("secret", 1000, 2000);
-        Map tokens = jwt.generateTokens(1);
-        assertNotNull(tokens.get("access_token"));
-        assertNotNull(tokens.get("refresh_token"));
+        Tokens tokens = jwt.generateTokens(1);
+        assertNotNull(tokens.getAccessToken());
+        assertNotNull(tokens.getRefreshToken());
         log.info("{}", tokens);
 
-        Map<String, Claim> claimMap = jwt.decodeAccessToken(tokens.get("access_token").toString());
+        Map<String, Claim> claimMap = jwt.decodeAccessToken(tokens.getAccessToken().toString());
         assertEquals(LIN_SCOPE, claimMap.get("scope").asString());
         assertEquals(ACCESS_TYPE, claimMap.get("type").asString());
     }

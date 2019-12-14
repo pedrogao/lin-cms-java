@@ -58,8 +58,7 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
     public boolean handleGroup(HttpServletRequest request, HttpServletResponse response, RouteMeta meta) {
         handleLogin(request, response, meta);
         UserDO user = LocalUser.getLocalUser();
-        boolean isAdmin = verifyAdmin(user);
-        if (isAdmin)
+        if (!verifyAdmin(user))
             return true;
         long userId = user.getId();
         String permission = meta.permission();
@@ -74,8 +73,7 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
     public boolean handleAdmin(HttpServletRequest request, HttpServletResponse response, RouteMeta meta) {
         handleLogin(request, response, meta);
         UserDO user = LocalUser.getLocalUser();
-        boolean isAdmin = verifyAdmin(user);
-        if (!isAdmin)
+        if (!verifyAdmin(user))
             throw new HttpException("you don't have the permission to access");
         return true;
     }

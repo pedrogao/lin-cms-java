@@ -42,7 +42,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public PageResult getUserPageByGroupId(Long groupId, Long count, Long page) {
         Page pager = new Page(page, count);
-        IPage<UserDO> iPage = userService.findUsersByPage(pager, groupId);
+        IPage<UserDO> iPage = userService.getUserByPage(pager, groupId);
         return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 

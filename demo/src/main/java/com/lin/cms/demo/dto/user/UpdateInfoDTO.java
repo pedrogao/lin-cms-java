@@ -18,4 +18,7 @@ public class UpdateInfoDTO {
 
     @NotBlank(message = "用户名不可为空")
     private String username;
+
+    @NotBlank(message = "必须传入头像的url链接")
+    private String avatar;
 }

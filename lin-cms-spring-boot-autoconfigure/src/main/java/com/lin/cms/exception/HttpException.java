@@ -4,7 +4,12 @@ import com.lin.cms.beans.ErrorCode;
 import com.lin.cms.interfaces.BaseResponse;
 import org.springframework.http.HttpStatus;
 
-
+/**
+ * HttpException 异常类
+ * 含异常信息 message
+ * http状态码 httpCode
+ * 错误码 errorCode
+ */
 public class HttpException extends RuntimeException implements BaseResponse {
 
     private static final long serialVersionUID = 2359767895161832954L;

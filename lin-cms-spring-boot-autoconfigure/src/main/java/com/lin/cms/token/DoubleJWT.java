@@ -116,13 +116,10 @@ public class DoubleJWT {
         return generateToken(REFRESH_TYPE, identity, LIN_SCOPE, this.refreshExpire);
     }
 
-    public Map generateTokens(long identity) {
-        Map tokens = new HashMap<>();
+    public Tokens generateTokens(long identity) {
         String access = this.generateToken(ACCESS_TYPE, identity, LIN_SCOPE, this.accessExpire);
         String refresh = this.generateToken(REFRESH_TYPE, identity, LIN_SCOPE, this.refreshExpire);
-        tokens.put("access_token", access);
-        tokens.put("refresh_token", refresh);
-        return tokens;
+        return new Tokens(access, refresh);
     }
 
 
