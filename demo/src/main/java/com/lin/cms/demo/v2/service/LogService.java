@@ -19,7 +19,7 @@ public interface LogService extends IService<LogDO> {
 
     List<String> getUserNames(Long page, Long count);
 
-    void createLog(String message, String permission, Long userId,
+    boolean createLog(String message, String permission, Long userId,
                       String username, String method, String path,
                       Integer status);
 }

@@ -105,7 +105,7 @@ public class UserController {
     @GetMapping("/permissions")
     @LoginRequired
     @RouteMeta(permission = "查询自己拥有的权限", module = "用户", mount = true)
-    public UserPermissionsVO getAuths() {
+    public UserPermissionsVO getPermissions() {
         UserDO user = LocalUser.getLocalUser();
         // if (user.checkAdmin()) {
         //     return new UserPermissionsVO(user);

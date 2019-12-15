@@ -43,7 +43,7 @@ public class CommonConfig {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer customJackson() {
         return jacksonObjectMapperBuilder -> {
-            jacksonObjectMapperBuilder.serializationInclusion(JsonInclude.Include.NON_NULL);
+            // jacksonObjectMapperBuilder.serializationInclusion(JsonInclude.Include.NON_NULL);
             jacksonObjectMapperBuilder.failOnUnknownProperties(false);
             jacksonObjectMapperBuilder.propertyNamingStrategy(PropertyNamingStrategy.SNAKE_CASE);
         };

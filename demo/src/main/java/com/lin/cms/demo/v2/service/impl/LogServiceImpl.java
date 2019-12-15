@@ -41,7 +41,7 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, LogDO> implements Log
     }
 
     @Override
-    public void createLog(String message, String permission, Long userId, String username, String method, String path, Integer status) {
+    public boolean createLog(String message, String permission, Long userId, String username, String method, String path, Integer status) {
         LogDO record = LogDO.builder()
                 .message(message)
                 .userId(userId)
@@ -53,6 +53,6 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, LogDO> implements Log
         if (permission != null) {
             record.setPermission(permission);
         }
-        this.baseMapper.insert(record);
+        return this.baseMapper.insert(record) > 0;
     }
 }

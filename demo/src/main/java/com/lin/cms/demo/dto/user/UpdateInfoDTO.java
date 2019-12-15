@@ -3,22 +3,21 @@ package com.lin.cms.demo.dto.user;
 import lombok.*;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @NoArgsConstructor
 @Data
 public class UpdateInfoDTO {
 
-    @NotBlank(message = "邮箱不可为空")
     @Email(message = "电子邮箱不符合规范，请输入正确的邮箱")
     private String email;
 
-    @NotBlank(message = "用户昵称不可为空")
+    @Size(min = 2, max = 10, message = "用户名长度必须在2~10之间")
     private String nickname;
 
-    @NotBlank(message = "用户名不可为空")
+    @Size(min = 2, max = 10, message = "用户名长度必须在2~10之间")
     private String username;
 
-    @NotBlank(message = "必须传入头像的url链接")
+    @Size(max = 500, message = "头像链接长度不能超过500字符")
     private String avatar;
 }

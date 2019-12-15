@@ -8,9 +8,9 @@ import java.util.List;
 
 public class LongListValidator implements ConstraintValidator<LongList, List<Long>> {
 
-    private int min;
+    private long min;
 
-    private int max;
+    private long max;
 
     private boolean allowBlank;
 
@@ -23,15 +23,11 @@ public class LongListValidator implements ConstraintValidator<LongList, List<Lon
 
     @Override
     public boolean isValid(List<Long> value, ConstraintValidatorContext context) {
-        if (value.isEmpty() && this.allowBlank) {
-            return true;
+        if ((value == null || value.isEmpty())) {
+            return allowBlank;
         }
-        if (value.size() < min || value.size() > max) {
-            return false;
-        }
-        for (int i = 0; i < value.size(); i++) {
-            Long o = value.get(i);
-            if (o < 0) {
+        for (Long o : value) {
+            if (o < min || o > max) {
                 return false;
             }
         }

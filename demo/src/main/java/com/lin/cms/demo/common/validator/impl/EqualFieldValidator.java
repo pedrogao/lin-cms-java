@@ -24,14 +24,14 @@ public class EqualFieldValidator implements ConstraintValidator<EqualField, Obje
 
         Field srcField = ReflectionUtils.findField(clazz, this.srcField);
         Field dstField = ReflectionUtils.findField(clazz, this.dstField);
-        srcField.setAccessible(true);
-        dstField.setAccessible(true);
         try {
+            srcField.setAccessible(true);
+            dstField.setAccessible(true);
             String src = (String) srcField.get(object);
             String dst = (String) dstField.get(object);
             if (src.equals(dst))
                 return true;
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             return false;
         }
         return false;

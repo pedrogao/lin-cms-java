@@ -56,7 +56,7 @@ public class UserServiceImplTest {
         validator.setPassword(password);
         validator.setConfirmPassword(password);
         validator.setEmail(email);
-        validator.setGroupId(groupId);
+        // validator.setGroupId(groupId);
         userService.createUser(validator);
 
         UserDO user = userMapper.findOneUserByEmailAndDeleteTime(email);
@@ -71,7 +71,7 @@ public class UserServiceImplTest {
         validator.setPassword(password);
         validator.setConfirmPassword(password);
         validator.setEmail(email);
-        validator.setGroupId(groupId);
+        // validator.setGroupId(groupId);
         userService.createUser(validator);
         UserDO localUser = userMapper.findOneUserByEmailAndDeleteTime(email);
         LocalUserLegacy.setLocalUser(localUser);
@@ -91,7 +91,7 @@ public class UserServiceImplTest {
         validator.setPassword(password);
         validator.setConfirmPassword(password);
         validator.setEmail(email);
-        validator.setGroupId(groupId);
+        // validator.setGroupId(groupId);
         userService.createUser(validator);
         UserDO localUser = userMapper.findOneUserByEmailAndDeleteTime(email);
         LocalUserLegacy.setLocalUser(localUser);
@@ -113,7 +113,7 @@ public class UserServiceImplTest {
         validator.setPassword(password);
         validator.setConfirmPassword(password);
         validator.setEmail(email);
-        validator.setGroupId(groupId);
+        // validator.setGroupId(groupId);
         userService.createUser(validator);
         UserDO localUser = userMapper.findOneUserByEmailAndDeleteTime(email);
         LocalUserLegacy.setLocalUser(localUser);

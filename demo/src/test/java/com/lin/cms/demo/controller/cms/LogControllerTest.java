@@ -1,7 +1,10 @@
 package com.lin.cms.demo.controller.cms;
 
-import com.lin.cms.demo.mapper.LogMapper;
-import com.lin.cms.demo.model.LogDO;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import com.lin.cms.demo.v2.mapper.LogMapper;
+import com.lin.cms.demo.v2.model.LogDO;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional // 数据操作后回滚
 @Rollback
 @AutoConfigureMockMvc
+@Slf4j
 public class LogControllerTest {
 
     @Autowired
@@ -36,26 +41,27 @@ public class LogControllerTest {
     @Autowired
     private LogMapper logMapper;
 
-    private Date start = new Date();
-    private String authority = "查看lin的信息";
-    private String message = "就是个瓜皮";
-    private String method = "GET";
-    private String path = "/";
-    private Integer statusCode = 200;
-    private Long userId = 1L;
-    private String userName = "pppp";
-
     @Before
     public void setUp() throws Exception {
-        LogDO logDO = new LogDO();
-        logDO.setAuthority(authority);
-        logDO.setMessage(message);
-        logDO.setMethod(method);
-        logDO.setPath(path);
-        logDO.setStatusCode(statusCode);
-        logDO.setUserId(userId);
-        logDO.setUserName(userName);
-        logDO.setTime(start);
+        Date time = new Date();
+        String permission = "查看lin的信息";
+        String message = "就是个瓜皮";
+        String method = "GET";
+        String path = "/";
+        Integer statusCode = 200;
+        long userId = 1;
+        String username = "pedro大大";
+
+        LogDO logDO = LogDO
+                .builder()
+                .permission(permission)
+                .message(message)
+                .method(method)
+                .statusCode(statusCode)
+                .path(path)
+                .userId(userId)
+                .username(username)
+                .build();
         logMapper.insert(logDO);
     }
 
@@ -65,24 +71,70 @@ public class LogControllerTest {
 
     @Test
     public void getLogs() throws Exception {
-        mvc.perform(get("/cms/log/").param("name", "pppp")
+        mvc.perform(get("/cms/log/").param("name", "pedro大大")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.total").isNumber());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.total").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.page").isNumber());
+
+    }
+
+    @Test
+    public void getLogs1() throws Exception {
+        mvc.perform(get("/cms/log/").param("name", "pedro")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.total").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.page").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items").isEmpty());
+
+    }
+
+    @Test
+    public void getLogs2() throws Exception {
+        String yesterday = DateUtil.yesterday().toString("yyyy-MM-dd HH:mm:ss");
+        String tomorrow = DateUtil.tomorrow().toString("yyyy-MM-dd HH:mm:ss");
+        mvc.perform(get("/cms/log/")
+                .param("name", "pedro")
+                .param("start", yesterday)
+                .param("end", tomorrow)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.total").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.page").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items").isEmpty());
 
     }
 
     @Test
     public void searchLogs() throws Exception {
         mvc.perform(get("/cms/log/search")
-                .param("name", "pppp").param("keyword", "瓜皮")
+                .param("name", "pedro大大")
+                .param("keyword", "瓜皮")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.total").isNumber());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.total").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items").isArray());
+    }
+
+    @Test
+    public void searchLogs1() throws Exception {
+        // yyyy-MM-dd HH:mm:ss
+        String yesterday = DateUtil.yesterday().toString("yyyy-MM-dd HH:mm:ss");
+        String tomorrow = DateUtil.tomorrow().toString("yyyy-MM-dd HH:mm:ss");
+        log.info("{}, {}", yesterday, tomorrow);
+        mvc.perform(get("/cms/log/search")
+                .param("start", yesterday)
+                .param("end", tomorrow)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.total").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items").isArray());
     }
 
     @Test

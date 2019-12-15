@@ -1,5 +1,6 @@
 package com.lin.cms.demo.v2.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.common.LocalUser;
@@ -7,10 +8,12 @@ import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
+import com.lin.cms.demo.v2.mapper.UserGroupMapper;
 import com.lin.cms.demo.v2.mapper.UserMapper;
 import com.lin.cms.demo.v2.model.GroupDO;
 import com.lin.cms.demo.v2.model.PermissionDO;
 import com.lin.cms.demo.v2.model.UserDO;
+import com.lin.cms.demo.v2.model.UserGroupDO;
 import com.lin.cms.demo.v2.service.GroupService;
 import com.lin.cms.demo.v2.service.PermissionService;
 import com.lin.cms.demo.v2.service.UserIdentityService;
@@ -18,6 +21,7 @@ import com.lin.cms.demo.v2.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lin.cms.exception.FailedException;
 import com.lin.cms.exception.ForbiddenException;
+import com.lin.cms.exception.HttpException;
 import com.lin.cms.exception.ParameterException;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +31,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author pedro
@@ -44,20 +49,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Autowired
     private PermissionService permissionService;
 
+    @Autowired
+    private UserGroupMapper userGroupMapper;
+
     @Transactional
     @Override
     public UserDO createUser(RegisterDTO dto) {
-        // TODO groupId
         boolean exist = this.checkUserExistByUsername(dto.getUsername());
         if (exist) {
-            throw new ForbiddenException("已经有用户使用了该名称，请重新输入新的用户名");
+            throw new HttpException("已经有用户使用了该名称，请重新输入新的用户名");
         }
+        checkGroupsExist(dto.getGroupIds());
         UserDO user = new UserDO();
-        user.setUsername(dto.getUsername());
-        if (dto.getEmail() != null) {
-            user.setEmail(dto.getEmail());
-        }
+        BeanUtil.copyProperties(dto, user);
         this.baseMapper.insert(user);
+        List<UserGroupDO> relations = dto.getGroupIds()
+                .stream()
+                .map(groupId -> new UserGroupDO(user.getId(), groupId))
+                .collect(Collectors.toList());
+        userGroupMapper.insertBatch(relations);
         userIdentityService.createUsernamePasswordIdentity(user.getId(), dto.getUsername(), dto.getPassword());
         return user;
     }
@@ -74,9 +84,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             user.setUsername(dto.getUsername());
             userIdentityService.changeUsername(user.getId(), dto.getUsername());
         }
-        user.setNickname(dto.getNickname());
-        user.setEmail(dto.getEmail());
-        user.setAvatar(dto.getAvatar());
+        BeanUtil.copyProperties(dto, user);
         this.baseMapper.updateById(user);
         return user;
     }
@@ -138,5 +146,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Override
     public IPage<UserDO> getUserByPage(Page pager, Long groupId) {
         return this.baseMapper.selectPageByGroupId(pager, groupId);
+    }
+
+    private void checkGroupsExist(List<Long> ids) {
+        for (long id : ids) {
+            if (!groupService.checkGroupExistById(id)) {
+                throw new HttpException("分组不存在，无法新建用户");
+            }
+        }
     }
 }

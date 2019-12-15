@@ -28,31 +28,29 @@ public class LogController {
     @RouteMeta(permission = "查询所有日志", module = "日志", mount = true)
     @GroupRequired
     public PageResult getLogs(
-            @RequestParam(required = false) @DateTimeFormat(pattern = "YYYY-MM-DD HH:mm:ss") Date start,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "YYYY-MM-DD HH:mm:ss") Date end,
-            @RequestParam(required = false) String name,
+            @RequestParam(name = "start", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date start,
+            @RequestParam(name = "end", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date end,
+            @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "count", required = false, defaultValue = "10")
             @Min(value = 1, message = "count必须为正整数") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
-        PageResult result = logService.getLogs(page, count, name, start, end);
-        return result;
+        return logService.getLogs(page, count, name, start, end);
     }
 
     @GetMapping("/search")
     @RouteMeta(permission = "搜索日志", module = "日志", mount = true)
     @GroupRequired
     public PageResult searchLogs(
-            @RequestParam(name = "start", required = false) @DateTimeFormat(pattern = "YYYY-MM-DD HH:mm:ss") Date start,
-            @RequestParam(name = "end", required = false) @DateTimeFormat(pattern = "YYYY-MM-DD HH:mm:ss") Date end,
+            @RequestParam(name = "start", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date start,
+            @RequestParam(name = "end", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date end,
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
             @RequestParam(name = "count", required = false, defaultValue = "10")
             @Min(value = 1, message = "count必须为正整数") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
-        PageResult result = logService.searchLogs(page, count, name, keyword, start, end);
-        return result;
+        return logService.searchLogs(page, count, name, keyword, start, end);
     }
 
     @GetMapping("/users")
@@ -63,7 +61,6 @@ public class LogController {
             @Min(value = 1, message = "count必须为正整数") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
-        List<String> result = logService.getUserNames(page, count);
-        return result;
+        return logService.getUserNames(page, count);
     }
 }

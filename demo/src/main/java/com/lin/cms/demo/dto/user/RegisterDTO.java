@@ -1,11 +1,13 @@
 package com.lin.cms.demo.dto.user;
 
 import com.lin.cms.demo.common.validator.EqualField;
+import com.lin.cms.demo.common.validator.LongList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.*;
+import java.util.List;
 
 @Setter
 @Getter
@@ -18,8 +20,8 @@ public class RegisterDTO {
     private String username;
 
     @NotNull(message = "分组id不可为空")
-    @Min(value = 1, message = "分组id必须是整数，且大于0")
-    private Long groupId;
+    @LongList(min = 1, message = "分组id必须是整数，且大于0")
+    private List<Long> groupIds;
 
     @Email(message = "电子邮箱不符合规范，请输入正确的邮箱")
     private String email;

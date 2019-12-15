@@ -17,6 +17,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Constraint(validatedBy = {EqualFieldValidator.class})
 public @interface EqualField {
+
     String srcField() default "";
 
     String dstField() default "";

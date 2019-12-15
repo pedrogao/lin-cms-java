@@ -1,10 +1,15 @@
 package com.lin.cms.demo.controller.cms;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.lin.cms.demo.dto.user.*;
-import com.lin.cms.demo.mapper.UserMapper;
-import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.common.LocalUserLegacy;
+import com.lin.cms.demo.v2.mapper.GroupMapper;
+import com.lin.cms.demo.v2.mapper.UserMapper;
+import com.lin.cms.demo.v2.model.GroupDO;
+import com.lin.cms.demo.v2.model.UserDO;
+import com.lin.cms.demo.common.LocalUser;
+import com.lin.cms.demo.v2.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,6 +25,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.Random;
+
+import static org.junit.Assert.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -30,6 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional // 数据操作后回滚
 @Rollback
 @AutoConfigureMockMvc
+@Slf4j
 public class UserControllerTest {
 
     @Autowired
@@ -38,10 +48,17 @@ public class UserControllerTest {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private GroupMapper groupMapper;
+
+    @Autowired
+    private UserService userService;
+
     private String email = "13129982604@qq.com";
+
     private String password = "123456";
-    private Long groupId = 100L;
-    private String nickname = "pedro";
+
+    private String username = "pedro大大";
 
     @Before
     public void setUp() throws Exception {
@@ -53,15 +70,22 @@ public class UserControllerTest {
 
     @Test
     public void register() throws Exception {
+        GroupDO group = GroupDO.builder().name("少林足球").info("致敬周星星").build();
+        groupMapper.insert(group);
+
         RegisterDTO dto = new RegisterDTO();
-        dto.setGroupId(groupId);
+        dto.setGroupIds(Arrays.asList(group.getId()));
         dto.setEmail(email);
         dto.setConfirmPassword(password);
         dto.setPassword(password);
-        // dto.setNickname(nickname);
+        dto.setUsername(username);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto);
 
         mvc.perform(post("/cms/user/register")
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))
+                .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
@@ -69,66 +93,120 @@ public class UserControllerTest {
     }
 
     @Test
-    public void login() throws Exception {
-        UserDO userDO = new UserDO();
-        userDO.setNickname(nickname);
-        userDO.setPasswordEncrypt(password);
-        userDO.setEmail(email);
-
-        userMapper.insert(userDO);
-
-        LoginDTO dto = new LoginDTO();
-        dto.setUsername(nickname);
+    public void register1() throws Exception {
+        GroupDO group = GroupDO.builder().name("少林足球").info("致敬周星星").build();
+        groupMapper.insert(group);
+        Random random = new Random();
+        long rand = random.nextLong();
+        RegisterDTO dto = new RegisterDTO();
+        dto.setGroupIds(Arrays.asList(group.getId(), rand));
+        dto.setEmail(email);
+        dto.setConfirmPassword(password);
         dto.setPassword(password);
+        dto.setUsername(username);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto);
+
+        mvc.perform(post("/cms/user/register")
+                .contentType(MediaType.APPLICATION_JSON).content(content))
+                .andDo(print())
+                .andExpect(status().is5xxServerError())
+                .andExpect(MockMvcResultMatchers.
+                        jsonPath("$.msg").value("分组不存在，无法新建用户"));
+    }
+
+    @Test
+    public void login() throws Exception {
+        GroupDO group = GroupDO.builder().name("少林足球").info("致敬周星星").build();
+        groupMapper.insert(group);
+        RegisterDTO dto = new RegisterDTO();
+        dto.setGroupIds(Arrays.asList(group.getId()));
+        dto.setEmail(email);
+        dto.setConfirmPassword(password);
+        dto.setPassword(password);
+        dto.setUsername(username);
+        userService.createUser(dto);
+
+        LoginDTO dto1 = new LoginDTO();
+        dto1.setUsername(username);
+        dto1.setPassword(password);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto1);
 
         mvc.perform(post("/cms/user/login")
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))
+                .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.access_token").isNotEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.access_token").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.refresh_token").isNotEmpty());
     }
 
     @Test
     public void update() throws Exception {
-        UserDO userDO = new UserDO();
-        userDO.setNickname(nickname);
-        userDO.setPasswordEncrypt(password);
-        userDO.setEmail(email);
+        GroupDO group = GroupDO.builder().name("少林足球").info("致敬周星星").build();
+        groupMapper.insert(group);
+        RegisterDTO dto = new RegisterDTO();
+        dto.setGroupIds(Arrays.asList(group.getId()));
+        dto.setEmail(email);
+        dto.setConfirmPassword(password);
+        dto.setPassword(password);
+        dto.setUsername(username);
+        userService.createUser(dto);
 
-        userMapper.insert(userDO);
+        UserDO user = userService.getUserByUsername(username);
+        LocalUser.setLocalUser(user);
 
-        UpdateInfoDTO dto = new UpdateInfoDTO();
-        dto.setEmail("23129982604@qq.com");
+        UpdateInfoDTO dto1 = new UpdateInfoDTO();
+        dto1.setEmail("23129982604@qq.com");
+        dto1.setUsername("pedro小小");
 
-        LocalUserLegacy.setLocalUser(userDO);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto1);
+
 
         mvc.perform(MockMvcRequestBuilders.put("/cms/user/")
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))
+                .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
                         jsonPath("$.msg").value("更新成功！"));
+
+        UserDO user1 = userService.getUserByUsername("pedro小小");
+        assertTrue(user1.getEmail().equals("23129982604@qq.com"));
     }
 
     @Test
     public void updatePassword() throws Exception {
-        UserDO userDO = new UserDO();
-        userDO.setNickname(nickname);
-        userDO.setPasswordEncrypt(password);
-        userDO.setEmail(email);
+        GroupDO group = GroupDO.builder().name("少林足球").info("致敬周星星").build();
+        groupMapper.insert(group);
+        RegisterDTO dto = new RegisterDTO();
+        dto.setGroupIds(Arrays.asList(group.getId()));
+        dto.setEmail(email);
+        dto.setConfirmPassword(password);
+        dto.setPassword(password);
+        dto.setUsername(username);
+        userService.createUser(dto);
 
-        userMapper.insert(userDO);
+        UserDO user = userService.getUserByUsername(username);
+        LocalUser.setLocalUser(user);
 
-        ChangePasswordDTO dto = new ChangePasswordDTO();
-        dto.setOldPassword(password);
-        dto.setNewPassword("147258");
-        dto.setConfirmPassword("147258");
+        ChangePasswordDTO dto1 = new ChangePasswordDTO();
+        dto1.setOldPassword(password);
+        dto1.setNewPassword("147258");
+        dto1.setConfirmPassword("147258");
 
-        LocalUserLegacy.setLocalUser(userDO);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto1);
+
 
         mvc.perform(MockMvcRequestBuilders.put("/cms/user/change_password")
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))
+                .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
@@ -137,63 +215,69 @@ public class UserControllerTest {
 
     @Test
     public void refreshToken() throws Exception {
-        UserDO userDO = new UserDO();
-        userDO.setNickname(nickname);
-        userDO.setPasswordEncrypt(password);
-        userDO.setEmail(email);
+        GroupDO group = GroupDO.builder().name("少林足球").info("致敬周星星").build();
+        groupMapper.insert(group);
+        RegisterDTO dto = new RegisterDTO();
+        dto.setGroupIds(Arrays.asList(group.getId()));
+        dto.setEmail(email);
+        dto.setConfirmPassword(password);
+        dto.setPassword(password);
+        dto.setUsername(username);
+        userService.createUser(dto);
 
-        userMapper.insert(userDO);
-        LocalUserLegacy.setLocalUser(userDO);
+        UserDO user = userService.getUserByUsername(username);
+        LocalUser.setLocalUser(user);
 
         mvc.perform(MockMvcRequestBuilders.get("/cms/user/refresh")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.access_token").isNotEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.access_token").isNotEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.refresh_token").isNotEmpty());
     }
 
     @Test
-    public void getAuths() {
-        // TODO
+    public void getPermissions() throws Exception {
+        GroupDO group = GroupDO.builder().name("少林足球").info("致敬周星星").build();
+        groupMapper.insert(group);
+        RegisterDTO dto = new RegisterDTO();
+        dto.setGroupIds(Arrays.asList(group.getId()));
+        dto.setEmail(email);
+        dto.setConfirmPassword(password);
+        dto.setPassword(password);
+        dto.setUsername(username);
+        userService.createUser(dto);
+
+        UserDO user = userService.getUserByUsername(username);
+        LocalUser.setLocalUser(user);
+
+        mvc.perform(MockMvcRequestBuilders.get("/cms/user/permissions")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.permissions").isArray());
     }
 
     @Test
     public void getInformation() throws Exception {
-        UserDO userDO = new UserDO();
-        userDO.setNickname(nickname);
-        userDO.setPasswordEncrypt(password);
-        userDO.setEmail(email);
+        GroupDO group = GroupDO.builder().name("少林足球").info("致敬周星星").build();
+        groupMapper.insert(group);
+        RegisterDTO dto = new RegisterDTO();
+        dto.setGroupIds(Arrays.asList(group.getId()));
+        dto.setEmail(email);
+        dto.setConfirmPassword(password);
+        dto.setPassword(password);
+        dto.setUsername(username);
+        userService.createUser(dto);
 
-        userMapper.insert(userDO);
-        LocalUserLegacy.setLocalUser(userDO);
+        UserDO user = userService.getUserByUsername(username);
+        LocalUser.setLocalUser(user);
 
         mvc.perform(MockMvcRequestBuilders.get("/cms/user/information")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.nickname").value(nickname));
-    }
-
-    @Test
-    public void updateAvatar() throws Exception {
-        UserDO userDO = new UserDO();
-        userDO.setNickname(nickname);
-        userDO.setPasswordEncrypt(password);
-        userDO.setEmail(email);
-
-        userMapper.insert(userDO);
-        LocalUserLegacy.setLocalUser(userDO);
-
-        AvatarUpdateDTO dto = new AvatarUpdateDTO();
-        dto.setAvatar("ijbiigguiiubbjibi.png");
-
-        mvc.perform(MockMvcRequestBuilders.put("/cms/user/avatar")
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("头像更新成功！"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value(username))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value(email));
     }
 }

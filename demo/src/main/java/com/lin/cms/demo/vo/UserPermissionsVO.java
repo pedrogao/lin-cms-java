@@ -17,7 +17,7 @@ public class UserPermissionsVO {
 
     private String avatar;
 
-    private int admin;
+    private Boolean admin;
 
     private String email;
 
