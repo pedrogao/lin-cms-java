@@ -2,8 +2,6 @@ package com.lin.cms.autoconfigure;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @ConfigurationProperties("lin.cms")
 public class LinCmsProperties {
@@ -19,8 +17,6 @@ public class LinCmsProperties {
     private Long tokenRefreshExpire = 2592000L;
 
     private boolean loggerEnabled = true;
-
-    private Map<Integer, String> codeMsg = new HashMap();
 
     public boolean isLoggerEnabled() {
         return loggerEnabled;
@@ -52,14 +48,6 @@ public class LinCmsProperties {
 
     public void setTokenRefreshExpire(Long tokenRefreshExpire) {
         this.tokenRefreshExpire = tokenRefreshExpire;
-    }
-
-    public Map<Integer, String> getCodeMsg() {
-        return codeMsg;
-    }
-
-    public void setCodeMsg(Map<Integer, String> codeMsg) {
-        this.codeMsg = codeMsg;
     }
 
     public String[] getExcludeMethods() {

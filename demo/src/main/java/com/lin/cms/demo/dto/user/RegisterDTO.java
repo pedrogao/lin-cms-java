@@ -15,7 +15,7 @@ import java.util.List;
 @EqualField(srcField = "password", dstField = "confirmPassword", message = "两次输入密码不一致")
 public class RegisterDTO {
 
-    @NotBlank(message = "用户名不可为空")
+    @NotBlank(message = "{user.register.username.not-blank}")
     @Size(min = 2, max = 10, message = "用户名长度必须在2~10之间")
     private String username;
 

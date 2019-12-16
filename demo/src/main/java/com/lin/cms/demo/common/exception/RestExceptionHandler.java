@@ -1,6 +1,8 @@
 package com.lin.cms.demo.common.exception;
 
+import com.google.common.base.Strings;
 import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.demo.common.configure.ErrorCodeConfig;
 import com.lin.cms.demo.vo.CommonResult;
 import com.lin.cms.exception.HttpException;
 import lombok.extern.slf4j.Slf4j;
@@ -43,9 +45,15 @@ public class RestExceptionHandler {
     public CommonResult processException(HttpException exception, HttpServletRequest request, HttpServletResponse response) {
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
-        result.setMsg(exception.getMessage());
-        result.setErrorCode(exception.getErrorCode());
+        int errorCode = exception.getErrorCode();
+        result.setErrorCode(errorCode);
         response.setStatus(exception.getHttpCode());
+        String errorMessage = ErrorCodeConfig.getErrorMessage(errorCode);
+        if (Strings.isNullOrEmpty(errorMessage)) {
+            result.setMsg(exception.getMessage());
+        } else {
+            result.setMsg(errorMessage);
+        }
         return result;
     }
 

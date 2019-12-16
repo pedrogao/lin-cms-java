@@ -14,7 +14,7 @@ import org.springframework.core.annotation.Order;
 
 @Configuration
 @Order(Ordered.HIGHEST_PRECEDENCE)
-@EnableConfigurationProperties(LinCmsProperties.class) // 很重要，插件的配置必须挂载到此
+@EnableConfigurationProperties(LinCmsProperties.class)
 public class LinCmsAutoConfigure {
 
     @Autowired
