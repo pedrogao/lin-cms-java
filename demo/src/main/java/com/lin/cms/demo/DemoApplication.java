@@ -3,7 +3,6 @@ package com.lin.cms.demo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 @MapperScan(basePackages = {"com.lin.cms.demo.mapper", "com.lin.cms.demo.v2.mapper"/*, "com.lin.cms.plugins.poem.app"*/})
 @PropertySources({
         // @PropertySource("classpath:com/lin/cms/plugins/poem/plugin.properties"),
-        // @PropertySource(value = "classpath:error-code.properties", encoding = "UTF-8"),
-        @PropertySource(value = "classpath:com/lin/cms/demo/extensions/file/config.properties", encoding = "UTF-8")
 })
 @RestController
 public class DemoApplication {

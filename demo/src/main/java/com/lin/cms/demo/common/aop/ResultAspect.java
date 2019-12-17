@@ -10,8 +10,12 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 
 
-@Aspect
-@Component
+/**
+ * 处理返回结果为 Result 的视图函数
+ * 默认的返回均是英文，在此处通过error-code替换成中文
+ */
+//@Aspect
+//@Component
 @Slf4j
 public class ResultAspect {
 

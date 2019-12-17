@@ -42,7 +42,13 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public PageResult getUserPageByGroupId(Long groupId, Long count, Long page) {
         Page pager = new Page(page, count);
-        IPage<UserDO> iPage = userService.getUserByPage(pager, groupId);
+        IPage<UserDO> iPage;
+        // 如果group_id为空，则以分页的形式返回所有用户
+        if (groupId == null) {
+            iPage = userService.page(pager);
+        } else {
+            iPage = userService.getUserPageByGroupId(pager, groupId);
+        }
         return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
@@ -64,8 +70,13 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean updateUserInfo(Long id, UpdateUserInfoDTO validator) {
-        // TODO
-        return false;
+        List<Long> newGroupIds = validator.getGroupIds();
+        List<Long> existGroupIds = groupService.getUserGroupIdsByUserId(id);
+        // 删除existGroupIds有，而newGroupIds没有的
+        List<Long> deleteIds = existGroupIds.stream().filter(it -> !newGroupIds.contains(it)).collect(Collectors.toList());
+        // 添加newGroupIds有，而existGroupIds没有的
+        List<Long> addIds = newGroupIds.stream().filter(it -> !existGroupIds.contains(it)).collect(Collectors.toList());
+        return groupService.deleteUserGroupRelations(id, deleteIds) && groupService.addUserGroupRelations(id, addIds);
     }
 
     @Override

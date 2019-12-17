@@ -101,5 +101,5 @@ public interface UserService extends IService<UserDO> {
      * @param groupId 分组id
      * @return 数据页
      */
-    IPage<UserDO> getUserByPage(Page pager, Long groupId);
+    IPage<UserDO> getUserPageByGroupId(Page pager, Long groupId);
 }

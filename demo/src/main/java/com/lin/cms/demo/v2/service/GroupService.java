@@ -70,4 +70,20 @@ public interface GroupService extends IService<GroupDO> {
      * @return true表示在
      */
     boolean checkIsRootByUserId(Long userId);
+
+    /**
+     * 删除用户与分组直接的关联
+     *
+     * @param userId    用户id
+     * @param deleteIds 分组id
+     */
+    boolean deleteUserGroupRelations(Long userId, List<Long> deleteIds);
+
+    /**
+     * 添加用户与分组直接的关联
+     *
+     * @param userId 用户id
+     * @param addIds 分组id
+     */
+    boolean addUserGroupRelations(Long userId, List<Long> addIds);
 }

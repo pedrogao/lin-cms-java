@@ -130,8 +130,8 @@ public class AdminServiceImplTest {
         this.userId = userDO.getId();
 
         UpdateUserInfoDTO dto = new UpdateUserInfoDTO();
-        dto.setGroupId(1L);
-        dto.setEmail("23129982604@qq.com");
+        // dto.setGroupId(1L);
+        // dto.setEmail("23129982604@qq.com");
 
         adminService.updateUserInfo(this.userId, dto);
 

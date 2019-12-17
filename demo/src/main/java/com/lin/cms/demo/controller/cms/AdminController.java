@@ -38,7 +38,7 @@ public class AdminController {
     @GetMapping("/permission")
     @AdminRequired
     @RouteMeta(permission = "查询所有可分配的权限", module = "管理员")
-    public Map getAuthority() {
+    public Map getAllPermissions() {
         return postBeanProcessor.getStructuralMeta();
     }
 
@@ -46,18 +46,17 @@ public class AdminController {
     @GetMapping("/users")
     @AdminRequired
     @RouteMeta(permission = "查询所有用户", module = "管理员")
-    public PageResult getAdminUsers(
+    public PageResult getUsers(
             @RequestParam(name = "group_id", required = false)
             @Min(value = 1, message = "分组id必须为正整数") Long groupId,
             @RequestParam(name = "count", required = false, defaultValue = "10")
             @Min(value = 1, message = "count必须为正整数") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page
-    ) {
+            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
         return adminService.getUserPageByGroupId(groupId, count, page);
     }
 
-    @PutMapping("/password/{id}")
+    @PutMapping("/{id}/password")
     @AdminRequired
     @RouteMeta(permission = "修改用户密码", module = "管理员")
     public CommonResult changeUserPassword(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id, @RequestBody @Validated ResetPasswordDTO validator) {
@@ -85,7 +84,7 @@ public class AdminController {
     @GetMapping("/groups")
     @AdminRequired
     @RouteMeta(permission = "查询所有权限组及其权限", module = "管理员")
-    public PageResult getAdminGroups(
+    public PageResult getGroups(
             @RequestParam(name = "count", required = false, defaultValue = "10")
             @Min(value = 1, message = "count必须为正整数") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")

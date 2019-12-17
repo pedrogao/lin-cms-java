@@ -3,8 +3,10 @@ package com.lin.cms.demo.v2.model;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -16,6 +18,8 @@ import java.util.Date;
 @Data
 @Builder
 @TableName("lin_group")
+@NoArgsConstructor
+@AllArgsConstructor
 public class GroupDO implements Serializable {
 
     private static final long serialVersionUID = 1L;

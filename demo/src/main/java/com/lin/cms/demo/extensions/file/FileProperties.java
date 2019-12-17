@@ -1,8 +1,12 @@
 package com.lin.cms.demo.extensions.file;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
+@Component
 @ConfigurationProperties(prefix = "lin.cms.file")
+@PropertySource(value = "classpath:com/lin/cms/demo/extensions/file/config.properties", encoding = "UTF-8")
 public class FileProperties {
 
 

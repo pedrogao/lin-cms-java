@@ -74,14 +74,14 @@ public class AdminServiceImpl implements AdminService {
         if (user == null) {
             throw new NotFoundException("用户不存在");
         }
-        if (!user.getEmail().equals(validator.getEmail())) {
-            UserDO exist = userMapper.findOneUserByEmailAndDeleteTime(validator.getEmail());
-            if (exist != null) {
-                throw new ParameterException("邮箱已被注册，请重新输入邮箱");
-            }
-        }
-        user.setGroupId(validator.getGroupId());
-        user.setEmail(validator.getEmail());
+        // if (!user.getEmail().equals(validator.getEmail())) {
+        //     UserDO exist = userMapper.findOneUserByEmailAndDeleteTime(validator.getEmail());
+        //     if (exist != null) {
+        //         throw new ParameterException("邮箱已被注册，请重新输入邮箱");
+        //     }
+        // }
+        // user.setGroupId(validator.getGroupId());
+        // user.setEmail(validator.getEmail());
         userMapper.updateById(user);
     }
 
