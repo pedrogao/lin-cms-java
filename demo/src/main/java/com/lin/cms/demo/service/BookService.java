@@ -6,15 +6,16 @@ import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
 import java.util.List;
 
 public interface BookService {
-    void createBook(CreateOrUpdateBookDTO validator);
 
-    BookDO getBookByKeyword(String q);
+    boolean createBook(CreateOrUpdateBookDTO validator);
 
-    void updateBook(BookDO book, CreateOrUpdateBookDTO validator);
+    List<BookDO> getBookByKeyword(String q);
 
-    BookDO findOneByIdAndDeleteTime(Long id);
+    boolean updateBook(BookDO book, CreateOrUpdateBookDTO validator);
+
+    BookDO getById(Long id);
 
     List<BookDO> findAll();
 
-    void deleteById(Long id);
+    boolean deleteById(Long id);
 }

@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.model.LogDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
@@ -12,7 +11,6 @@ import java.util.Date;
  * @author pedro
  * @since 2019-11-30
  */
-@Service("logMapper2")
 public interface LogMapper extends BaseMapper<LogDO> {
 
     IPage<LogDO> findLogsByUsernameAndRange(Page<LogDO> pager, String name, Date start, Date end);

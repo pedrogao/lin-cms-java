@@ -3,7 +3,6 @@ package com.lin.cms.demo.mapper;
 import com.lin.cms.demo.model.GroupDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -11,7 +10,6 @@ import java.util.List;
  * @author pedro
  * @since 2019-11-30
  */
-@Service("groupMapper2")
 public interface GroupMapper extends BaseMapper<GroupDO> {
 
     /**
@@ -28,7 +26,7 @@ public interface GroupMapper extends BaseMapper<GroupDO> {
      * @param userId 用户id
      * @return 所有分组id
      */
-    List<Long> selectUserGroupIDs(@Param("userId") Long userId);
+    List<Long> selectUserGroupIds(@Param("userId") Long userId);
 
     /**
      * 通过id获得分组个数

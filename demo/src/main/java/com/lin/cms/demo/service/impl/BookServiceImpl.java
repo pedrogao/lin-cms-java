@@ -16,33 +16,33 @@ public class BookServiceImpl implements BookService {
     private BookMapper bookMapper;
 
     @Override
-    public void createBook(CreateOrUpdateBookDTO validator) {
+    public boolean createBook(CreateOrUpdateBookDTO validator) {
         BookDO book = new BookDO();
         book.setAuthor(validator.getAuthor());
         book.setTitle(validator.getTitle());
         book.setImage(validator.getImage());
         book.setSummary(validator.getSummary());
-        bookMapper.insert(book);
+        return bookMapper.insert(book) > 0;
     }
 
     @Override
-    public BookDO getBookByKeyword(String q) {
-        BookDO book = bookMapper.getBookByKeyword(q);
-        return book;
+    public List<BookDO> getBookByKeyword(String q) {
+        List<BookDO> books = bookMapper.selectByTitleLikeKeyword(q);
+        return books;
     }
 
     @Override
-    public void updateBook(BookDO book, CreateOrUpdateBookDTO validator) {
+    public boolean updateBook(BookDO book, CreateOrUpdateBookDTO validator) {
         book.setAuthor(validator.getAuthor());
         book.setTitle(validator.getTitle());
         book.setImage(validator.getImage());
         book.setSummary(validator.getSummary());
-        bookMapper.updateById(book);
+        return bookMapper.updateById(book) > 0;
     }
 
     @Override
-    public BookDO findOneByIdAndDeleteTime(Long id) {
-        BookDO book = bookMapper.findOneByIdAndDeleteTime(id);
+    public BookDO getById(Long id) {
+        BookDO book = bookMapper.selectById(id);
         return book;
     }
 
@@ -53,7 +53,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void deleteById(Long id) {
-        bookMapper.deleteById(id);
+    public boolean deleteById(Long id) {
+        return bookMapper.deleteById(id) > 0;
     }
 }

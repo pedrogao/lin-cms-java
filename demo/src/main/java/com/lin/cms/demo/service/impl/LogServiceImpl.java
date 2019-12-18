@@ -16,7 +16,7 @@ import java.util.List;
  * @author pedro
  * @since 2019-11-30
  */
-@Service("logServiceImpl-v2")
+@Service
 public class LogServiceImpl extends ServiceImpl<LogMapper, LogDO> implements LogService {
 
     @Override
@@ -29,7 +29,7 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, LogDO> implements Log
     @Override
     public PageResult searchLogs(Long page, Long count, String name, String keyword, Date start, Date end) {
         Page<LogDO> pager = new Page<>(page, count);
-        IPage<LogDO> iPage = this.baseMapper.searchLogsByUsernameAndKeywordAndRange(pager, name, keyword, start, end);
+        IPage<LogDO> iPage = this.baseMapper.searchLogsByUsernameAndKeywordAndRange(pager, name, "%" + keyword + "%", start, end);
         return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 

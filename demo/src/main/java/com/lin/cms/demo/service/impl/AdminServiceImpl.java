@@ -24,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service("adminServiceImpl-v2")
+@Service
 public class AdminServiceImpl implements AdminService {
 
     @Autowired

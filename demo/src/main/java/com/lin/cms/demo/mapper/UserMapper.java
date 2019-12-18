@@ -4,14 +4,12 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.model.UserDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.springframework.stereotype.Service;
 
 
 /**
  * @author pedro
  * @since 2019-12-02
  */
-@Service("userMapper2")
 public interface UserMapper extends BaseMapper<UserDO> {
 
     /**

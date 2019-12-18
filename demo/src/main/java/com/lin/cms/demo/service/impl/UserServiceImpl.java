@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
  * @author pedro
  * @since 2019-11-30
  */
-@Service("userServiceImpl-v2")
+@Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
 
     @Autowired
@@ -59,15 +59,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if (exist) {
             throw new HttpException("已经有用户使用了该名称，请重新输入新的用户名");
         }
-        checkGroupsExist(dto.getGroupIds());
         UserDO user = new UserDO();
         BeanUtil.copyProperties(dto, user);
         this.baseMapper.insert(user);
-        List<UserGroupDO> relations = dto.getGroupIds()
-                .stream()
-                .map(groupId -> new UserGroupDO(user.getId(), groupId))
-                .collect(Collectors.toList());
-        userGroupMapper.insertBatch(relations);
+        if (dto.getGroupIds() != null && !dto.getGroupIds().isEmpty()) {
+            checkGroupsExist(dto.getGroupIds());
+            List<UserGroupDO> relations = dto.getGroupIds()
+                    .stream()
+                    .map(groupId -> new UserGroupDO(user.getId(), groupId))
+                    .collect(Collectors.toList());
+
+            userGroupMapper.insertBatch(relations);
+        }
         userIdentityService.createUsernamePasswordIdentity(user.getId(), dto.getUsername(), dto.getPassword());
         return user;
     }

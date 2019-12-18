@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * @author pedro
  * @since 2019-11-30
  */
-@Service("fileServiceImpl-v2")
+@Service
 public class FileServiceImpl extends ServiceImpl<FileMapper, FileDO> implements FileService {
 
     @Autowired

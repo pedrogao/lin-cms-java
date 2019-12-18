@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -15,7 +14,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.util.List;
 
 /**
  * Spring MVC 配置
@@ -24,10 +22,10 @@ import java.util.List;
 @Slf4j
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${auth.enabled}")
+    @Value("${auth.enabled:false}")
     private boolean authEnabled;
 
-    @Value("${request-log.enabled}")
+    @Value("${request-log.enabled:false}")
     private boolean requestLogEnabled;
 
     @Autowired
@@ -39,13 +37,8 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private RequestLogInterceptor requestLogInterceptor;
 
-    @Value("${lin.cms.file.store-dir}")
+    @Value("${lin.cms.file.store-dir:assets/}")
     private String dir;
-
-    //统一异常处理
-    @Override
-    public void configureHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
-    }
 
     /**
      * 跨域
@@ -63,8 +56,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("*");
     }
 
-    // 添加拦截器
-    // 权限拦截器
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         if (authEnabled) {

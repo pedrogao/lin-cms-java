@@ -16,7 +16,7 @@
         <result column="delete_time" property="deleteTime"/>
     </resultMap>
 
-    <select id="findByMd5" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <select id="selectByMd5" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT *
         FROM lin_file f
         WHERE

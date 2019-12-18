@@ -1,6 +1,8 @@
 package com.lin.cms.demo.mapper;
 
 import com.lin.cms.demo.model.GroupDO;
+import com.lin.cms.demo.model.UserDO;
+import com.lin.cms.demo.model.UserGroupDO;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,28 +22,81 @@ import static org.junit.Assert.*;
 @SpringBootTest
 @Transactional
 @Rollback
+@ActiveProfiles("test")
 public class GroupMapperTest {
 
     @Autowired
     private GroupMapper groupMapper;
 
-    private Long groupId;
-    private String module = "信息";
-    private String auth = "查看lin的信息";
+    @Autowired
+    private UserMapper userMapper;
 
-    private String name = "千里之外";
-    private String info = "千里之外是个啥";
+    @Autowired
+    private UserGroupMapper userGroupMapper;
 
-    @Before
-    public void setUp() throws Exception {
-        GroupDO groupDO = new GroupDO();
-        groupDO.setName(name);
-        groupDO.setInfo(info);
-        groupMapper.insert(groupDO);
+    @Test
+    public void selectUserGroups() {
+        String email = "13129982604@qq.com";
+        String username = "pedro-test";
+        UserDO user = new UserDO();
+        user.setEmail(email);
+        user.setUsername(username);
+        userMapper.insert(user);
+
+        GroupDO group = GroupDO.builder().name("group").info("零零落落").build();
+        groupMapper.insert(group);
+
+        userGroupMapper.insert(new UserGroupDO(user.getId(), group.getId()));
+
+        List<GroupDO> groups = groupMapper.selectUserGroups(user.getId());
+        boolean anyMatch = groups.stream().anyMatch(it -> it.getName().equals("group"));
+        assertTrue(anyMatch);
     }
 
 
-    @After
-    public void tearDown() throws Exception {
+    @Test
+    public void selectUserGroupIDs() {
+        String email = "13129982604@qq.com";
+        String username = "pedro-test";
+        UserDO user = new UserDO();
+        user.setEmail(email);
+        user.setUsername(username);
+        userMapper.insert(user);
+
+        GroupDO group = GroupDO.builder().name("group").info("零零落落").build();
+        groupMapper.insert(group);
+
+        userGroupMapper.insert(new UserGroupDO(user.getId(), group.getId()));
+
+        List<Long> groupIds = groupMapper.selectUserGroupIds(user.getId());
+        boolean anyMatch = groupIds.stream().anyMatch(it -> it.equals(group.getId()));
+        assertTrue(anyMatch);
+    }
+
+
+    @Test
+    public void selectCountById() {
+        GroupDO group = GroupDO.builder().name("group").info("零零落落").build();
+        groupMapper.insert(group);
+        int count = groupMapper.selectCountById(group.getId());
+        assertTrue(count > 0);
+    }
+
+    @Test
+    public void selectCountUserByUserIdAndGroupName() {
+        String email = "13129982604@qq.com";
+        String username = "pedro-test";
+        UserDO user = new UserDO();
+        user.setEmail(email);
+        user.setUsername(username);
+        userMapper.insert(user);
+
+        GroupDO group = GroupDO.builder().name("group").info("零零落落").build();
+        groupMapper.insert(group);
+
+        userGroupMapper.insert(new UserGroupDO(user.getId(), group.getId()));
+
+        int count = groupMapper.selectCountUserByUserIdAndGroupName(user.getId(), "group");
+        assertTrue(count > 0);
     }
 }

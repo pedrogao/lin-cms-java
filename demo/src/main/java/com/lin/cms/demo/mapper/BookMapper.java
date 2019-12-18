@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.lin.cms.demo.model.BookDO;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface BookMapper extends BaseMapper<BookDO> {
 
-    BookDO getBookByKeyword(@Param("q") String q);
+    List<BookDO> selectByTitleLikeKeyword(@Param("q") String q);
 
-    BookDO findOneByIdAndDeleteTime(@Param("id") Long id);
-
-    BookDO findOneByTitle(@Param("title") String title);
+    List<BookDO> selectByTitle(@Param("title") String title);
 }

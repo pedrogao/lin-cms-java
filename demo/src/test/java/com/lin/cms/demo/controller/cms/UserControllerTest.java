@@ -19,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -40,6 +41,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Rollback
 @AutoConfigureMockMvc
 @Slf4j
+@ActiveProfiles("test")
 public class UserControllerTest {
 
     @Autowired
@@ -113,8 +115,7 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().is5xxServerError())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("分组不存在，无法新建用户"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("分组不存在，无法新建用户"));
     }
 
     @Test

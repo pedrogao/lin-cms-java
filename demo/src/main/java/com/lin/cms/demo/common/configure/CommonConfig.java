@@ -3,7 +3,6 @@ package com.lin.cms.demo.common.configure;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.lin.cms.demo.extensions.file.FileProperties;
 import com.lin.cms.demo.common.interceptor.RequestLogInterceptor;
@@ -25,11 +24,6 @@ public class CommonConfig {
     public PaginationInterceptor paginationInterceptor() {
         return new PaginationInterceptor();
     }
-
-    // @Bean
-    // public LogicInterceptor logicInterceptor() {
-    //     return new LogicInterceptor();
-    // }
 
     @Bean
     public ISqlInjector sqlInjector() {

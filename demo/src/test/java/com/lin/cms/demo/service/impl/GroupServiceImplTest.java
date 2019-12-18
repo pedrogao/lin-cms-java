@@ -27,7 +27,7 @@ import static org.junit.Assert.*;
 @Transactional
 @Rollback
 @Slf4j
-@ActiveProfiles("dev")
+@ActiveProfiles("test")
 public class GroupServiceImplTest {
 
     @Autowired

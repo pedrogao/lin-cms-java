@@ -7,9 +7,14 @@
     <groupId>com.lin</groupId>
     <artifactId>cms</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+
     <modules>
-        <module>poem</module>
+        <module>core</module>
+        <module>lin-cms-spring-boot-autoconfigure</module>
+        <module>lin-cms-spring-boot-starter</module>
+        <module>demo</module>
     </modules>
+
     <packaging>pom</packaging>
 
     <name>lin-cms</name>
@@ -27,6 +32,5 @@
             <email>pedrogao1996@gmail.com</email>
         </developer>
     </developers>
-
 
 </project>

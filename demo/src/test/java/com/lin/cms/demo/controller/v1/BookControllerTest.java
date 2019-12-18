@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -31,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @Rollback
 @AutoConfigureMockMvc
+@ActiveProfiles("test")
 public class BookControllerTest {
 
     @Autowired
@@ -76,13 +78,10 @@ public class BookControllerTest {
         bookMapper.insert(bookDO);
         this.id = bookDO.getId();
 
-        mvc.perform(get("/v1/book/"))
+        mvc.perform(get("/v1/book"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$").isArray());
-//                .andExpect(MockMvcResultMatchers.
-//                        jsonPath("$[0].title").value(title));
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
     }
 
     @Test
@@ -95,11 +94,11 @@ public class BookControllerTest {
         bookMapper.insert(bookDO);
         this.id = bookDO.getId();
 
-        mvc.perform(get("/v1/book/search/one?q=千里"))
+        mvc.perform(get("/v1/book/search?q=千里"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.title").value(title));
+                        jsonPath("$").isArray());
     }
 
     @Test

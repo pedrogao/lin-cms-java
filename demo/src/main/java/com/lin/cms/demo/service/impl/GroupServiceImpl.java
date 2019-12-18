@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @author pedro
  * @since 2019-11-30
  */
-@Service("groupServiceImpl-v2")
+@Service
 public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implements GroupService {
 
     public static final String ROOT_GROUP_NAME = "root";
@@ -40,7 +40,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
 
     @Override
     public List<Long> getUserGroupIdsByUserId(Long userId) {
-        return this.baseMapper.selectUserGroupIDs(userId);
+        return this.baseMapper.selectUserGroupIds(userId);
     }
 
     @Override

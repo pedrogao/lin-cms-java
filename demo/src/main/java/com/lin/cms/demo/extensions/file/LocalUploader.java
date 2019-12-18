@@ -17,7 +17,7 @@ import java.util.UUID;
 @Slf4j
 public class LocalUploader implements Uploader {
 
-    @Value("${lin.cms.file.store-dir}")
+    @Value("${lin.cms.file.store-dir:assets/}")
     private String dir;
 
     @Value("${lin.cms.file.single-limit}")

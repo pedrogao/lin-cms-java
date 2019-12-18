@@ -1,9 +1,18 @@
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
+DROP TABLE IF EXISTS book;
+CREATE TABLE book
+(
+    id          int(10) unsigned NOT NULL AUTO_INCREMENT,
+    title       varchar(50)      NOT NULL,
+    author      varchar(30)               DEFAULT NULL,
+    summary     varchar(1000)             DEFAULT NULL,
+    image       varchar(100)              DEFAULT NULL,
+    create_time datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    update_time datetime(3)      NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+    delete_time datetime(3)               DEFAULT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8mb4;
 
--- ----------------------------
--- 文件表
--- ----------------------------
 DROP TABLE IF EXISTS lin_file;
 CREATE TABLE lin_file
 (
@@ -20,12 +29,8 @@ CREATE TABLE lin_file
     PRIMARY KEY (id),
     UNIQUE KEY md5 (md5)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+  DEFAULT CHARSET = utf8mb4;
 
--- ----------------------------
--- 日志表
--- ----------------------------
 DROP TABLE IF EXISTS lin_log;
 CREATE TABLE lin_log
 (
@@ -42,8 +47,7 @@ CREATE TABLE lin_log
     delete_time datetime(3)               DEFAULT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+  DEFAULT CHARSET = utf8mb4;
 
 -- ----------------------------
 -- 权限表
@@ -59,8 +63,7 @@ CREATE TABLE lin_permission
     delete_time datetime(3)               DEFAULT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+  DEFAULT CHARSET = utf8mb4;
 
 -- ----------------------------
 -- 分组表
@@ -77,8 +80,7 @@ CREATE TABLE lin_group
     PRIMARY KEY (id),
     UNIQUE KEY name (name)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+  DEFAULT CHARSET = utf8mb4;
 
 -- ----------------------------
 -- 分组-权限表
@@ -89,11 +91,9 @@ CREATE TABLE lin_group_permission
     id            int(10) unsigned NOT NULL AUTO_INCREMENT,
     group_id      int(10) unsigned NOT NULL COMMENT '分组id',
     permission_id int(10) unsigned NOT NULL COMMENT '权限id',
-    PRIMARY KEY (id),
-    KEY group_id_permission_id (group_id, permission_id) USING BTREE COMMENT '联合索引'
+    PRIMARY KEY (id)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+  DEFAULT CHARSET = utf8mb4;
 
 -- ----------------------------
 -- 用户基本信息表
@@ -113,17 +113,8 @@ CREATE TABLE lin_user
     UNIQUE KEY username (username),
     UNIQUE KEY email (email)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+  DEFAULT CHARSET = utf8mb4;
 
--- ----------------------------
--- 用户授权信息表
-# id
-# user_id
-# identity_type 登录类型（手机号 邮箱 用户名）或第三方应用名称（微信 微博等）
-# identifier 标识（手机号 邮箱 用户名或第三方应用的唯一标识）
-# credential 密码凭证（站内的保存密码，站外的不保存或保存token）
--- ----------------------------
 DROP TABLE IF EXISTS lin_user_identity;
 CREATE TABLE lin_user_identity
 (
@@ -137,43 +128,7 @@ CREATE TABLE lin_user_identity
     delete_time   datetime(3)               DEFAULT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
-
-DROP TABLE IF EXISTS book;
-CREATE TABLE book
-(
-    id          int(11)     NOT NULL AUTO_INCREMENT,
-    title       varchar(50) NOT NULL,
-    author      varchar(30)          DEFAULT NULL,
-    summary     varchar(1000)        DEFAULT NULL,
-    image       varchar(100)         DEFAULT NULL,
-    create_time datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    update_time datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
-    delete_time datetime(3)          DEFAULT NULL,
-    PRIMARY KEY (id)
-) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
-
--- ----------------------------
--- 插入超级管理员
--- 插入root分组
--- ----------------------------
-BEGIN;
-INSERT INTO lin_user(id, username, nickname)
-VALUES (1, 'root', 'root');
-
-INSERT INTO lin_user_identity (id, user_id, identity_type, identifier, credential)
-VALUES (1, 1, 'username', 'root',
-        'pbkdf2sha256:64000:18:24:n:yUnDokcNRbwILZllmUOItIyo9MnI00QW:6ZcPf+sfzyoygOU8h/GSoirF');
-
-INSERT INTO lin_group(id, name, info)
-VALUES (1, 'root', '超级用户组');
-
-INSERT INTO lin_group(id, name, info)
-VALUES (2, 'guest', '游客组');
-COMMIT;
+  DEFAULT CHARSET = utf8mb4;
 
 -- ----------------------------
 -- 用户-分组表
@@ -184,26 +139,7 @@ CREATE TABLE lin_user_group
     id       int(10) unsigned NOT NULL AUTO_INCREMENT,
     user_id  int(10) unsigned NOT NULL COMMENT '用户id',
     group_id int(10) unsigned NOT NULL COMMENT '分组id',
-    PRIMARY KEY (id),
-    KEY user_id_group_id (user_id, group_id) USING BTREE COMMENT '联合索引'
+    PRIMARY KEY (id)
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+  DEFAULT CHARSET = utf8mb4;
 
-SET FOREIGN_KEY_CHECKS = 1;
-
--- ----------------------------
--- 测试用户是否有无权限
--- ----------------------------
-BEGIN;
-
-INSERT INTO lin_user_group(id, user_id, group_id)
-VALUES (1, 1, 1);
---
--- 从分组找
---
-SELECT *
-from lin_group_permission
-WHERE group_id in (SELECT group_id FROM lin_user_group WHERE user_id = 1);
-
-COMMIT;
