@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional // 数据操作后回滚
+@Transactional
 @Rollback
 @ActiveProfiles("test")
 public class UserMapperTest {
