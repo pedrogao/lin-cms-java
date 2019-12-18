@@ -1,6 +1,6 @@
 package com.lin.cms.demo.vo;
 
-import com.lin.cms.demo.v2.model.UserDO;
+import com.lin.cms.demo.model.UserDO;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeanUtils;

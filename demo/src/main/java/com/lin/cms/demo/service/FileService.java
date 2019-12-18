@@ -1,15 +1,31 @@
 package com.lin.cms.demo.service;
 
-import com.lin.cms.demo.extensions.file.File;
+import com.lin.cms.demo.model.FileDO;
+import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-
 /**
- * Created by lin on 2019/06/14.
+ * @author pedro
+ * @since 2019-11-30
  */
-public interface FileService {
-    List<File> upload(MultiValueMap<String, MultipartFile> fileMap);
+public interface FileService extends IService<FileDO> {
+
+    /**
+     * 上传文件
+     *
+     * @param fileMap 文件map
+     * @return 文件数据
+     */
+    List<FileDO> upload(MultiValueMap<String, MultipartFile> fileMap);
+
+    /**
+     * 通过md5检查文件是否存在
+     *
+     * @param md5 md5
+     * @return true 表示已存在
+     */
+    boolean checkFileExistByMd5(String md5);
 }

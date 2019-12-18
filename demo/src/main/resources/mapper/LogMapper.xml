@@ -1,83 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lin.cms.demo.mapper.LogMapper">
-    <resultMap id="BaseResultMap" type="com.lin.cms.demo.model.LogDO">
-        <!--
-          WARNING - @mbg.generated
-        -->
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="message" jdbcType="VARCHAR" property="message"/>
-        <result column="user_id" jdbcType="INTEGER" property="userId"/>
-        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
-        <result column="status_code" jdbcType="INTEGER" property="statusCode"/>
-        <result column="method" jdbcType="VARCHAR" property="method"/>
-        <result column="path" jdbcType="VARCHAR" property="path"/>
-        <result column="authority" jdbcType="VARCHAR" property="authority"/>
-        <result column="time" jdbcType="TIMESTAMP" property="time"/>
-    </resultMap>
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.lin.cms.demo.model.LogDO">
+        <id column="id" property="id"/>
+        <result column="message" property="message"/>
+        <result column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="status_code" property="statusCode"/>
+        <result column="method" property="method"/>
+        <result column="path" property="path"/>
+        <result column="permission" property="permission"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
+    </resultMap>
 
     <select id="findLogsByUsernameAndRange" resultType="com.lin.cms.demo.model.LogDO">
         SELECT l.* FROM lin_log l
-        <where>
-            <if test="name != null">
-                l.user_name=#{name}
-            </if>
-            <if test="start !=null and end !=null">
-                AND l.time BETWEEN #{start} AND #{end}
-            </if>
-        </where>
-        ORDER BY l.time DESC
+        WHERE l.delete_time IS NULL
+        <if test="name != null">
+            AND l.username=#{name}
+        </if>
+        <if test="start !=null and end !=null">
+            AND l.create_time BETWEEN #{start} AND #{end}
+        </if>
+        ORDER BY l.create_time DESC
     </select>
 
     <select id="countLogsByUsernameAndRange" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM lin_log l
-        <where>
-            <if test="name != null">
-                l.user_name=#{name}
-            </if>
-            <if test="start !=null and end !=null">
-                AND l.time BETWEEN #{start} AND #{end}
-            </if>
-        </where>
+        WHERE l.delete_time IS NULL
+        <if test="name != null">
+            AND l.username=#{name}
+        </if>
+        <if test="start !=null and end !=null">
+            AND l.create_time BETWEEN #{start} AND #{end}
+        </if>
     </select>
 
     <select id="searchLogsByUsernameAndKeywordAndRange" resultType="com.lin.cms.demo.model.LogDO">
         SELECT l.* FROM lin_log l
-        <where>
-            <if test="name != null">
-                l.user_name=#{name}
-            </if>
-            <if test="start !=null and end !=null">
-                AND l.time BETWEEN #{start} AND #{end}
-            </if>
-            <if test="keyword != null">
-                AND l.message LIKE CONCAT("%",#{keyword},"%")
-            </if>
-        </where>
-        ORDER BY l.time DESC
+        WHERE l.delete_time IS NULL
+        <if test="name != null">
+            AND l.username=#{name}
+        </if>
+        <if test="start !=null and end !=null">
+            AND l.create_time BETWEEN #{start} AND #{end}
+        </if>
+        <if test="keyword != null">
+            AND l.message LIKE CONCAT("%",#{keyword},"%")
+        </if>
+        ORDER BY l.create_time DESC
     </select>
 
     <select id="countLogsByUsernameAndKeywordAndRange" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM lin_log l
-        <where>
-            <if test="name != null">
-                l.user_name=#{name}
-            </if>
-            <if test="start !=null and end !=null">
-                AND l.time BETWEEN #{start} AND #{end}
-            </if>
-            <if test="keyword != null">
-                AND l.message LIKE CONCAT("%",#{keyword},"%")
-            </if>
-        </where>
+        WHERE l.delete_time IS NULL
+        <if test="name != null">
+            AND l.username=#{name}
+        </if>
+        <if test="start !=null and end !=null">
+            AND l.create_time BETWEEN #{start} AND #{end}
+        </if>
+        <if test="keyword != null">
+            AND l.message LIKE CONCAT("%",#{keyword},"%")
+        </if>
     </select>
 
     <select id="getUserNames" resultType="java.lang.String">
-        SELECT l.user_name
+        SELECT l.username
         FROM lin_log l
-        GROUP BY l.user_name
-        HAVING COUNT(l.user_name) > 0
+        WHERE l.delete_time IS NULL
+        GROUP BY l.username
+        HAVING COUNT(l.username) > 0
     </select>
 
 </mapper>

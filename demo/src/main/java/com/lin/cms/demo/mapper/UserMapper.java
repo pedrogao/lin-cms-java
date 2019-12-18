@@ -1,26 +1,41 @@
 package com.lin.cms.demo.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.model.UserAndGroupNameDO;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Service;
 
 
+/**
+ * @author pedro
+ * @since 2019-12-02
+ */
+@Service("userMapper2")
 public interface UserMapper extends BaseMapper<UserDO> {
 
-    IPage<UserAndGroupNameDO> findUsersAndGroupName(Page page, @Param("groupId") Long groupId);
+    /**
+     * 查询用户名为$username的人数
+     *
+     * @param username 用户名
+     * @return 人数
+     */
+    int selectCountByUsername(String username);
 
-    Integer getCommonUsersCount(@Param("groupId") Long groupId);
+    /**
+     * 查询用户id为$id的人数
+     *
+     * @param id 用户id
+     * @return 人数
+     */
+    int selectCountById(Long id);
 
-    UserDO findOneUserByIdAndDeleteTime(@Param("id") Long id);
-
-    void softDeleteById(@Param("id") Long id);
-
-    UserDO findOneUserByEmailAndDeleteTime(@Param("email") String email);
-
-    // 用户检测分组下是否存在用户
-    UserDO findOneUserByGroupId(@Param("groupId") Long groupId);
-
+    /**
+     * 通过分组id分页获取用户数据
+     *
+     * @param pager   分页
+     * @param groupId 分组id
+     * @return 分页数据
+     */
+    IPage<UserDO> selectPageByGroupId(Page pager, Long groupId);
 }

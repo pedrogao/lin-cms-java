@@ -1,9 +1,9 @@
 package com.lin.cms.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.lin.cms.demo.vo.PageResult;
 import com.lin.cms.demo.mapper.LogMapper;
 import com.lin.cms.demo.model.LogDO;
+import com.lin.cms.demo.vo.PageResult;
 import com.lin.cms.demo.service.LogService;
 import org.junit.After;
 import org.junit.Before;
@@ -21,7 +21,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional // 数据操作后回滚
+@Transactional
 @Rollback
 public class LogServiceImplTest {
 
@@ -48,7 +48,7 @@ public class LogServiceImplTest {
         String method = "GET";
         String path = "/";
         Integer status = 200;
-        logService.createOneLog(message, authority, userId, userName, method, path, status);
+        logService.createLog(message, authority, userId, userName, method, path, status);
 
         PageResult logs = logService.getLogs(0L, 10L, null, null, null);
         assertTrue(logs.getCount() > 0);
@@ -63,7 +63,7 @@ public class LogServiceImplTest {
         String method = "GET";
         String path = "/";
         Integer status = 200;
-        logService.createOneLog(message, authority, userId, userName, method, path, status);
+        logService.createLog(message, authority, userId, userName, method, path, status);
 
         PageResult logs = logService.searchLogs(0L, 10L, null, "put", null, null);
         assertTrue(logs.getCount() > 0);
@@ -78,7 +78,7 @@ public class LogServiceImplTest {
         String method = "GET";
         String path = "/";
         Integer status = 200;
-        logService.createOneLog(message, authority, userId, userName, method, path, status);
+        logService.createLog(message, authority, userId, userName, method, path, status);
 
         List<String> names = logService.getUserNames(0L, 10L);
         assertTrue(names.size() > 0);
@@ -87,18 +87,18 @@ public class LogServiceImplTest {
     @Test
     public void createOneLog() {
         String message = "put your face to the light!";
-        String authority = "查看lin的信息";
+        String permission = "查看lin的信息";
         Long userId = 100L;
         String userName = "pedro";
         String method = "GET";
         String path = "/";
         Integer status = 200;
-        logService.createOneLog(message, authority, userId, userName, method, path, status);
+        logService.createLog(message, permission, userId, userName, method, path, status);
 
         QueryWrapper<LogDO> condition = new QueryWrapper<>();
-        condition.eq("message",message);
+        condition.eq("message", message);
         LogDO logDO = logMapper.selectOne(condition);
 
-        assertEquals(logDO.getAuthority(), authority);
+        assertEquals(logDO.getPermission(), permission);
     }
 }

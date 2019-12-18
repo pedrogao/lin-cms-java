@@ -3,7 +3,6 @@ package com.lin.cms.demo.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.model.GroupDO;
-import com.lin.cms.demo.model.UserAndGroupNameDO;
 import com.lin.cms.demo.model.UserDO;
 import org.junit.After;
 import org.junit.Before;
@@ -50,51 +49,9 @@ public class UserMapperTest {
 
         UserDO userDO = new UserDO();
         userDO.setEmail(email);
-        userDO.setPasswordEncrypt(password);
-        userDO.setGroupId(groupId);
         userDO.setNickname(nickname);
         userMapper.insert(userDO);
         this.userId = userDO.getId();
-    }
-
-
-    @Test
-    public void testFindUsersAndGroupName() {
-        Page page = new Page(0, 10);
-        IPage<UserAndGroupNameDO> iPage = userMapper.findUsersAndGroupName(page, groupId);
-        List<UserAndGroupNameDO> usersAndGroupName = iPage.getRecords();
-        assertTrue(usersAndGroupName.size() > 0);
-    }
-
-    @Test
-    public void testGetCommonUsersCount() {
-        Integer count = userMapper.getCommonUsersCount(groupId);
-        assertTrue(count > 0);
-    }
-
-    @Test
-    public void testFindOneUserByIdAndDeleteTime() {
-        UserDO user = userMapper.findOneUserByIdAndDeleteTime(userId);
-        assertEquals(user.getNickname(), nickname);
-    }
-
-    @Test
-    public void testSoftDeleteById() {
-        userMapper.softDeleteById(userId);
-        UserDO user = userMapper.findOneUserByIdAndDeleteTime(userId);
-        assertEquals(user, null);
-    }
-
-    @Test
-    public void testFindOneUserByEmailAndDeleteTime() {
-        UserDO user = userMapper.findOneUserByEmailAndDeleteTime(email);
-        assertEquals(user.getNickname(), nickname);
-    }
-
-    @Test
-    public void testFindOneUserByGroupId() {
-        UserDO user = userMapper.findOneUserByGroupId(groupId);
-        assertEquals(user.getNickname(), nickname);
     }
 
 

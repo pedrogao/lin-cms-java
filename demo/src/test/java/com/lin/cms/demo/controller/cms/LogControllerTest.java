@@ -1,9 +1,8 @@
 package com.lin.cms.demo.controller.cms;
 
-import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
-import com.lin.cms.demo.v2.mapper.LogMapper;
-import com.lin.cms.demo.v2.model.LogDO;
+import com.lin.cms.demo.mapper.LogMapper;
+import com.lin.cms.demo.model.LogDO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.After;
 import org.junit.Before;
@@ -16,7 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 

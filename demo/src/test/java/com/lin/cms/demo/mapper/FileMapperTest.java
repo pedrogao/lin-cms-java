@@ -11,11 +11,11 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional // 数据操作后回滚
+@Transactional
 @Rollback
 public class FileMapperTest {
 
@@ -38,7 +38,7 @@ public class FileMapperTest {
 
     @Test
     public void testFindOneByMd5() {
-        FileDO one = fileMapper.findOneByMd5(md5);
+        FileDO one = fileMapper.selectByMd5(md5);
         assertEquals(one.getName(), name);
     }
 

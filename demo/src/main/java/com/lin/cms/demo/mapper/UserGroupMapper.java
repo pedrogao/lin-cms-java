@@ -1,18 +1,18 @@
 package com.lin.cms.demo.mapper;
 
-import com.lin.cms.demo.model.FileDO;
+import com.lin.cms.demo.model.UserGroupDO;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @author pedro
  * @since 2019-11-30
  */
-@Service("fileMapper2")
-public interface FileMapper extends BaseMapper<FileDO> {
+@Service("userGroupMapper2")
+public interface UserGroupMapper extends BaseMapper<UserGroupDO> {
 
-    FileDO selectByMd5(@Param("md5") String md5);
-
-    int selectCountByMd5(@Param("md5") String md5);
+    int insertBatch(@Param("relations") List<UserGroupDO> relations);
 }

@@ -1,6 +1,6 @@
 package com.lin.cms.demo.common;
 
-import com.lin.cms.demo.v2.model.UserDO;
+import com.lin.cms.demo.model.UserDO;
 
 /**
  * 线程安全的当前登录用户，如果用户为登录，则得到 null

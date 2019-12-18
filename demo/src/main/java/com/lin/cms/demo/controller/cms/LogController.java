@@ -3,7 +3,7 @@ package com.lin.cms.demo.controller.cms;
 import com.lin.cms.core.annotation.GroupRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.demo.vo.PageResult;
-import com.lin.cms.demo.v2.service.LogService;
+import com.lin.cms.demo.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;

@@ -1,12 +1,12 @@
 package com.lin.cms.demo.common.interceptor;
 
+import com.lin.cms.demo.common.LocalUser;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.interfaces.LoggerResolver;
 import com.lin.cms.core.annotation.Logger;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.core.utils.BeanUtil;
 import com.lin.cms.demo.service.LogService;
-import com.lin.cms.demo.common.LocalUserLegacy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,15 +30,15 @@ public class LoggerImpl implements LoggerResolver {
     public void handle(RouteMeta meta, Logger logger, HttpServletRequest request, HttpServletResponse response) {
         // parse template and extract properties from request,response and modelAndView
         String template = logger.template();
-        UserDO user = LocalUserLegacy.getLocalUser(UserDO.class);
+        UserDO user = LocalUser.getLocalUser();
         template = this.parseTemplate(template, user, request, response);
-        String authority = meta.permission();
+        String permission = meta.permission();
         Long userId = user.getId();
         String userName = user.getNickname();
         String method = request.getMethod();
         String path = request.getServletPath();
         Integer status = response.getStatus();
-        logService.createOneLog(template, authority, userId, userName, method, path, status);
+        logService.createLog(template, permission, userId, userName, method, path, status);
     }
 
     private String parseTemplate(String template, UserDO user, HttpServletRequest request, HttpServletResponse response) {

@@ -1,37 +1,37 @@
 package com.lin.cms.demo.service;
 
-import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.vo.PageResult;
+import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.dto.admin.*;
-import com.lin.cms.demo.bo.GroupAuthsBO;
+import com.lin.cms.demo.model.GroupDO;
 
 import java.util.List;
 
-
 public interface AdminService {
-    PageResult getUsers(Long groupId, Long count, Long page);
 
-    void changeUserPassword(Long id, ResetPasswordDTO validator);
+    PageResult getUserPageByGroupId(Long groupId, Long count, Long page);
 
-    void deleteUser(Long id);
+    boolean changeUserPassword(Long id, ResetPasswordDTO dto);
 
-    void updateUserInfo(Long id, UpdateUserInfoDTO validator);
+    boolean deleteUser(Long id);
 
-    PageResult getGroups(Long page, Long count);
+    boolean updateUserInfo(Long id, UpdateUserInfoDTO dto);
 
-    GroupAuthsBO getGroup(Long id);
+    PageResult getGroupPage(Long page, Long count);
 
-    void createGroup(NewGroupDTO validator);
+    GroupPermissionsBO getGroup(Long id);
 
-    void updateGroup(Long id, UpdateGroupDTO validator);
+    boolean createGroup(NewGroupDTO dto);
 
-    void deleteGroup(Long id);
+    boolean updateGroup(Long id, UpdateGroupDTO dto);
 
-    void dispatchAuth(DispatchPermissionDTO validator);
+    boolean deleteGroup(Long id);
 
-    void dispatchAuths(DispatchPermissionsDTO validator);
+    boolean dispatchPermission(DispatchPermissionDTO dto);
 
-    void removeAuths(RemovePermissionsDTO validator);
+    boolean dispatchPermissions(DispatchPermissionsDTO dto);
+
+    boolean removePermissions(RemovePermissionsDTO dto);
 
     List<GroupDO> getAllGroups();
 }

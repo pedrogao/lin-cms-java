@@ -1,23 +1,40 @@
 package com.lin.cms.demo.model;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.amdelamar.jhash.Hash;
-import com.amdelamar.jhash.algorithms.Type;
-import com.amdelamar.jhash.exception.InvalidHashException;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
+import java.io.Serializable;
 import java.util.Date;
 
-@TableName("lin_user")
+/**
+ * @author pedro
+ * @since 2019-12-02
+ */
 @Data
-public class UserDO {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@TableName("lin_user")
+public class UserDO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
+    /**
+     * 用户名，唯一
+     */
+    private String username;
+
+    /**
+     * 用户昵称
+     */
     private String nickname;
 
     /**
@@ -25,43 +42,21 @@ public class UserDO {
      */
     private String avatar;
 
+    /**
+     * 邮箱
+     */
     private String email;
 
-    private Long groupId;
-
+    @JsonIgnore
     @JSONField(serialize = false)
-    private String password;
-
     private Date createTime;
 
+    @JsonIgnore
+    @JSONField(serialize = false)
     private Date updateTime;
 
+    @JsonIgnore
     @JSONField(serialize = false)
     @TableLogic
     private Date deleteTime;
-
-    /**
-     * 设置密文密码
-     *
-     * @param password 原始密码
-     */
-    public void setPasswordEncrypt(String password) {
-        char[] chars = password.toCharArray();
-        this.password = Hash.password(chars).algorithm(Type.PBKDF2_SHA256).create();
-    }
-
-    /**
-     * 验证加密密码
-     *
-     * @param password 密文密码
-     * @return valid
-     */
-    public boolean verify(String password) {
-        char[] chars = password.toCharArray();
-        try {
-            return Hash.password(chars).verify(this.password);
-        } catch (InvalidHashException e) {
-            return false;
-        }
-    }
 }

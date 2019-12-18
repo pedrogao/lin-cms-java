@@ -1,16 +1,17 @@
 package com.lin.cms.demo.service;
 
 import com.lin.cms.demo.vo.PageResult;
+import com.lin.cms.demo.model.LogDO;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.Date;
 import java.util.List;
 
-
 /**
- * Created by lin on 2019/06/14.
- * License MIT
+ * @author pedro
+ * @since 2019-11-30
  */
-public interface LogService {
+public interface LogService extends IService<LogDO> {
 
     PageResult getLogs(Long page, Long count, String name, Date start, Date end);
 
@@ -18,7 +19,7 @@ public interface LogService {
 
     List<String> getUserNames(Long page, Long count);
 
-    void createOneLog(String message, String authority, Long userId,
-                      String userNickname, String method, String path,
+    boolean createLog(String message, String permission, Long userId,
+                      String username, String method, String path,
                       Integer status);
 }

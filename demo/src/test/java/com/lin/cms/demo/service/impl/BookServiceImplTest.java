@@ -1,8 +1,8 @@
 package com.lin.cms.demo.service.impl;
 
+import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
 import com.lin.cms.demo.mapper.BookMapper;
 import com.lin.cms.demo.model.BookDO;
-import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
 import com.lin.cms.demo.service.BookService;
 import org.junit.After;
 import org.junit.Before;
@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional // 数据操作后回滚
+@Transactional
 @Rollback
 public class BookServiceImplTest {
 

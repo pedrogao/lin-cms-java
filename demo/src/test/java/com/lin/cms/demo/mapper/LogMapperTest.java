@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional // 数据操作后回滚
+@Transactional
 @Rollback
 public class LogMapperTest {
 
@@ -29,25 +29,25 @@ public class LogMapperTest {
     private LogMapper logMapper;
 
     private Date start = new Date();
-    private String authority = "查看lin的信息";
+    private String permission = "查看lin的信息";
     private String message = "就是个瓜皮";
     private String method = "GET";
     private String path = "/";
     private Integer statusCode = 200;
     private Long userId = 1L;
-    private String userName = "super";
+    private String username = "super";
 
     @Before
     public void setUp() throws Exception {
         LogDO logDO = new LogDO();
-        logDO.setAuthority(authority);
+        logDO.setPermission(permission);
         logDO.setMessage(message);
         logDO.setMethod(method);
         logDO.setPath(path);
         logDO.setStatusCode(statusCode);
         logDO.setUserId(userId);
-        logDO.setUserName(userName);
-        logDO.setTime(start);
+        logDO.setUsername(username);
+        logDO.setCreateTime(start);
         long ll = start.getTime() - 500000;
         // start.setTime(ll);
         start = new Date(ll);
@@ -58,7 +58,7 @@ public class LogMapperTest {
     public void testFindLogsByUsernameAndRange() {
         Date now = new Date();
         Page page = new Page(0, 10);
-        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(page, userName, start, now);
+        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(page, username, start, now);
         List<LogDO> logs = iPage.getRecords();
         assertTrue(logs.size() > 0);
     }
@@ -69,40 +69,9 @@ public class LogMapperTest {
         Date ch = new Date(changed - 1000);
         Date ch1 = new Date(changed - 2000);
         Page page = new Page(1, 10);
-        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(page, userName, ch1, ch);
+        IPage<LogDO> iPage = logMapper.findLogsByUsernameAndRange(page, username, ch1, ch);
         List<LogDO> logs = iPage.getRecords();
         assertTrue(logs.size() == 0);
-    }
-
-    @Test
-    public void testCountLogsByUsernameAndRange() {
-        Date now = new Date();
-        Integer count = logMapper.countLogsByUsernameAndRange(userName, start, now);
-        assertTrue(count > 0);
-    }
-
-    @Test
-    public void testSearchLogsByUsernameAndKeywordAndRange() {
-        Date now = new Date();
-        Page page = new Page(0, 10);
-        IPage<LogDO> iPage = logMapper.searchLogsByUsernameAndKeywordAndRange(page, userName, "瓜皮", start, now);
-        List<LogDO> logs = iPage.getRecords();
-        assertTrue(logs.size() > 0);
-    }
-
-    @Test
-    public void testCountLogsByUsernameAndKeywordAndRange() {
-        Date now = new Date();
-        Integer count = logMapper.countLogsByUsernameAndKeywordAndRange(userName, "瓜皮", start, now);
-        assertTrue(count > 0);
-    }
-
-    @Test
-    public void testGetUserNames() {
-        Page page = new Page(0, 10);
-        IPage iPage = logMapper.getUserNames(page);
-        List<String> names = iPage.getRecords();
-        assertTrue(names.size() > 0);
     }
 
     @After

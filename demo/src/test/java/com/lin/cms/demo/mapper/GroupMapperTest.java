@@ -1,7 +1,5 @@
 package com.lin.cms.demo.mapper;
 
-import com.lin.cms.demo.model.AuthDO;
-import com.lin.cms.demo.model.GroupAndAuthDO;
 import com.lin.cms.demo.model.GroupDO;
 import org.junit.After;
 import org.junit.Before;
@@ -19,15 +17,12 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional // 数据操作后回滚
+@Transactional
 @Rollback
 public class GroupMapperTest {
 
     @Autowired
     private GroupMapper groupMapper;
-
-    @Autowired
-    private AuthMapper authMapper;
 
     private Long groupId;
     private String module = "信息";
@@ -42,31 +37,6 @@ public class GroupMapperTest {
         groupDO.setName(name);
         groupDO.setInfo(info);
         groupMapper.insert(groupDO);
-
-        this.groupId = groupDO.getId();
-        AuthDO authDO = new AuthDO();
-        authDO.setGroupId(groupId);
-        authDO.setModule(module);
-        authDO.setAuth(auth);
-        authMapper.insert(authDO);
-    }
-
-    @Test
-    public void testSelectOneByGroupIdAndAuthAndModule() {
-        List<GroupAndAuthDO> groupsWithAuths = groupMapper.findGroupsWithAuths();
-        assertTrue(groupsWithAuths.size() > 0);
-    }
-
-    @Test
-    public void testGetCount() {
-        Integer count = groupMapper.getCount();
-        assertTrue(count > 0);
-    }
-
-    @Test
-    public void testFindOneByName() {
-        GroupDO one = groupMapper.findOneByName(name);
-        assertEquals(one.getInfo(), info);
     }
 
 

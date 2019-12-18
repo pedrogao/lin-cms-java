@@ -1,15 +1,32 @@
 package com.lin.cms.demo.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.Date;
 
-@TableName("lin_log")
+/**
+ * @author pedro
+ * @since 2019-11-30
+ */
 @Data
-public class LogDO {
+@TableName("lin_log")
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class LogDO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
@@ -17,7 +34,7 @@ public class LogDO {
 
     private Long userId;
 
-    private String userName;
+    private String username;
 
     private Integer statusCode;
 
@@ -25,7 +42,18 @@ public class LogDO {
 
     private String path;
 
-    private String authority;
+    private String permission;
 
-    private Date time;
+    @JsonIgnore
+    @JSONField(serialize = false)
+    private Date createTime;
+
+    @JsonIgnore
+    @JSONField(serialize = false)
+    private Date updateTime;
+
+    @JSONField(serialize = false)
+    @TableLogic
+    private Date deleteTime;
+
 }

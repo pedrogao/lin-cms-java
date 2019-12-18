@@ -1,220 +1,164 @@
 package com.lin.cms.demo.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lin.cms.beans.RouteMetaCollector;
+import com.lin.cms.demo.vo.PageResult;
+import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.common.mybatis.Page;
+import com.lin.cms.demo.dto.admin.*;
+import com.lin.cms.demo.mapper.GroupPermissionMapper;
+import com.lin.cms.demo.model.GroupDO;
+import com.lin.cms.demo.model.GroupPermissionDO;
+import com.lin.cms.demo.model.UserDO;
+import com.lin.cms.demo.model.UserIdentityDO;
+import com.lin.cms.demo.service.AdminService;
+import com.lin.cms.demo.service.GroupService;
+import com.lin.cms.demo.service.UserIdentityService;
+import com.lin.cms.demo.service.UserService;
 import com.lin.cms.exception.ForbiddenException;
 import com.lin.cms.exception.NotFoundException;
-import com.lin.cms.demo.vo.PageResult;
-import com.lin.cms.demo.mapper.AuthMapper;
-import com.lin.cms.demo.mapper.GroupMapper;
-import com.lin.cms.demo.mapper.UserMapper;
-import com.lin.cms.demo.service.AdminService;
-import com.lin.cms.demo.bo.GroupAuthsBO;
-import com.lin.cms.demo.model.*;
-import com.lin.cms.demo.dto.admin.*;
-import com.lin.cms.demo.common.AuthSpliter;
-import com.lin.cms.exception.ParameterException;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
-@Service
+@Service("adminServiceImpl-v2")
 public class AdminServiceImpl implements AdminService {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserService userService;
 
     @Autowired
-    private GroupMapper groupMapper;
+    private UserIdentityService userIdentityService;
 
     @Autowired
-    private AuthMapper authMapper;
+    private GroupService groupService;
 
     @Autowired
-    private RouteMetaCollector postProcessor;
+    private GroupPermissionMapper groupPermissionMapper;
 
     @Override
-    public PageResult getUsers(Long groupId, Long count, Long page) {
+    public PageResult getUserPageByGroupId(Long groupId, Long count, Long page) {
         Page pager = new Page(page, count);
-        IPage<UserAndGroupNameDO> iPage = userMapper.findUsersAndGroupName(pager, groupId);
-        List<UserAndGroupNameDO> usersAndGroupName = iPage.getRecords();
-        Integer total = userMapper.getCommonUsersCount(groupId);
-        return PageResult.genPageResult(total, usersAndGroupName, page, count);
-    }
-
-    @Override
-    public void changeUserPassword(Long id, ResetPasswordDTO validator) {
-        UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
-        if (user == null) {
-            throw new NotFoundException("用户不存在");
+        IPage<UserDO> iPage;
+        // 如果group_id为空，则以分页的形式返回所有用户
+        if (groupId == null) {
+            iPage = userService.page(pager);
+        } else {
+            iPage = userService.getUserPageByGroupId(pager, groupId);
         }
-        user.setPasswordEncrypt(validator.getNewPassword());
-        userMapper.updateById(user);
+        return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
     @Override
-    public void deleteUser(Long id) {
-        UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
-        if (user == null) {
-            throw new NotFoundException("用户不存在");
-        }
-        // 软删除
-        userMapper.softDeleteById(user.getId());
-    }
-
-    @Override
-    public void updateUserInfo(Long id, UpdateUserInfoDTO validator) {
-        UserDO user = userMapper.findOneUserByIdAndDeleteTime(id);
-        if (user == null) {
-            throw new NotFoundException("用户不存在");
-        }
-        // if (!user.getEmail().equals(validator.getEmail())) {
-        //     UserDO exist = userMapper.findOneUserByEmailAndDeleteTime(validator.getEmail());
-        //     if (exist != null) {
-        //         throw new ParameterException("邮箱已被注册，请重新输入邮箱");
-        //     }
-        // }
-        // user.setGroupId(validator.getGroupId());
-        // user.setEmail(validator.getEmail());
-        userMapper.updateById(user);
-    }
-
-    @Override
-    public PageResult getGroups(Long page, Long count) {
-        Page<GroupDO> pager = new Page<>(page, count);
-        IPage<GroupDO> iPage = groupMapper.selectPage(pager, null);
-        List<GroupDO> groups = iPage.getRecords();
-        long total = iPage.getTotal();
-        List<GroupAuthsBO> groupAndAuths = new ArrayList<>();
-
-        groups.forEach(group -> {
-            GroupAuthsBO tmp = new GroupAuthsBO();
-            BeanUtils.copyProperties(group, tmp);
-            List<SimpleAuthDO> auths = authMapper.findByGroupId(group.getId());
-            tmp.setPermissions(auths);
-            groupAndAuths.add(tmp);
-        });
-        return new PageResult(total, groupAndAuths, page, count);
-    }
-
-    @Override
-    public GroupAuthsBO getGroup(Long id) {
-        GroupDO group = groupMapper.selectById(id);
-        GroupAuthsBO tmp = new GroupAuthsBO();
-        BeanUtils.copyProperties(group, tmp);
-        List<SimpleAuthDO> auths = authMapper.findByGroupId(group.getId());
-        List<Map<String, List<Map<String, String>>>> structualAuths = AuthSpliter.splitAuths(auths);
-        tmp.setPermissions(structualAuths);
-        return tmp;
+    public boolean changeUserPassword(Long id, ResetPasswordDTO dto) {
+        throwUserNotExistById(id);
+        return userIdentityService.changePassword(id, dto.getNewPassword());
     }
 
     @Transactional
     @Override
-    public void createGroup(NewGroupDTO validator) {
-        GroupDO exist = groupMapper.findOneByName(validator.getName());
-        if (exist != null) {
-            throw new ForbiddenException("分组已存在，不可创建同名分组");
-        }
-        GroupDO group = new GroupDO();
-        group.setName(validator.getName());
-        group.setInfo(validator.getInfo());
-        groupMapper.insert(group);
-        Long groupId = group.getId();
-        // validator.getAuths().forEach(item -> {
-        //     AuthDO permission = new AuthDO();
-        //     RouteMeta meta = postProcessor.findMetaByPermission(item);
-        //     if (meta != null) {
-        //         permission.setGroupId(groupId);
-        //         permission.setAuth(meta.permission());
-        //         permission.setModule(meta.module());
-        //         authMapper.insert(permission);
-        //     }
-        // });
+    public boolean deleteUser(Long id) {
+        throwUserNotExistById(id);
+        boolean userRemoved = userService.removeById(id);
+        QueryWrapper<UserIdentityDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(UserIdentityDO::getUserId, id);
+        return userRemoved && userIdentityService.remove(wrapper);
     }
 
     @Override
-    public void updateGroup(Long id, UpdateGroupDTO validator) {
-        GroupDO group = groupMapper.selectById(id);
-        if (group == null) {
-            throw new NotFoundException("分组不存在，更新失败");
-        }
-        group.setName(validator.getName());
-        group.setInfo(validator.getInfo());
-        groupMapper.updateById(group);
+    public boolean updateUserInfo(Long id, UpdateUserInfoDTO validator) {
+        List<Long> newGroupIds = validator.getGroupIds();
+        List<Long> existGroupIds = groupService.getUserGroupIdsByUserId(id);
+        // 删除existGroupIds有，而newGroupIds没有的
+        List<Long> deleteIds = existGroupIds.stream().filter(it -> !newGroupIds.contains(it)).collect(Collectors.toList());
+        // 添加newGroupIds有，而existGroupIds没有的
+        List<Long> addIds = newGroupIds.stream().filter(it -> !existGroupIds.contains(it)).collect(Collectors.toList());
+        return groupService.deleteUserGroupRelations(id, deleteIds) && groupService.addUserGroupRelations(id, addIds);
     }
 
     @Override
-    public void deleteGroup(Long id) {
-        GroupDO group = groupMapper.selectById(id);
-        if (group == null) {
-            throw new NotFoundException("分组不存在，删除失败");
-        }
-        UserDO userByGroupId = userMapper.findOneUserByGroupId(id);
-        if (userByGroupId != null) {
-            throw new ForbiddenException("分组下存在用户，不可删除");
-        }
-        // 删除 auths
-        authMapper.deleteByGroupId(id);
-        // 删除分组
-        groupMapper.deleteById(group.getId());
+    public PageResult getGroupPage(Long page, Long count) {
+        IPage<GroupDO> iPage = groupService.getGroupPage(page, count);
+        return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
     @Override
-    public void dispatchAuth(DispatchPermissionDTO validator) {
-        GroupDO group = groupMapper.selectById(validator.getGroupId());
-        if (group == null) {
-            throw new NotFoundException("分组不存在");
-        }
-        // AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), validator.getAuth());
-        // if (one != null) {
-        //     throw new ForbiddenException("已有权限，不可重复添加");
-        // }
-        // AuthDO permission = new AuthDO();
-        // RouteMeta meta = postProcessor.findMetaByPermission(validator.getAuth());
-        // permission.setModule(meta.module());
-        // permission.setAuth(meta.permission());
-        // permission.setGroupId(validator.getGroupId());
-        // authMapper.insert(permission);
+    public GroupPermissionsBO getGroup(Long id) {
+        throwGroupNotExistById(id);
+        return groupService.getGroupAndPermissions(id);
     }
 
-    @Override
-    public void dispatchAuths(DispatchPermissionsDTO validator) {
-        GroupDO group = groupMapper.selectById(validator.getGroupId());
-        if (group == null) {
-            throw new NotFoundException("分组不存在");
-        }
-        // validator.getAuths().forEach(item -> {
-        //     AuthDO one = authMapper.findOneByGroupIdAndAuth(validator.getGroupId(), item);
-        //     if (one == null) {
-        //         AuthDO permission = new AuthDO();
-        //         RouteMeta meta = postProcessor.findMetaByPermission(item);
-        //         permission.setAuth(meta.permission());
-        //         permission.setModule(meta.module());
-        //         permission.setGroupId(validator.getGroupId());
-        //         authMapper.insert(permission);
-        //     }
-        // });
-    }
-
-    @Override
     @Transactional
-    public void removeAuths(RemovePermissionsDTO validator) {
-        GroupDO group = groupMapper.selectById(validator.getGroupId());
-        if (group == null) {
-            throw new NotFoundException("分组不存在");
-        }
-        // authMapper.deleteByGroupIdAndInAuths(validator.getGroupId(), validator.getAuths());
+    @Override
+    public boolean createGroup(NewGroupDTO dto) {
+        throwGroupNameExist(dto.getName());
+        GroupDO group = GroupDO.builder().name(dto.getName()).info(dto.getInfo()).build();
+        groupService.save(group);
+        List<GroupPermissionDO> relations = dto.getPermissionIds().stream()
+                .map(id -> new GroupPermissionDO(group.getId(), id))
+                .collect(Collectors.toList());
+        return groupPermissionMapper.insertBatch(relations) > 0;
+    }
+
+    @Override
+    public boolean updateGroup(Long id, UpdateGroupDTO dto) {
+        throwGroupNotExistById(id);
+        throwGroupNameExist(dto.getName());
+        GroupDO group = GroupDO.builder().id(id).name(dto.getName()).info(dto.getInfo()).build();
+        return groupService.updateById(group);
+    }
+
+    @Override
+    public boolean deleteGroup(Long id) {
+        throwGroupNotExistById(id);
+        return groupService.removeById(id);
+    }
+
+    @Override
+    public boolean dispatchPermission(DispatchPermissionDTO dto) {
+        GroupPermissionDO groupPermission = new GroupPermissionDO(dto.getGroupId(), dto.getPermissionId());
+        return groupPermissionMapper.insert(groupPermission) > 0;
+    }
+
+    @Override
+    public boolean dispatchPermissions(DispatchPermissionsDTO dto) {
+        List<GroupPermissionDO> relations = dto.getPermissionIds().stream()
+                .map(id -> new GroupPermissionDO(dto.getGroupId(), id))
+                .collect(Collectors.toList());
+        return groupPermissionMapper.insertBatch(relations) > 0;
+    }
+
+    @Override
+    public boolean removePermissions(RemovePermissionsDTO dto) {
+        return groupPermissionMapper.deleteBatchByGroupIdAndPermissionId(dto.getGroupId(), dto.getPermissionIds()) > 0;
     }
 
     @Override
     public List<GroupDO> getAllGroups() {
-        List<GroupDO> groups = groupMapper.selectList(null);
-        return groups;
+        return groupService.list();
+    }
+
+    private void throwUserNotExistById(Long id) {
+        boolean exist = userService.checkUserExistById(id);
+        if (!exist) {
+            throw new NotFoundException("未找到用户");
+        }
+    }
+
+    private void throwGroupNotExistById(Long id) {
+        boolean exist = groupService.checkGroupExistById(id);
+        if (!exist) {
+            throw new NotFoundException("未找到分组");
+        }
+    }
+
+    private void throwGroupNameExist(String name) {
+        boolean exist = groupService.checkGroupExistByName(name);
+        if (exist) {
+            throw new ForbiddenException("分组名已被使用，请重新填入新的分组名");
+        }
     }
 }

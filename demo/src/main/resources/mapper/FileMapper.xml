@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lin.cms.demo.mapper.FileMapper">
+
+    <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.lin.cms.demo.model.FileDO">
-        <!--
-          WARNING - @mbg.generated
-        -->
-        <id column="id" jdbcType="INTEGER" property="id"/>
-        <result column="path" jdbcType="VARCHAR" property="path"/>
-        <result column="type" jdbcType="TINYINT" property="type"/>
-        <result column="name" jdbcType="VARCHAR" property="name"/>
-        <result column="extension" jdbcType="VARCHAR" property="extension"/>
-        <result column="size" jdbcType="INTEGER" property="size"/>
-        <result column="md5" jdbcType="VARCHAR" property="md5"/>
+        <id column="id" property="id"/>
+        <result column="path" property="path"/>
+        <result column="type" property="type"/>
+        <result column="name" property="name"/>
+        <result column="extension" property="extension"/>
+        <result column="size" property="size"/>
+        <result column="md5" property="md5"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="delete_time" property="deleteTime"/>
     </resultMap>
 
-    <select id="findOneByMd5" resultType="com.lin.cms.demo.model.FileDO">
-        select *
-        from lin_file f
-        where f.md5=#{md5}
+    <select id="findByMd5" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT *
+        FROM lin_file f
+        WHERE
+        f.md5 = #{md5}
     </select>
+
+    <select id="selectCountByMd5" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM lin_file f
+        WHERE
+        f.md5 = #{md5}
+    </select>
+
 </mapper>

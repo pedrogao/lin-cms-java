@@ -1,8 +1,8 @@
 package com.lin.cms.demo.bo;
 
 import cn.hutool.core.bean.BeanUtil;
-import com.lin.cms.demo.v2.model.GroupDO;
-import com.lin.cms.demo.v2.model.PermissionDO;
+import com.lin.cms.demo.model.GroupDO;
+import com.lin.cms.demo.model.PermissionDO;
 import lombok.*;
 
 import java.util.List;

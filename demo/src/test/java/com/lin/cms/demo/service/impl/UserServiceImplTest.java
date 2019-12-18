@@ -1,16 +1,12 @@
 package com.lin.cms.demo.service.impl;
 
-import com.lin.cms.demo.service.UserService;
-import com.lin.cms.exception.ForbiddenException;
-import com.lin.cms.demo.dto.user.AvatarUpdateDTO;
+import com.lin.cms.demo.common.LocalUser;
 import com.lin.cms.demo.dto.user.ChangePasswordDTO;
 import com.lin.cms.demo.dto.user.RegisterDTO;
 import com.lin.cms.demo.dto.user.UpdateInfoDTO;
-import com.lin.cms.demo.mapper.UserMapper;
-import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.common.LocalUserLegacy;
-import com.lin.cms.exception.ParameterException;
-import org.junit.After;
+import com.lin.cms.demo.mapper.*;
+import com.lin.cms.demo.model.*;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,109 +16,162 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@Transactional // 数据操作后回滚
+@Transactional
 @Rollback
+@Slf4j
 public class UserServiceImplTest {
 
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userService;
+
+    @Autowired
+    private UserIdentityServiceImpl userIdentityService;
+
+    @Autowired
+    private GroupMapper groupMapper;
+
+    @Autowired
+    private UserGroupMapper userGroupMapper;
+
+    @Autowired
+    private PermissionMapper permissionMapper;
+
+    @Autowired
+    private GroupPermissionMapper groupPermissionMapper;
 
     @Autowired
     private UserMapper userMapper;
 
-    private String email = "13129982604@qq.com";
-    private String password = "123456";
-    private Long groupId = 100L;
-    private String nickname = "pedro";
-
-    private Long userId;
+    public Long mockData() {
+        UserDO user = UserDO.builder().username("pedro大大咧咧").nickname("pedro大大咧咧").build();
+        GroupDO group = GroupDO.builder().name("测试分组1").info("just for test").build();
+        PermissionDO permission1 = PermissionDO.builder().name("权限1").module("炉石传说").build();
+        PermissionDO permission2 = PermissionDO.builder().name("权限2").module("炉石传说").build();
+        userMapper.insert(user);
+        groupMapper.insert(group);
+        permissionMapper.insert(permission1);
+        permissionMapper.insert(permission2);
+        List<GroupPermissionDO> relations = new ArrayList<>();
+        GroupPermissionDO relation1 = new GroupPermissionDO(group.getId(), permission1.getId());
+        GroupPermissionDO relation2 = new GroupPermissionDO(group.getId(), permission2.getId());
+        relations.add(relation1);
+        relations.add(relation2);
+        groupPermissionMapper.insertBatch(relations);
+        UserGroupDO userGroup = new UserGroupDO(user.getId(), group.getId());
+        userGroupMapper.insert(userGroup);
+        return user.getId();
+    }
 
     @Before
-    public void setUp() throws Exception {
-    }
-
-    @After
-    public void tearDown() throws Exception {
-    }
-
-    @Test
-    public void createUser() throws ForbiddenException {
-        RegisterDTO validator = new RegisterDTO();
-        // validator.setNickname(nickname);
-        validator.setPassword(password);
-        validator.setConfirmPassword(password);
-        validator.setEmail(email);
-        // validator.setGroupId(groupId);
-        userService.createUser(validator);
-
-        UserDO user = userMapper.findOneUserByEmailAndDeleteTime(email);
-        assertEquals(user.getNickname(), nickname);
-
+    public void setUp() {
+        RegisterDTO dto = new RegisterDTO();
+        dto.setUsername("pedro");
+        dto.setPassword("123456");
+        dto.setConfirmPassword("123456");
+        log.info("dto: {}", dto);
+        UserDO user = userService.createUser(dto);
+        log.info("user: {}", user);
+        // Mock logined user
+        LocalUser.setLocalUser(user);
     }
 
     @Test
-    public void updateUser() {
-        RegisterDTO validator = new RegisterDTO();
-        // validator.setNickname(nickname);
-        validator.setPassword(password);
-        validator.setConfirmPassword(password);
-        validator.setEmail(email);
-        // validator.setGroupId(groupId);
-        userService.createUser(validator);
-        UserDO localUser = userMapper.findOneUserByEmailAndDeleteTime(email);
-        LocalUserLegacy.setLocalUser(localUser);
+    public void createUser() {
+        RegisterDTO dto = new RegisterDTO();
+        dto.setUsername("pedro111");
+        dto.setPassword("123456");
+        dto.setConfirmPassword("123456");
+        log.info("dto: {}", dto);
+        UserDO user = userService.createUser(dto);
+        log.info("user: {}", user);
+        assertEquals(user.getUsername(), "pedro111");
+        assertNull(user.getEmail());
+    }
 
+    @Test
+    public void updateUserInfo() {
         UpdateInfoDTO dto = new UpdateInfoDTO();
-        dto.setEmail("11111111111@qq.com");
-        userService.updateUser(dto);
+        dto.setNickname("pedro-gao");
+        dto.setUsername("pedro-gao");
+        dto.setEmail("1312342604@qq.com");
+        userService.updateUserInfo(dto);
 
-        UserDO user = userMapper.findOneUserByEmailAndDeleteTime("11111111111@qq.com");
-        assertNotNull(user);
+        UserDO userDO = userService.getUserByUsername("pedro-gao");
+        assertEquals(userDO.getEmail(), "1312342604@qq.com");
+
+        boolean b = userIdentityService.verifyUsernamePassword(userDO.getId(), "pedro-gao", "123456");
+        assertTrue(b);
     }
 
     @Test
-    public void changePassword() {
-        RegisterDTO validator = new RegisterDTO();
-        // validator.setNickname(nickname);
-        validator.setPassword(password);
-        validator.setConfirmPassword(password);
-        validator.setEmail(email);
-        // validator.setGroupId(groupId);
-        userService.createUser(validator);
-        UserDO localUser = userMapper.findOneUserByEmailAndDeleteTime(email);
-        LocalUserLegacy.setLocalUser(localUser);
+    public void updateUserInfoNoUsername() {
+        UpdateInfoDTO dto = new UpdateInfoDTO();
+        dto.setNickname("pedro-gao");
+        dto.setEmail("1312342604@qq.com");
+        userService.updateUserInfo(dto);
 
+        UserDO userDO = userService.getUserByUsername("pedro");
+        assertEquals(userDO.getEmail(), "1312342604@qq.com");
+        assertEquals(userDO.getNickname(), "pedro-gao");
+
+        boolean b = userIdentityService.verifyUsernamePassword(userDO.getId(), "pedro", "123456");
+        assertTrue(b);
+    }
+
+    @Test
+    public void changeUserPassword() {
         ChangePasswordDTO dto = new ChangePasswordDTO();
         dto.setNewPassword("147258");
-        dto.setOldPassword(password);
         dto.setConfirmPassword("147258");
+        dto.setOldPassword("123456");
+        UserDO user = userService.changeUserPassword(dto);
 
-        userService.changePassword(dto);
-        UserDO user = userMapper.findOneUserByEmailAndDeleteTime(email);
-        assertTrue(user.verify("147258"));
+        boolean b = userIdentityService.verifyUsernamePassword(user.getId(), "pedro", "147258");
+        assertTrue(b);
     }
 
     @Test
-    public void updateAvatar() throws ForbiddenException {
-        RegisterDTO validator = new RegisterDTO();
-        // validator.setNickname(nickname);
-        validator.setPassword(password);
-        validator.setConfirmPassword(password);
-        validator.setEmail(email);
-        // validator.setGroupId(groupId);
-        userService.createUser(validator);
-        UserDO localUser = userMapper.findOneUserByEmailAndDeleteTime(email);
-        LocalUserLegacy.setLocalUser(localUser);
+    public void getUserPermissions() {
+        Long id = mockData();
+        List<Map<String, List<Map<String, String>>>> structuringPermissions = userService.getStructualUserPermissions(id);
+        assertTrue(structuringPermissions.size() > 0);
+        log.info("structuringPermissions: {}", structuringPermissions);
+        boolean anyMatch = structuringPermissions.stream().anyMatch(it -> it.containsKey("炉石传说"));
+        assertTrue(anyMatch);
+    }
 
-        AvatarUpdateDTO dto = new AvatarUpdateDTO();
-        dto.setAvatar("oohoihihiiiuvuiv.jpg");
-        userService.updateAvatar(dto);
+    @Test
+    public void findByUsername() {
+        UserDO user = userService.getUserByUsername("pedro");
+        log.info("user:{}", user);
+        assertEquals(user.getUsername(), "pedro");
+    }
 
-        UserDO user = userMapper.findOneUserByEmailAndDeleteTime(email);
-        assertEquals(user.getAvatar(), "oohoihihiiiuvuiv.jpg");
+    @Test
+    public void checkUserExistByUsername() {
+        boolean b = userService.checkUserExistByUsername("pedro");
+        assertTrue(b);
+    }
+
+
+    @Test
+    public void checkUserExistById() {
+        boolean b = userService.checkUserExistById(100L);
+        assertFalse(b);
+    }
+
+    @Test
+    public void checkUserExistById1() {
+        UserDO user = LocalUser.getLocalUser();
+        boolean b = userService.checkUserExistById(user.getId());
+        assertTrue(b);
     }
 }

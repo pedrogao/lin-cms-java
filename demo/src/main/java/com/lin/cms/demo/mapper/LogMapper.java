@@ -1,22 +1,23 @@
 package com.lin.cms.demo.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.model.LogDO;
-import org.apache.ibatis.annotations.Param;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
+/**
+ * @author pedro
+ * @since 2019-11-30
+ */
+@Service("logMapper2")
 public interface LogMapper extends BaseMapper<LogDO> {
 
-    IPage<LogDO> findLogsByUsernameAndRange(Page page, @Param("name") String name, @Param("start") Date start, @Param("end") Date end);
+    IPage<LogDO> findLogsByUsernameAndRange(Page<LogDO> pager, String name, Date start, Date end);
 
-    Integer countLogsByUsernameAndRange(@Param("name") String name, @Param("start") Date start, @Param("end") Date end);
+    IPage<LogDO> searchLogsByUsernameAndKeywordAndRange(Page<LogDO> pager, String name, String keyword, Date start, Date end);
 
-    IPage<LogDO> searchLogsByUsernameAndKeywordAndRange(Page page, @Param("name") String name, @Param("keyword") String keyword, @Param("start") Date start, @Param("end") Date end);
-
-    Integer countLogsByUsernameAndKeywordAndRange(@Param("name") String name, @Param("keyword") String keyword, @Param("start") Date start, @Param("end") Date end);
-
-    IPage<String> getUserNames(Page page);
+    IPage<String> getUserNames(Page<LogDO> pager);
 }
