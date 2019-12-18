@@ -1,13 +1,9 @@
 package com.lin.cms.demo.controller.cms;
 
-import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.google.common.base.Strings;
 import com.lin.cms.demo.dto.admin.*;
-import com.lin.cms.demo.mapper.AuthMapper;
 import com.lin.cms.demo.v2.mapper.*;
-import com.lin.cms.demo.model.AuthDO;
 import com.lin.cms.demo.v2.model.*;
 import com.lin.cms.demo.v2.service.impl.UserIdentityServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -65,20 +59,6 @@ public class AdminControllerTest {
 
     @Autowired
     private UserIdentityServiceImpl userIdentityService;
-
-    @Autowired
-    private AuthMapper authMapper;
-
-    private String email = "13129982604@qq.com";
-    private String password = "123456";
-    private String nickname = "pedro";
-
-    private Long groupId;
-    private String module = "信息";
-    private String auth = "查看lin的信息";
-
-    private String name = "千里之外";
-    private String info = "千里之外是个啥";
 
     @Before
     public void setUp() throws Exception {
@@ -167,7 +147,7 @@ public class AdminControllerTest {
         mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
         String content = mapper.writeValueAsString(dto);
 
-        mvc.perform(put(String.format("/cms/admin/%s/password", user.getId()))
+        mvc.perform(put(String.format("/cms/admin/user/%s/password", user.getId()))
                 .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -193,7 +173,7 @@ public class AdminControllerTest {
 
         userGroupMapper.insert(new UserGroupDO(user.getId(), group.getId()));
 
-        mvc.perform(delete("/cms/admin/" + user.getId())
+        mvc.perform(delete("/cms/admin/user/" + user.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -224,7 +204,7 @@ public class AdminControllerTest {
         mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
         String content = mapper.writeValueAsString(dto);
 
-        mvc.perform(put("/cms/admin/" + user.getId())
+        mvc.perform(put("/cms/admin/user/" + user.getId())
                 .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -246,7 +226,7 @@ public class AdminControllerTest {
 
         groupPermissionMapper.insert(new GroupPermissionDO(group.getId(), permission.getId()));
 
-        mvc.perform(get("/cms/admin/groups")
+        mvc.perform(get("/cms/admin/group")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
@@ -300,149 +280,165 @@ public class AdminControllerTest {
 
     @Test
     public void createGroup() throws Exception {
-        // TODO
-        NewGroupDTO validator = new NewGroupDTO();
+        NewGroupDTO dto = new NewGroupDTO();
+        dto.setName("flink");
+        dto.setInfo("flink is a finger");
 
-        validator.setName("flink");
-        validator.setInfo("flink is a finger");
-        List<String> auths = new ArrayList<>();
-        auths.add("查询自己信息");
-        auths.add("查询所有日志");
-        auths.add("搜索日志");
-        auths.add("查询日志记录的用户");
-        // validator.setAuths(auths);
+        String module = "信息";
+        String permissionName = "查看lin的信息";
+        PermissionDO permission = PermissionDO.builder().name(permissionName).module(module).build();
+        permissionMapper.insert(permission);
+
+        dto.setPermissionIds(Arrays.asList(permission.getId()));
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto);
 
         mvc.perform(post("/cms/admin/group/")
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(validator)))
+                .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("新建分组成功！")
-                );
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("新建分组成功！"));
     }
 
     @Test
     public void updateGroup() throws Exception {
-        GroupDO groupDO = new GroupDO();
-        groupDO.setName(name);
-        groupDO.setInfo(info);
-        // groupMapper.insert(groupDO);
+        String name = "千里之外";
+        String info = "千里之外是个啥";
+        GroupDO group = GroupDO.builder().name(name).info(info).build();
+        groupMapper.insert(group);
 
-        UpdateGroupDTO validator = new UpdateGroupDTO();
-        validator.setName("storm");
-        validator.setInfo("flink is a finger");
+        String module = "信息";
+        String permissionName = "查看lin的信息";
 
-        mvc.perform(put("/cms/admin/group/" + groupDO.getId())
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(validator)))
+        PermissionDO permission = PermissionDO.builder().name(permissionName).module(module).build();
+        permissionMapper.insert(permission);
+
+        groupPermissionMapper.insert(new GroupPermissionDO(group.getId(), permission.getId()));
+
+        UpdateGroupDTO dto = new UpdateGroupDTO();
+        dto.setName("storm");
+        dto.setInfo("flink is a finger");
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto);
+
+        mvc.perform(put("/cms/admin/group/" + group.getId())
+                .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("更新分组成功!")
-                );
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("更新分组成功!"));
 
+        GroupDO hit = groupMapper.selectById(group.getId());
+        assertEquals(hit.getName(), "storm");
     }
 
     @Test
     public void deleteGroup() throws Exception {
-        GroupDO groupDO = new GroupDO();
-        groupDO.setName(name);
-        groupDO.setInfo(info);
-        // groupMapper.insert(groupDO);
+        String name = "千里之外";
+        String info = "千里之外是个啥";
+        GroupDO group = GroupDO.builder().name(name).info(info).build();
+        groupMapper.insert(group);
 
-        mvc.perform(delete("/cms/admin/group/" + groupDO.getId())
+        mvc.perform(delete("/cms/admin/group/" + group.getId())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("删除分组成功!")
-                );
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("删除分组成功!"));
+        GroupDO hit = groupMapper.selectById(group.getId());
+        assertNull(hit);
     }
 
     @Test
-    public void dispatchAuth() throws Exception {
-        GroupDO groupDO = new GroupDO();
-        groupDO.setName(name);
-        groupDO.setInfo(info);
-        // groupMapper.insert(groupDO);
+    public void dispatchPermission() throws Exception {
+        String name = "千里之外";
+        String info = "千里之外是个啥";
+        GroupDO group = GroupDO.builder().name(name).info(info).build();
+        groupMapper.insert(group);
 
-        this.groupId = groupDO.getId();
-        AuthDO authDO = new AuthDO();
-        authDO.setGroupId(groupId);
-        authDO.setModule(module);
-        authDO.setAuth(auth);
-        authMapper.insert(authDO);
+        String module = "信息";
+        String permissionName = "查看lin的信息";
+
+        PermissionDO permission = PermissionDO.builder().name(permissionName).module(module).build();
+        permissionMapper.insert(permission);
 
         DispatchPermissionDTO dto = new DispatchPermissionDTO();
-        dto.setGroupId(groupId);
-        // dto.setAuth("查询日志记录的用户");
+        dto.setGroupId(group.getId());
+        dto.setPermissionId(permission.getId());
 
-        // 查询日志记录的用户
-        mvc.perform(post("/cms/admin/dispatch")
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto);
+
+        mvc.perform(post("/cms/admin/permission/dispatch")
+                .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("添加权限成功!")
-                );
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("添加权限成功!"));
     }
 
     @Test
-    public void dispatchAuths() throws Exception {
-        GroupDO groupDO = new GroupDO();
-        groupDO.setName(name);
-        groupDO.setInfo(info);
-        // groupMapper.insert(groupDO);
+    public void dispatchPermissions() throws Exception {
+        String name = "千里之外";
+        String info = "千里之外是个啥";
+        GroupDO group = GroupDO.builder().name(name).info(info).build();
+        groupMapper.insert(group);
 
-        this.groupId = groupDO.getId();
-        AuthDO authDO = new AuthDO();
-        authDO.setGroupId(groupId);
-        authDO.setModule(module);
-        authDO.setAuth(auth);
-        authMapper.insert(authDO);
+        String module = "信息";
+        String permissionName = "查看lin的信息";
+        PermissionDO permission = PermissionDO.builder().name(permissionName).module(module).build();
+        permissionMapper.insert(permission);
+        String permissionName1 = "查看pedro信息";
+        PermissionDO permission1 = PermissionDO.builder().name(permissionName1).module(module).build();
+        permissionMapper.insert(permission1);
 
         DispatchPermissionsDTO dto = new DispatchPermissionsDTO();
-        dto.setGroupId(groupId);
-        List<String> auths = new ArrayList<>();
-        auths.add("查询日志记录的用户");
-        // dto.setAuths(auths);
+        dto.setGroupId(group.getId());
+        dto.setPermissionIds(Arrays.asList(permission.getId(), permission1.getId()));
 
-        // 查询日志记录的用户
-        mvc.perform(post("/cms/admin/dispatch/patch")
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto);
+
+        mvc.perform(post("/cms/admin/permission/dispatch/batch")
+                .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("添加权限成功!")
-                );
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("添加权限成功!"));
     }
 
     @Test
-    public void removeAuths() throws Exception {
-        GroupDO groupDO = new GroupDO();
-        groupDO.setName(name);
-        groupDO.setInfo(info);
-        // groupMapper.insert(groupDO);
+    public void removePermissions() throws Exception {
+        String name = "千里之外";
+        String info = "千里之外是个啥";
+        GroupDO group = GroupDO.builder().name(name).info(info).build();
+        groupMapper.insert(group);
 
-        this.groupId = groupDO.getId();
-        AuthDO authDO = new AuthDO();
-        authDO.setGroupId(groupId);
-        authDO.setModule(module);
-        authDO.setAuth(auth);
-        authMapper.insert(authDO);
+        String module = "信息";
+        String permissionName = "查看lin的信息";
+        PermissionDO permission = PermissionDO.builder().name(permissionName).module(module).build();
+        permissionMapper.insert(permission);
+        String permissionName1 = "查看pedro信息";
+        PermissionDO permission1 = PermissionDO.builder().name(permissionName1).module(module).build();
+        permissionMapper.insert(permission1);
+
+        groupPermissionMapper.insert(new GroupPermissionDO(group.getId(), permission.getId()));
+        groupPermissionMapper.insert(new GroupPermissionDO(group.getId(), permission1.getId()));
 
         RemovePermissionsDTO dto = new RemovePermissionsDTO();
-        dto.setGroupId(groupId);
-        List<String> auths = new ArrayList<>();
-        auths.add("查看lin的信息");
-        // dto.setAuths(auths);
+        dto.setGroupId(group.getId());
+        dto.setPermissionIds(Arrays.asList(permission1.getId()));
 
-        // 查询日志记录的用户
-        mvc.perform(post("/cms/admin/remove")
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(dto)))
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto);
+
+        mvc.perform(post("/cms/admin/permission/remove")
+                .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("删除权限成功!")
-                );
+                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("删除权限成功!"));
     }
 }
