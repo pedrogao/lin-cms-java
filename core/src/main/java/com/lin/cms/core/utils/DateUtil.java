@@ -11,8 +11,7 @@ public class DateUtil {
      * @return Date
      */
     public static Date getDurationDate(long duration) {
-        long nowTime = new Date().getTime();
-        long expireTime = nowTime + duration;
+        long expireTime = System.currentTimeMillis() + duration;
         return new Date(expireTime);
     }
 }

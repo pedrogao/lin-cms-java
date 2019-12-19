@@ -66,6 +66,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                     .map(groupId -> new UserGroupDO(user.getId(), groupId))
                     .collect(Collectors.toList());
             userGroupMapper.insertBatch(relations);
+        } else {
+            // id为2的分组为游客分组
+            UserGroupDO relation = new UserGroupDO(user.getId(), 2L);
+            userGroupMapper.insert(relation);
         }
         userIdentityService.createUsernamePasswordIdentity(user.getId(), dto.getUsername(), dto.getPassword());
         return user;

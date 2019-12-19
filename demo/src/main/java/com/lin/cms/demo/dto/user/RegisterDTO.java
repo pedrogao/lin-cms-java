@@ -19,8 +19,7 @@ public class RegisterDTO {
     @Size(min = 2, max = 10, message = "{user.register.username.size}")
     private String username;
 
-    @NotNull(message = "{user.register.group-ids.not-null}")
-    @LongList(min = 1, message = "{user.register.group-ids.long-list}")
+    @LongList(allowBlank = true, message = "{user.register.group-ids.long-list}")
     private List<Long> groupIds;
 
     @Email(message = "{email}")

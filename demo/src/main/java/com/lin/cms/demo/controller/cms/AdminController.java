@@ -39,6 +39,7 @@ public class AdminController {
     @AdminRequired
     @RouteMeta(permission = "查询所有可分配的权限", module = "管理员")
     public Map getAllPermissions() {
+        // TODO 从数据库中拿权限id，而不是拿字段
         return postBeanProcessor.getStructuralMeta();
     }
 

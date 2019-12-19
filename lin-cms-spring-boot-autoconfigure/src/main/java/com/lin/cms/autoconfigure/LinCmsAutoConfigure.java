@@ -2,7 +2,6 @@ package com.lin.cms.autoconfigure;
 
 import com.lin.cms.interceptor.AuthorizeInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
-import com.lin.cms.beans.RouteMetaCollector;
 import com.lin.cms.core.token.DoubleJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -19,17 +18,6 @@ public class LinCmsAutoConfigure {
 
     @Autowired
     private LinCmsProperties properties;
-
-
-    /**
-     * 记录每个被 @RouteMeta 记录的信息，在beans的后置调用
-     *
-     * @return RouteMetaCollector
-     */
-    @Bean
-    public RouteMetaCollector postProcessBeans() {
-        return new RouteMetaCollector();
-    }
 
     @Bean
     public DoubleJWT jwter() {

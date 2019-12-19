@@ -39,8 +39,8 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
             RouteMeta meta = method.getAnnotation(RouteMeta.class);
             // 考虑两种情况，1. 有 meta；2. 无 meta
             if (meta == null) {
-                // 无meta的话，在权限的范围之外不做拦截
-                return true;
+                // 无meta的话，adminRequired和loginRequired
+                return this.handleNoMeta(request, response, method);
             } else {
                 // 有meta在权限范围之内，需要判断权限
                 return this.handleMeta(request, response, method, meta);
@@ -51,8 +51,30 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
         }
     }
 
+    private boolean handleNoMeta(HttpServletRequest request, HttpServletResponse response, Method method) {
+        Annotation[] annotations = method.getAnnotations();
+        UserLevel level = AnnotationUtil.findRequired(annotations);
+        switch (level) {
+            case LOGIN:
+                // 登陆权限
+                return authorizeVerifyResolver.handleLogin(request, response, null);
+            case GROUP:
+                // 分组权限
+                return false;
+            case ADMIN:
+                // 管理员权限
+                return authorizeVerifyResolver.handleAdmin(request, response, null);
+            case REFRESH:
+                // 刷新令牌
+                return authorizeVerifyResolver.handleRefresh(request, response, null);
+            default:
+                return true;
+        }
+    }
+
     private boolean handleMeta(HttpServletRequest request, HttpServletResponse response, Method method, RouteMeta meta) {
         // 没有挂载到权限系统中，通过
+        // 存在一些权限
         if (!meta.mount()) {
             return true;
         }

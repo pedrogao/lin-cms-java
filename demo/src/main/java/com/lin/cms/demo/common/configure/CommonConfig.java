@@ -1,19 +1,28 @@
 package com.lin.cms.demo.common.configure;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+import com.lin.cms.beans.RouteMetaCollector;
 import com.lin.cms.demo.extensions.file.FileProperties;
 import com.lin.cms.demo.common.interceptor.RequestLogInterceptor;
+import com.lin.cms.demo.model.PermissionDO;
+import com.lin.cms.demo.service.PermissionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+
 @Configuration
 @EnableConfigurationProperties(FileProperties.class)
 public class CommonConfig {
+
+    @Autowired
+    private PermissionService permissionService;
 
     @Bean
     public RequestLogInterceptor requestLogInterceptor() {
@@ -28,6 +37,28 @@ public class CommonConfig {
     @Bean
     public ISqlInjector sqlInjector() {
         return new DefaultSqlInjector();
+    }
+
+
+    /**
+     * 记录每个被 @RouteMeta 记录的信息，在beans的后置调用
+     *
+     * @return RouteMetaCollector
+     */
+    @Bean
+    public RouteMetaCollector postProcessBeans() {
+        return new RouteMetaCollector(meta -> {
+            if (meta.mount()) {
+                String module = meta.module();
+                String permission = meta.permission();
+                QueryWrapper<PermissionDO> wrapper = new QueryWrapper<>();
+                wrapper.lambda().eq(PermissionDO::getName, permission).eq(PermissionDO::getModule, module);
+                PermissionDO one = permissionService.getOne(wrapper);
+                if (one == null) {
+                    permissionService.save(PermissionDO.builder().module(module).name(permission).build());
+                }
+            }
+        });
     }
 
 

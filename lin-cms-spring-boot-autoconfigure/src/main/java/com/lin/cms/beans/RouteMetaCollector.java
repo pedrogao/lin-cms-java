@@ -1,6 +1,7 @@
 package com.lin.cms.beans;
 
 import com.lin.cms.core.annotation.RouteMeta;
+import com.lin.cms.interfaces.MetaPreHandler;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.util.ReflectionUtils;
@@ -13,6 +14,16 @@ public class RouteMetaCollector implements BeanPostProcessor {
     private Map<String, RouteMeta> metaMap = new HashMap<>();
 
     private Map<String, Map<String, Set<String>>> structuralMeta = new HashMap<>();
+
+    private MetaPreHandler preHandler;
+
+    public RouteMetaCollector() {
+    }
+
+    public RouteMetaCollector(MetaPreHandler preHandler) {
+        this.preHandler = preHandler;
+    }
+
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) {
@@ -28,6 +39,9 @@ public class RouteMetaCollector implements BeanPostProcessor {
         for (Method method : methods) {
             RouteMeta meta = AnnotationUtils.findAnnotation(method, RouteMeta.class);
             if (meta != null) {
+                if (preHandler != null) {
+                    preHandler.handle(meta);
+                }
                 if (meta.mount()) {
                     String methodName = method.getName();
                     String className = method.getDeclaringClass().getName();

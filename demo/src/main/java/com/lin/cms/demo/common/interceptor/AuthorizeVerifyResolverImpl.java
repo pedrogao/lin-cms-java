@@ -46,9 +46,9 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
         try {
             claims = jwt.decodeAccessToken(tokenStr);
         } catch (TokenExpiredException e) {
-            throw new com.lin.cms.exception.TokenExpiredException(e.getMessage(), 10050);
+            throw new com.lin.cms.exception.TokenExpiredException(e.getMessage(), 10051);
         } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
-            throw new TokenInvalidException(e.getMessage(), 10040);
+            throw new TokenInvalidException(e.getMessage(), 10041);
         }
         return getClaim(claims);
     }
@@ -84,9 +84,9 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
         try {
             claims = jwt.decodeRefreshToken(tokenStr);
         } catch (TokenExpiredException e) {
-            throw new com.lin.cms.exception.TokenExpiredException(e.getMessage(), 10050);
+            throw new com.lin.cms.exception.TokenExpiredException(e.getMessage(), 10051);
         } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
-            throw new TokenInvalidException(e.getMessage(), 10040);
+            throw new TokenInvalidException(e.getMessage(), 10041);
         }
         return getClaim(claims);
     }

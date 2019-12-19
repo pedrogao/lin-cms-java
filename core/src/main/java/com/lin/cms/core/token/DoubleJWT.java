@@ -101,7 +101,7 @@ public class DoubleJWT {
     }
 
     private void checkTokenExpired(Date expiresAt) {
-        long now = new Date().getTime();
+        long now = System.currentTimeMillis();
         if (expiresAt.getTime() < now) {
             throw new TokenExpiredException("token is expired");
         }
