@@ -4,6 +4,7 @@ import com.lin.cms.demo.common.interceptor.RequestLogInterceptor;
 import com.lin.cms.interceptor.AuthorizeInterceptor;
 import com.lin.cms.interceptor.LogInterceptor;
 import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.io.FileUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -12,8 +13,6 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.nio.file.FileSystems;
-import java.nio.file.Path;
 
 /**
  * Spring MVC 配置
@@ -60,7 +59,8 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         if (authEnabled) {
             //开发环境忽略签名认证
-            registry.addInterceptor(authorizeInterceptor).excludePathPatterns("/assets/**");
+            registry.addInterceptor(authorizeInterceptor)
+                    .excludePathPatterns(getDirServePath());
         }
         if (requestLogEnabled) {
             registry.addInterceptor(requestLogInterceptor);
@@ -70,21 +70,27 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        String absDir;
-        if (this.isAbsolute(this.dir)) {
-            absDir = this.dir;
-        } else {
-            String cmd = System.getProperty("user.dir");
-            Path path = FileSystems.getDefault().getPath(cmd, this.dir);
-            absDir = path.toAbsolutePath().toString();
-        }
-        //registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
-        registry.addResourceHandler("/assets/**")
-                .addResourceLocations("file:" + absDir + "/");
+        // classpath: or file:
+        registry.addResourceHandler(getDirServePath())
+                .addResourceLocations("file:" + getAbsDir() + "/");
     }
 
-    private boolean isAbsolute(String str) {
-        Path path = FileSystems.getDefault().getPath(str);
-        return path.isAbsolute();
+    private String getDirServePath() {
+        // assets/**
+        // assets/
+        // /usr/local/assets/
+        // assets
+        String s = FileUtil.mainName(dir);
+        return s + "/**";
+    }
+
+    /**
+     * 获得文件夹的绝对路径
+     */
+    private String getAbsDir() {
+        if (FileUtil.isAbsolutePath(dir)) {
+            return dir;
+        }
+        return FileUtil.getAbsolutePath(dir);
     }
 }

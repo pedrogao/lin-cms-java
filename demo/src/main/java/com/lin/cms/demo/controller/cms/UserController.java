@@ -6,8 +6,6 @@ import com.lin.cms.core.annotation.RefreshRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.demo.common.LocalUser;
 import com.lin.cms.demo.service.UserIdentityService;
-import com.lin.cms.exception.FailedException;
-import com.lin.cms.exception.HttpException;
 import com.lin.cms.demo.vo.CommonResult;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.vo.UserPermissionsVO;
@@ -127,13 +125,4 @@ public class UserController {
         UserDO user = LocalUser.getLocalUser();
         return user;
     }
-
-    /**
-     * 修改头像
-     */
-    // @LoginRequired
-    // @PutMapping("/avatar")
-    // public CommonResult updateAvatar(@RequestBody @Validated AvatarUpdateDTO validator) {
-    //     return ResultUtil.generateSuccessResult("头像更新成功！");
-    // }
 }

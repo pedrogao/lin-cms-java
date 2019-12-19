@@ -1,6 +1,6 @@
 package com.lin.cms.demo.dto.admin;
 
-import com.lin.cms.demo.common.validator.EqualField;
+import com.lin.cms.validator.EqualField;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

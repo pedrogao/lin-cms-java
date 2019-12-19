@@ -1,6 +1,5 @@
 package com.lin.cms.demo.model;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
@@ -50,14 +49,11 @@ public class UserIdentityDO implements Serializable {
     private String credential;
 
     @JsonIgnore
-    @JSONField(serialize = false)
     private Date createTime;
 
     @JsonIgnore
-    @JSONField(serialize = false)
     private Date updateTime;
 
-    @JSONField(serialize = false)
     @TableLogic
     private Date deleteTime;
 }

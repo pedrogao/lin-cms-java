@@ -1,6 +1,6 @@
-package com.lin.cms.demo.common.validator;
+package com.lin.cms.validator;
 
-import com.lin.cms.demo.common.validator.impl.NotEmptyFieldsValidator;
+import com.lin.cms.validator.impl.NotEmptyFieldsValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

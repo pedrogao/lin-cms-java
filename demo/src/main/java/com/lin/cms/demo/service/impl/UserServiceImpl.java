@@ -65,7 +65,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                     .stream()
                     .map(groupId -> new UserGroupDO(user.getId(), groupId))
                     .collect(Collectors.toList());
-
             userGroupMapper.insertBatch(relations);
         }
         userIdentityService.createUsernamePasswordIdentity(user.getId(), dto.getUsername(), dto.getPassword());

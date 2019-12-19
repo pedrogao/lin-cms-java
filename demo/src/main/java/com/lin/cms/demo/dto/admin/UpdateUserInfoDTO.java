@@ -1,6 +1,6 @@
 package com.lin.cms.demo.dto.admin;
 
-import com.lin.cms.demo.common.validator.LongList;
+import com.lin.cms.validator.LongList;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

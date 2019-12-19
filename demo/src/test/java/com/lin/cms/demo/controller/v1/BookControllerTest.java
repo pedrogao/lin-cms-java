@@ -1,6 +1,7 @@
 package com.lin.cms.demo.controller.v1;
 
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
 import com.lin.cms.demo.mapper.BookMapper;
 import com.lin.cms.demo.model.BookDO;
@@ -103,14 +104,18 @@ public class BookControllerTest {
 
     @Test
     public void createBook() throws Exception {
-        CreateOrUpdateBookDTO validator = new CreateOrUpdateBookDTO();
-        validator.setAuthor(author);
-        validator.setImage(image);
-        validator.setSummary(summary);
-        validator.setTitle(title);
+        CreateOrUpdateBookDTO dto = new CreateOrUpdateBookDTO();
+        dto.setAuthor(author);
+        dto.setImage(image);
+        dto.setSummary(summary);
+        dto.setTitle(title);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto);
 
         mvc.perform(post("/v1/book/")
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(validator)))
+                .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
@@ -127,14 +132,18 @@ public class BookControllerTest {
         bookMapper.insert(bookDO);
         this.id = bookDO.getId();
 
-        CreateOrUpdateBookDTO validator = new CreateOrUpdateBookDTO();
-        validator.setAuthor(author);
-        validator.setImage(image);
-        validator.setSummary(summary);
-        validator.setTitle(title + "lol");
+        CreateOrUpdateBookDTO dto = new CreateOrUpdateBookDTO();
+        dto.setAuthor(author);
+        dto.setImage(image);
+        dto.setSummary(summary);
+        dto.setTitle(title + "lol");
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(dto);
 
         mvc.perform(put("/v1/book/" + this.id)
-                .contentType(MediaType.APPLICATION_JSON).content(JSON.toJSONBytes(validator)))
+                .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.

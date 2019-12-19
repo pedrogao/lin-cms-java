@@ -1,6 +1,6 @@
-package com.lin.cms.demo.common.validator.impl;
+package com.lin.cms.validator.impl;
 
-import com.lin.cms.demo.common.validator.EqualField;
+import com.lin.cms.validator.EqualField;
 import org.springframework.util.ReflectionUtils;
 
 import javax.validation.ConstraintValidator;

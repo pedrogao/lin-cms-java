@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * "file:/path/to/file"
  */
 
-@SpringBootApplication(scanBasePackages = {"com.lin.cms"})
+@SpringBootApplication(scanBasePackages = {"com.lin.cms.demo"})
 @MapperScan(basePackages = {"com.lin.cms.demo.mapper"/*, "com.lin.cms.plugins.poem.app"*/})
 @PropertySources({
         // @PropertySource("classpath:com/lin/cms/plugins/poem/plugin.properties"),

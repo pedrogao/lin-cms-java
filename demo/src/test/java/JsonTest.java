@@ -1,4 +1,6 @@
-import com.alibaba.fastjson.JSON;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
@@ -9,11 +11,13 @@ import java.util.Map;
 public class JsonTest {
 
     @Test
-    public void bool() {
+    public void bool() throws JsonProcessingException {
         Map input = new HashMap();
         input.put("is", false);
         input.put("isPedro", "pedro");
-        String output = JSON.toJSONString(input);
-        log.info(output);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        String content = mapper.writeValueAsString(input);
+        log.info(content);
     }
 }

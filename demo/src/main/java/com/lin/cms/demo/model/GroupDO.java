@@ -1,6 +1,5 @@
 package com.lin.cms.demo.model;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.baomidou.mybatisplus.annotation.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -37,15 +36,12 @@ public class GroupDO implements Serializable {
      */
     private String info;
 
-    @JSONField(serialize = false)
     @JsonIgnore
     private Date createTime;
 
-    @JSONField(serialize = false)
     @JsonIgnore
     private Date updateTime;
 
-    @JSONField(serialize = false)
     @JsonIgnore
     @TableLogic
     private Date deleteTime;

@@ -46,10 +46,9 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
         try {
             claims = jwt.decodeAccessToken(tokenStr);
         } catch (TokenExpiredException e) {
-            throw new HttpException(e.getMessage());
+            throw new com.lin.cms.exception.TokenExpiredException(e.getMessage(), 10050);
         } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
-            // TODO
-            throw new HttpException(e.getMessage());
+            throw new TokenInvalidException(e.getMessage(), 10040);
         }
         return getClaim(claims);
     }
@@ -66,7 +65,7 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
         List<PermissionDO> permissions = userService.getUserPermissions(userId);
         boolean matched = permissions.stream().anyMatch(it -> it.getModule().equals(module) && it.getName().equals(permission));
         if (!matched)
-            throw new HttpException("you don't have the permission to access");
+            throw new AuthenticationException("you don't have the permission to access", 10001);
         return true;
     }
 
@@ -74,7 +73,7 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
         handleLogin(request, response, meta);
         UserDO user = LocalUser.getLocalUser();
         if (!verifyAdmin(user))
-            throw new HttpException("you don't have the permission to access");
+            throw new AuthenticationException("you don't have the permission to access", 10001);
         return true;
     }
 
@@ -85,10 +84,9 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
         try {
             claims = jwt.decodeRefreshToken(tokenStr);
         } catch (TokenExpiredException e) {
-            throw new HttpException(e.getMessage());
+            throw new com.lin.cms.exception.TokenExpiredException(e.getMessage(), 10050);
         } catch (AlgorithmMismatchException | SignatureVerificationException | JWTDecodeException | InvalidClaimException e) {
-            // TODO
-            throw new HttpException(e.getMessage());
+            throw new TokenInvalidException(e.getMessage(), 10040);
         }
         return getClaim(claims);
     }
@@ -100,12 +98,12 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
 
     private boolean getClaim(Map<String, Claim> claims) {
         if (claims == null) {
-            throw new HttpException("token is invalid, can't be decode");
+            throw new TokenInvalidException("token is invalid, can't be decode", 10041);
         }
         int identity = claims.get("identity").asInt();
         UserDO user = userService.getById(identity);
         if (user == null) {
-            throw new HttpException("user is not found");
+            throw new NotFoundException("user is not found", 10021);
         }
         LocalUser.setLocalUser(user);
         return true;
@@ -124,18 +122,18 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
         // 处理头部header,带有access_token的可以访问
         String authorization = request.getHeader(authorizationHeader);
         if (authorization == null || Strings.isBlank(authorization)) {
-            throw new HttpException("authorization field is required");
+            throw new AuthorizationException("authorization field is required", 10012);
         }
         String[] splits = authorization.split(" ");
         if (splits.length != 2) {
-            throw new HttpException("authorization field is invalid");
+            throw new AuthorizationException("authorization field is invalid", 10013);
         }
         // Bearer 字段
         String scheme = splits[0];
         // token 字段
         String tokenStr = splits[1];
         if (!Pattern.matches(bearerPattern, scheme)) {
-            throw new HttpException("authorization field is invalid");
+            throw new AuthorizationException("authorization field is invalid", 10013);
         }
         return tokenStr;
     }

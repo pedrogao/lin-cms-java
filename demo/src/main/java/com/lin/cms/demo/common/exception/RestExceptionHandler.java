@@ -83,7 +83,12 @@ public class RestExceptionHandler {
     public CommonResult processException(NoHandlerFoundException exception, HttpServletRequest request, HttpServletResponse response) {
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
-        result.setMsg(ErrorCode.NOT_FOUND.getDescription());
+        String errorMessage = ErrorCodeConfig.getErrorMessage(10025);
+        if (Strings.isNullOrEmpty(errorMessage)) {
+            result.setMsg(exception.getMessage());
+        } else {
+            result.setMsg(errorMessage);
+        }
         result.setErrorCode(ErrorCode.NOT_FOUND.getCode());
         response.setStatus(HttpStatus.NOT_FOUND.value());
         return result;
@@ -96,7 +101,13 @@ public class RestExceptionHandler {
     public CommonResult processException(MissingServletRequestParameterException exception, HttpServletRequest request, HttpServletResponse response) {
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
-        result.setMsg("丢失" + exception.getParameterName() + "参数");
+
+        String errorMessage = ErrorCodeConfig.getErrorMessage(10150);
+        if (Strings.isNullOrEmpty(errorMessage)) {
+            result.setMsg(exception.getMessage());
+        } else {
+            result.setMsg(errorMessage + exception.getParameterName());
+        }
         result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
@@ -109,7 +120,12 @@ public class RestExceptionHandler {
     public CommonResult processException(MethodArgumentTypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
-        result.setMsg(exception.getValue() + "类型错误");
+        String errorMessage = ErrorCodeConfig.getErrorMessage(10160);
+        if (Strings.isNullOrEmpty(errorMessage)) {
+            result.setMsg(exception.getMessage());
+        } else {
+            result.setMsg(exception.getValue() + errorMessage);
+        }
         result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
@@ -159,7 +175,12 @@ public class RestExceptionHandler {
     public CommonResult processException(HttpMessageNotReadableException exception, HttpServletRequest request, HttpServletResponse response) {
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
-        result.setMsg("请求体不可为空");
+        String errorMessage = ErrorCodeConfig.getErrorMessage(10170);
+        if (Strings.isNullOrEmpty(errorMessage)) {
+            result.setMsg(exception.getMessage());
+        } else {
+            result.setMsg(errorMessage);
+        }
         result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
@@ -185,7 +206,12 @@ public class RestExceptionHandler {
     public CommonResult processException(MaxUploadSizeExceededException exception, HttpServletRequest request, HttpServletResponse response) {
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
-        result.setMsg("总体文件大小不能超过" + maxFileSize);
+        String errorMessage = ErrorCodeConfig.getErrorMessage(10180);
+        if (Strings.isNullOrEmpty(errorMessage)) {
+            result.setMsg(exception.getMessage());
+        } else {
+            result.setMsg(errorMessage + maxFileSize);
+        }
         result.setErrorCode(ErrorCode.FILE_TOO_LARGE.getCode());
         response.setStatus(HttpStatus.PAYLOAD_TOO_LARGE.value());
         return result;
