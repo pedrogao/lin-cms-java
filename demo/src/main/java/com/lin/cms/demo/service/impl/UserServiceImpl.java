@@ -19,10 +19,7 @@ import com.lin.cms.demo.service.PermissionService;
 import com.lin.cms.demo.service.UserIdentityService;
 import com.lin.cms.demo.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.lin.cms.exception.FailedException;
-import com.lin.cms.exception.ForbiddenException;
-import com.lin.cms.exception.HttpException;
-import com.lin.cms.exception.ParameterException;
+import com.lin.cms.exception.*;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,7 +54,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     public UserDO createUser(RegisterDTO dto) {
         boolean exist = this.checkUserExistByUsername(dto.getUsername());
         if (exist) {
-            throw new HttpException("已经有用户使用了该名称，请重新输入新的用户名");
+            throw new ForbiddenException("username already exist, please choose a new one", 10071);
         }
         UserDO user = new UserDO();
         BeanUtil.copyProperties(dto, user);
@@ -82,7 +79,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if (dto.getUsername() != null && Strings.isNotBlank(dto.getUsername())) {
             boolean exist = this.checkUserExistByUsername(dto.getUsername());
             if (exist) {
-                throw new ForbiddenException("已经有用户使用了该名称，请重新输入新的用户名");
+                throw new ForbiddenException("username already exist, please choose a new one", 10071);
             }
             user.setUsername(dto.getUsername());
             userIdentityService.changeUsername(user.getId(), dto.getUsername());
@@ -97,11 +94,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         UserDO user = LocalUser.getLocalUser();
         boolean valid = userIdentityService.verifyUsernamePassword(user.getId(), user.getUsername(), dto.getOldPassword());
         if (!valid) {
-            throw new ParameterException("请输入正确的旧密码");
+            throw new ParameterException("password invalid, please enter correct password", 10032);
         }
         valid = userIdentityService.changePassword(user.getId(), dto.getNewPassword());
         if (!valid) {
-            throw new FailedException("更新密码失败");
+            throw new FailedException("password change failed", 10011);
         }
         return user;
     }
@@ -154,7 +151,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     private void checkGroupsExist(List<Long> ids) {
         for (long id : ids) {
             if (!groupService.checkGroupExistById(id)) {
-                throw new HttpException("分组不存在，无法新建用户");
+                throw new NotFoundException("group not found，can't create user", 10023);
             }
         }
     }

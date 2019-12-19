@@ -20,4 +20,9 @@ public class FileTooManyException extends HttpException {
     public FileTooManyException() {
         super(ErrorCode.FILE_TOO_MANY.getDescription());
     }
+
+    public FileTooManyException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

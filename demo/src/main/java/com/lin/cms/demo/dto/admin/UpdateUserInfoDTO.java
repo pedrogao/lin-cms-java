@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 public class UpdateUserInfoDTO {
 
-    @LongList(min = 1, allowBlank = true, message = "分组id必须是整数，且大于0")
+    @LongList(min = 1, allowBlank = true, message = "{group.ids.long-list}")
     private List<Long> groupIds;
 }

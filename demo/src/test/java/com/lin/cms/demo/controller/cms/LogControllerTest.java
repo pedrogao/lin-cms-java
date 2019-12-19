@@ -110,6 +110,23 @@ public class LogControllerTest {
     }
 
     @Test
+    public void getLogs3() throws Exception {
+        String yesterday = DateUtil.yesterday().toString("yyyy-M-d HH:mm:ss");
+        String tomorrow = DateUtil.tomorrow().toString("yyyy-M-dd HH:mm:ss");
+        mvc.perform(get("/cms/log/")
+                .param("name", "pedro")
+                .param("start", yesterday)
+                .param("end", tomorrow)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.total").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.page").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.items").isEmpty());
+
+    }
+
+    @Test
     public void searchLogs() throws Exception {
         mvc.perform(get("/cms/log/search")
                 .param("name", "pedro大大")

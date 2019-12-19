@@ -19,4 +19,9 @@ public class RequestLimitException extends HttpException {
     public RequestLimitException() {
         super(ErrorCode.REQUEST_LIMIT.getDescription());
     }
+
+    public RequestLimitException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

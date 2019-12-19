@@ -32,6 +32,13 @@ public class ResultUtil {
                 .build();
     }
 
+    public static <T> CommonResult<T> generateResult(int errorCode) {
+        return (CommonResult<T>) CommonResult.builder()
+                .errorCode(errorCode)
+                .url(RequestUtil.getRequestUrl())
+                .build();
+    }
+
     public static <T> CommonResult<T> generateCreatedResult(T data) {
         Created created = new Created();
         return (CommonResult<T>) CommonResult.builder()

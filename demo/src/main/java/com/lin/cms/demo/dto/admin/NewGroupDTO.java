@@ -9,13 +9,13 @@ import java.util.List;
 
 @Data
 public class NewGroupDTO {
-    @NotBlank(message = "请输入分组名称")
-    @Length(min = 1, max = 60, message = "分组名称不可超过60字符")
+    @NotBlank(message = "{group.name.not-blank}")
+    @Length(min = 1, max = 60, message = "{group.name.length}")
     private String name;
 
-    @Length(min = 1, max = 255, message = "分组名称不可超过255字符")
+    @Length(min = 1, max = 255, message = "{group.info.length}")
     private String info;
 
-    @LongList(allowBlank = true, message = "请输入权限id，且每一项不可为空")
+    @LongList(allowBlank = true, message = "{permission.ids.long-list}")
     private List<Long> permissionIds;
 }

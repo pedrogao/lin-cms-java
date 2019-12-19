@@ -14,6 +14,7 @@ import java.lang.annotation.*;
 @Constraint(validatedBy = {EnumValidator.class})
 @Documented
 public @interface Enum {
+
     String message() default "value must in enum";
 
     boolean allowNull() default false;

@@ -15,7 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
-import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.Map;
 
@@ -48,37 +48,37 @@ public class AdminController {
     @RouteMeta(permission = "查询所有用户", module = "管理员")
     public PageResult getUsers(
             @RequestParam(name = "group_id", required = false)
-            @Min(value = 1, message = "分组id必须为正整数") Long groupId,
+            @Min(value = 1, message = "{group_id}") Long groupId,
             @RequestParam(name = "count", required = false, defaultValue = "10")
-            @Min(value = 1, message = "count必须为正整数") Long count,
+            @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
+            @Min(value = 0, message = "{page}") Long page) {
         return adminService.getUserPageByGroupId(groupId, count, page);
     }
 
     @PutMapping("/user/{id}/password")
     @AdminRequired
     @RouteMeta(permission = "修改用户密码", module = "管理员")
-    public CommonResult changeUserPassword(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id, @RequestBody @Validated ResetPasswordDTO validator) {
+    public CommonResult changeUserPassword(@PathVariable @Positive(message = "{id}") Long id, @RequestBody @Validated ResetPasswordDTO validator) {
         adminService.changeUserPassword(id, validator);
-        return ResultUtil.generateSuccessResult("密码修改成功");
+        return ResultUtil.generateResult(2);
     }
 
     @DeleteMapping("/user/{id}")
     @AdminRequired
     @RouteMeta(permission = "删除用户", module = "管理员")
-    public CommonResult deleteUser(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id) {
+    public CommonResult deleteUser(@PathVariable @Positive(message = "{id}") Long id) {
         adminService.deleteUser(id);
-        return ResultUtil.generateSuccessResult("删除用户成功");
+        return ResultUtil.generateResult(3);
     }
 
 
     @PutMapping("/user/{id}")
     @AdminRequired
     @RouteMeta(permission = "管理员更新用户信息", module = "管理员")
-    public CommonResult updateUser(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id, @RequestBody @Validated UpdateUserInfoDTO validator) {
+    public CommonResult updateUser(@PathVariable @Positive(message = "{id}") Long id, @RequestBody @Validated UpdateUserInfoDTO validator) {
         adminService.updateUserInfo(id, validator);
-        return ResultUtil.generateSuccessResult("更新用户成功");
+        return ResultUtil.generateResult(4);
     }
 
     @GetMapping("/group")
@@ -86,9 +86,9 @@ public class AdminController {
     @RouteMeta(permission = "查询所有权限组及其权限", module = "管理员")
     public PageResult getGroups(
             @RequestParam(name = "count", required = false, defaultValue = "10")
-            @Min(value = 1, message = "count必须为正整数") Long count,
+            @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
+            @Min(value = 0, message = "{page}") Long page) {
         PageResult pageResult = adminService.getGroupPage(page, count);
         return pageResult;
     }
@@ -105,7 +105,7 @@ public class AdminController {
     @GetMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(permission = "查询一个权限组及其权限", module = "管理员")
-    public GroupPermissionsBO getGroup(@PathVariable @PositiveOrZero(message = "id必须为正整数") Long id) {
+    public GroupPermissionsBO getGroup(@PathVariable @Positive(message = "{id}") Long id) {
         GroupPermissionsBO groupPermissions = adminService.getGroup(id);
         return groupPermissions;
     }
@@ -116,25 +116,25 @@ public class AdminController {
     @RouteMeta(permission = "新建权限组", module = "管理员")
     public CommonResult createGroup(@RequestBody @Validated NewGroupDTO validator) {
         adminService.createGroup(validator);
-        return ResultUtil.generateSuccessResult("新建分组成功！");
+        return ResultUtil.generateResult(13);
     }
 
 
     @PutMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(permission = "更新一个权限组", module = "管理员")
-    public CommonResult updateGroup(@PathVariable @PositiveOrZero(message = "id必须正整数") Long id,
+    public CommonResult updateGroup(@PathVariable @Positive(message = "{id}") Long id,
                                     @RequestBody @Validated UpdateGroupDTO validator) {
         adminService.updateGroup(id, validator);
-        return ResultUtil.generateSuccessResult("更新分组成功!");
+        return ResultUtil.generateResult(5);
     }
 
     @DeleteMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(permission = "删除一个权限组", module = "管理员")
-    public CommonResult deleteGroup(@PathVariable @PositiveOrZero(message = "id必须正整数") Long id) {
+    public CommonResult deleteGroup(@PathVariable @Positive(message = "{id}") Long id) {
         adminService.deleteGroup(id);
-        return ResultUtil.generateSuccessResult("删除分组成功!");
+        return ResultUtil.generateResult(6);
     }
 
     @PostMapping("/permission/dispatch")
@@ -142,7 +142,7 @@ public class AdminController {
     @RouteMeta(permission = "分配单个权限", module = "管理员")
     public CommonResult dispatchPermission(@RequestBody @Validated DispatchPermissionDTO validator) {
         adminService.dispatchPermission(validator);
-        return ResultUtil.generateSuccessResult("添加权限成功!");
+        return ResultUtil.generateResult(7);
     }
 
     @PostMapping("/permission/dispatch/batch")
@@ -150,7 +150,7 @@ public class AdminController {
     @RouteMeta(permission = "分配多个权限", module = "管理员")
     public CommonResult dispatchPermissions(@RequestBody @Validated DispatchPermissionsDTO validator) {
         adminService.dispatchPermissions(validator);
-        return ResultUtil.generateSuccessResult("添加权限成功!");
+        return ResultUtil.generateResult(7);
     }
 
     @PostMapping("/permission/remove")
@@ -158,7 +158,7 @@ public class AdminController {
     @RouteMeta(permission = "删除多个权限", module = "管理员")
     public CommonResult removePermissions(@RequestBody @Validated RemovePermissionsDTO validator) {
         adminService.removePermissions(validator);
-        return ResultUtil.generateSuccessResult("删除权限成功!");
+        return ResultUtil.generateResult(8);
     }
 
 }

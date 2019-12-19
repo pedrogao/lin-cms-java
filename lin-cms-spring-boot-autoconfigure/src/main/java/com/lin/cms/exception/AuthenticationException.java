@@ -22,4 +22,9 @@ public class AuthenticationException extends HttpException {
     public AuthenticationException(String message) {
         super(message);
     }
+
+    public AuthenticationException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

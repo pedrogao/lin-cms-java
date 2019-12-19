@@ -19,4 +19,9 @@ public class RefreshFailedException extends HttpException {
     public RefreshFailedException() {
         super(ErrorCode.REFRESH_FAILED.getDescription());
     }
+
+    public RefreshFailedException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

@@ -91,7 +91,7 @@ public class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("添加用户成功！"));
+                        jsonPath("$.msg").value("注册成功"));
     }
 
     @Test
@@ -114,7 +114,7 @@ public class UserControllerTest {
         mvc.perform(post("/cms/user/register")
                 .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
-                .andExpect(status().is5xxServerError())
+                .andExpect(status().is4xxClientError())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("分组不存在，无法新建用户"));
     }
 
@@ -175,7 +175,7 @@ public class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("更新成功！"));
+                        jsonPath("$.msg").value("更新用户成功"));
 
         UserDO user1 = userService.getUserByUsername("pedro小小");
         assertTrue(user1.getEmail().equals("23129982604@qq.com"));
@@ -211,7 +211,7 @@ public class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("密码修改成功！"));
+                        jsonPath("$.msg").value("密码修改成功"));
     }
 
     @Test

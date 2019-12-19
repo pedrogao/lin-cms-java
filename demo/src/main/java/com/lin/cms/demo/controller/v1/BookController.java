@@ -24,10 +24,10 @@ public class BookController {
     private BookService bookService;
 
     @GetMapping("/{id}")
-    public BookDO getBook(@PathVariable(value = "id") @Positive(message = "id必须为正整数") Long id) {
+    public BookDO getBook(@PathVariable(value = "id") @Positive(message = "{id}") Long id) {
         BookDO book = bookService.getById(id);
         if (book == null) {
-            throw new NotFoundException("未找到相关书籍");
+            throw new NotFoundException("book not found", 10022);
         }
         return book;
     }
@@ -40,7 +40,7 @@ public class BookController {
 
 
     @GetMapping("/search")
-    public List<BookDO> searchBook(@RequestParam("q") String q) {
+    public List<BookDO> searchBook(@RequestParam(value = "q", required = false, defaultValue = "") String q) {
         List<BookDO> books = bookService.getBookByKeyword("%" + q + "%");
         return books;
     }
@@ -49,31 +49,31 @@ public class BookController {
     @PostMapping("")
     public CommonResult createBook(@RequestBody @Validated CreateOrUpdateBookDTO validator) {
         bookService.createBook(validator);
-        return ResultUtil.generateSuccessResult("新建图书成功");
+        return ResultUtil.generateResult(10);
     }
 
 
     @PutMapping("/{id}")
-    public CommonResult updateBook(@PathVariable("id") @Positive(message = "id必须为正整数") Long id, @RequestBody @Validated CreateOrUpdateBookDTO validator) {
+    public CommonResult updateBook(@PathVariable("id") @Positive(message = "{id}") Long id, @RequestBody @Validated CreateOrUpdateBookDTO validator) {
         BookDO book = bookService.getById(id);
         if (book == null) {
-            throw new NotFoundException("未找到相关书籍");
+            throw new NotFoundException("book not found", 10022);
         }
         bookService.updateBook(book, validator);
-        return ResultUtil.generateSuccessResult("更新图书成功");
+        return ResultUtil.generateResult(11);
     }
 
 
     @DeleteMapping("/{id}")
     @RouteMeta(permission = "删除图书", module = "图书", mount = true)
     @GroupRequired
-    public CommonResult deleteBook(@PathVariable("id") @Positive(message = "id必须为正整数") Long id) {
+    public CommonResult deleteBook(@PathVariable("id") @Positive(message = "{id}") Long id) {
         BookDO book = bookService.getById(id);
         if (book == null) {
-            throw new NotFoundException("未找到相关书籍");
+            throw new NotFoundException("book not found", 10022);
         }
         bookService.deleteById(book.getId());
-        return ResultUtil.generateSuccessResult("删除图书成功");
+        return ResultUtil.generateResult(12);
     }
 
 

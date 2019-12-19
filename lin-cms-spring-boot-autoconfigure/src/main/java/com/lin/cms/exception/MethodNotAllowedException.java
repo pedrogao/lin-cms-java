@@ -19,4 +19,9 @@ public class MethodNotAllowedException extends HttpException {
     public MethodNotAllowedException() {
         super(ErrorCode.METHOD_NOT_ALLOWED.getDescription());
     }
+
+    public MethodNotAllowedException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

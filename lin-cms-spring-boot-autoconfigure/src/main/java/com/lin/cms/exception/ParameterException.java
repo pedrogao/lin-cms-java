@@ -25,6 +25,11 @@ public class ParameterException extends HttpException {
         super(message);
     }
 
+    public ParameterException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
+
     public ParameterException(Map<String, Object> errors) {
         this.errors = errors;
     }

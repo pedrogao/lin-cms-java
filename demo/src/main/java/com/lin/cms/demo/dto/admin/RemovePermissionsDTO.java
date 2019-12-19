@@ -3,16 +3,17 @@ package com.lin.cms.demo.dto.admin;
 import com.lin.cms.demo.common.validator.LongList;
 import lombok.Data;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.List;
 
 @Data
 public class RemovePermissionsDTO {
-    @Min(value = 1, message = "分组id必须正整数")
-    @NotNull(message = "分组id不可为空")
+
+    @Positive(message = "{group.id.positive}")
+    @NotNull(message = "{group.id.not-null}")
     private Long groupId;
 
-    @LongList(allowBlank = true, message = "请输入权限id，且每一项不可为空")
+    @LongList(allowBlank = true, message = "{permission.ids.long-list}")
     private List<Long> permissionIds;
 }

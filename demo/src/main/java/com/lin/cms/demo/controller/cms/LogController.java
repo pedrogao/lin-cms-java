@@ -32,9 +32,9 @@ public class LogController {
             @RequestParam(name = "end", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date end,
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "count", required = false, defaultValue = "10")
-            @Min(value = 1, message = "count必须为正整数") Long count,
+            @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
+            @Min(value = 0, message = "{page}") Long page) {
         return logService.getLogs(page, count, name, start, end);
     }
 
@@ -47,9 +47,9 @@ public class LogController {
             @RequestParam(name = "name", required = false) String name,
             @RequestParam(name = "keyword", required = false, defaultValue = "") String keyword,
             @RequestParam(name = "count", required = false, defaultValue = "10")
-            @Min(value = 1, message = "count必须为正整数") Long count,
+            @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
+            @Min(value = 0, message = "{page}") Long page) {
         return logService.searchLogs(page, count, name, keyword, start, end);
     }
 
@@ -58,9 +58,9 @@ public class LogController {
     @GroupRequired
     public List<String> getUsers(
             @RequestParam(name = "count", required = false, defaultValue = "10")
-            @Min(value = 1, message = "count必须为正整数") Long count,
+            @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
-            @Min(value = 0, message = "page必须为整数，且大于等于0") Long page) {
+            @Min(value = 0, message = "{page}") Long page) {
         return logService.getUserNames(page, count);
     }
 }

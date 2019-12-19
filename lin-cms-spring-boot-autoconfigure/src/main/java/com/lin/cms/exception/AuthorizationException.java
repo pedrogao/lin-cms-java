@@ -23,4 +23,9 @@ public class AuthorizationException extends HttpException {
     public AuthorizationException(String message) {
         super(message);
     }
+
+    public AuthorizationException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

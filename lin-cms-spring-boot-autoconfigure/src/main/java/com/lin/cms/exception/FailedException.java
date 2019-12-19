@@ -19,4 +19,9 @@ public class FailedException extends HttpException {
     public FailedException(String message) {
         super(message);
     }
+
+    public FailedException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

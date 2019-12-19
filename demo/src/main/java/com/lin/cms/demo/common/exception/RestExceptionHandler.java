@@ -198,7 +198,7 @@ public class RestExceptionHandler {
     public CommonResult processException(Exception exception, HttpServletRequest request, HttpServletResponse response) {
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
-        result.setMsg(ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
+        result.setMsg(ErrorCode.INTERNAL_SERVER_ERROR.getZhDescription());
         result.setErrorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode());
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         return result;

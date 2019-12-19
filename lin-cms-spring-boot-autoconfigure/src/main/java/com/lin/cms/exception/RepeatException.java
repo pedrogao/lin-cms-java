@@ -19,4 +19,9 @@ public class RepeatException extends HttpException {
     public RepeatException() {
         super(ErrorCode.REPEAT.getDescription());
     }
+
+    public RepeatException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

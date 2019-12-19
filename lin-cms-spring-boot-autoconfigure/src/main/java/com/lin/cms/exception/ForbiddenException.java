@@ -16,6 +16,11 @@ public class ForbiddenException extends HttpException {
         super(message);
     }
 
+    public ForbiddenException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
+
     public ForbiddenException() {
         super(ErrorCode.FORBIDDEN.getDescription());
     }

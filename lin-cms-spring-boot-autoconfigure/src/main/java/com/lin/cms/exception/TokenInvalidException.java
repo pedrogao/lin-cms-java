@@ -19,4 +19,9 @@ public class TokenInvalidException extends HttpException {
     public TokenInvalidException() {
         super(ErrorCode.TOKEN_INVALID.getDescription());
     }
+
+    public TokenInvalidException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

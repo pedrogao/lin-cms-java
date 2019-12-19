@@ -1,18 +1,18 @@
 package com.lin.cms.demo.common.validator.impl;
 
-import com.lin.cms.demo.common.validator.DateTime;
+import com.lin.cms.demo.common.validator.DateTimeFormat;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.text.SimpleDateFormat;
 
-public class DateTimeValidator implements ConstraintValidator<DateTime, String> {
+public class DateTimeValidator implements ConstraintValidator<DateTimeFormat, String> {
 
-    private DateTime dateTime;
+    private DateTimeFormat dateTimeFormat;
 
     @Override
-    public void initialize(DateTime dateTime) {
-        this.dateTime = dateTime;
+    public void initialize(DateTimeFormat dateTime) {
+        this.dateTimeFormat = dateTime;
     }
 
 
@@ -20,9 +20,9 @@ public class DateTimeValidator implements ConstraintValidator<DateTime, String> 
     public boolean isValid(String value, ConstraintValidatorContext context) {
         // 如果value为null
         if (value == null) {
-            return dateTime.allowNull();
+            return dateTimeFormat.allowNull();
         } else {
-            String format = dateTime.format();
+            String format = dateTimeFormat.format();
             if (value.length() != format.length()) {
                 return false;
             }

@@ -21,4 +21,9 @@ public class FileTooLargeException extends HttpException {
     public FileTooLargeException() {
         super(ErrorCode.FILE_TOO_LARGE.getDescription());
     }
+
+    public FileTooLargeException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

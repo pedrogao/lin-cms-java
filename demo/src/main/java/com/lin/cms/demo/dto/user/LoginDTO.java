@@ -10,9 +10,10 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @NoArgsConstructor
 public class LoginDTO {
-    @NotBlank(message = "用户名不可为空")
+
+    @NotBlank(message = "{user.username.not-blank}")
     private String username;
 
-    @NotBlank(message = "密码不可为空")
+    @NotBlank(message = "{password.new-password.not-blank}")
     private String password;
 }

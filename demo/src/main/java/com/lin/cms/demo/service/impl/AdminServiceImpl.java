@@ -144,21 +144,21 @@ public class AdminServiceImpl implements AdminService {
     private void throwUserNotExistById(Long id) {
         boolean exist = userService.checkUserExistById(id);
         if (!exist) {
-            throw new NotFoundException("未找到用户");
+            throw new NotFoundException("user not found", 10021);
         }
     }
 
     private void throwGroupNotExistById(Long id) {
         boolean exist = groupService.checkGroupExistById(id);
         if (!exist) {
-            throw new NotFoundException("未找到分组");
+            throw new NotFoundException("group not found", 10024);
         }
     }
 
     private void throwGroupNameExist(String name) {
         boolean exist = groupService.checkGroupExistByName(name);
         if (exist) {
-            throw new ForbiddenException("分组名已被使用，请重新填入新的分组名");
+            throw new ForbiddenException("group name already exist, please enter a new one", 10072);
         }
     }
 }

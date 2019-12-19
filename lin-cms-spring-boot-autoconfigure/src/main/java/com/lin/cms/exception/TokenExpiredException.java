@@ -19,4 +19,9 @@ public class TokenExpiredException extends HttpException {
     public TokenExpiredException() {
         super(ErrorCode.TOKEN_EXPIRED.getDescription());
     }
+
+    public TokenExpiredException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }

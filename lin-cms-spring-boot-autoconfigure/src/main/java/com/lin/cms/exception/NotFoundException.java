@@ -16,6 +16,11 @@ public class NotFoundException extends HttpException {
         super(message);
     }
 
+    public NotFoundException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
+
     public NotFoundException() {
         super(ErrorCode.NOT_FOUND.getDescription());
     }

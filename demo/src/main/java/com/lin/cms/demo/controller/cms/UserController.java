@@ -6,6 +6,7 @@ import com.lin.cms.core.annotation.RefreshRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.demo.common.LocalUser;
 import com.lin.cms.demo.service.UserIdentityService;
+import com.lin.cms.exception.FailedException;
 import com.lin.cms.exception.HttpException;
 import com.lin.cms.demo.vo.CommonResult;
 import com.lin.cms.demo.model.UserDO;
@@ -15,6 +16,8 @@ import com.lin.cms.demo.service.UserService;
 import com.lin.cms.core.token.DoubleJWT;
 import com.lin.cms.demo.dto.user.*;
 import com.lin.cms.core.token.Tokens;
+import com.lin.cms.exception.NotFoundException;
+import com.lin.cms.exception.ParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +51,7 @@ public class UserController {
     @AdminRequired
     public CommonResult<String> register(@RequestBody @Validated RegisterDTO validator) {
         userService.createUser(validator);
-        return ResultUtil.generateSuccessResult("添加用户成功！");
+        return ResultUtil.generateResult(9);
     }
 
     /**
@@ -58,14 +61,14 @@ public class UserController {
     public Tokens login(@RequestBody @Validated LoginDTO validator) {
         UserDO user = userService.getUserByUsername(validator.getUsername());
         if (user == null) {
-            throw new HttpException("user not found");
+            throw new NotFoundException("user not found", 10021);
         }
         boolean valid = userIdentityService.verifyUsernamePassword(
                 user.getId(),
                 user.getUsername(),
                 validator.getPassword());
         if (!valid)
-            throw new HttpException("username or password is fault");
+            throw new ParameterException("username or password is fault", 10031);
         return jwt.generateTokens(user.getId());
     }
 
@@ -76,7 +79,7 @@ public class UserController {
     @LoginRequired
     public CommonResult update(@RequestBody @Validated UpdateInfoDTO validator) {
         userService.updateUserInfo(validator);
-        return ResultUtil.generateSuccessResult("更新成功！");
+        return ResultUtil.generateResult(4);
     }
 
     /**
@@ -86,7 +89,7 @@ public class UserController {
     @LoginRequired
     public CommonResult updatePassword(@RequestBody @Validated ChangePasswordDTO validator) {
         userService.changeUserPassword(validator);
-        return ResultUtil.generateSuccessResult("密码修改成功！");
+        return ResultUtil.generateResult(2);
     }
 
     /**

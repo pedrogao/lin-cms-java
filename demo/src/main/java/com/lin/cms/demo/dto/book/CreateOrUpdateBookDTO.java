@@ -11,15 +11,18 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 public class CreateOrUpdateBookDTO {
 
-    @NotEmpty(message = "必须传入图书名")
+    @NotEmpty(message = "{book.title.not-empty}")
+    @Size(max = 50, message = "{book.title.size}")
     private String title;
 
-    @NotEmpty(message = "必须传入图书作者")
+    @NotEmpty(message = "{book.author.not-empty}")
+    @Size(max = 50, message = "{book.author.size}")
     private String author;
 
-    @NotEmpty(message = "必须传入图书综述")
+    @NotEmpty(message = "{book.summary.not-empty}")
+    @Size(max = 1000, message = "{book.summary.size}")
     private String summary;
 
-    @Size(min = 0, max = 100, message = "图书插图的url长度必须在0~100之间")
+    @Size(max = 100, message = "{book.image.size}")
     private String image;
 }

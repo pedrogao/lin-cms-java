@@ -19,4 +19,9 @@ public class FileExtensionException extends HttpException {
     public FileExtensionException() {
         super(ErrorCode.FILE_EXTENSION.getDescription());
     }
+
+    public FileExtensionException(String message, int errorCode) {
+        super(message);
+        this.errorCode = errorCode;
+    }
 }
