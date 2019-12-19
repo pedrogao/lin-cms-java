@@ -1,5 +1,6 @@
 package com.lin.cms.demo.service;
 
+import com.lin.cms.demo.bo.FileBO;
 import com.lin.cms.demo.model.FileDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.util.MultiValueMap;
@@ -19,7 +20,7 @@ public interface FileService extends IService<FileDO> {
      * @param fileMap 文件map
      * @return 文件数据
      */
-    List<FileDO> upload(MultiValueMap<String, MultipartFile> fileMap);
+    List<FileBO> upload(MultiValueMap<String, MultipartFile> fileMap);
 
     /**
      * 通过md5检查文件是否存在

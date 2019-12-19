@@ -13,6 +13,9 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.nio.file.FileSystems;
+import java.nio.file.Path;
+
 
 /**
  * Spring MVC 配置
@@ -91,6 +94,8 @@ public class WebConfig implements WebMvcConfigurer {
         if (FileUtil.isAbsolutePath(dir)) {
             return dir;
         }
-        return FileUtil.getAbsolutePath(dir);
+        String cmd = System.getProperty("user.dir");
+        Path path = FileSystems.getDefault().getPath(cmd, dir);
+        return path.toAbsolutePath().toString();
     }
 }

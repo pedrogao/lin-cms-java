@@ -23,7 +23,9 @@ public class LoggerImpl implements LoggerResolver {
     @Autowired
     private LogService logService;
 
-    private static String REG_XP = "(?<=\\{)[^}]*(?=\\})";
+    public static String REG_XP = "(?<=\\{)[^}]*(?=\\})";
+
+    private Pattern pattern = Pattern.compile(REG_XP);
 
 
     @Override
@@ -42,7 +44,6 @@ public class LoggerImpl implements LoggerResolver {
     }
 
     private String parseTemplate(String template, UserDO user, HttpServletRequest request, HttpServletResponse response) {
-        Pattern pattern = Pattern.compile(REG_XP);
         // 调用 get 方法
         Matcher m = pattern.matcher(template);
         while (m.find()) {

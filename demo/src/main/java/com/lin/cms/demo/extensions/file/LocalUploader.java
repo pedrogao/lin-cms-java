@@ -42,10 +42,11 @@ public class LocalUploader implements Uploader {
 
     public List<File> upload(MultiValueMap<String, MultipartFile> fileMap) {
         if (fileMap.isEmpty()) {
-            throw new NotFoundException("未找到文件");
+            throw new NotFoundException("file not found", 10026);
         }
         if (fileMap.size() > this.nums) {
-            throw new FileTooManyException("文件太多，文件总数不可超过" + this.nums);
+            // StrUtil.format(template, vars);
+            throw new FileTooManyException("too many files, amount of files must less than" + this.nums, 10180);
         }
         // 得到单个文件的大小限制
         long singleFileLimit = FileUtil.parseSize(this.singleLimit);
@@ -83,7 +84,7 @@ public class LocalUploader implements Uploader {
                 md5(md5).
                 path(storePath).
                 size(bytes.length).
-                type(FileConsts.REMOTE).
+                type(FileConsts.LOCAL).
                 extension(ext).
                 build();
         // 如果预处理器不为空，且处理结果为false，直接返回, 否则处理
@@ -98,7 +99,7 @@ public class LocalUploader implements Uploader {
         try {
             bytes = file.getBytes();
         } catch (Exception e) {
-            throw new FailedException("读取文件数据失败");
+            throw new FailedException("read file date failed", 10190);
         }
         return bytes;
     }
@@ -117,7 +118,7 @@ public class LocalUploader implements Uploader {
             stream.write(bytes);
             stream.close();
         } catch (Exception e) {
-            throw new FailedException("读取文件数据失败");
+            throw new FailedException("read file date failed", 10190);
         }
     }
 

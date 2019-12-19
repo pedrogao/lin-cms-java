@@ -50,6 +50,7 @@ public class LogDO implements Serializable {
     private Date updateTime;
 
     @TableLogic
+    @JsonIgnore
     private Date deleteTime;
 
 }

@@ -55,5 +55,6 @@ public class UserIdentityDO implements Serializable {
     private Date updateTime;
 
     @TableLogic
+    @JsonIgnore
     private Date deleteTime;
 }

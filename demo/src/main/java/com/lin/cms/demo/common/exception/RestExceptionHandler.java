@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@SuppressWarnings("Duplicates")
 @Order
 @RestControllerAdvice
 @Slf4j
@@ -43,6 +44,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({HttpException.class})
     public CommonResult processException(HttpException exception, HttpServletRequest request, HttpServletResponse response) {
+        log.error("", exception);
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         int errorCode = exception.getErrorCode();
@@ -62,6 +64,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({ConstraintViolationException.class})
     public CommonResult processException(ConstraintViolationException exception, HttpServletRequest request, HttpServletResponse response) {
+        log.error("", exception);
         Map<String, Object> msg = new HashMap<>();
         exception.getConstraintViolations().forEach(constraintViolation -> {
             String template = constraintViolation.getMessageTemplate();
@@ -81,6 +84,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({NoHandlerFoundException.class})
     public CommonResult processException(NoHandlerFoundException exception, HttpServletRequest request, HttpServletResponse response) {
+        log.error("", exception);
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         String errorMessage = ErrorCodeConfig.getErrorMessage(10025);
@@ -99,6 +103,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
     public CommonResult processException(MissingServletRequestParameterException exception, HttpServletRequest request, HttpServletResponse response) {
+        log.error("", exception);
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
 
@@ -118,6 +123,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public CommonResult processException(MethodArgumentTypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
+        log.error("", exception);
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         String errorMessage = ErrorCodeConfig.getErrorMessage(10160);
@@ -136,6 +142,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({ServletException.class})
     public CommonResult processException(ServletException exception, HttpServletRequest request, HttpServletResponse response) {
+        log.error("", exception);
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg(exception.getMessage());
@@ -149,6 +156,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
     public CommonResult processException(MethodArgumentNotValidException exception, HttpServletRequest request, HttpServletResponse response) {
+        log.error("", exception);
         BindingResult bindingResult = exception.getBindingResult();
         List<ObjectError> errors = bindingResult.getAllErrors();
         Map<String, Object> msg = new HashMap<>();
@@ -173,6 +181,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
     public CommonResult processException(HttpMessageNotReadableException exception, HttpServletRequest request, HttpServletResponse response) {
+        log.error("", exception);
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         String errorMessage = ErrorCodeConfig.getErrorMessage(10170);
@@ -191,6 +200,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({TypeMismatchException.class})
     public CommonResult processException(TypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
+        log.error("", exception);
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg(exception.getMessage());
@@ -204,6 +214,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({MaxUploadSizeExceededException.class})
     public CommonResult processException(MaxUploadSizeExceededException exception, HttpServletRequest request, HttpServletResponse response) {
+        log.error("", exception);
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         String errorMessage = ErrorCodeConfig.getErrorMessage(10180);
@@ -222,6 +233,7 @@ public class RestExceptionHandler {
      */
     @ExceptionHandler({Exception.class})
     public CommonResult processException(Exception exception, HttpServletRequest request, HttpServletResponse response) {
+        log.error("", exception);
         CommonResult result = new CommonResult();
         result.setUrl(request.getServletPath());
         result.setMsg(ErrorCode.INTERNAL_SERVER_ERROR.getZhDescription());

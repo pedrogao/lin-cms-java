@@ -48,5 +48,6 @@ public class FileDO implements Serializable {
     private Date updateTime;
 
     @TableLogic
+    @JsonIgnore
     private Date deleteTime;
 }
