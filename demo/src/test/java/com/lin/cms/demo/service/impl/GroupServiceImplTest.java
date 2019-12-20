@@ -1,15 +1,16 @@
 package com.lin.cms.demo.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.mapper.*;
 import com.lin.cms.demo.model.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.session.SqlSession;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
@@ -47,6 +48,12 @@ public class GroupServiceImplTest {
 
     @Autowired
     private GroupPermissionMapper groupPermissionMapper;
+
+    @Autowired
+    private SqlSession sqlSession;
+
+    @Value("${group.root.id}")
+    private Long rootGroupId;
 
     public Long mockData() {
         UserDO user = UserDO.builder().nickname("pedro大大").username("pedro大大").build();
@@ -147,28 +154,5 @@ public class GroupServiceImplTest {
         long userId = mockData();
         boolean exist = groupService.checkIsRootByUserId(userId);
         assertFalse(exist);
-    }
-
-    @Test
-    public void checkIsRootByUserId1() {
-        QueryWrapper<GroupDO> wrapper = new QueryWrapper<>();
-        wrapper.lambda().eq(GroupDO::getName, "root");
-        GroupDO root = groupMapper.selectOne(wrapper);
-        if (root == null) {
-            root = GroupDO.builder().name("root").info("测试").build();
-            groupMapper.insert(root);
-            log.info("root group is created!");
-        }
-        Long groupId = root.getId();
-        UserDO user = UserDO.builder().nickname("pedro大大").username("pedro大大").build();
-        userMapper.insert(user);
-        List<UserGroupDO> relations = new ArrayList<>();
-        UserGroupDO relation2 = new UserGroupDO(user.getId(), groupId);
-        relations.add(relation2);
-        userGroupMapper.insertBatch(relations);
-
-        long userId = user.getId();
-        boolean exist = groupService.checkIsRootByUserId(userId);
-        assertTrue(exist);
     }
 }
