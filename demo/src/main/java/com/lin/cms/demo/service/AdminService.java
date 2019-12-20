@@ -1,11 +1,13 @@
 package com.lin.cms.demo.service;
 
+import com.lin.cms.demo.model.PermissionDO;
 import com.lin.cms.demo.vo.PageResult;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.dto.admin.*;
 import com.lin.cms.demo.model.GroupDO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AdminService {
 
@@ -34,4 +36,8 @@ public interface AdminService {
     boolean removePermissions(RemovePermissionsDTO dto);
 
     List<GroupDO> getAllGroups();
+
+    List<PermissionDO> getAllPermissions();
+
+    Map<String, List<PermissionDO>> getAllStructualPermissions();
 }

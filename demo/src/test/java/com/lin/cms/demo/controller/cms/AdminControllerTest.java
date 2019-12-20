@@ -76,7 +76,7 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.用户").isNotEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.用户").isArray());
     }
 
     @Test

@@ -13,6 +13,7 @@ import com.lin.cms.demo.service.GroupService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lin.cms.demo.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,7 +26,11 @@ import java.util.stream.Collectors;
 @Service
 public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implements GroupService {
 
-    public static final String ROOT_GROUP_NAME = "root";
+    @Value("${group.root.name}")
+    private String rootGroupName;
+
+    @Value("${group.root.id}")
+    private Long rootGroupId;
 
     @Autowired
     private PermissionService permissionService;
@@ -70,7 +75,11 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
 
     @Override
     public boolean checkIsRootByUserId(Long userId) {
-        return this.baseMapper.selectCountUserByUserIdAndGroupName(userId, ROOT_GROUP_NAME) > 0;
+        QueryWrapper<UserGroupDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(UserGroupDO::getUserId, userId)
+                .eq(UserGroupDO::getGroupId, rootGroupId);
+        UserGroupDO relation = userGroupMapper.selectOne(wrapper);
+        return relation != null;
     }
 
     @Override

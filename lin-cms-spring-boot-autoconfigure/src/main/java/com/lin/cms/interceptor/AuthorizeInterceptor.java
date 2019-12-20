@@ -74,9 +74,9 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
 
     private boolean handleMeta(HttpServletRequest request, HttpServletResponse response, Method method, RouteMeta meta) {
         // 没有挂载到权限系统中，通过
-        // 存在一些权限
+        // 如果权限存在meta，可是却没有mount，则当作 no meta 处理
         if (!meta.mount()) {
-            return true;
+            return this.handleNoMeta(request, response, method);
         }
         Annotation[] annotations = method.getAnnotations();
         UserLevel level = AnnotationUtil.findRequired(annotations);

@@ -2,26 +2,21 @@ package com.lin.cms.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.lin.cms.demo.model.*;
+import com.lin.cms.demo.service.*;
 import com.lin.cms.demo.vo.PageResult;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.dto.admin.*;
 import com.lin.cms.demo.mapper.GroupPermissionMapper;
-import com.lin.cms.demo.model.GroupDO;
-import com.lin.cms.demo.model.GroupPermissionDO;
-import com.lin.cms.demo.model.UserDO;
-import com.lin.cms.demo.model.UserIdentityDO;
-import com.lin.cms.demo.service.AdminService;
-import com.lin.cms.demo.service.GroupService;
-import com.lin.cms.demo.service.UserIdentityService;
-import com.lin.cms.demo.service.UserService;
 import com.lin.cms.exception.ForbiddenException;
 import com.lin.cms.exception.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +32,13 @@ public class AdminServiceImpl implements AdminService {
     private GroupService groupService;
 
     @Autowired
+    private PermissionService permissionService;
+
+    @Autowired
     private GroupPermissionMapper groupPermissionMapper;
+
+    @Value("${group.root.id}")
+    private Long rootGroupId;
 
     @Override
     public PageResult getUserPageByGroupId(Long groupId, Long count, Long page) {
@@ -71,6 +72,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean updateUserInfo(Long id, UpdateUserInfoDTO validator) {
         List<Long> newGroupIds = validator.getGroupIds();
+        boolean anyMatch = newGroupIds.stream().anyMatch(it -> it.equals(rootGroupId));
+        if (anyMatch) {
+            throw new ForbiddenException("you can't add user to root group", 10073);
+        }
         List<Long> existGroupIds = groupService.getUserGroupIdsByUserId(id);
         // 删除existGroupIds有，而newGroupIds没有的
         List<Long> deleteIds = existGroupIds.stream().filter(it -> !newGroupIds.contains(it)).collect(Collectors.toList());
@@ -97,10 +102,13 @@ public class AdminServiceImpl implements AdminService {
         throwGroupNameExist(dto.getName());
         GroupDO group = GroupDO.builder().name(dto.getName()).info(dto.getInfo()).build();
         groupService.save(group);
-        List<GroupPermissionDO> relations = dto.getPermissionIds().stream()
-                .map(id -> new GroupPermissionDO(group.getId(), id))
-                .collect(Collectors.toList());
-        return groupPermissionMapper.insertBatch(relations) > 0;
+        if (dto.getPermissionIds() != null && !dto.getPermissionIds().isEmpty()) {
+            List<GroupPermissionDO> relations = dto.getPermissionIds().stream()
+                    .map(id -> new GroupPermissionDO(group.getId(), id))
+                    .collect(Collectors.toList());
+            groupPermissionMapper.insertBatch(relations);
+        }
+        return true;
     }
 
     @Override
@@ -139,6 +147,27 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<GroupDO> getAllGroups() {
         return groupService.list();
+    }
+
+    @Override
+    public List<PermissionDO> getAllPermissions() {
+        return permissionService.list();
+    }
+
+    @Override
+    public Map<String, List<PermissionDO>> getAllStructualPermissions() {
+        List<PermissionDO> permissions = permissionService.list();
+        Map<String, List<PermissionDO>> res = new HashMap<>();
+        permissions.forEach(permission -> {
+            if (res.containsKey(permission.getModule())) {
+                res.get(permission.getModule()).add(permission);
+            } else {
+                ArrayList t = new ArrayList();
+                t.add(permission);
+                res.put(permission.getModule(), t);
+            }
+        });
+        return res;
     }
 
     private void throwUserNotExistById(Long id) {

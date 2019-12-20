@@ -3,6 +3,7 @@ package com.lin.cms.demo.controller.cms;
 import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
+import com.lin.cms.demo.model.PermissionDO;
 import com.lin.cms.demo.service.AdminService;
 import com.lin.cms.demo.vo.CommonResult;
 import com.lin.cms.demo.vo.PageResult;
@@ -38,9 +39,8 @@ public class AdminController {
     @GetMapping("/permission")
     @AdminRequired
     @RouteMeta(permission = "查询所有可分配的权限", module = "管理员")
-    public Map getAllPermissions() {
-        // TODO 从数据库中拿权限id，而不是拿字段
-        return postBeanProcessor.getStructuralMeta();
+    public Map<String, List<PermissionDO>> getAllPermissions() {
+        return adminService.getAllStructualPermissions();
     }
 
 
