@@ -4,9 +4,9 @@
 
 ### getAllPermissions 查询所有可分配的权限
 
-url: /cms/admin/permission
-method: get
-result:
+url: /cms/admin/permission    
+method: get     
+result:   
 
 ```json
 {
@@ -63,9 +63,9 @@ result:
 
 ### getUsers 查询所有用户
 
-url: /cms/admin/users
-method: get
-param: 
+url: /cms/admin/users   
+method: get    
+param:    
 
 |  name     | required  |  default |  含义                        ｜
 | --------- |:---------:| --------:|: ---------------------------:|
@@ -73,8 +73,7 @@ param:
 | count     | false     |   10     |          分页数              ｜
 | page      | false     |    0     |          分页值              ｜
 
-
-result:
+result:   
 
 ```json
 {
@@ -102,9 +101,9 @@ result:
 
 ### changeUserPassword 修改用户密码
 
-url: /cms/admin/user/{id}/password
-method: put
-body: 
+url: /cms/admin/user/{id}/password    
+method: put     
+body:    
 
 |  name            | required  |  default |  含义                        ｜
 | -----------------|:---------:| --------:|: ---------------------------:|
@@ -117,7 +116,7 @@ body:
 	"confirm_password": "147258"
 }
 ```
-result:
+result:   
 
 ```json
 {
@@ -129,10 +128,10 @@ result:
 
 ### deleteUser 删除用户
 
-url: /cms/admin/user/{id}
-method: delete
+url: /cms/admin/user/{id}        
+method: delete   
 
-result:
+result:    
 
 ```json
 {
@@ -145,9 +144,9 @@ result:
 
 ### updateUser 管理员更新用户信息
 
-url: /cms/admin/user/{id}
-method: put
-body: 
+url: /cms/admin/user/{id}     
+method: put    
+body:    
 
 |  name            | required  |  default |  含义                        ｜
 | -----------------|:---------:| --------:|: ---------------------------:|
@@ -158,7 +157,7 @@ body:
 	"group_ids": [2]
 }
 ```
-result:
+result:    
 
 ```json
 {
@@ -170,9 +169,9 @@ result:
 
 ### getGroups 查询所有权限组及其权限
 
-url: /cms/admin/group
-method: get
-param: 
+url: /cms/admin/group    
+method: get    
+param:    
 
 |  name     | required  |  default |  含义                        ｜
 | --------- |:---------:| --------:|: ---------------------------:|
@@ -180,7 +179,7 @@ param:
 | page      | false     |    0     |          分页值              ｜
 
 
-result:
+result:    
 
 ```json
 {
@@ -204,10 +203,10 @@ result:
 
 ### getAllGroup 查询所有权限组
 
-url: /cms/admin/group/all
-method: get
+url: /cms/admin/group/all    
+method: get    
 
-result:
+result:    
 
 ```json
 [
@@ -227,10 +226,10 @@ result:
 
 ### getGroup 查询一个权限组及其权限
 
-url: /cms/admin/group/{id}
-method: get
+url: /cms/admin/group/{id}    
+method: get    
 
-result:
+result:   
 
 ```json
 {
@@ -243,9 +242,9 @@ result:
 
 ### createGroup 新建权限组
 
-url: /cms/admin/group
-method: post
-body: 
+url: /cms/admin/group    
+method: post    
+body:     
 
 |  name            | required  |  default |  含义                        ｜
 | -----------------|:---------:| --------:|: ---------------------------:|
@@ -260,7 +259,7 @@ body:
 	"permission_ids": [1, 2]
 }
 ```
-result:
+result:     
 
 ```json
 {
@@ -272,9 +271,9 @@ result:
 
 ### updateGroup 更新一个权限组
 
-url: /cms/admin/group/{id}
-method: put
-body: 
+url: /cms/admin/group/{id}      
+method: put     
+body:     
 
 |  name            | required  |  default |  含义                        ｜
 | -----------------|:---------:| --------:|: ---------------------------:|
@@ -287,7 +286,7 @@ body:
 	"info": "玄机科技"
 }
 ```
-result:
+result:     
 
 ```json
 {
@@ -300,10 +299,10 @@ result:
 
 ### deleteGroup 删除一个权限组
 
-url: /cms/admin/group/{id}
-method: delete
+url: /cms/admin/group/{id}     
+method: delete     
 
-result:
+result:     
 
 ```json
 {
@@ -316,9 +315,9 @@ result:
 
 ### dispatchPermission 分配单个权限
 
-url: /cms/admin/permission/dispatch
-method: post
-body: 
+url: /cms/admin/permission/dispatch      
+method: post    
+body:    
 
 |  name            | required  |  default |  含义                        ｜
 | -----------------|:---------:| --------:|: ---------------------------:|
@@ -331,7 +330,7 @@ body:
 	"permission_id": 3
 }
 ```
-result:
+result:     
 
 ```json
 {
@@ -343,9 +342,9 @@ result:
 
 ### dispatchPermissions 分配多个权限
 
-url: /cms/admin/permission/dispatch/batch
-method: post
-body: 
+url: /cms/admin/permission/dispatch/batch    
+method: post    
+body:      
 
 |  name            | required  |  default |  含义                        ｜
 | -----------------|:---------:| --------:|: ---------------------------:|
@@ -357,8 +356,8 @@ body:
 	"group_id": 5,
 	"permission_ids": [4,5]
 }
-```
-result:
+``` 
+result:    
 
 ```json
 {
@@ -370,9 +369,9 @@ result:
 
 ### removePermissions 删除多个权限
 
-url: /cms/admin/permission/dispatch/remove
-method: post
-body: 
+url: /cms/admin/permission/dispatch/remove     
+method: post   
+body:    
 
 |  name            | required  |  default |  含义                        ｜
 | -----------------|:---------:| --------:|: ---------------------------:|
@@ -385,7 +384,7 @@ body:
 	"permission_ids": [4,5]
 }
 ```
-result:
+result:     
 
 ```json
 {
