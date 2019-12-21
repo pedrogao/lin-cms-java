@@ -82,8 +82,8 @@ public class LogServiceImplTest {
         Integer status = 200;
         logService.createLog(message, authority, userId, userName, method, path, status);
 
-        List<String> names = logService.getUserNames(0L, 10L);
-        assertTrue(names.size() > 0);
+        PageResult result = logService.getUserNames(0L, 10L);
+        assertTrue(result.getItems().size() > 0);
     }
 
     @Test

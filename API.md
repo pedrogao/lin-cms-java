@@ -4,11 +4,11 @@
 
 ### getAllPermissions 查询所有可分配的权限
 
-url: /cms/admin/permission
+`url: /cms/admin/permission`
 
-method: get
+`method: get`
 
-result:
+`result:`
 
 ```json
 {
@@ -65,19 +65,19 @@ result:
 
 ### getUsers 查询所有用户
 
-url: /cms/admin/users
+`url: /cms/admin/users`
 
-method: get
+`method: get`
 
-param:
+`param:`
 
-| name     | required | default |              含义 ｜               |
-| -------- | :------: | ------: | :--------------------------------: |
-| group_id |  false   |      无 | 分组 id，传入后获得该分组的用户 ｜ |
-| count    |  false   |      10 |             分页数 ｜              |
-| page     |  false   |       0 |             分页值 ｜              |
+| name     | required | default |              含义               |
+| -------- | :------: | ------: | :-----------------------------: |
+| group_id |  false   |      无 | 分组 id，传入后获得该分组的用户 |
+| count    |  false   |      10 |             分页数              |
+| page     |  false   |       0 |             分页值              |
 
-result:
+`result:`
 
 ```json
 {
@@ -105,16 +105,16 @@ result:
 
 ### changeUserPassword 修改用户密码
 
-url: /cms/admin/user/{id}/password
+`url: /cms/admin/user/{id}/password`
 
-method: put
+`method: put`
 
-body:
+`body:`
 
-| name             | required | default |   含义 ｜   |
-| ---------------- | :------: | ------: | :---------: |
-| new_password     |   true   |      无 |  新密码 ｜  |
-| confirm_password |   true   |      无 | 确认密码 ｜ |
+| name             | required | default |   含义   |
+| ---------------- | :------: | ------: | :------: |
+| new_password     |   true   |      无 |  新密码  |
+| confirm_password |   true   |      无 | 确认密码 |
 
 ```json
 {
@@ -123,7 +123,7 @@ body:
 }
 ```
 
-result:
+`result:`
 
 ```json
 {
@@ -135,11 +135,11 @@ result:
 
 ### deleteUser 删除用户
 
-url: /cms/admin/user/{id}
+`url: /cms/admin/user/{id}`
 
-method: delete
+`method: delete`
 
-result:
+`result:`
 
 ```json
 {
@@ -151,15 +151,15 @@ result:
 
 ### updateUser 管理员更新用户信息
 
-url: /cms/admin/user/{id}
+`url: /cms/admin/user/{id}`
 
-method: put
+`method: put`
 
-body:
+`body:`
 
-| name      | required | default |           含义 ｜            |
-| --------- | :------: | ------: | :--------------------------: |
-| group_ids |  false   |      无 | 分字 id，数组，如 [1,2,3] ｜ |
+| name      | required | default |           含义            |
+| --------- | :------: | ------: | :-----------------------: |
+| group_ids |  false   |      无 | 分字 id，数组，如 [1,2,3] |
 
 ```json
 {
@@ -167,7 +167,7 @@ body:
 }
 ```
 
-result:
+`result:`
 
 ```json
 {
@@ -179,18 +179,18 @@ result:
 
 ### getGroups 查询所有权限组及其权限
 
-url: /cms/admin/group
+`url: /cms/admin/group`
 
-method: get
+`method: get`
 
-param:
+`param:`
 
-| name  | required | default |  含义 ｜  |
-| ----- | :------: | ------: | :-------: |
-| count |  false   |      10 | 分页数 ｜ |
-| page  |  false   |       0 | 分页值 ｜ |
+| name  | required | default |  含义  |
+| ----- | :------: | ------: | :----: |
+| count |  false   |      10 | 分页数 |
+| page  |  false   |       0 | 分页值 |
 
-result:
+`result:`
 
 ```json
 {
@@ -214,11 +214,11 @@ result:
 
 ### getAllGroup 查询所有权限组
 
-url: /cms/admin/group/all
+`url: /cms/admin/group/all`
 
-method: get
+`method: get`
 
-result:
+`result:`
 
 ```json
 [
@@ -237,11 +237,11 @@ result:
 
 ### getGroup 查询一个权限组及其权限
 
-url: /cms/admin/group/{id}
+`url: /cms/admin/group/{id}`
 
-method: get
+`method: get`
 
-result:
+`result:`
 
 ```json
 {
@@ -254,17 +254,17 @@ result:
 
 ### createGroup 新建权限组
 
-url: /cms/admin/group
+`url: /cms/admin/group`
 
-method: post
+`method: post`
 
-body:
+`body:`
 
-| name           | required | default |         含义 ｜         |
-| -------------- | :------: | ------: | :---------------------: |
-| name           |   true   |      无 |       分组名称 ｜       |
-| info           |   true   |      无 |       分组信息 ｜       |
-| permission_ids |  false   |      无 | 权限 id，例如[1,2,3] ｜ |
+| name           | required | default |         含义         |
+| -------------- | :------: | ------: | :------------------: |
+| name           |   true   |      无 |       分组名称       |
+| info           |   true   |      无 |       分组信息       |
+| permission_ids |  false   |      无 | 权限 id，例如[1,2,3] |
 
 ```json
 {
@@ -274,7 +274,7 @@ body:
 }
 ```
 
-result:
+`result:`
 
 ```json
 {
@@ -286,16 +286,16 @@ result:
 
 ### updateGroup 更新一个权限组
 
-url: /cms/admin/group/{id}
+`url: /cms/admin/group/{id}`
 
-method: put
+`method: put`
 
-body:
+`body:`
 
-| name | required | default |   含义 ｜   |
-| ---- | :------: | ------: | :---------: |
-| name |  false   |      无 | 分组名称 ｜ |
-| info |  false   |      无 | 分组信息 ｜ |
+| name | required | default |   含义   |
+| ---- | :------: | ------: | :------: |
+| name |  false   |      无 | 分组名称 |
+| info |  false   |      无 | 分组信息 |
 
 ```json
 {
@@ -304,7 +304,7 @@ body:
 }
 ```
 
-result:
+`result:`
 
 ```json
 {
@@ -316,11 +316,11 @@ result:
 
 ### deleteGroup 删除一个权限组
 
-url: /cms/admin/group/{id}
+`url: /cms/admin/group/{id}`
 
-method: delete
+`method: delete`
 
-result:
+`result:`
 
 ```json
 {
@@ -332,16 +332,16 @@ result:
 
 ### dispatchPermission 分配单个权限
 
-url: /cms/admin/permission/dispatch
+`url: /cms/admin/permission/dispatch`
 
-method: post
+`method: post`
 
-body:
+`body:`
 
-| name          | required | default |  含义 ｜   |
-| ------------- | :------: | ------: | :--------: |
-| group_id      |   true   |      无 | 分组 id ｜ |
-| permission_id |   true   |      无 | 权限 id ｜ |
+| name          | required | default |  含义   |
+| ------------- | :------: | ------: | :-----: |
+| group_id      |   true   |      无 | 分组 id |
+| permission_id |   true   |      无 | 权限 id |
 
 ```json
 {
@@ -350,7 +350,7 @@ body:
 }
 ```
 
-result:
+`result:`
 
 ```json
 {
@@ -362,16 +362,16 @@ result:
 
 ### dispatchPermissions 分配多个权限
 
-url: /cms/admin/permission/dispatch/batch
+`url: /cms/admin/permission/dispatch/batch`
 
-method: post
+`method: post`
 
-body:
+`body:`
 
-| name           | required | default |  含义 ｜   |
-| -------------- | :------: | ------: | :--------: |
-| group_id       |   true   |      无 | 分组 id ｜ |
-| permission_ids |  false   |      无 | 权限 id ｜ |
+| name           | required | default |  含义   |
+| -------------- | :------: | ------: | :-----: |
+| group_id       |   true   |      无 | 分组 id |
+| permission_ids |  false   |      无 | 权限 id |
 
 ```json
 {
@@ -380,7 +380,7 @@ body:
 }
 ```
 
-result:
+`result:`
 
 ```json
 {
@@ -392,16 +392,16 @@ result:
 
 ### removePermissions 删除多个权限
 
-url: /cms/admin/permission/dispatch/remove
+`url: /cms/admin/permission/dispatch/remove`
 
-method: post
+`method: post`
 
-body:
+`body:`
 
-| name           | required | default |  含义 ｜   |
-| -------------- | :------: | ------: | :--------: |
-| group_id       |   true   |      无 | 分组 id ｜ |
-| permission_ids |  false   |      无 | 权限 id ｜ |
+| name           | required | default |  含义   |
+| -------------- | :------: | ------: | :-----: |
+| group_id       |   true   |      无 | 分组 id |
+| permission_ids |  false   |      无 | 权限 id |
 
 ```json
 {
@@ -410,7 +410,7 @@ body:
 }
 ```
 
-result:
+`result:`
 
 ```json
 {
@@ -420,47 +420,309 @@ result:
 }
 ```
 
+### upload 上传文件
+
+`url: /cms/file`
+
+`method: post`
+
+`body:` form-data
+
+`result:`
+
+```json
+[
+  {
+    "id": 1,
+    "path": "http://localhost:5000/assets/75dd15d3-bf35-4bda-a927-e3c2506968b6.png",
+    "type": "LOCAL",
+    "name": "75dd15d3-bf35-4bda-a927-e3c2506968b6.png",
+    "extension": ".png",
+    "size": 505894
+  }
+]
+```
+
+### getLogs 查询所有日志
+
+`url: /cms/log`
+
+`method: get`
+
+`param:`
+
+| name  | required | default |                含义                 |
+| ----- | :------: | ------: | :---------------------------------: |
+| start |  false   |      无 | 开始日期，格式：yyyy-MM-dd HH:mm:ss |
+| end   |  false   |      无 | 结束日期，格式：yyyy-MM-dd HH:mm:ss |
+| name  |  false   |      无 |               用户名                |
+| count |  false   |      10 |               分页数                |
+| page  |  false   |       0 |               分页值                |
+
+`result:`
+
 ```json
 {
-  "用户": {
-    "查询自己拥有的权限": [
-      "com.lin.cms.demo.controller.cms.UserController$$EnhancerBySpringCGLIB$$9d0819dc#getPermissions",
-      "com.lin.cms.demo.controller.cms.UserController#getPermissions"
-    ],
-    "查询自己信息": [
-      "com.lin.cms.demo.controller.cms.UserController$$EnhancerBySpringCGLIB$$9d0819dc#getInformation",
-      "com.lin.cms.demo.controller.cms.UserController#getInformation"
-    ]
-  },
-  "图书": {
-    "删除图书": [
-      "com.lin.cms.demo.controller.v1.BookController#deleteBook",
-      "com.lin.cms.demo.controller.v1.BookController$$EnhancerBySpringCGLIB$$5fe179c#deleteBook"
-    ]
-  },
-  "信息": {
-    "查看lin的信息": [
-      "com.lin.cms.demo.controller.cms.TestController$$EnhancerBySpringCGLIB$$57413a51#getTestInfo",
-      "com.lin.cms.demo.controller.cms.TestController#getTestInfo"
-    ],
-    "测试日志记录": [
-      "com.lin.cms.demo.controller.cms.TestController#getTestMsg",
-      "com.lin.cms.demo.controller.cms.TestController$$EnhancerBySpringCGLIB$$57413a51#getTestMsg"
-    ]
-  },
-  "日志": {
-    "查询所有日志": [
-      "com.lin.cms.demo.controller.cms.LogController$$EnhancerBySpringCGLIB$$da618565#getLogs",
-      "com.lin.cms.demo.controller.cms.LogController#getLogs"
-    ],
-    "查询日志记录的用户": [
-      "com.lin.cms.demo.controller.cms.LogController#getUsers",
-      "com.lin.cms.demo.controller.cms.LogController$$EnhancerBySpringCGLIB$$da618565#getUsers"
-    ],
-    "搜索日志": [
-      "com.lin.cms.demo.controller.cms.LogController#searchLogs",
-      "com.lin.cms.demo.controller.cms.LogController$$EnhancerBySpringCGLIB$$da618565#searchLogs"
-    ]
-  }
+  "total": 1,
+  "items": [
+    {
+      "id": 1,
+      "message": "root又皮了一波",
+      "user_id": 1,
+      "username": "root",
+      "status_code": 200,
+      "method": "GET",
+      "path": "/cms/test/json",
+      "permission": "测试日志记录"
+    }
+  ],
+  "page": 0,
+  "count": 10
+}
+```
+
+### searchLogs 搜索日志
+
+`url: /cms/log/search`
+
+`method: get`
+
+`param:`
+
+| name    | required | default |                含义                 |
+| ------- | :------: | ------: | :---------------------------------: |
+| start   |  false   |      无 | 开始日期，格式：yyyy-MM-dd HH:mm:ss |
+| end     |  false   |      无 | 结束日期，格式：yyyy-MM-dd HH:mm:ss |
+| name    |  false   |      无 |               用户名                |
+| keyword |  false   |      "" |               关键字                |
+| count   |  false   |      10 |               分页数                |
+| page    |  false   |       0 |               分页值                |
+
+`result:`
+
+```json
+{
+  "total": 1,
+  "items": [
+    {
+      "id": 1,
+      "message": "root又皮了一波",
+      "user_id": 1,
+      "username": "root",
+      "status_code": 200,
+      "method": "GET",
+      "path": "/cms/test/json",
+      "permission": "测试日志记录"
+    }
+  ],
+  "page": 0,
+  "count": 10
+}
+```
+
+### getUsers 查询日志记录的用户
+
+`url: /cms/log/users`
+
+`method: get`
+
+`param:`
+
+| name  | required | default |  含义  |
+| ----- | :------: | ------: | :----: |
+| count |  false   |      10 | 分页数 |
+| page  |  false   |       0 | 分页值 |
+
+`result:`
+
+```json
+{
+  "total": 1,
+  "items": ["root"],
+  "page": 0,
+  "count": 10
+}
+```
+
+### register 用户注册
+
+`url: cms/user/register`
+
+`method: post`
+
+`body:`
+
+| name             | required | default |   含义   |
+| ---------------- | :------: | ------: | :------: |
+| username         |   true   |      无 |  用户名  |
+| email            |  false   |      无 |   邮箱   |
+| group_ids        |  false   |      无 | 分组 id  |
+| password         |   true   |      无 |   密码   |
+| confirm_password |   true   |      无 | 确认密码 |
+
+```json
+{
+  "username": "范闲",
+  "group_ids": [2],
+  "password": "123456",
+  "confirm_password": "123456"
+}
+```
+
+`result:`
+
+```json
+{
+  "error_code": 9,
+  "msg": "注册成功",
+  "url": "/cms/user/register"
+}
+```
+
+### register 用户登陆
+
+`url: cms/user/login`
+
+`method: post`
+
+`body:`
+
+| name     | required | default |  含义  |
+| -------- | :------: | ------: | :----: |
+| username |   true   |      无 | 用户名 |
+| password |   true   |      无 |  密码  |
+
+```json
+{
+  "username": "root",
+  "password": "123456"
+}
+```
+
+`result:`
+
+```json
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZGVudGl0eSI6MSwic2NvcGUiOiJsaW4iLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTc2ODk1NjQ0fQ.0qsD_FSxcDUa8z0xgml0hKbrlWn5XRGoREb4I4nKY5I",
+  "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZGVudGl0eSI6MSwic2NvcGUiOiJsaW4iLCJ0eXBlIjoicmVmcmVzaCIsImV4cCI6MTU3OTQ4NDA0NH0.OG5n5VZ-mL1YccWI2ij0q-ENJRgOSpZzyFWgRf1FCrY"
+}
+```
+
+### update 更新用户信息
+
+`url: cms/user`
+
+`method: put`
+
+`body:`
+
+| name     | required | default |   含义   |
+| -------- | :------: | ------: | :------: |
+| username |  false   |      无 |  用户名  |
+| email    |  false   |      无 |   邮箱   |
+| nickname |  false   |      无 | 用户昵称 |
+| avatar   |  false   |      无 |   头像   |
+
+```json
+{
+  "nickname": "范闲",
+  "avatar": "https://pic3.zhimg.com/v2-fad5304306ca78c380d58fb628ed1386_400x224.jpeg",
+  "email": "1312342604@qq.com"
+}
+```
+
+`result:`
+
+```json
+{
+  "error_code": 4,
+  "msg": "更新用户成功",
+  "url": "/cms/user"
+}
+```
+
+### updatePassword 修改密码
+
+`url: cms/user/change_password`
+
+`method: put`
+
+`body:`
+
+| name             | required | default |   含义   |
+| ---------------- | :------: | ------: | :------: |
+| new_password     |   true   |      无 |  新密码  |
+| confirm_password |   true   |      无 | 确认密码 |
+| old_password     |   true   |      无 |  旧密码  |
+
+```json
+{
+  "new_password": "147258",
+  "confirm_password": "147258",
+  "old_password": "123456"
+}
+```
+
+`result:`
+
+```json
+{
+  "error_code": 2,
+  "msg": "密码修改成功",
+  "url": "/cms/user/change_password"
+}
+```
+
+### refreshToken 刷新令牌
+
+`url: cms/user/refresh`
+
+`method: get`
+
+`result:`
+
+**注意：一定要使用 refresh_token 来刷新令牌**
+
+```json
+{
+  "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZGVudGl0eSI6MSwic2NvcGUiOiJsaW4iLCJ0eXBlIjoiYWNjZXNzIiwiZXhwIjoxNTc2OTAwMjEwfQ.8Z-qRo2VvfLhMkJTd5bOxSHqC-kYhKhi11zrVg0hSVQ",
+  "refresh_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZGVudGl0eSI6MSwic2NvcGUiOiJsaW4iLCJ0eXBlIjoicmVmcmVzaCIsImV4cCI6MTU3OTQ4ODYxMH0.wu_dHpzd2mxlxqJF8L_6qBmr-FujGrDLAc2iJmZNT6M"
+}
+```
+
+### getPermissions 查询自己拥有的权限
+
+`url: cms/user/permissions`
+
+`method: get`
+
+`result:`
+
+```json
+{
+  "id": 1,
+  "nickname": "范闲",
+  "avatar": "https://pic3.zhimg.com/v2-fad5304306ca78c380d58fb628ed1386_400x224.jpeg",
+  "admin": true,
+  "email": "1312342604@qq.com",
+  "permissions": []
+}
+```
+
+### getInformation 查询自己信息
+
+`url: cms/user/information`
+
+`method: get`
+
+`result:`
+
+```json
+{
+  "id": 1,
+  "username": "root",
+  "nickname": "范闲",
+  "avatar": "https://pic3.zhimg.com/v2-fad5304306ca78c380d58fb628ed1386_400x224.jpeg",
+  "email": "1312342604@qq.com"
 }
 ```

@@ -57,7 +57,7 @@ public class AuthorizeVerifyResolverImpl implements AuthorizeVerifyResolver {
     public boolean handleGroup(HttpServletRequest request, HttpServletResponse response, RouteMeta meta) {
         handleLogin(request, response, meta);
         UserDO user = LocalUser.getLocalUser();
-        if (!verifyAdmin(user))
+        if (verifyAdmin(user))
             return true;
         long userId = user.getId();
         String permission = meta.permission();

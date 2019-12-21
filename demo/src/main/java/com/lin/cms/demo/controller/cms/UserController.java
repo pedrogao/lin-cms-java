@@ -5,6 +5,7 @@ import com.lin.cms.core.annotation.LoginRequired;
 import com.lin.cms.core.annotation.RefreshRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.demo.common.LocalUser;
+import com.lin.cms.demo.service.GroupService;
 import com.lin.cms.demo.service.UserIdentityService;
 import com.lin.cms.demo.vo.CommonResult;
 import com.lin.cms.demo.model.UserDO;
@@ -35,6 +36,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private GroupService groupService;
 
     @Autowired
     private UserIdentityService userIdentityService;
@@ -108,11 +112,11 @@ public class UserController {
     @RouteMeta(permission = "查询自己拥有的权限", module = "用户", mount = true)
     public UserPermissionsVO getPermissions() {
         UserDO user = LocalUser.getLocalUser();
-        // if (user.checkAdmin()) {
-        //     return new UserPermissionsVO(user);
-        // }
+        boolean admin = groupService.checkIsRootByUserId(user.getId());
         List<Map<String, List<Map<String, String>>>> permissions = userService.getStructualUserPermissions(user.getId());
-        return new UserPermissionsVO(user, permissions);
+        UserPermissionsVO userPermissions = new UserPermissionsVO(user, permissions);
+        userPermissions.setAdmin(admin);
+        return userPermissions;
     }
 
     /**

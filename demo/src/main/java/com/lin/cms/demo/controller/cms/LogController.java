@@ -56,7 +56,7 @@ public class LogController {
     @GetMapping("/users")
     @RouteMeta(permission = "查询日志记录的用户", module = "日志", mount = true)
     @GroupRequired
-    public List<String> getUsers(
+    public PageResult getUsers(
             @RequestParam(name = "count", required = false, defaultValue = "10")
             @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")

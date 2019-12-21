@@ -17,7 +17,7 @@ public interface LogService extends IService<LogDO> {
 
     PageResult searchLogs(Long page, Long count, String name, String keyword, Date start, Date end);
 
-    List<String> getUserNames(Long page, Long count);
+    PageResult getUserNames(Long page, Long count);
 
     boolean createLog(String message, String permission, Long userId,
                       String username, String method, String path,

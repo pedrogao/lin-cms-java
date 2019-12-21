@@ -22,6 +22,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lin.cms.exception.*;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,6 +50,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Autowired
     private UserGroupMapper userGroupMapper;
 
+    @Value("${group.root.id}")
+    private Long rootGroupId;
+
     @Transactional
     @Override
     public UserDO createUser(RegisterDTO dto) {
@@ -60,6 +64,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         BeanUtil.copyProperties(dto, user);
         this.baseMapper.insert(user);
         if (dto.getGroupIds() != null && !dto.getGroupIds().isEmpty()) {
+            checkGroupsValid(dto.getGroupIds());
             checkGroupsExist(dto.getGroupIds());
             List<UserGroupDO> relations = dto.getGroupIds()
                     .stream()
@@ -156,6 +161,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             if (!groupService.checkGroupExistById(id)) {
                 throw new NotFoundException("group not found，can't create user", 10023);
             }
+        }
+    }
+
+    private void checkGroupsValid(List<Long> ids) {
+        boolean anyMatch = ids.stream().anyMatch(it -> it.equals(rootGroupId));
+        if (anyMatch) {
+            throw new ForbiddenException("you can't add user to root group", 10073);
         }
     }
 }

@@ -34,10 +34,10 @@ public class LogServiceImpl extends ServiceImpl<LogMapper, LogDO> implements Log
     }
 
     @Override
-    public List<String> getUserNames(Long page, Long count) {
+    public PageResult getUserNames(Long page, Long count) {
         Page<LogDO> pager = new Page<>(page, count);
         IPage<String> iPage = this.baseMapper.getUserNames(pager);
-        return iPage.getRecords();
+        return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
     @Override
