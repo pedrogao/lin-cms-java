@@ -161,6 +161,6 @@ public class LogControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
-                        jsonPath("$").isArray());
+                        jsonPath("$.items").isArray());
     }
 }

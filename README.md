@@ -1,7 +1,7 @@
 # lin-cms-java
 
 
-**正在大规模重构中，业务和结构都发生了大量变化，前端还无适用版本，请勿使用！！！**
+**前端还无适用版本，请慎重使用！！！**
 
 > lin-cms 的 java 版实现基于 spring boot 和 mybatis-plus
 
@@ -9,17 +9,22 @@
 
 **简单，易用**
 
-## 状态
+## 特性
 
-**正在抓紧实现，占坑中...**
-
-- [x] 业务优化，分层
-- [x] 异常优化，如何定义异常类，如何处理全局异常 (异常类定义在configuration里面，异常处理在demo中)
-- [x] 自动装载优化，哪些bean保留，哪些剔除
-- [x] 工具类优化，项目结构优化
-- [ ] 优化权限，已虚类和接口的方式抽离
+- [x] 优雅的权限系统
+- [x] 双令牌
+- [x] 骚气的banner
+- [x] 国际化
+- [x] 全局异常处理
+- [x] 优雅的分层结构
+- [x] 行为日志
+- [x] 请求日志
+- [x] 校验类库
+- [x] 文件上传
 
 ## 使用
+
+在MySQL中新建数据句`lin-cms`，本地端口连接`3306`
 
 ```bash
 git clone https://github.com/PedroGao/lin-cms-java
@@ -27,4 +32,8 @@ git clone https://github.com/PedroGao/lin-cms-java
 
 ```bash
 cd lin-cms-java && mvn install
+```
+
+```bash
+cd demo && java -jar target/demo-0.0.1-SNAPSHOT.jar
 ```

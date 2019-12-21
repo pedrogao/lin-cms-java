@@ -148,7 +148,9 @@ public class UserControllerTest {
 
     @Test
     public void update() throws Exception {
+        GroupDO root = GroupDO.builder().name("root").info("致敬周星星").build();
         GroupDO group = GroupDO.builder().name("少林足球").info("致敬周星星").build();
+        groupMapper.insert(root);
         groupMapper.insert(group);
         RegisterDTO dto = new RegisterDTO();
         dto.setGroupIds(Arrays.asList(group.getId()));
