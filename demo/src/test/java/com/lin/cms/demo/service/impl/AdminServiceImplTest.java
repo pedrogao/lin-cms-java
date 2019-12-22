@@ -1,6 +1,7 @@
 package com.lin.cms.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.mapper.*;
 import com.lin.cms.demo.model.*;
 import com.lin.cms.demo.vo.PageResultVO;
@@ -96,9 +97,9 @@ public class AdminServiceImplTest {
     @Test
     public void getUsers() {
         GroupDO group = mockData1();
-        PageResultVO<UserDO> page = adminService.getUserPageByGroupId(group.getId(), 10L, 0L);
-        assertTrue(page.getTotal() > 0);
-        boolean anyMatch = page.getItems().stream().anyMatch(it -> it.getUsername().equals("pedro大大"));
+        IPage<UserDO> iPage = adminService.getUserPageByGroupId(group.getId(), 10L, 0L);
+        assertTrue(iPage.getTotal() > 0);
+        boolean anyMatch = iPage.getRecords().stream().anyMatch(it -> it.getUsername().equals("pedro大大"));
         assertTrue(anyMatch);
     }
 
@@ -149,9 +150,9 @@ public class AdminServiceImplTest {
         GroupDO group2 = GroupDO.builder().name("测试分组11").info("just for test").build();
         groupMapper.insert(group1);
         groupMapper.insert(group2);
-        PageResultVO<GroupDO> page = adminService.getGroupPage(0L, 10L);
-        assertTrue(page.getTotal() > 0);
-        boolean anyMatch = page.getItems().stream().anyMatch(it -> it.getName().equals("测试分组12"));
+        IPage<GroupDO> iPage = adminService.getGroupPage(0L, 10L);
+        assertTrue(iPage.getTotal() > 0);
+        boolean anyMatch = iPage.getRecords().stream().anyMatch(it -> it.getName().equals("测试分组12"));
         assertTrue(anyMatch);
     }
 

@@ -1,6 +1,7 @@
 package com.lin.cms.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.mapper.LogMapper;
 import com.lin.cms.demo.model.LogDO;
 import com.lin.cms.demo.vo.PageResultVO;
@@ -50,8 +51,8 @@ public class LogServiceImplTest {
         Integer status = 200;
         logService.createLog(message, authority, userId, userName, method, path, status);
 
-        PageResultVO logs = logService.getLogs(0L, 10L, null, null, null);
-        assertTrue(logs.getCount() > 0);
+        IPage<LogDO> iPage = logService.getLogs(0L, 10L, null, null, null);
+        assertTrue(iPage.getSize() > 0);
     }
 
     @Test
@@ -65,8 +66,8 @@ public class LogServiceImplTest {
         Integer status = 200;
         logService.createLog(message, authority, userId, userName, method, path, status);
 
-        PageResultVO logs = logService.searchLogs(0L, 10L, null, "put", null, null);
-        assertTrue(logs.getCount() > 0);
+        IPage<LogDO> iPage = logService.searchLogs(0L, 10L, null, "put", null, null);
+        assertTrue(iPage.getSize() > 0);
     }
 
     @Test
@@ -80,8 +81,8 @@ public class LogServiceImplTest {
         Integer status = 200;
         logService.createLog(message, authority, userId, userName, method, path, status);
 
-        PageResultVO result = logService.getUserNames(0L, 10L);
-        assertTrue(result.getItems().size() > 0);
+        IPage<String> iPage = logService.getUserNames(0L, 10L);
+        assertTrue(iPage.getRecords().size() > 0);
     }
 
     @Test

@@ -1,7 +1,6 @@
 package com.lin.cms.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lin.cms.demo.vo.PageResultVO;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.model.LogDO;
 import com.lin.cms.demo.mapper.LogMapper;
@@ -19,24 +18,24 @@ import java.util.Date;
 public class LogServiceImpl extends ServiceImpl<LogMapper, LogDO> implements LogService {
 
     @Override
-    public PageResultVO getLogs(Long page, Long count, String name, Date start, Date end) {
+    public IPage<LogDO> getLogs(Long page, Long count, String name, Date start, Date end) {
         Page<LogDO> pager = new Page<>(page, count);
         IPage<LogDO> iPage = this.baseMapper.findLogsByUsernameAndRange(pager, name, start, end);
-        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
+        return iPage;
     }
 
     @Override
-    public PageResultVO searchLogs(Long page, Long count, String name, String keyword, Date start, Date end) {
+    public IPage<LogDO> searchLogs(Long page, Long count, String name, String keyword, Date start, Date end) {
         Page<LogDO> pager = new Page<>(page, count);
         IPage<LogDO> iPage = this.baseMapper.searchLogsByUsernameAndKeywordAndRange(pager, name, "%" + keyword + "%", start, end);
-        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
+        return iPage;
     }
 
     @Override
-    public PageResultVO getUserNames(Long page, Long count) {
+    public IPage<String> getUserNames(Long page, Long count) {
         Page<LogDO> pager = new Page<>(page, count);
         IPage<String> iPage = this.baseMapper.getUserNames(pager);
-        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
+        return iPage;
     }
 
     @Override

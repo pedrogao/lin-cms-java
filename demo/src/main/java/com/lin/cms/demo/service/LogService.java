@@ -1,6 +1,6 @@
 package com.lin.cms.demo.service;
 
-import com.lin.cms.demo.vo.PageResultVO;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.model.LogDO;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -12,11 +12,11 @@ import java.util.Date;
  */
 public interface LogService extends IService<LogDO> {
 
-    PageResultVO getLogs(Long page, Long count, String name, Date start, Date end);
+    IPage<LogDO> getLogs(Long page, Long count, String name, Date start, Date end);
 
-    PageResultVO searchLogs(Long page, Long count, String name, String keyword, Date start, Date end);
+    IPage<LogDO> searchLogs(Long page, Long count, String name, String keyword, Date start, Date end);
 
-    PageResultVO getUserNames(Long page, Long count);
+    IPage<String> getUserNames(Long page, Long count);
 
     boolean createLog(String message, String permission, Long userId,
                       String username, String method, String path,

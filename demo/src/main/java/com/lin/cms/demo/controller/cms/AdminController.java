@@ -1,14 +1,15 @@
 package com.lin.cms.demo.controller.cms;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.model.PermissionDO;
+import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.service.AdminService;
 import com.lin.cms.demo.vo.CommonResultVO;
 import com.lin.cms.demo.vo.PageResultVO;
 import com.lin.cms.demo.model.GroupDO;
-import com.lin.cms.beans.RouteMetaCollector;
 import com.lin.cms.demo.common.utils.ResultUtil;
 import com.lin.cms.demo.dto.admin.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,9 +34,6 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @Autowired
-    private RouteMetaCollector postBeanProcessor;
-
     @GetMapping("/permission")
     @AdminRequired
     @RouteMeta(permission = "查询所有可分配的权限", module = "管理员")
@@ -54,7 +52,8 @@ public class AdminController {
             @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "{page}") Long page) {
-        return adminService.getUserPageByGroupId(groupId, count, page);
+        IPage<UserDO> iPage = adminService.getUserPageByGroupId(groupId, count, page);
+        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
     @PutMapping("/user/{id}/password")
@@ -90,8 +89,8 @@ public class AdminController {
             @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "{page}") Long page) {
-        PageResultVO pageResult = adminService.getGroupPage(page, count);
-        return pageResult;
+        IPage<GroupDO> iPage = adminService.getGroupPage(page, count);
+        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
 

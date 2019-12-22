@@ -1,7 +1,9 @@
 package com.lin.cms.demo.controller.cms;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.core.annotation.GroupRequired;
 import com.lin.cms.core.annotation.RouteMeta;
+import com.lin.cms.demo.model.LogDO;
 import com.lin.cms.demo.vo.PageResultVO;
 import com.lin.cms.demo.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,8 @@ public class LogController {
             @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "{page}") Long page) {
-        return logService.getLogs(page, count, name, start, end);
+        IPage<LogDO> iPage = logService.getLogs(page, count, name, start, end);
+        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
     @GetMapping("/search")
@@ -49,7 +52,8 @@ public class LogController {
             @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "{page}") Long page) {
-        return logService.searchLogs(page, count, name, keyword, start, end);
+        IPage<LogDO> iPage = logService.searchLogs(page, count, name, keyword, start, end);
+        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
     @GetMapping("/users")
@@ -60,6 +64,7 @@ public class LogController {
             @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "{page}") Long page) {
-        return logService.getUserNames(page, count);
+        IPage<String> iPage = logService.getUserNames(page, count);
+        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 }
