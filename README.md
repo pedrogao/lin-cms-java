@@ -24,7 +24,7 @@
 
 ## 使用
 
-在MySQL中新建数据句`lin-cms`，本地端口连接`3306`
+在MySQL中新建数据库`lin-cms`，本地端口连接`3306`
 
 ```bash
 git clone https://github.com/PedroGao/lin-cms-java

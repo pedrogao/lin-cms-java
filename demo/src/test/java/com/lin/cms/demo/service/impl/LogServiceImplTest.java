@@ -3,7 +3,7 @@ package com.lin.cms.demo.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.lin.cms.demo.mapper.LogMapper;
 import com.lin.cms.demo.model.LogDO;
-import com.lin.cms.demo.vo.PageResult;
+import com.lin.cms.demo.vo.PageResultVO;
 import com.lin.cms.demo.service.LogService;
 import org.junit.After;
 import org.junit.Before;
@@ -15,8 +15,6 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -52,7 +50,7 @@ public class LogServiceImplTest {
         Integer status = 200;
         logService.createLog(message, authority, userId, userName, method, path, status);
 
-        PageResult logs = logService.getLogs(0L, 10L, null, null, null);
+        PageResultVO logs = logService.getLogs(0L, 10L, null, null, null);
         assertTrue(logs.getCount() > 0);
     }
 
@@ -67,7 +65,7 @@ public class LogServiceImplTest {
         Integer status = 200;
         logService.createLog(message, authority, userId, userName, method, path, status);
 
-        PageResult logs = logService.searchLogs(0L, 10L, null, "put", null, null);
+        PageResultVO logs = logService.searchLogs(0L, 10L, null, "put", null, null);
         assertTrue(logs.getCount() > 0);
     }
 
@@ -82,7 +80,7 @@ public class LogServiceImplTest {
         Integer status = 200;
         logService.createLog(message, authority, userId, userName, method, path, status);
 
-        PageResult result = logService.getUserNames(0L, 10L);
+        PageResultVO result = logService.getUserNames(0L, 10L);
         assertTrue(result.getItems().size() > 0);
     }
 

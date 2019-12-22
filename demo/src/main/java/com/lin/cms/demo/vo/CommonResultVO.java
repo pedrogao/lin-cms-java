@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommonResult<T> {
+public class CommonResultVO<T> {
 
     private int errorCode;
 

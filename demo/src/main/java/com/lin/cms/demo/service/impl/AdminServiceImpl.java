@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.demo.model.*;
 import com.lin.cms.demo.service.*;
-import com.lin.cms.demo.vo.PageResult;
+import com.lin.cms.demo.vo.PageResultVO;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.dto.admin.*;
@@ -41,7 +41,7 @@ public class AdminServiceImpl implements AdminService {
     private Long rootGroupId;
 
     @Override
-    public PageResult getUserPageByGroupId(Long groupId, Long count, Long page) {
+    public PageResultVO getUserPageByGroupId(Long groupId, Long count, Long page) {
         Page pager = new Page(page, count);
         IPage<UserDO> iPage;
         // 如果group_id为空，则以分页的形式返回所有用户
@@ -50,7 +50,7 @@ public class AdminServiceImpl implements AdminService {
         } else {
             iPage = userService.getUserPageByGroupId(pager, groupId);
         }
-        return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
+        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
     @Override
@@ -85,9 +85,9 @@ public class AdminServiceImpl implements AdminService {
     }
 
     @Override
-    public PageResult getGroupPage(Long page, Long count) {
+    public PageResultVO getGroupPage(Long page, Long count) {
         IPage<GroupDO> iPage = groupService.getGroupPage(page, count);
-        return PageResult.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
+        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
     @Override

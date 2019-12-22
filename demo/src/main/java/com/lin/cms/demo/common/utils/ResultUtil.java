@@ -1,6 +1,6 @@
 package com.lin.cms.demo.common.utils;
 
-import com.lin.cms.demo.vo.CommonResult;
+import com.lin.cms.demo.vo.CommonResultVO;
 import com.lin.cms.exception.HttpException;
 import com.lin.cms.response.Created;
 import com.lin.cms.response.Success;
@@ -15,41 +15,41 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ResultUtil {
 
-    public static CommonResult generateResult(HttpException e) {
-        return CommonResult.builder()
+    public static CommonResultVO generateResult(HttpException e) {
+        return CommonResultVO.builder()
                 .msg(e.getMessage())
                 .errorCode(e.getErrorCode())
                 .url(RequestUtil.getRequestUrl())
                 .build();
     }
 
-    public static <T> CommonResult<T> generateSuccessResult(T data) {
+    public static <T> CommonResultVO<T> generateSuccessResult(T data) {
         Success success = new Success();
-        return (CommonResult<T>) CommonResult.builder()
+        return (CommonResultVO<T>) CommonResultVO.builder()
                 .msg(data)
                 .errorCode(success.getErrorCode())
                 .url(RequestUtil.getRequestUrl())
                 .build();
     }
 
-    public static <T> CommonResult<T> generateResult(int errorCode) {
-        return (CommonResult<T>) CommonResult.builder()
+    public static <T> CommonResultVO<T> generateResult(int errorCode) {
+        return (CommonResultVO<T>) CommonResultVO.builder()
                 .errorCode(errorCode)
                 .url(RequestUtil.getRequestUrl())
                 .build();
     }
 
-    public static <T> CommonResult<T> generateCreatedResult(T data) {
+    public static <T> CommonResultVO<T> generateCreatedResult(T data) {
         Created created = new Created();
-        return (CommonResult<T>) CommonResult.builder()
+        return (CommonResultVO<T>) CommonResultVO.builder()
                 .msg(data)
                 .errorCode(created.getErrorCode())
                 .url(RequestUtil.getRequestUrl())
                 .build();
     }
 
-    public static <T> CommonResult<T> generateResult(ErrorCode errorCode, int httpCode) {
-        return (CommonResult<T>) CommonResult.builder()
+    public static <T> CommonResultVO<T> generateResult(ErrorCode errorCode, int httpCode) {
+        return (CommonResultVO<T>) CommonResultVO.builder()
                 .errorCode(errorCode.getCode())
                 .msg(errorCode.getDescription())
                 .url(RequestUtil.getRequestUrl())

@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class PageResult<T> {
+public class PageResultVO<T> {
 
     private long total;
 
@@ -21,7 +21,7 @@ public class PageResult<T> {
 
     private long count;
 
-    public static PageResult genPageResult(long total, List items, long page, long count) {
-        return new PageResult(total, items, page, count);
+    public static PageResultVO genPageResult(long total, List items, long page, long count) {
+        return new PageResultVO(total, items, page, count);
     }
 }

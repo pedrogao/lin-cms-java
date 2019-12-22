@@ -7,7 +7,7 @@ import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.demo.common.LocalUser;
 import com.lin.cms.demo.service.GroupService;
 import com.lin.cms.demo.service.UserIdentityService;
-import com.lin.cms.demo.vo.CommonResult;
+import com.lin.cms.demo.vo.CommonResultVO;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.vo.UserPermissionsVO;
 import com.lin.cms.demo.common.utils.ResultUtil;
@@ -51,7 +51,7 @@ public class UserController {
      */
     @PostMapping("/register")
     @AdminRequired
-    public CommonResult<String> register(@RequestBody @Validated RegisterDTO validator) {
+    public CommonResultVO<String> register(@RequestBody @Validated RegisterDTO validator) {
         userService.createUser(validator);
         return ResultUtil.generateResult(9);
     }
@@ -79,7 +79,7 @@ public class UserController {
      */
     @PutMapping
     @LoginRequired
-    public CommonResult update(@RequestBody @Validated UpdateInfoDTO validator) {
+    public CommonResultVO update(@RequestBody @Validated UpdateInfoDTO validator) {
         userService.updateUserInfo(validator);
         return ResultUtil.generateResult(4);
     }
@@ -89,7 +89,7 @@ public class UserController {
      */
     @PutMapping("/change_password")
     @LoginRequired
-    public CommonResult updatePassword(@RequestBody @Validated ChangePasswordDTO validator) {
+    public CommonResultVO updatePassword(@RequestBody @Validated ChangePasswordDTO validator) {
         userService.changeUserPassword(validator);
         return ResultUtil.generateResult(2);
     }
