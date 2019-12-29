@@ -263,7 +263,9 @@ public class UserControllerTest {
 
     @Test
     public void getInformation() throws Exception {
+        GroupDO root = GroupDO.builder().name("少林足球1111111").info("致敬周星星1111111").build();
         GroupDO group = GroupDO.builder().name("少林足球").info("致敬周星星").build();
+        groupMapper.insert(root);
         groupMapper.insert(group);
         RegisterDTO dto = new RegisterDTO();
         dto.setGroupIds(Arrays.asList(group.getId()));
@@ -281,6 +283,7 @@ public class UserControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.username").value(username))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value(email));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.email").value(email))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.groups").isArray());
     }
 }

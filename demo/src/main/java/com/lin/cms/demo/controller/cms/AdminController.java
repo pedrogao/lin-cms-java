@@ -7,11 +7,13 @@ import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.model.PermissionDO;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.service.AdminService;
+import com.lin.cms.demo.service.GroupService;
 import com.lin.cms.demo.vo.CommonResultVO;
 import com.lin.cms.demo.vo.PageResultVO;
 import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.common.utils.ResultUtil;
 import com.lin.cms.demo.dto.admin.*;
+import com.lin.cms.demo.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Created by lin on 2019/06/12.
@@ -33,6 +36,9 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @Autowired
+    private GroupService groupService;
 
     @GetMapping("/permission")
     @AdminRequired
@@ -53,7 +59,11 @@ public class AdminController {
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "{page}") Long page) {
         IPage<UserDO> iPage = adminService.getUserPageByGroupId(groupId, count, page);
-        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
+        List<UserInfoVO> userInfos = iPage.getRecords().stream().map(user -> {
+            List<GroupDO> groups = groupService.getUserGroupsByUserId(user.getId());
+            return new UserInfoVO(user, groups);
+        }).collect(Collectors.toList());
+        return PageResultVO.genPageResult(iPage.getTotal(), userInfos, page, count);
     }
 
     @PutMapping("/user/{id}/password")

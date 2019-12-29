@@ -21,8 +21,6 @@ public class UserPermissionsVO {
 
     private String email;
 
-    // private Long groupId;
-
     private List permissions;
 
     public UserPermissionsVO() {

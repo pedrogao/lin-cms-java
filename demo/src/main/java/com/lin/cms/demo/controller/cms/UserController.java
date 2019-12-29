@@ -5,10 +5,12 @@ import com.lin.cms.core.annotation.LoginRequired;
 import com.lin.cms.core.annotation.RefreshRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.demo.common.LocalUser;
+import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.service.GroupService;
 import com.lin.cms.demo.service.UserIdentityService;
 import com.lin.cms.demo.vo.CommonResultVO;
 import com.lin.cms.demo.model.UserDO;
+import com.lin.cms.demo.vo.UserInfoVO;
 import com.lin.cms.demo.vo.UserPermissionsVO;
 import com.lin.cms.demo.common.utils.ResultUtil;
 import com.lin.cms.demo.service.UserService;
@@ -125,8 +127,9 @@ public class UserController {
     @LoginRequired
     @RouteMeta(permission = "查询自己信息", module = "用户", mount = true)
     @GetMapping("/information")
-    public UserDO getInformation() {
+    public UserInfoVO getInformation() {
         UserDO user = LocalUser.getLocalUser();
-        return user;
+        List<GroupDO> groups = groupService.getUserGroupsByUserId(user.getId());
+        return new UserInfoVO(user, groups);
     }
 }
