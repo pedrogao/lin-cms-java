@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 public class UpdateUserInfoDTO {
 
-    @LongList(min = 1, allowBlank = true, message = "{group.ids.long-list}")
+    @LongList(min = 1, message = "{group.ids.long-list}")
     private List<Long> groupIds;
 }
