@@ -71,6 +71,9 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public boolean updateUserInfo(Long id, UpdateUserInfoDTO validator) {
         List<Long> newGroupIds = validator.getGroupIds();
+        if (newGroupIds == null || newGroupIds.isEmpty()) {
+            return false;
+        }
         boolean anyMatch = newGroupIds.stream().anyMatch(it -> it.equals(rootGroupId));
         if (anyMatch) {
             throw new ForbiddenException("you can't add user to root group", 10073);
