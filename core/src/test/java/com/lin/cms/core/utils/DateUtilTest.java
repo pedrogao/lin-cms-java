@@ -11,6 +11,9 @@ public class DateUtilTest {
     @Test
     public void getDurationDate() {
         Date durationDate = DateUtil.getDurationDate(10);
-        assertTrue(durationDate.getTime() > new Date().getTime());
+        long now = new Date().getTime();
+        assertTrue(durationDate.getTime() > now);
+        assertTrue(durationDate.getTime() - now > 5 * 1000);
+        assertTrue(durationDate.getTime() - now <= 10 * 1000);
     }
 }

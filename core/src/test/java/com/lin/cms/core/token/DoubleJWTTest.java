@@ -59,7 +59,7 @@ public class DoubleJWTTest {
         String token = jwt.generateAccessToken(1);
         assertNotNull(token);
         log.info(token);
-        Thread.sleep(2000);
+        Thread.sleep(1000);
         try {
             Map<String, Claim> claimMap = jwt.decodeAccessToken(token);
         } catch (JWTVerificationException e) {

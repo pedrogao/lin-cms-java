@@ -25,9 +25,11 @@ public class LinCmsAutoConfigure {
         Long accessExpire = properties.getTokenAccessExpire();
         Long refreshExpire = properties.getTokenRefreshExpire();
         if (accessExpire == null) {
+            // 一个小时
             accessExpire = 60 * 60L;
         }
         if (refreshExpire == null) {
+            // 一个月
             refreshExpire = 60 * 60 * 24 * 30L;
         }
         return new DoubleJWT(secret, accessExpire, refreshExpire);
