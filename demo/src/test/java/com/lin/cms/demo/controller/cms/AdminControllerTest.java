@@ -341,7 +341,11 @@ public class AdminControllerTest {
     public void deleteGroup() throws Exception {
         String name = "千里之外";
         String info = "千里之外是个啥";
+        GroupDO root = GroupDO.builder().name("root").info(info).build();
+        GroupDO guest = GroupDO.builder().name("guest").info(info).build();
         GroupDO group = GroupDO.builder().name(name).info(info).build();
+        groupMapper.insert(root);
+        groupMapper.insert(guest);
         groupMapper.insert(group);
 
         mvc.perform(delete("/cms/admin/group/" + group.getId())
