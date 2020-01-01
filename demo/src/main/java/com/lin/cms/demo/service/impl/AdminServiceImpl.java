@@ -39,6 +39,9 @@ public class AdminServiceImpl implements AdminService {
     @Value("${group.root.id}")
     private Long rootGroupId;
 
+    @Value("${group.guest.id}")
+    private Long guestGroupId;
+
     @Override
     public IPage<UserDO> getUserPageByGroupId(Long groupId, Long count, Long page) {
         Page pager = new Page(page, count);
@@ -123,6 +126,12 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean deleteGroup(Long id) {
+        if (id.equals(rootGroupId)) {
+            throw new ForbiddenException("root group can't delete", 10074);
+        }
+        if (id.equals(guestGroupId)) {
+            throw new ForbiddenException("guest group can't delete", 10075);
+        }
         throwGroupNotExistById(id);
         return groupService.removeById(id);
     }
