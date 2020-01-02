@@ -1,7 +1,7 @@
 package com.lin.cms.demo.dto.admin;
 
+import com.lin.cms.validator.Length;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
 @Data
 public class UpdateGroupDTO {

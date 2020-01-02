@@ -1,8 +1,8 @@
 package com.lin.cms.demo.dto.admin;
 
+import com.lin.cms.validator.Length;
 import com.lin.cms.validator.LongList;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import java.util.List;
