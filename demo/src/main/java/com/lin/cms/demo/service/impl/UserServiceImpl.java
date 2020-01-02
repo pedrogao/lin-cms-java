@@ -53,12 +53,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Value("${group.root.id}")
     private Long rootGroupId;
 
+    @Value("${group.guest.id}")
+    private Long guestGroupId;
+
     @Transactional
     @Override
     public UserDO createUser(RegisterDTO dto) {
         boolean exist = this.checkUserExistByUsername(dto.getUsername());
         if (exist) {
             throw new ForbiddenException("username already exist, please choose a new one", 10071);
+        }
+        if (Strings.isNotBlank(dto.getEmail())) {
+            exist = this.checkUserExistByEmail(dto.getEmail());
+            if (exist) {
+                throw new ForbiddenException("email already exist, please choose a new one", 10076);
+            }
         }
         UserDO user = new UserDO();
         BeanUtil.copyProperties(dto, user);
@@ -73,7 +82,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             userGroupMapper.insertBatch(relations);
         } else {
             // id为2的分组为游客分组
-            UserGroupDO relation = new UserGroupDO(user.getId(), 2L);
+            UserGroupDO relation = new UserGroupDO(user.getId(), guestGroupId);
             userGroupMapper.insert(relation);
         }
         userIdentityService.createUsernamePasswordIdentity(user.getId(), dto.getUsername(), dto.getPassword());
@@ -142,6 +151,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Override
     public boolean checkUserExistByUsername(String username) {
         int rows = this.baseMapper.selectCountByUsername(username);
+        return rows > 0;
+    }
+
+    @Override
+    public boolean checkUserExistByEmail(String email) {
+        QueryWrapper<UserDO> wrapper = new QueryWrapper<>();
+        wrapper.lambda().eq(UserDO::getEmail, email);
+        int rows = this.baseMapper.selectCount(wrapper);
         return rows > 0;
     }
 

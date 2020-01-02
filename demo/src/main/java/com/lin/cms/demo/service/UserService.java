@@ -86,6 +86,15 @@ public interface UserService extends IService<UserDO> {
      */
     boolean checkUserExistByUsername(String username);
 
+
+    /**
+     * 根据用户名检查用户是否存在
+     *
+     * @param email 邮箱
+     * @return true代表存在
+     */
+    boolean checkUserExistByEmail(String email);
+
     /**
      * 根据用户id检查用户是否存在
      *
