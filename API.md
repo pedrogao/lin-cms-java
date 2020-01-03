@@ -392,7 +392,7 @@
 
 ### removePermissions 删除多个权限
 
-`url: /cms/admin/permission/dispatch/remove`
+`url: /cms/admin/permission/remove`
 
 `method: post`
 
