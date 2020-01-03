@@ -3,6 +3,7 @@ package com.lin.cms.demo.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.google.common.base.Strings;
 import com.lin.cms.demo.common.LocalUser;
 import com.lin.cms.demo.common.mybatis.Page;
 import com.lin.cms.demo.dto.user.ChangePasswordDTO;
@@ -20,7 +21,6 @@ import com.lin.cms.demo.service.UserIdentityService;
 import com.lin.cms.demo.service.UserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lin.cms.exception.*;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -63,7 +63,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if (exist) {
             throw new ForbiddenException("username already exist, please choose a new one", 10071);
         }
-        if (Strings.isNotBlank(dto.getEmail())) {
+        if (!Strings.isNullOrEmpty(dto.getEmail())) {
             exist = this.checkUserExistByEmail(dto.getEmail());
             if (exist) {
                 throw new ForbiddenException("email already exist, please choose a new one", 10076);
@@ -93,7 +93,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Override
     public UserDO updateUserInfo(UpdateInfoDTO dto) {
         UserDO user = LocalUser.getLocalUser();
-        if (dto.getUsername() != null && Strings.isNotBlank(dto.getUsername())) {
+        if (!Strings.isNullOrEmpty(dto.getUsername())) {
             boolean exist = this.checkUserExistByUsername(dto.getUsername());
             if (exist) {
                 throw new ForbiddenException("username already exist, please choose a new one", 10071);
