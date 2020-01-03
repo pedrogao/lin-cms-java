@@ -371,7 +371,7 @@
 | name           | required | default |  含义   |
 | -------------- | :------: | ------: | :-----: |
 | group_id       |   true   |      无 | 分组 id |
-| permission_ids |  false   |      无 | 权限 id |
+| permission_ids |   true   |      无 | 权限 id |
 
 ```json
 {
@@ -401,7 +401,7 @@
 | name           | required | default |  含义   |
 | -------------- | :------: | ------: | :-----: |
 | group_id       |   true   |      无 | 分组 id |
-| permission_ids |  false   |      无 | 权限 id |
+| permission_ids |   true   |      无 | 权限 id |
 
 ```json
 {

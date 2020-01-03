@@ -14,6 +14,6 @@ public class DispatchPermissionsDTO {
     @NotNull(message = "{group.id.not-null}")
     private Long groupId;
 
-    @LongList(allowBlank = true, message = "{permission.ids.long-list}")
+    @LongList(message = "{permission.ids.long-list}")
     private List<Long> permissionIds;
 }

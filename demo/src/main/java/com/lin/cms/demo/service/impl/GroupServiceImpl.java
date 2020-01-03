@@ -12,6 +12,7 @@ import com.lin.cms.demo.model.UserGroupDO;
 import com.lin.cms.demo.service.GroupService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.lin.cms.demo.service.PermissionService;
+import com.lin.cms.exception.ForbiddenException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -97,7 +98,15 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     public boolean addUserGroupRelations(Long userId, List<Long> addIds) {
         if (addIds == null || addIds.isEmpty())
             return true;
+        boolean ok = checkGroupExistByIds(addIds);
+        if (!ok) {
+            throw new ForbiddenException("cant't add user to non-existent group", 10077);
+        }
         List<UserGroupDO> relations = addIds.stream().map(it -> new UserGroupDO(userId, it)).collect(Collectors.toList());
         return userGroupMapper.insertBatch(relations) > 0;
+    }
+
+    private boolean checkGroupExistByIds(List<Long> ids) {
+        return ids.stream().allMatch(this::checkGroupExistById);
     }
 }
