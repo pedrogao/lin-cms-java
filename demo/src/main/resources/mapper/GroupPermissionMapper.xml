@@ -19,9 +19,9 @@
     </insert>
 
     <delete id="deleteBatchByGroupIdAndPermissionId">
-        DELETE FROM lin_group_permission AS gp
-        WHERE gp.group_id = #{groupId}
-        AND gp.permission_id IN
+        DELETE FROM lin_group_permission
+        WHERE group_id = #{groupId}
+        AND permission_id IN
         <foreach collection="permissionIds" item="permissionId" index="index" open="(" close=")" separator=",">
             #{permissionId}
         </foreach>

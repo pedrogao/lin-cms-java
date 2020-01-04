@@ -493,6 +493,45 @@ public class AdminServiceImplTest {
     }
 
     @Test
+    public void removePermissions1() {
+        GroupDO group = GroupDO.builder().name("测试分组1").info("just for test").build();
+        PermissionDO permission1 = PermissionDO.builder().name("权限1").module("炉石传说").build();
+        PermissionDO permission2 = PermissionDO.builder().name("权限2").module("炉石传说").build();
+        PermissionDO permission3 = PermissionDO.builder().name("权限3").module("炉石传说").build();
+        groupMapper.insert(group);
+        permissionMapper.insert(permission1);
+        permissionMapper.insert(permission2);
+        permissionMapper.insert(permission3);
+        List<GroupPermissionDO> relations = new ArrayList<>();
+        GroupPermissionDO relation1 = new GroupPermissionDO(group.getId(), permission1.getId());
+        GroupPermissionDO relation2 = new GroupPermissionDO(group.getId(), permission2.getId());
+        GroupPermissionDO relation3 = new GroupPermissionDO(group.getId(), permission3.getId());
+        relations.add(relation1);
+        relations.add(relation2);
+        relations.add(relation3);
+        groupPermissionMapper.insertBatch(relations);
+
+        RemovePermissionsDTO dto = new RemovePermissionsDTO();
+        dto.setGroupId(group.getId());
+        // 3
+        dto.setPermissionIds(Arrays.asList(permission3.getId()));
+        boolean ok = adminService.removePermissions(dto);
+        assertTrue(ok);
+        GroupPermissionsBO groupPermissions = adminService.getGroup(group.getId());
+        boolean anyMatch = groupPermissions.getPermissions().stream().anyMatch(it -> {
+            PermissionDO p = (PermissionDO) it;
+            return p.getName().equals("权限3") && p.getModule().equals("炉石传说");
+        });
+        assertFalse(anyMatch);
+
+        anyMatch = groupPermissions.getPermissions().stream().anyMatch(it -> {
+            PermissionDO p = (PermissionDO) it;
+            return p.getName().equals("权限1") && p.getModule().equals("炉石传说");
+        });
+        assertTrue(anyMatch);
+    }
+
+    @Test
     public void getAllGroups() {
         GroupDO group = GroupDO.builder().name("测试分组1").info("just for test").build();
         groupMapper.insert(group);
