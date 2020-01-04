@@ -723,6 +723,9 @@
   "username": "root",
   "nickname": "范闲",
   "avatar": "https://pic3.zhimg.com/v2-fad5304306ca78c380d58fb628ed1386_400x224.jpeg",
-  "email": "1312342604@qq.com"
+  "email": "1312342604@qq.com",
+  "groups": [
+    {id: 1, name: 'root', info: '超级用户组'}
+  ]
 }
 ```
