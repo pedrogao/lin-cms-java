@@ -119,6 +119,7 @@ public class GroupServiceImplTest {
         IPage<GroupDO> groups = groupService.getGroupPage(0, 10);
         assertTrue(groups.getTotal() > 0);
         assertTrue(groups.getRecords().size() > 0);
+        assertTrue(groups.getCurrent() == 0);
         boolean anyMatch = groups.getRecords().stream().anyMatch(it -> it.getName().equals("测试分组12"));
         assertTrue(anyMatch);
     }

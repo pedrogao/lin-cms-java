@@ -10,7 +10,7 @@ public enum ErrorCode {
 
     CREATED(1, "Created", "创建成功"),
 
-    FAIL(9999, "Failed", "失败"),
+    FAIL(10200, "Failed", "失败"),
 
     UN_AUTHORIZATION(10000, "Authorization Failed", "认证失败"),
 
@@ -26,7 +26,7 @@ public enum ErrorCode {
 
     REPEAT(10060, "Repeat", "字段重复"),
 
-    INTERNAL_SERVER_ERROR(999, "Internal Server Error", "服务器未知错误"),
+    INTERNAL_SERVER_ERROR(9999, "Internal Server Error", "服务器未知错误"),
 
     FORBIDDEN(10070, "Forbidden", "禁止操作"),
 
