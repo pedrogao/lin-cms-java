@@ -1,6 +1,6 @@
 package com.lin.cms.demo.common.exception;
 
-import com.google.common.base.Strings;
+import cn.hutool.core.util.StrUtil;
 import com.lin.cms.beans.ErrorCode;
 import com.lin.cms.demo.common.configure.ErrorCodeConfig;
 import com.lin.cms.demo.vo.CommonResultVO;
@@ -51,7 +51,7 @@ public class RestExceptionHandler {
         result.setErrorCode(errorCode);
         response.setStatus(exception.getHttpCode());
         String errorMessage = ErrorCodeConfig.getErrorMessage(errorCode);
-        if (Strings.isNullOrEmpty(errorMessage)) {
+        if (StrUtil.isBlank(errorMessage)) {
             result.setMsg(exception.getMessage());
         } else {
             result.setMsg(errorMessage);
@@ -88,7 +88,7 @@ public class RestExceptionHandler {
         CommonResultVO result = new CommonResultVO();
         result.setUrl(request.getServletPath());
         String errorMessage = ErrorCodeConfig.getErrorMessage(10025);
-        if (Strings.isNullOrEmpty(errorMessage)) {
+        if (StrUtil.isBlank(errorMessage)) {
             result.setMsg(exception.getMessage());
         } else {
             result.setMsg(errorMessage);
@@ -108,7 +108,7 @@ public class RestExceptionHandler {
         result.setUrl(request.getServletPath());
 
         String errorMessage = ErrorCodeConfig.getErrorMessage(10150);
-        if (Strings.isNullOrEmpty(errorMessage)) {
+        if (StrUtil.isBlank(errorMessage)) {
             result.setMsg(exception.getMessage());
         } else {
             result.setMsg(errorMessage + exception.getParameterName());
@@ -127,7 +127,7 @@ public class RestExceptionHandler {
         CommonResultVO result = new CommonResultVO();
         result.setUrl(request.getServletPath());
         String errorMessage = ErrorCodeConfig.getErrorMessage(10160);
-        if (Strings.isNullOrEmpty(errorMessage)) {
+        if (StrUtil.isBlank(errorMessage)) {
             result.setMsg(exception.getMessage());
         } else {
             result.setMsg(exception.getValue() + errorMessage);
@@ -185,7 +185,7 @@ public class RestExceptionHandler {
         CommonResultVO result = new CommonResultVO();
         result.setUrl(request.getServletPath());
         String errorMessage = ErrorCodeConfig.getErrorMessage(10170);
-        if (Strings.isNullOrEmpty(errorMessage)) {
+        if (StrUtil.isBlank(errorMessage)) {
             result.setMsg(exception.getMessage());
         } else {
             result.setMsg(errorMessage);
@@ -218,7 +218,7 @@ public class RestExceptionHandler {
         CommonResultVO result = new CommonResultVO();
         result.setUrl(request.getServletPath());
         String errorMessage = ErrorCodeConfig.getErrorMessage(10180);
-        if (Strings.isNullOrEmpty(errorMessage)) {
+        if (StrUtil.isBlank(errorMessage)) {
             result.setMsg(exception.getMessage());
         } else {
             result.setMsg(errorMessage + maxFileSize);

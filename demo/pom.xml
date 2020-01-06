@@ -71,11 +71,11 @@
             <version>${mybatis-plus.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
+        <!-- <dependency>-->
+        <!--     <groupId>com.alibaba</groupId>-->
+        <!--     <artifactId>druid-spring-boot-starter</artifactId>-->
+        <!--     <version>${druid.version}</version>-->
+        <!-- </dependency>-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -83,11 +83,11 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
+        <!-- <dependency>-->
+        <!--     <groupId>com.google.guava</groupId>-->
+        <!--     <artifactId>guava</artifactId>-->
+        <!--     <version>${guava.version}</version>-->
+        <!-- </dependency>-->
 
         <dependency>
             <groupId>cn.hutool</groupId>

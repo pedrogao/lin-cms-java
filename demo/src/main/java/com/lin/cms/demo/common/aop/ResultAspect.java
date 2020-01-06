@@ -1,6 +1,6 @@
 package com.lin.cms.demo.common.aop;
 
-import com.google.common.base.Strings;
+import cn.hutool.core.util.StrUtil;
 import com.lin.cms.demo.common.configure.ErrorCodeConfig;
 import com.lin.cms.demo.vo.CommonResultVO;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class ResultAspect {
             CommonResultVO result = (CommonResultVO) ret;
             int errorCode = result.getErrorCode();
             String errorMessage = ErrorCodeConfig.getErrorMessage(errorCode);
-            if (!Strings.isNullOrEmpty(errorMessage)) {
+            if (StrUtil.isNotBlank(errorMessage)) {
                 result.setMsg(errorMessage);
             }
         }
