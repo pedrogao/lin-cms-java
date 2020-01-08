@@ -20,7 +20,7 @@ import java.nio.file.Path;
 /**
  * Spring MVC 配置
  */
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @Slf4j
 public class WebConfig implements WebMvcConfigurer {
 

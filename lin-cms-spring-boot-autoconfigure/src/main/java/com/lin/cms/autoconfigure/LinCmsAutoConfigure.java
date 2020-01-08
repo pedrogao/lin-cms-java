@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 
-@Configuration
+@Configuration(proxyBeanMethods = false)
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @EnableConfigurationProperties(LinCmsProperties.class)
 public class LinCmsAutoConfigure {
