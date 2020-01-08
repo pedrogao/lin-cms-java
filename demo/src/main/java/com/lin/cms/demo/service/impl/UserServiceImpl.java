@@ -68,6 +68,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             if (exist) {
                 throw new ForbiddenException("email already exist, please choose a new one", 10076);
             }
+        } else {
+            // bug 前端如果传入的email为 "" 时，由于数据库中存在""的email，会报duplication错误
+            // 所以如果email为blank，必须显示设置为 null
+            dto.setEmail(null);
         }
         UserDO user = new UserDO();
         BeanUtil.copyProperties(dto, user);

@@ -118,8 +118,14 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public boolean updateGroup(Long id, UpdateGroupDTO dto) {
-        throwGroupNotExistById(id);
-        throwGroupNameExist(dto.getName());
+        // bug 如果只修改info，不修改name，则name已经存在，此时不应该报错
+        GroupDO exist = groupService.getById(id);
+        if (exist == null) {
+            throw new NotFoundException("group not found", 10024);
+        }
+        if (!exist.getName().equals(dto.getName())) {
+            throwGroupNameExist(dto.getName());
+        }
         GroupDO group = GroupDO.builder().id(id).name(dto.getName()).info(dto.getInfo()).build();
         return groupService.updateById(group);
     }
