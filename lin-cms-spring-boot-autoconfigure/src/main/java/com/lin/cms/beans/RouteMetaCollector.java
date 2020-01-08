@@ -8,12 +8,13 @@ import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class RouteMetaCollector implements BeanPostProcessor {
 
-    private Map<String, RouteMeta> metaMap = new HashMap<>();
+    private Map<String, RouteMeta> metaMap = new ConcurrentHashMap<>();
 
-    private Map<String, Map<String, Set<String>>> structuralMeta = new HashMap<>();
+    private Map<String, Map<String, Set<String>>> structuralMeta = new ConcurrentHashMap<>();
 
     private MetaPreHandler preHandler;
 
