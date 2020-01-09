@@ -119,7 +119,7 @@ public class BookControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("新建图书成功"));
+                        jsonPath("$.message").value("新建图书成功"));
     }
 
     @Test
@@ -147,7 +147,7 @@ public class BookControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("更新图书成功"));
+                        jsonPath("$.message").value("更新图书成功"));
     }
 
     @Test
@@ -164,7 +164,7 @@ public class BookControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.
-                        jsonPath("$.msg").value("删除图书成功"));
+                        jsonPath("$.message").value("删除图书成功"));
     }
 
 

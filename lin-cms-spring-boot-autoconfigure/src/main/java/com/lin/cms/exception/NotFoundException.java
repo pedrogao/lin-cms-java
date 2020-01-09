@@ -1,13 +1,13 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 public class NotFoundException extends HttpException {
 
     @Getter
-    private int errorCode = ErrorCode.NOT_FOUND.getCode();
+    private int code = Code.NOT_FOUND.getCode();
 
     @Getter
     private int httpCode = HttpStatus.NOT_FOUND.value();
@@ -16,12 +16,17 @@ public class NotFoundException extends HttpException {
         super(message);
     }
 
-    public NotFoundException(String message, int errorCode) {
+    public NotFoundException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
+    }
+
+    public NotFoundException(int code) {
+        super(Code.NOT_FOUND.getDescription());
+        this.code = code;
     }
 
     public NotFoundException() {
-        super(ErrorCode.NOT_FOUND.getDescription());
+        super(Code.NOT_FOUND.getDescription());
     }
 }

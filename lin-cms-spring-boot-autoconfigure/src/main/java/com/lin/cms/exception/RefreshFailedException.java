@@ -1,13 +1,13 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 public class RefreshFailedException extends HttpException {
 
     @Getter
-    protected int errorCode = ErrorCode.REFRESH_FAILED.getCode();
+    protected int code = Code.REFRESH_FAILED.getCode();
 
     @Getter
     protected int httpCode = HttpStatus.UNAUTHORIZED.value();
@@ -17,11 +17,16 @@ public class RefreshFailedException extends HttpException {
     }
 
     public RefreshFailedException() {
-        super(ErrorCode.REFRESH_FAILED.getDescription());
+        super(Code.REFRESH_FAILED.getDescription());
     }
 
-    public RefreshFailedException(String message, int errorCode) {
+    public RefreshFailedException(int code) {
+        super(Code.REFRESH_FAILED.getDescription());
+        this.code = code;
+    }
+
+    public RefreshFailedException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
     }
 }

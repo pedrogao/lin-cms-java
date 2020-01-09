@@ -153,7 +153,7 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("密码修改成功"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("密码修改成功"));
 
         boolean b = userIdentityService.verifyUsernamePassword(user.getId(), username, newPassword);
         assertTrue(b);
@@ -179,7 +179,7 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("删除用户成功"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("删除用户成功"));
 
         UserDO hit = userMapper.selectById(user.getId());
         assertNull(hit);
@@ -210,7 +210,7 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("更新用户成功"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("更新用户成功"));
     }
 
     @Test
@@ -301,7 +301,7 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("新建分组成功"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("新建分组成功"));
     }
 
     @Test
@@ -331,7 +331,7 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("更新分组成功"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("更新分组成功"));
 
         GroupDO hit = groupMapper.selectById(group.getId());
         assertEquals(hit.getName(), "storm");
@@ -352,7 +352,7 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("删除分组成功"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("删除分组成功"));
         GroupDO hit = groupMapper.selectById(group.getId());
         assertNull(hit);
     }
@@ -382,7 +382,7 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("添加权限成功"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("添加权限成功"));
     }
 
     @Test
@@ -412,7 +412,7 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("添加权限成功"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("添加权限成功"));
     }
 
     @Test
@@ -445,6 +445,6 @@ public class AdminControllerTest {
                 .contentType(MediaType.APPLICATION_JSON).content(content))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.msg").value("删除权限成功"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.message").value("删除权限成功"));
     }
 }

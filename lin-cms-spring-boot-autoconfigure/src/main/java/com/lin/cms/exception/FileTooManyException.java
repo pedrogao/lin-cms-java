@@ -1,13 +1,13 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 public class FileTooManyException extends HttpException {
 
     @Getter
-    protected int errorCode = ErrorCode.FILE_TOO_MANY.getCode();
+    protected int code = Code.FILE_TOO_MANY.getCode();
 
     @Getter
     protected int httpCode = HttpStatus.PAYLOAD_TOO_LARGE.value();
@@ -18,11 +18,17 @@ public class FileTooManyException extends HttpException {
     }
 
     public FileTooManyException() {
-        super(ErrorCode.FILE_TOO_MANY.getDescription());
+        super(Code.FILE_TOO_MANY.getDescription());
     }
 
-    public FileTooManyException(String message, int errorCode) {
+    public FileTooManyException(int code) {
+        super(Code.FILE_TOO_MANY.getDescription());
+        this.code = code;
+    }
+
+
+    public FileTooManyException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
     }
 }

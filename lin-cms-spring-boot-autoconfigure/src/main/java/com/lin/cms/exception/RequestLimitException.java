@@ -1,13 +1,13 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 public class RequestLimitException extends HttpException {
 
     @Getter
-    protected int errorCode = ErrorCode.REQUEST_LIMIT.getCode();
+    protected int code = Code.REQUEST_LIMIT.getCode();
 
     @Getter
     protected int httpCode = HttpStatus.TOO_MANY_REQUESTS.value();
@@ -17,11 +17,16 @@ public class RequestLimitException extends HttpException {
     }
 
     public RequestLimitException() {
-        super(ErrorCode.REQUEST_LIMIT.getDescription());
+        super(Code.REQUEST_LIMIT.getDescription());
     }
 
-    public RequestLimitException(String message, int errorCode) {
+    public RequestLimitException(int code) {
+        super(Code.REQUEST_LIMIT.getDescription());
+        this.code = code;
+    }
+
+    public RequestLimitException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
     }
 }

@@ -1,13 +1,13 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 public class TokenInvalidException extends HttpException {
 
     @Getter
-    protected int errorCode = ErrorCode.TOKEN_INVALID.getCode();
+    protected int code = Code.TOKEN_INVALID.getCode();
 
     @Getter
     protected int httpCode = HttpStatus.UNAUTHORIZED.value();
@@ -17,11 +17,16 @@ public class TokenInvalidException extends HttpException {
     }
 
     public TokenInvalidException() {
-        super(ErrorCode.TOKEN_INVALID.getDescription());
+        super(Code.TOKEN_INVALID.getDescription());
     }
 
-    public TokenInvalidException(String message, int errorCode) {
+    public TokenInvalidException(int code) {
+        super(Code.TOKEN_INVALID.getDescription());
+        this.code = code;
+    }
+
+    public TokenInvalidException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
     }
 }

@@ -1,9 +1,9 @@
 package com.lin.cms.demo.common.exception;
 
 import cn.hutool.core.util.StrUtil;
-import com.lin.cms.beans.ErrorCode;
-import com.lin.cms.demo.common.configure.ErrorCodeConfig;
-import com.lin.cms.demo.vo.CommonResultVO;
+import com.lin.cms.beans.Code;
+import com.lin.cms.demo.common.configure.CodeConfig;
+import com.lin.cms.demo.vo.UnifyResponseVO;
 import com.lin.cms.exception.HttpException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.TypeMismatchException;
@@ -30,6 +30,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.lin.cms.utils.RequestUtil.getSimpleRequest;
+
+
 @SuppressWarnings("Duplicates")
 @Order
 @RestControllerAdvice
@@ -43,27 +46,27 @@ public class RestExceptionHandler {
      * HttpException
      */
     @ExceptionHandler({HttpException.class})
-    public CommonResultVO processException(HttpException exception, HttpServletRequest request, HttpServletResponse response) {
+    public UnifyResponseVO processException(HttpException exception, HttpServletRequest request, HttpServletResponse response) {
         log.error("", exception);
-        CommonResultVO result = new CommonResultVO();
-        result.setUrl(request.getServletPath());
-        int errorCode = exception.getErrorCode();
-        result.setErrorCode(errorCode);
+        UnifyResponseVO unifyResponse = new UnifyResponseVO();
+        unifyResponse.setRequest(getSimpleRequest(request));
+        int code = exception.getCode();
+        unifyResponse.setCode(code);
         response.setStatus(exception.getHttpCode());
-        String errorMessage = ErrorCodeConfig.getErrorMessage(errorCode);
+        String errorMessage = CodeConfig.getMessage(code);
         if (StrUtil.isBlank(errorMessage)) {
-            result.setMsg(exception.getMessage());
+            unifyResponse.setMessage(exception.getMessage());
         } else {
-            result.setMsg(errorMessage);
+            unifyResponse.setMessage(errorMessage);
         }
-        return result;
+        return unifyResponse;
     }
 
     /**
      * ConstraintViolationException
      */
     @ExceptionHandler({ConstraintViolationException.class})
-    public CommonResultVO processException(ConstraintViolationException exception, HttpServletRequest request, HttpServletResponse response) {
+    public UnifyResponseVO processException(ConstraintViolationException exception, HttpServletRequest request, HttpServletResponse response) {
         log.error("", exception);
         Map<String, Object> msg = new HashMap<>();
         exception.getConstraintViolations().forEach(constraintViolation -> {
@@ -71,49 +74,49 @@ public class RestExceptionHandler {
             String path = constraintViolation.getPropertyPath().toString();
             msg.put(path, template);
         });
-        CommonResultVO result = new CommonResultVO();
-        result.setUrl(request.getServletPath());
-        result.setMsg(msg);
-        result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
+        UnifyResponseVO unifyResponse = new UnifyResponseVO();
+        unifyResponse.setRequest(getSimpleRequest(request));
+        unifyResponse.setMessage(msg);
+        unifyResponse.setCode(Code.PARAMETER_ERROR.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
-        return result;
+        return unifyResponse;
     }
 
     /**
      * NoHandlerFoundException
      */
     @ExceptionHandler({NoHandlerFoundException.class})
-    public CommonResultVO processException(NoHandlerFoundException exception, HttpServletRequest request, HttpServletResponse response) {
+    public UnifyResponseVO processException(NoHandlerFoundException exception, HttpServletRequest request, HttpServletResponse response) {
         log.error("", exception);
-        CommonResultVO result = new CommonResultVO();
-        result.setUrl(request.getServletPath());
-        String errorMessage = ErrorCodeConfig.getErrorMessage(10025);
-        if (StrUtil.isBlank(errorMessage)) {
-            result.setMsg(exception.getMessage());
+        UnifyResponseVO unifyResponse = new UnifyResponseVO();
+        unifyResponse.setRequest(getSimpleRequest(request));
+        String message = CodeConfig.getMessage(10025);
+        if (StrUtil.isBlank(message)) {
+            unifyResponse.setMessage(exception.getMessage());
         } else {
-            result.setMsg(errorMessage);
+            unifyResponse.setMessage(message);
         }
-        result.setErrorCode(ErrorCode.NOT_FOUND.getCode());
+        unifyResponse.setCode(Code.NOT_FOUND.getCode());
         response.setStatus(HttpStatus.NOT_FOUND.value());
-        return result;
+        return unifyResponse;
     }
 
     /**
      * MissingServletRequestParameterException
      */
     @ExceptionHandler({MissingServletRequestParameterException.class})
-    public CommonResultVO processException(MissingServletRequestParameterException exception, HttpServletRequest request, HttpServletResponse response) {
+    public UnifyResponseVO processException(MissingServletRequestParameterException exception, HttpServletRequest request, HttpServletResponse response) {
         log.error("", exception);
-        CommonResultVO result = new CommonResultVO();
-        result.setUrl(request.getServletPath());
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
 
-        String errorMessage = ErrorCodeConfig.getErrorMessage(10150);
+        String errorMessage = CodeConfig.getMessage(10150);
         if (StrUtil.isBlank(errorMessage)) {
-            result.setMsg(exception.getMessage());
+            result.setMessage(exception.getMessage());
         } else {
-            result.setMsg(errorMessage + exception.getParameterName());
+            result.setMessage(errorMessage + exception.getParameterName());
         }
-        result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
+        result.setCode(Code.PARAMETER_ERROR.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
     }
@@ -122,17 +125,17 @@ public class RestExceptionHandler {
      * MethodArgumentTypeMismatchException
      */
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    public CommonResultVO processException(MethodArgumentTypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
+    public UnifyResponseVO processException(MethodArgumentTypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
         log.error("", exception);
-        CommonResultVO result = new CommonResultVO();
-        result.setUrl(request.getServletPath());
-        String errorMessage = ErrorCodeConfig.getErrorMessage(10160);
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+        String errorMessage = CodeConfig.getMessage(10160);
         if (StrUtil.isBlank(errorMessage)) {
-            result.setMsg(exception.getMessage());
+            result.setMessage(exception.getMessage());
         } else {
-            result.setMsg(exception.getValue() + errorMessage);
+            result.setMessage(exception.getValue() + errorMessage);
         }
-        result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
+        result.setCode(Code.PARAMETER_ERROR.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
     }
@@ -141,12 +144,12 @@ public class RestExceptionHandler {
      * ServletException
      */
     @ExceptionHandler({ServletException.class})
-    public CommonResultVO processException(ServletException exception, HttpServletRequest request, HttpServletResponse response) {
+    public UnifyResponseVO processException(ServletException exception, HttpServletRequest request, HttpServletResponse response) {
         log.error("", exception);
-        CommonResultVO result = new CommonResultVO();
-        result.setUrl(request.getServletPath());
-        result.setMsg(exception.getMessage());
-        result.setErrorCode(ErrorCode.FAIL.getCode());
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+        result.setMessage(exception.getMessage());
+        result.setCode(Code.FAIL.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
     }
@@ -155,7 +158,7 @@ public class RestExceptionHandler {
      * MethodArgumentNotValidException
      */
     @ExceptionHandler({MethodArgumentNotValidException.class})
-    public CommonResultVO processException(MethodArgumentNotValidException exception, HttpServletRequest request, HttpServletResponse response) {
+    public UnifyResponseVO processException(MethodArgumentNotValidException exception, HttpServletRequest request, HttpServletResponse response) {
         log.error("", exception);
         BindingResult bindingResult = exception.getBindingResult();
         List<ObjectError> errors = bindingResult.getAllErrors();
@@ -168,10 +171,10 @@ public class RestExceptionHandler {
                 msg.put(error.getObjectName(), error.getDefaultMessage());
             }
         });
-        CommonResultVO result = new CommonResultVO();
-        result.setUrl(request.getServletPath());
-        result.setMsg(msg);
-        result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+        result.setMessage(msg);
+        result.setCode(Code.PARAMETER_ERROR.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
     }
@@ -180,17 +183,17 @@ public class RestExceptionHandler {
      * HttpMessageNotReadableException
      */
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    public CommonResultVO processException(HttpMessageNotReadableException exception, HttpServletRequest request, HttpServletResponse response) {
+    public UnifyResponseVO processException(HttpMessageNotReadableException exception, HttpServletRequest request, HttpServletResponse response) {
         log.error("", exception);
-        CommonResultVO result = new CommonResultVO();
-        result.setUrl(request.getServletPath());
-        String errorMessage = ErrorCodeConfig.getErrorMessage(10170);
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+        String errorMessage = CodeConfig.getMessage(10170);
         if (StrUtil.isBlank(errorMessage)) {
-            result.setMsg(exception.getMessage());
+            result.setMessage(exception.getMessage());
         } else {
-            result.setMsg(errorMessage);
+            result.setMessage(errorMessage);
         }
-        result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
+        result.setCode(Code.PARAMETER_ERROR.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
     }
@@ -199,12 +202,12 @@ public class RestExceptionHandler {
      * TypeMismatchException
      */
     @ExceptionHandler({TypeMismatchException.class})
-    public CommonResultVO processException(TypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
+    public UnifyResponseVO processException(TypeMismatchException exception, HttpServletRequest request, HttpServletResponse response) {
         log.error("", exception);
-        CommonResultVO result = new CommonResultVO();
-        result.setUrl(request.getServletPath());
-        result.setMsg(exception.getMessage());
-        result.setErrorCode(ErrorCode.PARAMETER_ERROR.getCode());
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+        result.setMessage(exception.getMessage());
+        result.setCode(Code.PARAMETER_ERROR.getCode());
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         return result;
     }
@@ -213,17 +216,17 @@ public class RestExceptionHandler {
      * MaxUploadSizeExceededException
      */
     @ExceptionHandler({MaxUploadSizeExceededException.class})
-    public CommonResultVO processException(MaxUploadSizeExceededException exception, HttpServletRequest request, HttpServletResponse response) {
+    public UnifyResponseVO processException(MaxUploadSizeExceededException exception, HttpServletRequest request, HttpServletResponse response) {
         log.error("", exception);
-        CommonResultVO result = new CommonResultVO();
-        result.setUrl(request.getServletPath());
-        String errorMessage = ErrorCodeConfig.getErrorMessage(10180);
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+        String errorMessage = CodeConfig.getMessage(10180);
         if (StrUtil.isBlank(errorMessage)) {
-            result.setMsg(exception.getMessage());
+            result.setMessage(exception.getMessage());
         } else {
-            result.setMsg(errorMessage + maxFileSize);
+            result.setMessage(errorMessage + maxFileSize);
         }
-        result.setErrorCode(ErrorCode.FILE_TOO_LARGE.getCode());
+        result.setCode(Code.FILE_TOO_LARGE.getCode());
         response.setStatus(HttpStatus.PAYLOAD_TOO_LARGE.value());
         return result;
     }
@@ -232,12 +235,12 @@ public class RestExceptionHandler {
      * Exception
      */
     @ExceptionHandler({Exception.class})
-    public CommonResultVO processException(Exception exception, HttpServletRequest request, HttpServletResponse response) {
+    public UnifyResponseVO processException(Exception exception, HttpServletRequest request, HttpServletResponse response) {
         log.error("", exception);
-        CommonResultVO result = new CommonResultVO();
-        result.setUrl(request.getServletPath());
-        result.setMsg(ErrorCode.INTERNAL_SERVER_ERROR.getZhDescription());
-        result.setErrorCode(ErrorCode.INTERNAL_SERVER_ERROR.getCode());
+        UnifyResponseVO result = new UnifyResponseVO();
+        result.setRequest(getSimpleRequest(request));
+        result.setMessage(Code.INTERNAL_SERVER_ERROR.getZhDescription());
+        result.setCode(Code.INTERNAL_SERVER_ERROR.getCode());
         response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
         return result;
     }

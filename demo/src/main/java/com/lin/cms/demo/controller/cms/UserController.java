@@ -5,14 +5,14 @@ import com.lin.cms.core.annotation.LoginRequired;
 import com.lin.cms.core.annotation.RefreshRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.demo.common.LocalUser;
+import com.lin.cms.demo.common.utils.ResponseUtil;
 import com.lin.cms.demo.model.GroupDO;
 import com.lin.cms.demo.service.GroupService;
 import com.lin.cms.demo.service.UserIdentityService;
-import com.lin.cms.demo.vo.CommonResultVO;
+import com.lin.cms.demo.vo.UnifyResponseVO;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.vo.UserInfoVO;
 import com.lin.cms.demo.vo.UserPermissionsVO;
-import com.lin.cms.demo.common.utils.ResultUtil;
 import com.lin.cms.demo.service.UserService;
 import com.lin.cms.core.token.DoubleJWT;
 import com.lin.cms.demo.dto.user.*;
@@ -53,9 +53,9 @@ public class UserController {
      */
     @PostMapping("/register")
     @AdminRequired
-    public CommonResultVO<String> register(@RequestBody @Validated RegisterDTO validator) {
+    public UnifyResponseVO<String> register(@RequestBody @Validated RegisterDTO validator) {
         userService.createUser(validator);
-        return ResultUtil.generateResult(9);
+        return ResponseUtil.generateUnifyResponse(9);
     }
 
     /**
@@ -81,9 +81,9 @@ public class UserController {
      */
     @PutMapping
     @LoginRequired
-    public CommonResultVO update(@RequestBody @Validated UpdateInfoDTO validator) {
+    public UnifyResponseVO update(@RequestBody @Validated UpdateInfoDTO validator) {
         userService.updateUserInfo(validator);
-        return ResultUtil.generateResult(4);
+        return ResponseUtil.generateUnifyResponse(4);
     }
 
     /**
@@ -91,9 +91,9 @@ public class UserController {
      */
     @PutMapping("/change_password")
     @LoginRequired
-    public CommonResultVO updatePassword(@RequestBody @Validated ChangePasswordDTO validator) {
+    public UnifyResponseVO updatePassword(@RequestBody @Validated ChangePasswordDTO validator) {
         userService.changeUserPassword(validator);
-        return ResultUtil.generateResult(2);
+        return ResponseUtil.generateUnifyResponse(2);
     }
 
     /**

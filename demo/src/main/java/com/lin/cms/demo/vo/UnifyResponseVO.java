@@ -14,11 +14,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CommonResultVO<T> {
+public class UnifyResponseVO<T> {
 
-    private int errorCode;
+    private int code;
 
-    private T msg;
+    private T message;
 
-    private String url;
+    private String request;
 }

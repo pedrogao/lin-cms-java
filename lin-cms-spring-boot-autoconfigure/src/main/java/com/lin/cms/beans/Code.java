@@ -2,9 +2,9 @@ package com.lin.cms.beans;
 
 
 /**
- * 错误码
+ * 消息码
  */
-public enum ErrorCode {
+public enum Code {
 
     SUCCESS(0, "OK", "成功"),
 
@@ -48,7 +48,7 @@ public enum ErrorCode {
 
     private String zhDescription;
 
-    ErrorCode(int code, String description, String zhDescription) {
+    Code(int code, String description, String zhDescription) {
         this.code = code;
         this.description = description;
         this.zhDescription = zhDescription;

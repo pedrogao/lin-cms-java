@@ -1,8 +1,8 @@
 package com.lin.cms.demo.common.aop;
 
 import cn.hutool.core.util.StrUtil;
-import com.lin.cms.demo.common.configure.ErrorCodeConfig;
-import com.lin.cms.demo.vo.CommonResultVO;
+import com.lin.cms.demo.common.configure.CodeConfig;
+import com.lin.cms.demo.vo.UnifyResponseVO;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,12 +26,12 @@ public class ResultAspect {
 
     @AfterReturning(returning = "ret", pointcut = "handlePlaceholder()")
     public void doAfterReturning(Object ret) throws Throwable {
-        if (ret instanceof CommonResultVO) {
-            CommonResultVO result = (CommonResultVO) ret;
-            int errorCode = result.getErrorCode();
-            String errorMessage = ErrorCodeConfig.getErrorMessage(errorCode);
-            if (StrUtil.isNotBlank(errorMessage)) {
-                result.setMsg(errorMessage);
+        if (ret instanceof UnifyResponseVO) {
+            UnifyResponseVO result = (UnifyResponseVO) ret;
+            int code = result.getCode();
+            String message = CodeConfig.getMessage(code);
+            if (StrUtil.isNotBlank(message)) {
+                result.setMessage(message);
             }
         }
     }

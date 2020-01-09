@@ -14,4 +14,13 @@ public class RequestUtil {
     public static String getRequestUrl() {
         return getRequest().getServletPath();
     }
+
+    public static String getSimpleRequest(HttpServletRequest request) {
+        return String.format("%s %s", request.getMethod(), request.getServletPath());
+    }
+
+    public static String getSimpleRequest() {
+        HttpServletRequest request = getRequest();
+        return String.format("%s %s", request.getMethod(), request.getServletPath());
+    }
 }

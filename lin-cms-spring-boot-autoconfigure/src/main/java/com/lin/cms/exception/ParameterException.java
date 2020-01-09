@@ -1,6 +1,6 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -13,21 +13,26 @@ public class ParameterException extends HttpException {
     protected int httpCode = HttpStatus.BAD_REQUEST.value();
 
     @Getter
-    protected int errorCode = ErrorCode.PARAMETER_ERROR.getCode();
+    protected int code = Code.PARAMETER_ERROR.getCode();
 
     private Map<String, Object> errors = new HashMap<>();
 
     public ParameterException() {
-        super(ErrorCode.PARAMETER_ERROR.getDescription());
+        super(Code.PARAMETER_ERROR.getDescription());
     }
 
     public ParameterException(String message) {
         super(message);
     }
 
-    public ParameterException(String message, int errorCode) {
+    public ParameterException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
+    }
+
+    public ParameterException(int code) {
+        super(Code.PARAMETER_ERROR.getDescription());
+        this.code = code;
     }
 
     public ParameterException(Map<String, Object> errors) {

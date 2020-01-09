@@ -1,13 +1,13 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 public class RepeatException extends HttpException {
 
     @Getter
-    protected int errorCode = ErrorCode.REPEAT.getCode();
+    protected int code = Code.REPEAT.getCode();
 
     @Getter
     protected int httpCode = HttpStatus.BAD_REQUEST.value();
@@ -17,11 +17,16 @@ public class RepeatException extends HttpException {
     }
 
     public RepeatException() {
-        super(ErrorCode.REPEAT.getDescription());
+        super(Code.REPEAT.getDescription());
     }
 
-    public RepeatException(String message, int errorCode) {
+    public RepeatException(int code) {
+        super(Code.REPEAT.getDescription());
+        this.code = code;
+    }
+
+    public RepeatException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
     }
 }

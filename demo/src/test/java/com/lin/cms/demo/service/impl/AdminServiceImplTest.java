@@ -2,10 +2,8 @@ package com.lin.cms.demo.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.lin.cms.demo.dto.user.UpdateInfoDTO;
 import com.lin.cms.demo.mapper.*;
 import com.lin.cms.demo.model.*;
-import com.lin.cms.demo.vo.PageResultVO;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
 import com.lin.cms.demo.dto.admin.*;
 import com.lin.cms.demo.dto.user.RegisterDTO;
@@ -380,7 +378,7 @@ public class AdminServiceImplTest {
     @Test(expected = NotFoundException.class)
     public void deleteGroup1() {
         Random random = new Random();
-        boolean ok = adminService.deleteGroup((long) random.nextInt(100));
+        boolean ok = adminService.deleteGroup((long) random.nextInt(1000));
         assertFalse(ok);
     }
 

@@ -1,6 +1,6 @@
 package com.lin.cms.response;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import com.lin.cms.interfaces.BaseResponse;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -8,10 +8,10 @@ import org.springframework.http.HttpStatus;
 public class Success implements BaseResponse {
 
     @Getter
-    protected String message = ErrorCode.SUCCESS.getDescription();
+    protected String message = Code.SUCCESS.getDescription();
 
     @Getter
-    protected int errorCode = ErrorCode.SUCCESS.getCode();
+    protected int code = Code.SUCCESS.getCode();
 
     @Getter
     protected int httpCode = HttpStatus.OK.value();

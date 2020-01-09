@@ -1,6 +1,6 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -14,18 +14,23 @@ public class AuthorizationException extends HttpException {
     protected int httpCode = HttpStatus.UNAUTHORIZED.value();
 
     @Getter
-    protected int errorCode = ErrorCode.UN_AUTHORIZATION.getCode();
+    protected int code = Code.UN_AUTHORIZATION.getCode();
 
     public AuthorizationException() {
-        super(ErrorCode.UN_AUTHORIZATION.getDescription());
+        super(Code.UN_AUTHORIZATION.getDescription());
     }
 
     public AuthorizationException(String message) {
         super(message);
     }
 
-    public AuthorizationException(String message, int errorCode) {
+    public AuthorizationException(int code) {
+        super(Code.UN_AUTHORIZATION.getDescription());
+        this.code = code;
+    }
+
+    public AuthorizationException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
     }
 }

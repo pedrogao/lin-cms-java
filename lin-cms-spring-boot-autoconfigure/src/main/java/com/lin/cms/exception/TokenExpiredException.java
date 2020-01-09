@@ -1,13 +1,13 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 public class TokenExpiredException extends HttpException {
 
     @Getter
-    protected int errorCode = ErrorCode.TOKEN_EXPIRED.getCode();
+    protected int code = Code.TOKEN_EXPIRED.getCode();
 
     @Getter
     protected int httpCode = HttpStatus.UNAUTHORIZED.value();
@@ -17,11 +17,16 @@ public class TokenExpiredException extends HttpException {
     }
 
     public TokenExpiredException() {
-        super(ErrorCode.TOKEN_EXPIRED.getDescription());
+        super(Code.TOKEN_EXPIRED.getDescription());
     }
 
-    public TokenExpiredException(String message, int errorCode) {
+    public TokenExpiredException(int code) {
+        super(Code.TOKEN_EXPIRED.getDescription());
+        this.code = code;
+    }
+
+    public TokenExpiredException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
     }
 }

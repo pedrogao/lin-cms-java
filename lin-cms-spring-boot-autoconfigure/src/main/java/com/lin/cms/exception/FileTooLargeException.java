@@ -1,6 +1,6 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 public class FileTooLargeException extends HttpException {
 
     @Getter
-    protected int errorCode = ErrorCode.FILE_TOO_LARGE.getCode();
+    protected int code = Code.FILE_TOO_LARGE.getCode();
 
     @Getter
     protected int httpCode = HttpStatus.PAYLOAD_TOO_LARGE.value();
@@ -19,11 +19,16 @@ public class FileTooLargeException extends HttpException {
     }
 
     public FileTooLargeException() {
-        super(ErrorCode.FILE_TOO_LARGE.getDescription());
+        super(Code.FILE_TOO_LARGE.getDescription());
     }
 
-    public FileTooLargeException(String message, int errorCode) {
+    public FileTooLargeException(int code) {
+        super(Code.FILE_TOO_LARGE.getDescription());
+        this.code = code;
+    }
+
+    public FileTooLargeException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
     }
 }

@@ -4,14 +4,14 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lin.cms.core.annotation.AdminRequired;
 import com.lin.cms.core.annotation.RouteMeta;
 import com.lin.cms.demo.bo.GroupPermissionsBO;
+import com.lin.cms.demo.common.utils.ResponseUtil;
 import com.lin.cms.demo.model.PermissionDO;
 import com.lin.cms.demo.model.UserDO;
 import com.lin.cms.demo.service.AdminService;
 import com.lin.cms.demo.service.GroupService;
-import com.lin.cms.demo.vo.CommonResultVO;
-import com.lin.cms.demo.vo.PageResultVO;
+import com.lin.cms.demo.vo.UnifyResponseVO;
+import com.lin.cms.demo.vo.PageResponseVO;
 import com.lin.cms.demo.model.GroupDO;
-import com.lin.cms.demo.common.utils.ResultUtil;
 import com.lin.cms.demo.dto.admin.*;
 import com.lin.cms.demo.vo.UserInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +51,7 @@ public class AdminController {
     @GetMapping("/users")
     @AdminRequired
     @RouteMeta(permission = "查询所有用户", module = "管理员")
-    public PageResultVO getUsers(
+    public PageResponseVO getUsers(
             @RequestParam(name = "group_id", required = false)
             @Min(value = 1, message = "{group_id}") Long groupId,
             @RequestParam(name = "count", required = false, defaultValue = "10")
@@ -63,44 +63,44 @@ public class AdminController {
             List<GroupDO> groups = groupService.getUserGroupsByUserId(user.getId());
             return new UserInfoVO(user, groups);
         }).collect(Collectors.toList());
-        return PageResultVO.genPageResult(iPage.getTotal(), userInfos, page, count);
+        return PageResponseVO.genPageResult(iPage.getTotal(), userInfos, page, count);
     }
 
     @PutMapping("/user/{id}/password")
     @AdminRequired
     @RouteMeta(permission = "修改用户密码", module = "管理员")
-    public CommonResultVO changeUserPassword(@PathVariable @Positive(message = "{id}") Long id, @RequestBody @Validated ResetPasswordDTO validator) {
+    public UnifyResponseVO changeUserPassword(@PathVariable @Positive(message = "{id}") Long id, @RequestBody @Validated ResetPasswordDTO validator) {
         adminService.changeUserPassword(id, validator);
-        return ResultUtil.generateResult(2);
+        return ResponseUtil.generateUnifyResponse(2);
     }
 
     @DeleteMapping("/user/{id}")
     @AdminRequired
     @RouteMeta(permission = "删除用户", module = "管理员")
-    public CommonResultVO deleteUser(@PathVariable @Positive(message = "{id}") Long id) {
+    public UnifyResponseVO deleteUser(@PathVariable @Positive(message = "{id}") Long id) {
         adminService.deleteUser(id);
-        return ResultUtil.generateResult(3);
+        return ResponseUtil.generateUnifyResponse(3);
     }
 
 
     @PutMapping("/user/{id}")
     @AdminRequired
     @RouteMeta(permission = "管理员更新用户信息", module = "管理员")
-    public CommonResultVO updateUser(@PathVariable @Positive(message = "{id}") Long id, @RequestBody @Validated UpdateUserInfoDTO validator) {
+    public UnifyResponseVO updateUser(@PathVariable @Positive(message = "{id}") Long id, @RequestBody @Validated UpdateUserInfoDTO validator) {
         adminService.updateUserInfo(id, validator);
-        return ResultUtil.generateResult(4);
+        return ResponseUtil.generateUnifyResponse(4);
     }
 
     @GetMapping("/group")
     @AdminRequired
     @RouteMeta(permission = "查询所有权限组及其权限", module = "管理员")
-    public PageResultVO getGroups(
+    public PageResponseVO getGroups(
             @RequestParam(name = "count", required = false, defaultValue = "10")
             @Min(value = 1, message = "{count}") Long count,
             @RequestParam(name = "page", required = false, defaultValue = "0")
             @Min(value = 0, message = "{page}") Long page) {
         IPage<GroupDO> iPage = adminService.getGroupPage(page, count);
-        return PageResultVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
+        return PageResponseVO.genPageResult(iPage.getTotal(), iPage.getRecords(), page, count);
     }
 
 
@@ -124,51 +124,51 @@ public class AdminController {
     @PostMapping("/group")
     @AdminRequired
     @RouteMeta(permission = "新建权限组", module = "管理员")
-    public CommonResultVO createGroup(@RequestBody @Validated NewGroupDTO validator) {
+    public UnifyResponseVO createGroup(@RequestBody @Validated NewGroupDTO validator) {
         adminService.createGroup(validator);
-        return ResultUtil.generateResult(13);
+        return ResponseUtil.generateUnifyResponse(13);
     }
 
 
     @PutMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(permission = "更新一个权限组", module = "管理员")
-    public CommonResultVO updateGroup(@PathVariable @Positive(message = "{id}") Long id,
-                                      @RequestBody @Validated UpdateGroupDTO validator) {
+    public UnifyResponseVO updateGroup(@PathVariable @Positive(message = "{id}") Long id,
+                                       @RequestBody @Validated UpdateGroupDTO validator) {
         adminService.updateGroup(id, validator);
-        return ResultUtil.generateResult(5);
+        return ResponseUtil.generateUnifyResponse(5);
     }
 
     @DeleteMapping("/group/{id}")
     @AdminRequired
     @RouteMeta(permission = "删除一个权限组", module = "管理员")
-    public CommonResultVO deleteGroup(@PathVariable @Positive(message = "{id}") Long id) {
+    public UnifyResponseVO deleteGroup(@PathVariable @Positive(message = "{id}") Long id) {
         adminService.deleteGroup(id);
-        return ResultUtil.generateResult(6);
+        return ResponseUtil.generateUnifyResponse(6);
     }
 
     @PostMapping("/permission/dispatch")
     @AdminRequired
     @RouteMeta(permission = "分配单个权限", module = "管理员")
-    public CommonResultVO dispatchPermission(@RequestBody @Validated DispatchPermissionDTO validator) {
+    public UnifyResponseVO dispatchPermission(@RequestBody @Validated DispatchPermissionDTO validator) {
         adminService.dispatchPermission(validator);
-        return ResultUtil.generateResult(7);
+        return ResponseUtil.generateUnifyResponse(7);
     }
 
     @PostMapping("/permission/dispatch/batch")
     @AdminRequired
     @RouteMeta(permission = "分配多个权限", module = "管理员")
-    public CommonResultVO dispatchPermissions(@RequestBody @Validated DispatchPermissionsDTO validator) {
+    public UnifyResponseVO dispatchPermissions(@RequestBody @Validated DispatchPermissionsDTO validator) {
         adminService.dispatchPermissions(validator);
-        return ResultUtil.generateResult(7);
+        return ResponseUtil.generateUnifyResponse(7);
     }
 
     @PostMapping("/permission/remove")
     @AdminRequired
     @RouteMeta(permission = "删除多个权限", module = "管理员")
-    public CommonResultVO removePermissions(@RequestBody @Validated RemovePermissionsDTO validator) {
+    public UnifyResponseVO removePermissions(@RequestBody @Validated RemovePermissionsDTO validator) {
         adminService.removePermissions(validator);
-        return ResultUtil.generateResult(8);
+        return ResponseUtil.generateUnifyResponse(8);
     }
 
 }

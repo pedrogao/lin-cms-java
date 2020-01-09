@@ -1,6 +1,6 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import com.lin.cms.interfaces.BaseResponse;
 import org.springframework.http.HttpStatus;
 
@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
  * HttpException 异常类
  * 含异常信息 message
  * http状态码 httpCode
- * 错误码 errorCode
+ * 错误码 code
  */
 public class HttpException extends RuntimeException implements BaseResponse {
 
@@ -16,46 +16,46 @@ public class HttpException extends RuntimeException implements BaseResponse {
 
     protected int httpCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
 
-    protected int errorCode = ErrorCode.INTERNAL_SERVER_ERROR.getCode();
+    protected int code = Code.INTERNAL_SERVER_ERROR.getCode();
 
     public HttpException() {
-        super(ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
+        super(Code.INTERNAL_SERVER_ERROR.getDescription());
     }
 
     public HttpException(String message) {
         super(message);
     }
 
-    public HttpException(int errorCode) {
-        super(ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
-        this.errorCode = errorCode;
+    public HttpException(int code) {
+        super(Code.INTERNAL_SERVER_ERROR.getDescription());
+        this.code = code;
     }
 
-    public HttpException(int errorCode, int httpCode) {
-        super(ErrorCode.INTERNAL_SERVER_ERROR.getDescription());
+    public HttpException(int code, int httpCode) {
+        super(Code.INTERNAL_SERVER_ERROR.getDescription());
         this.httpCode = httpCode;
-        this.errorCode = errorCode;
+        this.code = code;
     }
 
-    public HttpException(String message, int errorCode) {
+    public HttpException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
     }
 
-    public HttpException(String message, int errorCode, int httpCode) {
+    public HttpException(String message, int code, int httpCode) {
         super(message);
         this.httpCode = httpCode;
-        this.errorCode = errorCode;
+        this.code = code;
     }
 
-    public HttpException(Throwable cause, int errorCode) {
+    public HttpException(Throwable cause, int code) {
         super(cause);
-        this.errorCode = errorCode;
+        this.code = code;
     }
 
-    public HttpException(Throwable cause, int errorCode, int httpCode) {
+    public HttpException(Throwable cause, int code, int httpCode) {
         super(cause);
-        this.errorCode = errorCode;
+        this.code = code;
         this.httpCode = httpCode;
     }
 
@@ -80,7 +80,7 @@ public class HttpException extends RuntimeException implements BaseResponse {
         return this.httpCode;
     }
 
-    public int getErrorCode() {
-        return this.errorCode;
+    public int getCode() {
+        return this.code;
     }
 }

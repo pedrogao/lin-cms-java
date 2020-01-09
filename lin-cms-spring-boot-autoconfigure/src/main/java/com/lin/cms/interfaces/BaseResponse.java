@@ -19,5 +19,5 @@ public interface BaseResponse {
     /**
      * 错误码
      */
-    int getErrorCode();
+    int getCode();
 }

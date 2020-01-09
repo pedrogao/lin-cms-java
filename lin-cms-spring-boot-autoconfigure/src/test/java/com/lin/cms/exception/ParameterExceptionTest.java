@@ -16,8 +16,8 @@ public class ParameterExceptionTest {
         ParameterException exception = new ParameterException();
         String message = exception.getMessage();
         String localizedMessage = exception.getLocalizedMessage();
-        int errorCode = exception.getErrorCode();
-        assertEquals(10030, errorCode);
+        int code = exception.getCode();
+        assertEquals(10030, code);
         assertEquals("Parameters Error", message);
         assertEquals("Parameters Error", localizedMessage);
     }
@@ -27,8 +27,8 @@ public class ParameterExceptionTest {
         ParameterException exception = new ParameterException("pedro犯了一个错误");
         String message = exception.getMessage();
         String localizedMessage = exception.getLocalizedMessage();
-        int errorCode = exception.getErrorCode();
-        assertEquals(10030, errorCode);
+        int code = exception.getCode();
+        assertEquals(10030, code);
         assertEquals("pedro犯了一个错误", message);
         assertEquals("pedro犯了一个错误", localizedMessage);
     }
@@ -40,8 +40,8 @@ public class ParameterExceptionTest {
         errors.put("age", "年龄不能为负数");
         ParameterException exception = new ParameterException(errors);
         String message = exception.getMessage();
-        int errorCode = exception.getErrorCode();
-        assertEquals(10030, errorCode);
+        int code = exception.getCode();
+        assertEquals(10030, code);
         assertEquals("{nickname=名称不能超过100字符, age=年龄不能为负数}", message);
     }
 
@@ -50,8 +50,8 @@ public class ParameterExceptionTest {
         ParameterException exception = new ParameterException();
         exception.addError("nickname", "名称不能超过100字符");
         String message = exception.getMessage();
-        int errorCode = exception.getErrorCode();
-        assertEquals(10030, errorCode);
+        int code = exception.getCode();
+        assertEquals(10030, code);
         assertEquals("{nickname=名称不能超过100字符}", message);
     }
 }

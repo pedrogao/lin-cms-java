@@ -5,9 +5,9 @@ import com.lin.cms.demo.service.BookService;
 import com.lin.cms.demo.dto.book.CreateOrUpdateBookDTO;
 import com.lin.cms.core.annotation.GroupRequired;
 import com.lin.cms.core.annotation.RouteMeta;
-import com.lin.cms.demo.vo.CommonResultVO;
+import com.lin.cms.demo.vo.UnifyResponseVO;
 import com.lin.cms.exception.NotFoundException;
-import com.lin.cms.demo.common.utils.ResultUtil;
+import com.lin.cms.demo.common.utils.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -47,33 +47,33 @@ public class BookController {
 
 
     @PostMapping("")
-    public CommonResultVO createBook(@RequestBody @Validated CreateOrUpdateBookDTO validator) {
+    public UnifyResponseVO createBook(@RequestBody @Validated CreateOrUpdateBookDTO validator) {
         bookService.createBook(validator);
-        return ResultUtil.generateResult(10);
+        return ResponseUtil.generateUnifyResponse(10);
     }
 
 
     @PutMapping("/{id}")
-    public CommonResultVO updateBook(@PathVariable("id") @Positive(message = "{id}") Long id, @RequestBody @Validated CreateOrUpdateBookDTO validator) {
+    public UnifyResponseVO updateBook(@PathVariable("id") @Positive(message = "{id}") Long id, @RequestBody @Validated CreateOrUpdateBookDTO validator) {
         BookDO book = bookService.getById(id);
         if (book == null) {
             throw new NotFoundException("book not found", 10022);
         }
         bookService.updateBook(book, validator);
-        return ResultUtil.generateResult(11);
+        return ResponseUtil.generateUnifyResponse(11);
     }
 
 
     @DeleteMapping("/{id}")
     @RouteMeta(permission = "删除图书", module = "图书", mount = true)
     @GroupRequired
-    public CommonResultVO deleteBook(@PathVariable("id") @Positive(message = "{id}") Long id) {
+    public UnifyResponseVO deleteBook(@PathVariable("id") @Positive(message = "{id}") Long id) {
         BookDO book = bookService.getById(id);
         if (book == null) {
             throw new NotFoundException("book not found", 10022);
         }
         bookService.deleteById(book.getId());
-        return ResultUtil.generateResult(12);
+        return ResponseUtil.generateUnifyResponse(12);
     }
 
 

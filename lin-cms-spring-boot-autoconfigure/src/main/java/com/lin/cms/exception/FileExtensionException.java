@@ -1,13 +1,13 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 public class FileExtensionException extends HttpException {
 
     @Getter
-    protected int errorCode = ErrorCode.FILE_EXTENSION.getCode();
+    protected int code = Code.FILE_EXTENSION.getCode();
 
     @Getter
     protected int httpCode = HttpStatus.NOT_ACCEPTABLE.value();
@@ -17,11 +17,16 @@ public class FileExtensionException extends HttpException {
     }
 
     public FileExtensionException() {
-        super(ErrorCode.FILE_EXTENSION.getDescription());
+        super(Code.FILE_EXTENSION.getDescription());
     }
 
-    public FileExtensionException(String message, int errorCode) {
+    public FileExtensionException(int code) {
+        super(Code.FILE_EXTENSION.getDescription());
+        this.code = code;
+    }
+
+    public FileExtensionException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
     }
 }

@@ -1,13 +1,13 @@
 package com.lin.cms.exception;
 
-import com.lin.cms.beans.ErrorCode;
+import com.lin.cms.beans.Code;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 public class ForbiddenException extends HttpException {
 
     @Getter
-    protected int errorCode = ErrorCode.FORBIDDEN.getCode();
+    protected int code = Code.FORBIDDEN.getCode();
 
     @Getter
     protected int httpCode = HttpStatus.FORBIDDEN.value();
@@ -16,12 +16,17 @@ public class ForbiddenException extends HttpException {
         super(message);
     }
 
-    public ForbiddenException(String message, int errorCode) {
+    public ForbiddenException(String message, int code) {
         super(message);
-        this.errorCode = errorCode;
+        this.code = code;
+    }
+
+    public ForbiddenException(int code) {
+        super(Code.FORBIDDEN.getDescription());
+        this.code = code;
     }
 
     public ForbiddenException() {
-        super(ErrorCode.FORBIDDEN.getDescription());
+        super(Code.FORBIDDEN.getDescription());
     }
 }
