@@ -15,7 +15,11 @@
     <description>Demo project for lin cms</description>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <java.version>1.8</java.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <druid.version>1.1.10</druid.version>
         <guava.version>23.0</guava.version>
         <mybatis-plus.version>3.3.0</mybatis-plus.version>
