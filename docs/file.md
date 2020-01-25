@@ -1,121 +1,114 @@
-# 文件上传系统
+---
+title: 文件上传
+---
 
-## 概述
+# 文件上传
 
-在 CMS 的绝大多数业务或者功能中，我们都是以数据流的形式来处理数据的，但有些情况下，比如我们需要存储一个图片，或者上传一段视频。
-这些数据都是以文件的形式存在，它们皆以硬盘为载体。
-
-你可以设想这样的一个业务，leader 要求你可以从前端操作界面上上传一个漂亮小姐姐的
-照片到服务器，但这还不够，他要要求上传一份报表或者一份 PPT。于是你开始忙碌了起来
-，开发一个上传图片的接口，上传报表的接口。
-
-但是这两者完全耦合了，于是你想到了干脆开发一个上传文件的接口，但是这个接口的设计
-颇为复杂。你得考虑文件类型的限制，文件大小的限制，文件数量的限制，甚至上传文件如
-何存储，存本地了，还是存远程静态资源服务器了，等等。。。
-
-于是 lin 出现了，像一个 hero，帮你一下子解决了这个问题，这个文件上传功能，它被默
-认集成到了 lin 的基础业务中，你可以迅速地使用它。
+lin-cms默认集成了文件上传功能，前端也有相应的组件匹配使用。
 
 ## 使用
 
-### 模式
-
-我们把 lin 的文件上传接口定到了`cms/file/`这个路径上，你可以通过 post 方法上传文
-件。lin 默认的文件上传实现是`LocalUploader`这个类，意思是前端上传的文件会保存到
-服务器本地，但更多的时候我们需要将文件保存到云服务器上，如阿里云或腾讯云，lin 并
-没有局限在此，你可以自己实现存储文件的逻辑，将文件保存到你希望的地方。
-
-对于文件上传(`file`)这种可以有多种实现方式的功能，我们把其诸多实现归入
-到`app/extensions/file`这个目录下。如`local-uploader.js`这个文件实现了上传到本地
-的`LocalUploader`类，`config.js`文件是与其相关的配置文件。
+lin-cms默认对外暴露了`cms/file/`作为文件上传接口，通过该接口可以直接使用
+HTTP post 方法上传文件。
+ 
+lim-cms默认将文件上传到本地；lin-cms是通过[扩展](./extension.md)来实现
+文件上传的，代码结构如下（主要功能已写在了注释中）：
 
 ```bash
-app/extensions/
-└── file
-    ├── config.js  # 配置文件
-    └── local-uploader.js # LocalUploader类实现文件
+├── File.java // File容器类，即Data Object，存储文件信息
+├── FileConsts.java // File常量类
+├── FileProperties.java // File配置装载类
+├── FileUtil.java // 工具类
+├── LocalUploader.java // 默认的本地实现
+├── PreHandler.java // 上传之前接口调用
+├── Uploader.java // 上传接口
+└── config.properties // 配置文件
 ```
 
-默认的情况下在，`cms/file/`这个接口使用`LocalUploader`这个文件上传实现类。
+lin-cms将文件上传定义为了一个通用接口`Uploader.java`：
 
-```js
-file.post('/', async ctx => {
-  // 解析上传文件，得到所有符合条件的文件流
-  const files = await ctx.multipart();
-  if (files.length < 1) {
-    throw new ParametersException({ msg: '未找到符合条件的文件资源' });
-  }
-  // 传入本地文件的存储目录，默认为当前工作目录下的 app/assets
-  const uploader = new LocalUploader('app/assets');
-  const arr = await uploader.upload(files);
-  ctx.json(arr);
-});
-```
+```java
+public interface Uploader {
 
-在这段代码中， 我们首先调用了`multipart`这个方法，它会为我们自动解析客户端传输过
-来的文件，并按照配置进行筛选，如果不满足配置要求，会自动抛出异常反馈给前端。调用
-了方法之后得到所有上传文件的流`files`，然后实例化了`LocalUploader`类，
-把`files`当作参数传给了`uploader.upload`方法。
+    /**
+     * 上传文件
+     *
+     * @param fileMap 文件map
+     * @return 文件数据
+     */
+    List<File> upload(MultiValueMap<String, MultipartFile> fileMap);
 
-记住这一步，它是固定的，任何继承自`Uploader`这个基类的实现类必须重写`upload`方法
-，如`LocalUploader`中：
-
-```js
-class LocalUploader extends Uploader {
-  /**
-   * 处理文件流
-   * @param {object[]} files 文件流数组
-   */
-  async upload(files) {}
+    /**
+     * 上传文件
+     *
+     * @param fileMap    文件map
+     * @param preHandler 预处理器
+     * @return 文件数据
+     */
+    List<File> upload(MultiValueMap<String, MultipartFile> fileMap, PreHandler preHandler);
 }
 ```
 
-当需要实现其它的上传类时，如上传到阿里云 OSS，我们只需要重新定义一个`Aliyun`类，
-在类中重新实现这个`upload`方法，而后在视图函数中，更
-换`LocalUploader`为`Aliyun`即可快速切换。
+为了保证`Uploader`的通用性，该接口默认有两个`upload`方法。
 
-### 实操
+`fileMap`参数是文件容器，从中可以拿到前端上传文件的数据和信息。
 
-在具体的实践之前，我们需要了解一下`file`的具体配置。
+`preHandler`是一个特殊的参数，它也是一个接口，从名称上可以看出它是一个
+前置处理器，会在文件数据写入到本地或者上传到OSS之前调用，如下：
 
-```js
-'use strict';
+```java
+public interface PreHandler {
 
-module.exports = {
-  file: {
-    storeDir: 'app/assets', // 文件的存储路径，你也可以在LocalUploader的构造函数中传入
-    singleLimit: 1024 * 1024 * 2, // 单个文件的大小限制，默认2M
-    totalLimit: 1024 * 1024 * 20, // 所有文件的大小限制，默认20M
-    nums: 10, // 文件数量限制，默认10
-    exclude: [] // 文件后缀名的排除项，默认排除[]，即允许所有类型的文件上传
-    // include:[] // 文件后缀名的包括项
-  }
-};
-```
-
-在单个配置的后面，笔者已经以注释的方式解释了每项的作用。当然还需要着重解释一
-下`exclude`和`include`这两项，默认情况下，只会读取它们中的一项，读取其中不
-为`undefined`的一项，如果两项皆为`undefined`的话，会通过所有文件类型，如果二者都
-有则取`include`为有效配置，总而言之，系统只会支持使用一项，二者都为 undefined 的
-情况下，则通过所有文件类型。
-
-注意了！！！在`app/extensions/`下的配置文件，系统不会帮我们做自动加载，不同
-于`app/config`。因此，你必须`starter.js`文件中，显示的加载该配置文件，如:
-
-```js
-// 1. 必须最开始加载配置，因为其他很多扩展依赖于配置
-function applyConfig() {
-  const cwd = process.cwd();
-  const files = fs.readdirSync(`${cwd}/app/config`);
-  for (const file of files) {
-    config.getConfigFromFile(`app/config/${file}`);
-  }
-  // 此处，加载其它配置文件
-  config.getConfigFromFile('app/extensions/file/config.js');
+    /**
+     * 在文件写入本地或者上传到云之前调用此方法
+     *
+     * @return 是否上传，若返回false，则不上传
+     */
+    boolean handle(File file);
 }
 ```
 
-当做好了这些后，我们使用 postman 测试一下文件上传。
+通过自定义PreHandler，你可以通过判断`File`中的信息来决定该文件是否要写入到
+本地或者上传到云。
+
+`LocalUploader`是lin-cms提供的`Upload`默认实现，它会将前端上传的文件存储到
+本地；当然一般情况下，会存储到云上，你完全可以自己来实现`Upload`来达到你的
+目的，lin-cms后续也会开发其它实现，如上传到阿里云。
+
+## 配置
+
+在具体的实践之前，我们需要了解一下文件上传提供的配置。
+
+```properties
+# upload
+# 只能从max-file-size设置总体文件的大小
+# 上传文件总大小
+spring.servlet.multipart.max-file-size=20MB
+# 每个文件的大小
+lin.cms.file.single-limit=2MB
+# 上传文件总数量
+lin.cms.file.nums=10
+# 禁止某些类型文件上传，文件格式以,隔开
+lin.cms.file.exclude=
+# 允许某些类型文件上传，文件格式以,隔开
+lin.cms.file.include=.jpg,.png,.jpeg
+# 文件上传后，访问域名配置
+lin.cms.file.domain=http://localhost:5000/
+# 文件存储位置，默认在工作目录下的assets目录
+lin.cms.file.store-dir=assets/
+```
+
+在每个配置的后面，我们均以注释的方式解释了每项的作用。
+
+当然还需要着重解释一下`exclude`和`include`这两项配置，默认情况下，这两者只会有一项生效；
+若这二者中有一项为空，则另一项不为空的配置会生效；
+如果两项皆为空的话，会通过所有文件类型；
+如果二者都不为空，则`include`为有效配置，而`exclude`会失效；
+总而言之，系统只会支持使用一项，二者都为为空的情况下，则通过所有文件类型。
+
+## 实践
+
+使用 postman 测试一下文件上传：
 
 <img-wrapper>
   <img src="http://imglf4.nosdn0.126.net/img/Qk5LWkJVWkF3NmlvOHFlZzFHSk95OGhiL0lSSFo3OFNPSGc1WEFnc0JRVERUb2JSU0cvSUlnPT0.png?imageView&thumbnail=2090y1120&type=png&quality=96&stripmeta=0">
@@ -123,7 +116,7 @@ function applyConfig() {
 
 上传成功后，我们会得到如下的结果：
 
-```js
+```
 [
   {
     key: 'one',
@@ -143,9 +136,9 @@ function applyConfig() {
 由于上传了两个文件，因此我们得到了两个元素的数组，它们的结构如下：
 
 | name |         说明          |  类型  |
-| ---- | :-------------------: | :----: |
+| ---- | :------------------: | :----: |
 | key  |    文件上传的 key     | string |
-| id   | 文件存储到数据库的 id | string |
+| id   | 文件存储到数据库的 id  | string |
 | url  |     可访问的 url      | string |
 
 :::tip

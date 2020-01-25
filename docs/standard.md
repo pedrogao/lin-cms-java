@@ -1,75 +1,169 @@
 # 项目规范
 
-## 前言：规与矩
-
-1963年在新疆阿斯坦纳地区的考古发现中，出土的一副震惊世界的《伏羲女娲图》。伏羲和女娲都是至今
-7800年前的华夏始祖，是华夏民族的创世之神，图中女娲执规，伏羲执矩。
-
-虽然这幅图出土自汉墓，但规矩的重要性却早已植入了人类的历史中。
-人都有惰性，这是大自然赋予我们的本性，有一两次的妥协，你就会开始放逐自己。
-
-`无规矩无以成方圆`，在一个出色的产品中，必定伴随着一定复杂的`规矩`。通俗一点，就是我们`lin-cms`的
-项目代码和目录规范，接下来我们将花费一整节的内容去介绍我们的项目规范。
+本小节，我们将介绍 `lin-cms` 的目录结构和代码规范，希望读者能够理解并且运用到自己的开发中。
 
 ## 目录结构
 
 以前每谈及java，笔者的第一反应就是`麻烦`，这个麻烦集中在两个点上：一、臃肿啰嗦的代码；二、繁陈复杂的目录结构。
+
 后来笔者分别使用`python`，`php`以及`node.js`等语言完成过实际项目，在开发，测试，维护，运维等诸多环节中兜兜转转，
 笔者忽然觉得`java`的`麻烦`实则是规范的精髓。
 
 看似啰嗦的代码却恰巧代表了代码的严谨，复杂的目录结构也正好表明项目的工整。多层的组织降低了代码的耦合性，提高了
 复用性，给重构和维护带来了极大的方便。
 
-`lin-cms-java`的目录结构脱胎于市面上基础的spring-boot web项目，严格遵守MVC的代码组织，为了让项目更加严谨，我们
-参考了阿里巴巴规约手册中的java内容，吸收了大量的既成规范。项目大体的目录结构如下：
+`lin-cms-java`的目录结构参考了大量的spring-boot项目，严格遵守MVC的代码组织，
+不仅如此，为了让项目更加严谨，我们研读了阿里巴巴规约手册中的java内容，吸收了大量的既成规范。
+
+项目目录结构如下：
 
 ```
-demo/src/main/java/com/lin/cms/demo
-├── api         // rest api 控制器
-│   ├── cms
-│   └── v1
-├── bo          // business object 业务数据类
-├── common      // 公共类库
-├── configure   // 配置
-├── dto         // data transform object 数据转换类
-├── exception   // 异常处理
-├── extensions  // 扩展
-├── interceptor // 拦截器
-├── mapper      // mybatis mapper
-├── model       // 模型层
-├── service     // 业务层
-│   └── impl    // 业务实现
-├── utils       // 工具类库
-├── validator   // 校验器
-└── vo          // view object 视图数据类
+├── bo bussiness object 业务类
+├── common 公共类库
+│   ├── aop aop相关
+│   ├── configure 配置相关
+│   ├── consts 常量类
+│   ├── exception 异常处理
+│   ├── interceptor 拦截器
+│   ├── mybatis mybatis相关
+│   └── utils 工具类
+├── controller 控制层
+│   ├── cms cms视图
+│   └── v1 api视图
+├── dto data access object
+│   ├── admin
+│   ├── book
+│   └── user
+├── extensions 扩展
+│   ├── file 文件扩展
+├── mapper mybatis mapper
+├── model 数据模型
+├── service 业务层
+└── vo view object 视图类
 ```
 
-此时，你或许已经有些迷糊了，说好的MVC代码组织了，这简直就是走楼梯嘛。说到底MVC仅仅只是一种思想，一种数据流动的思想，
-数据从V层(视图层)，流向C层(控制层)再流向M层(模型层)，经处理后数据再流回来。
+在每个目录的后面，我们都以注释的方式标明了其作用，当然还需要着重说明如下几点。
 
-因此在`lin-cms`中，我们要解决的核心问题就是如何**优雅**的控制数据的流动，抛开基础类库，工具类库，及其它配置类，
-`lin-cms`剩下的几乎全是与数据流动相关的代码目录，其中包括vo、bo、dto、model(do)等诸多数据容器，还有api(controller)
-控制数据的访问，以及mapper(dao)，service控制数据的查询与整合，它们相互交融，构建了一个个完整的数据流动回路。
+1. bo，vo，do，dto究竟是什么？
 
-接下来，我们详细解释一下每个目录的具体作用：
+`o`是object的缩写，即对象的意思，主要用来封装某一层返回的数据结果，
+`b`表示`bussiness`，连起来就是业务对象类，用来封装业务层返回的结果；
+同理 `vo`全称`view object`，用来封装视图层的返回结果；`dto`全称`data
+transform object`，用来封装传输层的数据，如校验类。
 
-- api Rest API控制层，目录下均为控制器，是数据的出口和入口
-- bo business object 业务数据类，用于业务操作中需要新建一个类存放数据
-- common 公共的基础类库
-- configure spring boot 的配置类
-- dto data transform object 数据转换类，用于数据传输，主要在前端数据提交与校验
-- exception 异常处理相关
-- extensions 扩展库相关
-- interceptor spring mvc 拦截器
-- mapper mybatis mapper接口
-- model 模型层文件，mybatis的DO数据容器
-- service 业务层接口及其实现类
-- utils 工具类库
-- validator 数据校验器
-- vo view object 视图数据类，用于控制器中需要新建一个类存放数据
+2. mapper和service
 
-以上的目录并非你自己的项目的最终目录，它只是`lin-cms`在诸多实践中的讨论与沉淀，希望它能为你在项目规范与开发上帮上一把。
+`mapper`的概念主要源于`mybatis`，存放mapper相关的接口；service是业务接口及
+实现，每一个`service`最好都有其接口定义与具体实现，方便接口重写。
+
+3. controller和model
+
+`controller`即视图层，`model`是模型层，里面的数据类与数据表一一对应，也就是
+阿里规范中的`do`。
+
+4. common
+
+公共类库，里面主要是与工程相关的基础类库，如`自动配置类`等。
+
+关于`extension`将在后面的小节中介绍。
+
+以上的目录可能并非你自己的项目的最终目录，它只是`lin-cms`在诸多实践中的讨论与沉淀，
+希望它能为你在项目规范与开发上帮上一把。
 
 ## 规范
 
+### 异常规范
 
+lin-cms提供了基础的异常类，这些异常类继承自`HttpException`，当程序抛出这些异常时，
+默认的异常处理机制会将异常信息以规定的格式返回给前端。
+
+lin-cms的异常类中主要有三个属性——`message`，`httpCode`，`code`。
+
+`message`是异常携带的信息，也是java异常中默认的信息字段，你可以通过构造函数的方式去
+改变它：
+
+```
+throw new HttpException("message");
+```
+
+`httpCode`是返回给前端的http status，表示当前请求的状态，我们推荐每一种 http status 都
+应该有一个相应的异常类，如`ForbiddenException`。
+
+`code`表示消息码，如 `9999`消息码，每个消息码都有默认对应的英文消息，以及配置的中文消息；
+我们通过消息码这个媒介来处理中、英文消息的转换，从而实现国际化。
+
+当前端请求触发了一个异常，异常被程序捕捉后，以如下相应结构返回：
+
+```json
+{
+    "code": 10051,
+    "message": "令牌过期",
+    "request": "POST /cms/admin/permission/remove"
+}
+```
+
+相应中有刚才提到的`code`和`message`，以及前端请求的部分信息`request`。
+
+可以看到，`10051`消息码携带了其对应的`message`，且 `message` 是中的，默认情况下
+`message`是英文的，如果你在相应的配置文件中进行了配置，消息则返回中文。
+
+配置文件为`resources/code.properties`。
+
+### 操作成功规范
+
+如果你操作成功了，lin-cms有两种情况下返回结果。
+
+1. 获取信息，比如获取用户信息，返回结果直接就是`json`格式下的用户信息。
+2. 操作信息，如过删除某个用户成功了，用户信息由于被删除了，不可能返回该用户信息了，
+   但是仍需要告诉前端操作结果。这个结果的类似于：
+```json
+{
+    "code": 0,
+    "message": "OK",
+    "request": "POST /cms/admin/permission/remove"
+}
+```  
+
+这于异常信息的结构一致，因此为了区分异常和成功，我们规定`code`小于10000的作为
+成功的消息码，否则应该是失败消息码。
+
+### 接口规范
+
+lin-cms遵守restful规范，即增（POST）删（DELETE）查（GET）改（PUT），请尽量按照该
+规范来定义你自己的接口。
+
+### 业务规范
+
+我们推荐你为每一个`Service`都定义一个接口以及接口实现，如`AdminService`和`AdminServiceImpl`。
+
+### 校验规范
+
+如果一个接口需要做参数校验，我们推荐使用spring-boot-validation-starter，且为每一个需要
+校验的接口定一个校验类，类似于：
+
+```java
+@Data
+public class NewGroupDTO {
+    @NotBlank(message = "{group.name.not-blank}")
+    @Length(min = 1, max = 60, message = "{group.name.length}")
+    private String name;
+
+    @Length(min = 1, max = 255, message = "{group.info.length}")
+    private String info;
+
+    @LongList(allowBlank = true, message = "{permission.ids.long-list}")
+    private List<Long> permissionIds;
+}
+```
+
+考虑到校验信息的统一处理，我们通过占位符的方式来定义校验失败的信息，如`{group.name.not-blank}`。
+
+你可以在resources目录下的`ValidationMessages.properties`配置该信息。
+
+::: tip
+
+规范是一件繁琐却又必要的事情，如果你有更好的规范推荐，欢迎一起完善！
+
+:::
+
+<RightMenu />
