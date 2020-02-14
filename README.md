@@ -1,7 +1,7 @@
 # lin-cms-java
 
 
-**前端还无适用版本，请慎重使用！！！**
+** 项目已经迁移，见 [lin-cms-spring-boot](https://github.com/TaleLin/lin-cms-spring-boot) **
 
 > lin-cms 的 java 版实现基于 spring boot 和 mybatis-plus
 
